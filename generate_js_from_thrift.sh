@@ -14,3 +14,6 @@ done
 
 # Create single JS file by concatenating generated JS files
 cat gen-js/*.js > concrete.js
+
+# Download latest/greatest thrift.js
+curl -O https://raw.githubusercontent.com/apache/thrift/master/lib/js/src/thrift.js

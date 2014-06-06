@@ -110,16 +110,6 @@ Sound.prototype.write = function(output) {
 //
 
 
-CommunicationType = {
-'OTHER' : 0,
-'EMAIL' : 1,
-'NEWS' : 2,
-'WIKIPEDIA' : 3,
-'TWEET' : 4,
-'PHONE_CALL' : 5,
-'USENET' : 6,
-'BLOG' : 7
-};
 Communication = function(args) {
   this.id = null;
   this.uuid = null;
@@ -217,8 +207,8 @@ Communication.prototype.read = function(input) {
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.I32) {
-        this.type = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.type = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -445,8 +435,8 @@ Communication.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.type !== null && this.type !== undefined) {
-    output.writeFieldBegin('type', Thrift.Type.I32, 3);
-    output.writeI32(this.type);
+    output.writeFieldBegin('type', Thrift.Type.STRING, 3);
+    output.writeString(this.type);
     output.writeFieldEnd();
   }
   if (this.text !== null && this.text !== undefined) {
@@ -1572,42 +1562,6 @@ EmailCommunicationInfo.prototype.write = function(output) {
 //
 
 
-EntityType = {
-'PERSON' : 1,
-'ORGANIZATION' : 2,
-'GPE' : 3,
-'OTHER' : 4,
-'DATE' : 5,
-'FACILITY' : 6,
-'VEHICLE' : 7,
-'WEAPON' : 8,
-'LOCATION' : 9,
-'TIME' : 10,
-'URL' : 11,
-'EMAIL' : 12,
-'MONEY' : 13,
-'PERCENTAGE' : 14,
-'PHONE_NUMBER' : 15,
-'OCCUPATION' : 16,
-'CHEMICAL' : 17,
-'AGE' : 18,
-'PERCENT' : 19,
-'PERSON_NN' : 20,
-'GPE_ITE' : 21,
-'ORGANIZATION_ITE' : 22,
-'JOB_TITLE' : 23,
-'UNKNOWN' : 24,
-'SET' : 25,
-'DURATION' : 26
-};
-PhraseType = {
-'NAME' : 1,
-'PRONOUN' : 2,
-'COMMON_NOUN' : 3,
-'OTHER' : 4,
-'APPOSITIVE' : 5,
-'LIST' : 6
-};
 Entity = function(args) {
   this.uuid = null;
   this.mentionIdList = null;
@@ -1674,8 +1628,8 @@ Entity.prototype.read = function(input) {
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.I32) {
-        this.type = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.type = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -1725,8 +1679,8 @@ Entity.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.type !== null && this.type !== undefined) {
-    output.writeFieldBegin('type', Thrift.Type.I32, 3);
-    output.writeI32(this.type);
+    output.writeFieldBegin('type', Thrift.Type.STRING, 3);
+    output.writeString(this.type);
     output.writeFieldEnd();
   }
   if (this.confidence !== null && this.confidence !== undefined) {
@@ -1908,15 +1862,15 @@ EntityMention.prototype.read = function(input) {
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.I32) {
-        this.entityType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.entityType = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 4:
-      if (ftype == Thrift.Type.I32) {
-        this.phraseType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.phraseType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -1957,13 +1911,13 @@ EntityMention.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.entityType !== null && this.entityType !== undefined) {
-    output.writeFieldBegin('entityType', Thrift.Type.I32, 3);
-    output.writeI32(this.entityType);
+    output.writeFieldBegin('entityType', Thrift.Type.STRING, 3);
+    output.writeString(this.entityType);
     output.writeFieldEnd();
   }
   if (this.phraseType !== null && this.phraseType !== undefined) {
-    output.writeFieldBegin('phraseType', Thrift.Type.I32, 4);
-    output.writeI32(this.phraseType);
+    output.writeFieldBegin('phraseType', Thrift.Type.STRING, 4);
+    output.writeString(this.phraseType);
     output.writeFieldEnd();
   }
   if (this.confidence !== null && this.confidence !== undefined) {
@@ -2534,177 +2488,6 @@ AnnotationMetadata.prototype.write = function(output) {
 //
 
 
-Role = {
-'OTHER_ROLE' : 1,
-'PERSON_ROLE' : 2,
-'TIME_ROLE' : 3,
-'PLACE_ROLE' : 4,
-'AGENT_ROLE' : 5,
-'VICTIM_ROLE' : 6,
-'INSTRUMENT_ROLE' : 7,
-'VEHICLE_ROLE' : 8,
-'ARTIFACT_ROLE' : 9,
-'PRICE_ROLE' : 10,
-'ORIGIN_ROLE' : 11,
-'DESTINATION_ROLE' : 12,
-'BUYER_ROLE' : 13,
-'SELLER_ROLE' : 14,
-'BENEFICIARY_ROLE' : 15,
-'GIVER_ROLE' : 16,
-'RECIPIENT_ROLE' : 17,
-'MONEY_ROLE' : 18,
-'ORG_ROLE' : 19,
-'ATTACKER_ROLE' : 20,
-'TARGET_ROLE' : 21,
-'ENTITY_ROLE' : 22,
-'POSITION_ROLE' : 23,
-'DEFENDANT_ROLE' : 24,
-'ADJUDICATOR_ROLE' : 25,
-'PROSECUTOR_ROLE' : 26,
-'CRIME_ROLE' : 27,
-'PLAINTIFF_ROLE' : 28,
-'SENTENCE_ROLE' : 29,
-'TIME_WITHIN_ROLE' : 30,
-'TIME_STARTING_ROLE' : 31,
-'TIME_ENDING_ROLE' : 32,
-'TIME_BEFORE_ROLE' : 33,
-'TIME_AFTER_ROLE' : 34,
-'TIME_HOLDS_ROLE' : 35,
-'TIME_AT_BEGINNING_ROLE' : 36,
-'TIME_AT_END_ROLE' : 37,
-'RELATION_SOURCE_ROLE' : 38,
-'RELATION_TARGET_ROLE' : 39
-};
-JustificationType = {
-'DIRECT_MENTION' : 1,
-'IMPLICIT' : 2
-};
-EventType = {
-'OTHER_EVENT' : 1,
-'BUSINESS_DECLARE_BANKRUPTCY_EVENT' : 2,
-'BUSINESS_END_ORG_EVENT' : 3,
-'BUSINESS_MERGE_ORG_EVENT' : 4,
-'BUSINESS_START_ORG_EVENT' : 5,
-'CONFLICT_ATTACK_EVENT' : 6,
-'CONFLICT_DEMONSTRATE_EVENT' : 7,
-'CONTACT_MEET_EVENT' : 8,
-'CONTACT_PHONE_WRITE_EVENT' : 9,
-'JUSTICE_ACQUIT_EVENT' : 10,
-'JUSTICE_APPEAL_EVENT' : 11,
-'JUSTICE_ARREST_JAIL_EVENT' : 12,
-'JUSTICE_CHARGE_INDICT_EVENT' : 13,
-'JUSTICE_CONVICT_EVENT' : 14,
-'JUSTICE_EXECUTE_EVENT' : 15,
-'JUSTICE_EXTRADITE_EVENT' : 16,
-'JUSTICE_FINE_EVENT' : 17,
-'JUSTICE_PARDON_EVENT' : 18,
-'JUSTICE_RELEASE_PAROLE_EVENT' : 19,
-'JUSTICE_SENTENCE_EVENT' : 20,
-'JUSTICE_SUE_EVENT' : 21,
-'JUSTICE_TRIAL_HEARING_EVENT' : 22,
-'LIFE_BE_BORN_EVENT' : 23,
-'LIFE_DIE_EVENT' : 24,
-'LIFE_DIVORCE_EVENT' : 25,
-'LIFE_INJURE_EVENT' : 26,
-'LIFE_MARRY_EVENT' : 27,
-'MOVEMENT_TRANSPORT_EVENT' : 28,
-'PERSONNEL_ELECT_EVENT' : 29,
-'PERSONNEL_END_POSITION_EVENT' : 30,
-'PERSONNEL_NOMINATE_EVENT' : 31,
-'PERSONNEL_START_POSITION_EVENT' : 32,
-'QUOTATION_DEFINITE_EVENT' : 33,
-'QUOTATION_POSSIBLE_EVENT' : 34,
-'TRANSACTION_TRANSFER_MONEY_EVENT' : 35,
-'TRANSACTION_TRANSFER_OWNERSHIP_EVENT' : 36
-};
-StateType = {
-'OTHER_STATE' : 1,
-'ART_INVENTOR_OR_MANUFACTURER_STATE' : 37,
-'ART_OTHER_STATE' : 38,
-'ART_USER_OR_OWNER_STATE' : 39,
-'DISC_STATE' : 40,
-'PHYS_LOCATED_STATE' : 41,
-'PHYS_NEAR_STATE' : 42,
-'PHYS_PART_WHOLE_STATE' : 43,
-'EMP_ORG_EMPLOY_EXECUTIVE_STATE' : 44,
-'EMP_ORG_EMPLOY_STAFF_STATE' : 45,
-'EMP_ORG_EMPLOY_UNDETERMINED_STATE' : 46,
-'EMP_ORG_MEMBER_OF_GROUP_STATE' : 47,
-'EMP_ORG_OTHER_STATE' : 48,
-'EMP_ORG_PARTNER_STATE' : 49,
-'EMP_ORG_SUBSIDIARY_STATE' : 50,
-'GPE_AFF_BASED_IN_STATE' : 51,
-'GPE_AFF_CITIZEN_OR_RESIDENT_STATE' : 52,
-'GPE_AFF_OTHER_STATE' : 53,
-'OTHER_AFF_ETHNIC_STATE' : 54,
-'OTHER_AFF_IDEOLOGY_STATE' : 55,
-'OTHER_AFF_OTHER_STATE' : 56,
-'PER_SOC_BUSINESS_STATE' : 57,
-'PER_SOC_FAMILY_STATE' : 58,
-'PER_SOC_OTHER_STATE' : 59,
-'ART_USER_OWNER_INVENTOR_MANUFACTURER_STATE' : 60,
-'GEN_AFF_CITIZEN_RESIDENT_RELIGION_ETHNICITY_STATE' : 61,
-'GEN_AFF_ORG_LOCATION_STATE' : 62,
-'ORG_AFF_EMPLOYMENT_STATE' : 63,
-'ORG_AFF_FOUNDER_STATE' : 64,
-'ORG_AFF_OWNERSHIP_STATE' : 65,
-'ORG_AFF_STUDENT_ALUM_STATE' : 66,
-'ORG_AFF_SPORTS_AFFILIATION_STATE' : 67,
-'ORG_AFF_INVESTOR_SHAREHOLDER_STATE' : 68,
-'ORG_AFF_MEMBERSHIP_STATE' : 69,
-'PART_WHOLE_ARTIFACT_STATE' : 70,
-'PART_WHOLE_GEOGRAPHICAL_STATE' : 71,
-'PART_WHOLE_SUBSIDIARY_STATE' : 72,
-'PER_SOC_LASTING_PERSONAL_STATE' : 73
-};
-TemporalFactType = {
-'BEFORE_TEMPORAL_FACT' : 1,
-'AFTER_TEMPORAL_FACT' : 2,
-'SIMULTANEOUS_TEMPORAL_FACT' : 3,
-'INCLUDES_TEMPORAL_FACT' : 4,
-'IS_INCLUDED_BY_TEMPORAL_FACT' : 5,
-'VAGUE_TEMPORAL_FACT' : 6
-};
-TimeMLClass = {
-'OCCURRENCE_CLASS' : 1,
-'PERCEPTION_CLASS' : 2,
-'REPORTING_CLASS' : 3,
-'ASPECTUAL_CLASS' : 4,
-'STATE_CLASS' : 5,
-'I_STATE_CLASS' : 6,
-'I_ACTION_CLASS' : 7
-};
-TimeMLTense = {
-'FUTURE_TENSE' : 1,
-'INFINITIVE_TENSE' : 2,
-'PAST_TENSE' : 3,
-'PASTPART_TENSE' : 4,
-'PRESENT_TENSE' : 5,
-'PRESPART_TENSE' : 6,
-'NONE_TENSE' : 7
-};
-TimeMLAspect = {
-'PROGRESSIVE_ASPECT' : 1,
-'PERFECTIVE_ASPECT' : 2,
-'PERFECTIVE_PROGRESSIVE_ASPECT' : 3,
-'NONE_ASPECT' : 4
-};
-Polarity = {
-'POSITIVE_POLARITY' : 1,
-'NEGATIVE_POLARITY' : 2,
-'NEUTRAL_POLARITY' : 3,
-'BOTH_POLARITY' : 4
-};
-SituationType = {
-'SITUATION' : 0,
-'FACT' : 100,
-'CAUSAL_FACT' : 110,
-'TEMPORAL_FACT' : 120,
-'EVENT' : 200,
-'STATE' : 300,
-'PRIVATE_STATE' : 310,
-'SENTIMENT' : 311
-};
 Argument = function(args) {
   this.role = null;
   this.entityId = null;
@@ -2740,8 +2523,8 @@ Argument.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.role = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.role = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -2779,8 +2562,8 @@ Argument.prototype.read = function(input) {
 Argument.prototype.write = function(output) {
   output.writeStructBegin('Argument');
   if (this.role !== null && this.role !== undefined) {
-    output.writeFieldBegin('role', Thrift.Type.I32, 1);
-    output.writeI32(this.role);
+    output.writeFieldBegin('role', Thrift.Type.STRING, 1);
+    output.writeString(this.role);
     output.writeFieldEnd();
   }
   if (this.entityId !== null && this.entityId !== undefined) {
@@ -2834,8 +2617,8 @@ Justification.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.justificationType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.justificationType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -2880,8 +2663,8 @@ Justification.prototype.read = function(input) {
 Justification.prototype.write = function(output) {
   output.writeStructBegin('Justification');
   if (this.justificationType !== null && this.justificationType !== undefined) {
-    output.writeFieldBegin('justificationType', Thrift.Type.I32, 1);
-    output.writeI32(this.justificationType);
+    output.writeFieldBegin('justificationType', Thrift.Type.STRING, 1);
+    output.writeString(this.justificationType);
     output.writeFieldEnd();
   }
   if (this.mentionId !== null && this.mentionId !== undefined) {
@@ -2994,8 +2777,8 @@ Situation.prototype.read = function(input) {
       }
       break;
       case 2:
-      if (ftype == Thrift.Type.I32) {
-        this.situationType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.situationType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3063,22 +2846,22 @@ Situation.prototype.read = function(input) {
       }
       break;
       case 50:
-      if (ftype == Thrift.Type.I32) {
-        this.eventType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.eventType = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 51:
-      if (ftype == Thrift.Type.I32) {
-        this.stateType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.stateType = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 52:
-      if (ftype == Thrift.Type.I32) {
-        this.temporalFactType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.temporalFactType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3091,22 +2874,22 @@ Situation.prototype.read = function(input) {
       }
       break;
       case 54:
-      if (ftype == Thrift.Type.I32) {
-        this.timemlClass = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.timemlClass = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 55:
-      if (ftype == Thrift.Type.I32) {
-        this.timemlTense = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.timemlTense = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 56:
-      if (ftype == Thrift.Type.I32) {
-        this.timemlAspect = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.timemlAspect = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3119,8 +2902,8 @@ Situation.prototype.read = function(input) {
       }
       break;
       case 101:
-      if (ftype == Thrift.Type.I32) {
-        this.polarity = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.polarity = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3149,8 +2932,8 @@ Situation.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.situationType !== null && this.situationType !== undefined) {
-    output.writeFieldBegin('situationType', Thrift.Type.I32, 2);
-    output.writeI32(this.situationType);
+    output.writeFieldBegin('situationType', Thrift.Type.STRING, 2);
+    output.writeString(this.situationType);
     output.writeFieldEnd();
   }
   if (this.argumentList !== null && this.argumentList !== undefined) {
@@ -3196,18 +2979,18 @@ Situation.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.eventType !== null && this.eventType !== undefined) {
-    output.writeFieldBegin('eventType', Thrift.Type.I32, 50);
-    output.writeI32(this.eventType);
+    output.writeFieldBegin('eventType', Thrift.Type.STRING, 50);
+    output.writeString(this.eventType);
     output.writeFieldEnd();
   }
   if (this.stateType !== null && this.stateType !== undefined) {
-    output.writeFieldBegin('stateType', Thrift.Type.I32, 51);
-    output.writeI32(this.stateType);
+    output.writeFieldBegin('stateType', Thrift.Type.STRING, 51);
+    output.writeString(this.stateType);
     output.writeFieldEnd();
   }
   if (this.temporalFactType !== null && this.temporalFactType !== undefined) {
-    output.writeFieldBegin('temporalFactType', Thrift.Type.I32, 52);
-    output.writeI32(this.temporalFactType);
+    output.writeFieldBegin('temporalFactType', Thrift.Type.STRING, 52);
+    output.writeString(this.temporalFactType);
     output.writeFieldEnd();
   }
   if (this.situationKindLemma !== null && this.situationKindLemma !== undefined) {
@@ -3216,18 +2999,18 @@ Situation.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.timemlClass !== null && this.timemlClass !== undefined) {
-    output.writeFieldBegin('timemlClass', Thrift.Type.I32, 54);
-    output.writeI32(this.timemlClass);
+    output.writeFieldBegin('timemlClass', Thrift.Type.STRING, 54);
+    output.writeString(this.timemlClass);
     output.writeFieldEnd();
   }
   if (this.timemlTense !== null && this.timemlTense !== undefined) {
-    output.writeFieldBegin('timemlTense', Thrift.Type.I32, 55);
-    output.writeI32(this.timemlTense);
+    output.writeFieldBegin('timemlTense', Thrift.Type.STRING, 55);
+    output.writeString(this.timemlTense);
     output.writeFieldEnd();
   }
   if (this.timemlAspect !== null && this.timemlAspect !== undefined) {
-    output.writeFieldBegin('timemlAspect', Thrift.Type.I32, 56);
-    output.writeI32(this.timemlAspect);
+    output.writeFieldBegin('timemlAspect', Thrift.Type.STRING, 56);
+    output.writeString(this.timemlAspect);
     output.writeFieldEnd();
   }
   if (this.intensity !== null && this.intensity !== undefined) {
@@ -3236,8 +3019,8 @@ Situation.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.polarity !== null && this.polarity !== undefined) {
-    output.writeFieldBegin('polarity', Thrift.Type.I32, 101);
-    output.writeI32(this.polarity);
+    output.writeFieldBegin('polarity', Thrift.Type.STRING, 101);
+    output.writeString(this.polarity);
     output.writeFieldEnd();
   }
   if (this.confidence !== null && this.confidence !== undefined) {
@@ -3356,6 +3139,104 @@ SituationSet.prototype.write = function(output) {
   return;
 };
 
+MentionArgument = function(args) {
+  this.role = null;
+  this.entityMentionId = null;
+  this.situationMentionId = null;
+  this.roleLabel = null;
+  if (args) {
+    if (args.role !== undefined) {
+      this.role = args.role;
+    }
+    if (args.entityMentionId !== undefined) {
+      this.entityMentionId = args.entityMentionId;
+    }
+    if (args.situationMentionId !== undefined) {
+      this.situationMentionId = args.situationMentionId;
+    }
+    if (args.roleLabel !== undefined) {
+      this.roleLabel = args.roleLabel;
+    }
+  }
+};
+MentionArgument.prototype = {};
+MentionArgument.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.role = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.entityMentionId = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRING) {
+        this.situationMentionId = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.roleLabel = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+MentionArgument.prototype.write = function(output) {
+  output.writeStructBegin('MentionArgument');
+  if (this.role !== null && this.role !== undefined) {
+    output.writeFieldBegin('role', Thrift.Type.STRING, 1);
+    output.writeString(this.role);
+    output.writeFieldEnd();
+  }
+  if (this.entityMentionId !== null && this.entityMentionId !== undefined) {
+    output.writeFieldBegin('entityMentionId', Thrift.Type.STRING, 2);
+    output.writeString(this.entityMentionId);
+    output.writeFieldEnd();
+  }
+  if (this.situationMentionId !== null && this.situationMentionId !== undefined) {
+    output.writeFieldBegin('situationMentionId', Thrift.Type.STRING, 3);
+    output.writeString(this.situationMentionId);
+    output.writeFieldEnd();
+  }
+  if (this.roleLabel !== null && this.roleLabel !== undefined) {
+    output.writeFieldBegin('roleLabel', Thrift.Type.STRING, 4);
+    output.writeString(this.roleLabel);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 SituationMention = function(args) {
   this.uuid = null;
   this.text = null;
@@ -3433,8 +3314,8 @@ SituationMention.prototype.read = function(input) {
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.I32) {
-        this.situationType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.situationType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3451,7 +3332,7 @@ SituationMention.prototype.read = function(input) {
         for (var _i45 = 0; _i45 < _size40; ++_i45)
         {
           var elem46 = null;
-          elem46 = new Argument();
+          elem46 = new MentionArgument();
           elem46.read(input);
           this.argumentList.push(elem46);
         }
@@ -3461,15 +3342,15 @@ SituationMention.prototype.read = function(input) {
       }
       break;
       case 50:
-      if (ftype == Thrift.Type.I32) {
-        this.eventType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.eventType = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 51:
-      if (ftype == Thrift.Type.I32) {
-        this.stateType = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.stateType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3489,8 +3370,8 @@ SituationMention.prototype.read = function(input) {
       }
       break;
       case 101:
-      if (ftype == Thrift.Type.I32) {
-        this.polarity = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.polarity = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -3532,8 +3413,8 @@ SituationMention.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.situationType !== null && this.situationType !== undefined) {
-    output.writeFieldBegin('situationType', Thrift.Type.I32, 3);
-    output.writeI32(this.situationType);
+    output.writeFieldBegin('situationType', Thrift.Type.STRING, 3);
+    output.writeString(this.situationType);
     output.writeFieldEnd();
   }
   if (this.argumentList !== null && this.argumentList !== undefined) {
@@ -3551,13 +3432,13 @@ SituationMention.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.eventType !== null && this.eventType !== undefined) {
-    output.writeFieldBegin('eventType', Thrift.Type.I32, 50);
-    output.writeI32(this.eventType);
+    output.writeFieldBegin('eventType', Thrift.Type.STRING, 50);
+    output.writeString(this.eventType);
     output.writeFieldEnd();
   }
   if (this.stateType !== null && this.stateType !== undefined) {
-    output.writeFieldBegin('stateType', Thrift.Type.I32, 51);
-    output.writeI32(this.stateType);
+    output.writeFieldBegin('stateType', Thrift.Type.STRING, 51);
+    output.writeString(this.stateType);
     output.writeFieldEnd();
   }
   if (this.situationKindLemma !== null && this.situationKindLemma !== undefined) {
@@ -3571,8 +3452,8 @@ SituationMention.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.polarity !== null && this.polarity !== undefined) {
-    output.writeFieldBegin('polarity', Thrift.Type.I32, 101);
-    output.writeI32(this.polarity);
+    output.writeFieldBegin('polarity', Thrift.Type.STRING, 101);
+    output.writeString(this.polarity);
     output.writeFieldEnd();
   }
   if (this.tokens !== null && this.tokens !== undefined) {
@@ -3843,17 +3724,8 @@ AudioSpan.prototype.write = function(output) {
 
 
 TokenizationKind = {
-'TOKEN_LIST' : 1,
-'TOKEN_LATTICE' : 2
-};
-SectionKind = {
-'OTHER' : 0,
-'PASSAGE' : 1,
-'METADATA' : 2,
-'LIST' : 3,
-'TABLE' : 4,
-'IMAGE' : 5,
-'TITLE' : 6
+  'TOKEN_LIST' : 1,
+  'TOKEN_LATTICE' : 2
 };
 Token = function(args) {
   this.tokenIndex = null;
@@ -5817,8 +5689,8 @@ Section.prototype.read = function(input) {
       }
       break;
       case 4:
-      if (ftype == Thrift.Type.I32) {
-        this.kind = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.kind = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -5891,8 +5763,8 @@ Section.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.kind !== null && this.kind !== undefined) {
-    output.writeFieldBegin('kind', Thrift.Type.I32, 4);
-    output.writeI32(this.kind);
+    output.writeFieldBegin('kind', Thrift.Type.STRING, 4);
+    output.writeString(this.kind);
     output.writeFieldEnd();
   }
   if (this.label !== null && this.label !== undefined) {

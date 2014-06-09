@@ -28,6 +28,13 @@ module.exports = function(grunt) {
       }
     },  
     shell: {
+	DownloadThriftJS: {
+            command: 'cd dist; curl -O https://raw.githubusercontent.com/apache/thrift/master/lib/js/src/thrift.js'
+	},
+	ThriftGen: {
+	    // TODO: Don't hardcode location of 'concrete' repo to '${HOME}/concrete'
+            command: 'for P in `find ${HOME}/concrete/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
+	}
     },
     qunit: {
     },
@@ -48,7 +55,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('test', ['jshint']);
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('test', ['shell:ThriftGen', 'jshint']);
+  grunt.registerTask('default', ['shell:ThriftGen', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('download', ['shell:DownloadThriftJS']);
 };

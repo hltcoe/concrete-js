@@ -17,7 +17,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.log("ERROR: No EntityMention found with UUID " + uuid);
-}
+};
 
 
 Communication.prototype.getSentenceWithUUID = function(uuid) {
@@ -35,7 +35,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.log("ERROR: No Tokenization found with UUID " + uuid);
-}
+};
 
 
 Communication.prototype.getTokenizationWithUUID = function(uuid) {
@@ -55,17 +55,17 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.log("ERROR: No Tokenization found with UUID " + uuid);
-}
+};
 
 
 Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
   var entityMention = this.getEntityMentionWithUUID(mentionId);
   var tokenization = this.getTokenizationWithUUID(entityMention.tokens.tokenizationId);
 
-  var tokens = new Array();
+  var tokens = [];
 
   for (var tokenIndex in entityMention.tokens.tokenIndexList) {
     tokens.push(tokenization.tokenList[entityMention.tokens.tokenIndexList[tokenIndex]].text);
   }
   return tokens;
-}
+};

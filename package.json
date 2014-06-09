@@ -1,0 +1,10 @@
+{
+  "name": "concrete",
+  "version": "3.0.1-beta",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-concat": "~0.3.0"
+  }
+}

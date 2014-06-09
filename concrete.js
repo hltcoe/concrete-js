@@ -5,6 +5,261 @@
 //
 
 
+//HELPER FUNCTIONS AND STRUCTURES
+
+CommunicationService_readComm_args = function(args) {
+};
+CommunicationService_readComm_args.prototype = {};
+CommunicationService_readComm_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+CommunicationService_readComm_args.prototype.write = function(output) {
+  output.writeStructBegin('CommunicationService_readComm_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+CommunicationService_readComm_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined) {
+      this.success = args.success;
+    }
+  }
+};
+CommunicationService_readComm_result.prototype = {};
+CommunicationService_readComm_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new Communication();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+CommunicationService_readComm_result.prototype.write = function(output) {
+  output.writeStructBegin('CommunicationService_readComm_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+CommunicationService_writeComm_args = function(args) {
+  this.comm = null;
+  if (args) {
+    if (args.comm !== undefined) {
+      this.comm = args.comm;
+    }
+  }
+};
+CommunicationService_writeComm_args.prototype = {};
+CommunicationService_writeComm_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.comm = new Communication();
+        this.comm.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+CommunicationService_writeComm_args.prototype.write = function(output) {
+  output.writeStructBegin('CommunicationService_writeComm_args');
+  if (this.comm !== null && this.comm !== undefined) {
+    output.writeFieldBegin('comm', Thrift.Type.STRUCT, 1);
+    this.comm.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+CommunicationService_writeComm_result = function(args) {
+};
+CommunicationService_writeComm_result.prototype = {};
+CommunicationService_writeComm_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+CommunicationService_writeComm_result.prototype.write = function(output) {
+  output.writeStructBegin('CommunicationService_writeComm_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+CommunicationServiceClient = function(input, output) {
+    this.input = input;
+    this.output = (!output) ? input : output;
+    this.seqid = 0;
+};
+CommunicationServiceClient.prototype = {};
+CommunicationServiceClient.prototype.readComm = function(callback) {
+  if (callback === undefined) {
+    this.send_readComm();
+    return this.recv_readComm();
+  } else {
+    var postData = this.send_readComm(true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_readComm);
+  }
+};
+
+CommunicationServiceClient.prototype.send_readComm = function(callback) {
+  this.output.writeMessageBegin('readComm', Thrift.MessageType.CALL, this.seqid);
+  var args = new CommunicationService_readComm_args();
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  return this.output.getTransport().flush(callback);
+};
+
+CommunicationServiceClient.prototype.recv_readComm = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new CommunicationService_readComm_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'readComm failed: unknown result';
+};
+CommunicationServiceClient.prototype.writeComm = function(comm, callback) {
+  if (callback === undefined) {
+    this.send_writeComm(comm);
+    this.recv_writeComm();
+  } else {
+    var postData = this.send_writeComm(comm, true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_writeComm);
+  }
+};
+
+CommunicationServiceClient.prototype.send_writeComm = function(comm, callback) {
+  this.output.writeMessageBegin('writeComm', Thrift.MessageType.CALL, this.seqid);
+  var args = new CommunicationService_writeComm_args();
+  args.comm = comm;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  return this.output.getTransport().flush(callback);
+};
+
+CommunicationServiceClient.prototype.recv_writeComm = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new CommunicationService_writeComm_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  return;
+};
+//
+// Autogenerated by Thrift Compiler (1.0.0-dev)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+
+
 Sound = function(args) {
   this.wav = null;
   this.mp3 = null;
@@ -102,6 +357,13 @@ Sound.prototype.write = function(output) {
   output.writeStructEnd();
   return;
 };
+
+//
+// Autogenerated by Thrift Compiler (1.0.0-dev)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+
 
 //
 // Autogenerated by Thrift Compiler (1.0.0-dev)

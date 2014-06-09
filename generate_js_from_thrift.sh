@@ -13,7 +13,8 @@ for P in `find ${CONCRETE_REPO}/thrift -name '*.thrift'`; do
 done
 
 # Create single JS file by concatenating generated JS files
-cat gen-js/*.js > concrete.js
+cat gen-js/*.js > dist/concrete.js
 
 # Download latest/greatest thrift.js
+cd dist
 curl -O https://raw.githubusercontent.com/apache/thrift/master/lib/js/src/thrift.js

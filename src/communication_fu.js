@@ -8,7 +8,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
       if (this.entityMentionSets[entityMentionSetIndex].mentionSet) {
         for (var mentionSetIndex in this.entityMentionSets[entityMentionSetIndex].mentionSet) {
           var entityMention = this.entityMentionSets[entityMentionSetIndex].mentionSet[mentionSetIndex];
-          if (entityMention.uuid == uuid) {
+          if (entityMention.uuid.uuidString == uuid.uuidString) {
             return entityMention;
           }
         }
@@ -16,7 +16,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
     }
   }
   // TODO: Error handling if no matching UUID could be found
-  console.log("ERROR: No EntityMention found with UUID " + uuid);
+  console.log("ERROR: No EntityMention found with UUID " + uuid.uuidString);
 };
 
 
@@ -26,7 +26,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
       if (this.sectionSegmentations[0].sectionList[sectionListIndex].sentenceSegmentation) {
         for (var sentenceIndex in this.sectionSegmentations[0].sectionList[sectionListIndex].sentenceSegmentation[0].sentenceList) {
           var sentence = this.sectionSegmentations[0].sectionList[sectionListIndex].sentenceSegmentation[0].sentenceList[sentenceIndex];
-          if (sentence.uuid == uuid) {
+          if (sentence.uuid.uuidString == uuid.uuidString) {
             return sentence;
           }
         }
@@ -34,7 +34,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
     }
   }
   // TODO: Error handling if no matching UUID could be found
-  console.log("ERROR: No Tokenization found with UUID " + uuid);
+  console.log("ERROR: No Tokenization found with UUID " + uuid.uuidString);
 };
 
 
@@ -45,7 +45,7 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
         for (var sentenceIndex in this.sectionSegmentations[0].sectionList[sectionListIndex].sentenceSegmentation[0].sentenceList) {
           var sentence = this.sectionSegmentations[0].sectionList[sectionListIndex].sentenceSegmentation[0].sentenceList[sentenceIndex];
           for (var tokenizationListIndex in sentence.tokenizationList) {
-            if (sentence.tokenizationList[tokenizationListIndex].uuid == uuid) {
+            if (sentence.tokenizationList[tokenizationListIndex].uuid.uuidString == uuid.uuidString) {
               return sentence.tokenizationList[tokenizationListIndex];
             }
           }
@@ -54,7 +54,7 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
     }
   }
   // TODO: Error handling if no matching UUID could be found
-  console.log("ERROR: No Tokenization found with UUID " + uuid);
+  console.log("ERROR: No Tokenization found with UUID " + uuid.uuidString);
 };
 
 

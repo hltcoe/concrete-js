@@ -26,14 +26,14 @@ module.exports = function(grunt) {
           'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
         }
       }
-    },  
+    },
     shell: {
 	DownloadThriftJS: {
             command: 'cd dist; curl -O https://raw.githubusercontent.com/apache/thrift/master/lib/js/src/thrift.js'
 	},
 	ThriftGen: {
-	    // TODO: Don't hardcode location of 'concrete' repo to '${HOME}/concrete'
-            command: 'for P in `find ${HOME}/concrete/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
+            // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete-thrift'
+            command: 'for P in `find ${HOME}/concrete-thrift/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
 	}
     },
     qunit: {

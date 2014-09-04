@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 	},
 	ThriftGen: {
             // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete-thrift'
-            command: 'for P in `find ${HOME}/concrete-thrift/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
+            command: 'for P in `find ${HOME}/concrete/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
 	}
     },
     qunit: {

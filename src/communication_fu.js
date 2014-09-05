@@ -92,8 +92,8 @@ Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
   var tokenTaggings = [];
 
   for (var tokenTaggingIndex in this.tokenTaggingList) {
-    if (this.tokenTagging[tokenTaggingIndex].taggingType === taggingType) {
-      tokenTaggings.push(this.tokenTagging[tokenTaggingIndex]);
+    if (this.tokenTaggingList[tokenTaggingIndex].taggingType === taggingType) {
+      tokenTaggings.push(this.tokenTaggingList[tokenTaggingIndex]);
     }
   }
 

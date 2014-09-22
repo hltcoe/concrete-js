@@ -2,8 +2,9 @@
   COMMUNICATION_FU
 */
 
-/**
- * @param {String} uuid
+/** Return the EntityMention (or null) with the specified UUID
+ * @param {UUID} uuid
+ * @returns {EntityMention|null}
  */
 Communication.prototype.getEntityMentionWithUUID = function(uuid) {
   if (this.entityMentionSetList) {
@@ -20,11 +21,13 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.log("ERROR: No EntityMention found with UUID " + uuid.uuidString);
+  return null;
 };
 
 
-/**
- * @param {String} uuid
+/** Return the Sentence (or null) with the specified UUID
+ * @param {UUID} uuid
+ @ @returns {Sentence|null}
  */
 Communication.prototype.getSentenceWithUUID = function(uuid) {
   if (this.sectionSegmentationList[0].sectionList) {
@@ -41,10 +44,11 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.log("ERROR: No Tokenization found with UUID " + uuid.uuidString);
+  return null;
 };
 
 
-/**
+/** Return the SituationMention (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {SituationMention|null}
  */
@@ -67,8 +71,9 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 
 
 
-/**
- * @param {String} uuid
+/** Return the Tokenization (or null) with the specified UUID
+ * @param {UUID} uuid
+ * @returns {Tokenization|null}
  */
 Communication.prototype.getTokenizationWithUUID = function(uuid) {
   if (this.sectionSegmentationList[0].sectionList) {
@@ -87,11 +92,12 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.log("ERROR: No Tokenization found with UUID " + uuid.uuidString);
+  return null;
 };
 
 
-/**
- * @param {String} mentionId
+/** Get list of token text strings for the EntityMention specified by the UUID
+ * @param {UUID} mentionId
  * @returns {Array} An array of token text strings
  */
 Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
@@ -107,7 +113,7 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
 };
 
 
-/**
+/** Get all TokenTaggings with the specified taggingType
  * @param {String} taggingType - A string specifying a TokenTagging.taggingType
  * @returns {Array} A (possibly empty) array of TokenTagging objects
  */

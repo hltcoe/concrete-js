@@ -54,22 +54,14 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
  @ @returns {Sentence|null}
  */
 Communication.prototype.getSentenceWithUUID = function(uuid) {
-  if (this.sectionSegmentationList) {
-    for (var sectionSegmentationListIndex in this.sectionSegmentationList) {
-      var sectionSegmentation = this.sectionSegmentationList[sectionSegmentationListIndex];
-      if (sectionSegmentation.sectionList) {
-        for (var sectionListIndex in sectionSegmentation.sectionList) {
-          var sectionList = sectionSegmentation.sectionList[sectionListIndex];
-          if (sectionList.sentenceSegmentationList) {
-            for (var sentenceSegmentationListIndex in sectionList.sentenceSegmentationList) {
-              var sentenceSegmentation = sectionList.sentenceSegmentationList[sentenceSegmentationListIndex];
-              for (var sentenceIndex in sentenceSegmentation.sentenceList) {
-                var sentence = sentenceSegmentation.sentenceList[sentenceIndex];
-                if (sentence.uuid.uuidString == uuid.uuidString) {
-                  return sentence;
-                }
-              }
-            }
+  if (this.sectionList) {
+    for (var sectionListIndex in this.sectionList) {
+      var section = this.sectionList[sectionListIndex];
+      if (section.sentenceList) {
+        for (var sentenceIndex in section.sentenceList) {
+          var sentence = section.sentenceList[sentenceIndex];
+          if (sentence.uuid.uuidString == uuid.uuidString) {
+            return sentence;
           }
         }
       }
@@ -109,24 +101,14 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
  * @returns {Tokenization|null}
  */
 Communication.prototype.getTokenizationWithUUID = function(uuid) {
-  if (this.sectionSegmentationList) {
-    for (var sectionSegmentationListIndex in this.sectionSegmentationList) {
-      var sectionSegmentation = this.sectionSegmentationList[sectionSegmentationListIndex];
-      if (sectionSegmentation.sectionList) {
-        for (var sectionListIndex in sectionSegmentation.sectionList) {
-          var sectionList = sectionSegmentation.sectionList[sectionListIndex];
-          if (sectionList.sentenceSegmentationList) {
-            for (var sentenceSegmentationListIndex in sectionList.sentenceSegmentationList) {
-              var sentenceSegmentation = sectionList.sentenceSegmentationList[sentenceSegmentationListIndex];
-              for (var sentenceIndex in sentenceSegmentation.sentenceList) {
-                var sentence = sentenceSegmentation.sentenceList[sentenceIndex];
-                for (var tokenizationListIndex in sentence.tokenizationList) {
-                  if (sentence.tokenizationList[tokenizationListIndex].uuid.uuidString == uuid.uuidString) {
-                    return sentence.tokenizationList[tokenizationListIndex];
-                  }
-                }
-              }
-            }
+  if (this.sectionList) {
+    for (var sectionListIndex in this.sectionList) {
+      var section = this.sectionList[sectionListIndex];
+      if (section.sentenceList) {
+        for (var sentenceIndex in section.sentenceList) {
+          var sentence = section.sentenceList[sentenceIndex];
+          if (sentence.tokenization && sentence.tokenization.uuid.uuidString == uuid.uuidString) {
+            return sentence.tokenization;
           }
         }
       }

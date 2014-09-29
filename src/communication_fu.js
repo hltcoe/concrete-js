@@ -152,3 +152,17 @@ Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
 
   return tokenTaggings;
 };
+
+
+/** Return the TaggedToken (or null) with the specified tokenIndex
+ * @param {Number} tokenIndex
+ * @returns {Entity|null}
+ */
+TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
+  for (var i = 0; i < this.taggedTokenList.length; i++) {
+    if (this.taggedTokenList[i].tokenIndex === tokenIndex) {
+      return this.taggedTokenList[i];
+    }
+  }
+  return null;
+};

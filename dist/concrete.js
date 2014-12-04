@@ -6629,10 +6629,109 @@ Dependency.prototype.write = function(output) {
   return;
 };
 
+DependencyParseStructure = function(args) {
+  this.isAcyclic = null;
+  this.isConnected = null;
+  this.isSingleHeaded = null;
+  this.isProjective = null;
+  if (args) {
+    if (args.isAcyclic !== undefined) {
+      this.isAcyclic = args.isAcyclic;
+    }
+    if (args.isConnected !== undefined) {
+      this.isConnected = args.isConnected;
+    }
+    if (args.isSingleHeaded !== undefined) {
+      this.isSingleHeaded = args.isSingleHeaded;
+    }
+    if (args.isProjective !== undefined) {
+      this.isProjective = args.isProjective;
+    }
+  }
+};
+DependencyParseStructure.prototype = {};
+DependencyParseStructure.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isAcyclic = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isConnected = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isSingleHeaded = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isProjective = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+DependencyParseStructure.prototype.write = function(output) {
+  output.writeStructBegin('DependencyParseStructure');
+  if (this.isAcyclic !== null && this.isAcyclic !== undefined) {
+    output.writeFieldBegin('isAcyclic', Thrift.Type.BOOL, 1);
+    output.writeBool(this.isAcyclic);
+    output.writeFieldEnd();
+  }
+  if (this.isConnected !== null && this.isConnected !== undefined) {
+    output.writeFieldBegin('isConnected', Thrift.Type.BOOL, 2);
+    output.writeBool(this.isConnected);
+    output.writeFieldEnd();
+  }
+  if (this.isSingleHeaded !== null && this.isSingleHeaded !== undefined) {
+    output.writeFieldBegin('isSingleHeaded', Thrift.Type.BOOL, 3);
+    output.writeBool(this.isSingleHeaded);
+    output.writeFieldEnd();
+  }
+  if (this.isProjective !== null && this.isProjective !== undefined) {
+    output.writeFieldBegin('isProjective', Thrift.Type.BOOL, 4);
+    output.writeBool(this.isProjective);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 DependencyParse = function(args) {
   this.uuid = null;
   this.metadata = null;
   this.dependencyList = null;
+  this.structureInformation = null;
   if (args) {
     if (args.uuid !== undefined) {
       this.uuid = args.uuid;
@@ -6642,6 +6741,9 @@ DependencyParse = function(args) {
     }
     if (args.dependencyList !== undefined) {
       this.dependencyList = args.dependencyList;
+    }
+    if (args.structureInformation !== undefined) {
+      this.structureInformation = args.structureInformation;
     }
   }
 };
@@ -6696,6 +6798,14 @@ DependencyParse.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 4:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.structureInformation = new DependencyParseStructure();
+        this.structureInformation.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -6729,6 +6839,11 @@ DependencyParse.prototype.write = function(output) {
       }
     }
     output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.structureInformation !== null && this.structureInformation !== undefined) {
+    output.writeFieldBegin('structureInformation', Thrift.Type.STRUCT, 4);
+    this.structureInformation.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

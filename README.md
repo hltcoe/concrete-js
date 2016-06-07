@@ -18,6 +18,31 @@ Copy the files ```dist/thrift.js``` and ```dist/concrete.js``` to your project, 
     <script src="thrift.js"></script>
     <script src="concrete.js"></script>
 
+Converting Communications to/from JSON
+--------------------------------------
+
+Concrete Communications can be converted to/from JSON using Thrift's
+TJSONProtocol serialization format.  Thrift RPC calls transmit Thrift
+objects (such as Communications) using the TJSONProtocol format.
+
+The `Communication` class in **concrete-js** has been extended with
+some helper functions for working with TJSONProtocol.  These are
+helpful if you want to pass TJSONProtocol serialized Communications
+around without using Thrift RPC calls.
+
+```
+var comm = new Communication();
+var comm_as_json_object = comm.toTJSONProtocolObject();
+var comm_as_json_string = comm.toTJSONProtocolString();
+
+var comm2 = new Communication();
+comm2.initFromTJSONProtocolObject(comm_as_json_object);
+
+var comm3 = new Communication();
+comm3.initFromTJSONProtocolString(comm_as_json_string);
+```
+
+
 Building concrete-js
 --------------------
 

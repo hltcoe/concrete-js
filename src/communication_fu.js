@@ -207,7 +207,7 @@ Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
  * @returns {Object}
  */
 Communication.prototype.toTJSONProtocolObject = function() {
-  return JSON.parse(this.toJSONProtocolString());
+  return JSON.parse(this.toTJSONProtocolString());
 };
 
 

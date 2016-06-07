@@ -164,6 +164,33 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
 };
 
 
+/** Initialize Communication from a TJSONProtocol object created from a Communication
+ *
+ * Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
+ * something like this:
+ *    {
+ *     "1":{"str":"tests/testdata/serif_dog-bites-man.xml"},
+ *     "2":{"rec":{"1":{"str":"a90d397a-560f-44a0-baae-c82a34e4be09"}}},
+ *     "3":{"str":"CommunicationType.OTHER"},
+ *     ...
+ *    }
+ *
+ * @param {Object} commJSONObject - An object created from a Communication using TJSONProtocol
+ */
+Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
+  var transport = new Thrift.Transport();
+  var protocol = new Thrift.TJSONProtocol(transport);
+
+  // The values for these protocol object fields was determined by
+  // mucking around with the JavaScript debugger to figure out how
+  // Thrift RPC calls used TJSONProtocol objects.
+  protocol.rpos = [];
+  protocol.rstack = [comm_as_json_object];
+
+  this.read(protocol);
+};
+
+
 /** Get all TokenTaggings with the specified taggingType
  * @param {String} taggingType - A string specifying a TokenTagging.taggingType
  * @returns {Array} A (possibly empty) array of TokenTagging objects

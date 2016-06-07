@@ -11507,6 +11507,7 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
  *    }
  *
  * @param {Object} commJSONObject - An object created from a Communication using TJSONProtocol
+ * @returns {Communication}
  */
 Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
   var transport = new Thrift.Transport();
@@ -11519,6 +11520,22 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
   protocol.rstack = [commJSONObject];
 
   this.read(protocol);
+
+  return this;
+};
+
+
+/** Returns string for Communication serialized using TJSONProtocol
+ * @returns {String}
+ */
+Communication.prototype.toTJSONProtocolString = function() {
+  var transport = new Thrift.Transport();
+  var protocol = new Thrift.TJSONProtocol(transport);
+  protocol.tpos = [];
+  protocol.tstack = [];
+  this.write(protocol);
+
+  return protocol.tstack[0];
 };
 
 

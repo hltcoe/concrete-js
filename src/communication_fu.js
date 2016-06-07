@@ -179,18 +179,12 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
  * @returns {Communication} - This Communication
  */
 Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
-  var transport = new Thrift.Transport();
-  var protocol = new Thrift.TJSONProtocol(transport);
-
-  // The values for these protocol object fields was determined by
-  // mucking around with the JavaScript debugger to figure out how
-  // Thrift RPC calls used TJSONProtocol objects.
-  protocol.rpos = [];
-  protocol.rstack = [commJSONObject];
-
-  this.read(protocol);
-
-  return this;
+  // We convert the JSON object to a JSON string, and then
+  // initFromTJSONProtocol converts the JSON string back to a JSON
+  // object.  This is done deliberately.  We create a copy of the
+  // original JSON object, and this copy is then destructively
+  // modified by Communication.read().
+  return this.initFromTJSONProtocolString(JSON.stringify(commJSONObject));
 };
 
 
@@ -199,7 +193,22 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
  * @returns {Communication} - This Communication
  */
 Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
-  return this.initFromTJSONProtocolObject(JSON.parse(commJSONString));
+  var commJSONObject = JSON.parse(commJSONString);
+  var transport = new Thrift.Transport();
+  var protocol = new Thrift.TJSONProtocol(transport);
+
+  // The values for these protocol object fields was determined by
+  // mucking around with the JavaScript debugger to figure out how
+  // Thrift RPC calls used TJSONProtocol objects.
+  protocol.rpos = [];
+
+  // The object stored in protocol.rstack[] is destructively modified
+  // by Communication.read()
+  protocol.rstack = [commJSONObject];
+
+  this.read(protocol);
+
+  return this;
 };
 
 

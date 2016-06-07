@@ -185,7 +185,7 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
   // mucking around with the JavaScript debugger to figure out how
   // Thrift RPC calls used TJSONProtocol objects.
   protocol.rpos = [];
-  protocol.rstack = [comm_as_json_object];
+  protocol.rstack = [commJSONObject];
 
   this.read(protocol);
 };

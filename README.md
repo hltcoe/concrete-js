@@ -55,6 +55,10 @@ Requirements for building **concrete-js**:
 * [Node](http://nodejs.org)
 * [Grunt](http://gruntjs.com) - a JavaScript build tool
 
+Install the Node packages required for building **concrete-js** using:
+
+    npm install
+
 Build **concrete-js** using the command:
 
     grunt

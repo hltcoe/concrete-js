@@ -46,7 +46,7 @@ var Thrift = {
      * @const {string} Version
      * @memberof Thrift
      */
-    Version: '1.0.0-dev',
+    Version: '0.9.3',
 
     /**
      * Thrift IDL type string to Id mapping.
@@ -327,7 +327,7 @@ Thrift.TXHRTransport.prototype = {
         var xreq = this.getXmlHttpRequestObject();
 
         if (xreq.overrideMimeType) {
-            xreq.overrideMimeType('application/json');
+            xreq.overrideMimeType('application/vnd.apache.thrift.json; charset=utf-8');
         }
 
         if (callback) {
@@ -346,6 +346,12 @@ Thrift.TXHRTransport.prototype = {
         }
 
         xreq.open('POST', this.url, !!async);
+
+        if (xreq.setRequestHeader) {
+            xreq.setRequestHeader('Accept', 'application/vnd.apache.thrift.json; charset=utf-8');
+            xreq.setRequestHeader('Content-Type', 'application/vnd.apache.thrift.json; charset=utf-8');
+        }
+
         xreq.send(this.send_buf);
         if (async && callback) {
             return;
@@ -387,7 +393,7 @@ Thrift.TXHRTransport.prototype = {
             data: postData,
             type: 'POST',
             cache: false,
-            contentType: 'application/json',
+            contentType: 'application/vnd.apache.thrift.json; charset=utf-8',
             dataType: 'text thrift',
             converters: {
                 'text thrift' : function(responseData) {
@@ -684,6 +690,8 @@ Thrift.TWebSocketTransport.prototype = {
  *     var protocol  = new Thrift.Protocol(transport);
  */
 Thrift.TJSONProtocol = Thrift.Protocol = function(transport) {
+    this.tstack = [];
+    this.tpos = [];
     this.transport = transport;
 };
 
@@ -1153,9 +1161,15 @@ Thrift.Protocol.prototype = {
      */
     readMapBegin: function() {
         var map = this.rstack.pop();
+        var first = map.shift();
+        if (first instanceof Array) {
+          this.rstack.push(map);
+          map = first;
+          first = map.shift();
+        }
 
         var r = {};
-        r.ktype = Thrift.Protocol.RType[map.shift()];
+        r.ktype = Thrift.Protocol.RType[first];
         r.vtype = Thrift.Protocol.RType[map.shift()];
         r.size = map.shift();
 
@@ -1189,7 +1203,7 @@ Thrift.Protocol.prototype = {
         r.size = list.shift();
 
         this.rpos.push(this.rstack.length);
-        this.rstack.push(list);
+        this.rstack.push(list.shift());
 
         return r;
     },
@@ -1214,7 +1228,7 @@ Thrift.Protocol.prototype = {
 
     /** Returns an object with a value property set to 
      *  False unless the next number in the protocol buffer 
-     *  is 1, in which case teh value property is True */
+     *  is 1, in which case the value property is True */
     readBool: function() {
         var r = this.readI32();
 
@@ -1299,11 +1313,77 @@ Thrift.Protocol.prototype = {
     },
 
     /** 
-     * Method to arbitrarily skip over data (not implemented).
-     * @throws {string} this method is not implemented and always throws.
-     */
+     * Method to arbitrarily skip over data */
     skip: function(type) {
-        throw 'skip not supported yet';
+        var ret, i;
+        switch (type) {
+            case Thrift.Type.STOP:
+                return null;
+
+            case Thrift.Type.BOOL:
+                return this.readBool();
+
+            case Thrift.Type.BYTE:
+                return this.readByte();
+
+            case Thrift.Type.I16:
+                return this.readI16();
+
+            case Thrift.Type.I32:
+                return this.readI32();
+
+            case Thrift.Type.I64:
+                return this.readI64();
+
+            case Thrift.Type.DOUBLE:
+                return this.readDouble();
+
+            case Thrift.Type.STRING:
+                return this.readString();
+
+            case Thrift.Type.STRUCT:
+                this.readStructBegin();
+                while (true) {
+                    ret = this.readFieldBegin();
+                    if (ret.ftype == Thrift.Type.STOP) {
+                        break;
+                    }
+                    this.skip(ret.ftype);
+                    this.readFieldEnd();
+                }
+                this.readStructEnd();
+                return null;
+
+            case Thrift.Type.MAP:
+                ret = this.readMapBegin();
+                for (i = 0; i < ret.size; i++) {
+                    if (i > 0) {
+                        if (this.rstack.length > this.rpos[this.rpos.length - 1] + 1) {
+                            this.rstack.pop();
+                        }
+                    }
+                    this.skip(ret.ktype);
+                    this.skip(ret.vtype);
+                }
+                this.readMapEnd();
+                return null;
+
+            case Thrift.Type.SET:
+                ret = this.readSetBegin();
+                for (i = 0; i < ret.size; i++) {
+                    this.skip(ret.etype);
+                }
+                this.readSetEnd();
+                return null;
+
+            case Thrift.Type.LIST:
+                ret = this.readListBegin();
+                for (i = 0; i < ret.size; i++) {
+                    this.skip(ret.etype);
+                }
+                this.readListEnd();
+                return null;
+        }
     }
 };
 
@@ -1359,3 +1439,69 @@ Thrift.Multiplexer.prototype.createClient = function (serviceName, SCl, transpor
 
 
 
+var copyList, copyMap;
+
+copyList = function(lst, types) {
+
+  if (!lst) {return lst; }
+
+  var type;
+
+  if (types.shift === undefined) {
+    type = types;
+  }
+  else {
+    type = types[0];
+  }
+  var Type = type;
+
+  var len = lst.length, result = [], i, val;
+  for (i = 0; i < len; i++) {
+    val = lst[i];
+    if (type === null) {
+      result.push(val);
+    }
+    else if (type === copyMap || type === copyList) {
+      result.push(type(val, types.slice(1)));
+    }
+    else {
+      result.push(new Type(val));
+    }
+  }
+  return result;
+};
+
+copyMap = function(obj, types){
+
+  if (!obj) {return obj; }
+
+  var type;
+
+  if (types.shift === undefined) {
+    type = types;
+  }
+  else {
+    type = types[0];
+  }
+  var Type = type;
+
+  var result = {}, val;
+  for(var prop in obj) {
+    if(obj.hasOwnProperty(prop)) {
+      val = obj[prop];
+      if (type === null) {
+        result[prop] = val;
+      }
+      else if (type === copyMap || type === copyList) {
+        result[prop] = type(val, types.slice(1));
+      }
+      else {
+        result[prop] = new Type(val);
+      }
+    }
+  }
+  return result;
+};
+
+Thrift.copyMap = copyMap;
+Thrift.copyList = copyList;

@@ -6,7 +6,7 @@
 /** Adds internal references between data structures contained in Communication
  *
  * Specifically, adds:
- *   - to each concrete.Section, a section.comm reference to the enclosing Communication
+ *   - to each concrete.Section, a section.communication reference to the enclosing Communication
  *   - to each concrete.Sentence, a sentence.section reference to the enclosing Section
  *   - to each concrete.Tokenization, a tokenization.sentence reference to the enclosing Sentence
  */
@@ -14,7 +14,12 @@ Communication.prototype.addInternalReferences = function() {
   if (this.sectionList) {
     for (var sectionIndex in this.sectionList) {
       var section = this.sectionList[sectionIndex];
+      // We add both a 'comm' and 'communication' field to each section.  We
+      // originally only added 'comm', but 'communication' is arguably more
+      // consistent.  We keep both variable names to avoid breaking existing code.
       section.comm = this;
+      section.communication = this;
+
       if (section.sentenceList) {
         for (var sentenceIndex in section.sentenceList) {
           var sentence = section.sentenceList[sentenceIndex];

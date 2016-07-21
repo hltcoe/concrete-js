@@ -39,6 +39,11 @@ Communication.prototype.addInternalReferences = function() {
  * @returns {Entity|null}
  */
 Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
+  if (!uuid || !uuid.uuidString) {
+    console.log("ERROR: getEntityForEntityMentionUUID() was not passed a valid UUID");
+    return null;
+  }
+
   if (this.entitySetList) {
     for (var entitySetIndex in this.entitySetList) {
       var entityList = this.entitySetList[entitySetIndex].entityList;
@@ -63,6 +68,11 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
  * @returns {EntityMention|null}
  */
 Communication.prototype.getEntityMentionWithUUID = function(uuid) {
+  if (!uuid || !uuid.uuidString) {
+    console.log("ERROR: getEntityMentionWithUUID() was not passed a valid UUID");
+    return null;
+  }
+
   if (this.entityMentionSetList) {
     for (var entityMentionSetIndex in this.entityMentionSetList) {
       if (this.entityMentionSetList[entityMentionSetIndex].mentionList) {
@@ -86,6 +96,11 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
  @ @returns {Sentence|null}
  */
 Communication.prototype.getSentenceWithUUID = function(uuid) {
+  if (!uuid || !uuid.uuidString) {
+    console.log("ERROR: getSentenceWithUUID() was not passed a valid UUID");
+    return null;
+  }
+
   if (this.sectionList) {
     for (var sectionListIndex in this.sectionList) {
       var section = this.sectionList[sectionListIndex];
@@ -110,6 +125,11 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
  * @returns {SituationMention|null}
  */
 Communication.prototype.getSituationMentionWithUUID = function(uuid) {
+  if (!uuid || !uuid.uuidString) {
+    console.log("ERROR: getSituationMentionWithUUID() was not passed a valid UUID");
+    return null;
+  }
+
   if (this.situationMentionSetList) {
     for (var situationMentionSetIndex in this.situationMentionSetList) {
       var situationMentionSet = this.situationMentionSetList[situationMentionSetIndex];
@@ -133,6 +153,11 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
  * @returns {Tokenization|null}
  */
 Communication.prototype.getTokenizationWithUUID = function(uuid) {
+  if (!uuid || !uuid.uuidString) {
+    console.log("ERROR: getTokenizationWithUUID() was not passed a valid UUID");
+    return null;
+  }
+
   if (this.sectionList) {
     for (var sectionListIndex in this.sectionList) {
       var section = this.sectionList[sectionListIndex];

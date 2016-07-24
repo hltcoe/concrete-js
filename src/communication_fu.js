@@ -115,7 +115,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
     }
   }
   // TODO: Error handling if no matching UUID could be found
-  console.log("ERROR: No Tokenization found with UUID " + uuid.uuidString);
+  console.log("ERROR: No Sentence found with UUID " + uuid.uuidString);
   return null;
 };
 

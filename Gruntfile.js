@@ -50,14 +50,24 @@ module.exports = function(grunt) {
         }
       }
     },
+    jsdoc: {
+      dist: {
+        src: ['src/*.js'],
+        options: {
+          destination: 'docs',
+          access: 'all',
+        }
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('test', ['shell:ThriftGen', 'jshint']);
-  grunt.registerTask('default', ['shell:ThriftGen', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['shell:ThriftGen', 'jshint', 'concat', 'uglify', 'jsdoc']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
 };

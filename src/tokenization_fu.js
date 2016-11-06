@@ -1,0 +1,21 @@
+/**
+ * @class Tokenization
+ * @classdesc concrete.js extensions to the Tokenization class
+ */
+
+/**
+ * Get all TokenTaggings with the specified taggingType
+ * @param {String} taggingType - A string specifying a TokenTagging.taggingType
+ * @returns {Array} A (possibly empty) array of TokenTagging objects
+ */
+Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
+  var tokenTaggings = [];
+
+  for (var tokenTaggingIndex in this.tokenTaggingList) {
+    if (this.tokenTaggingList[tokenTaggingIndex].taggingType === taggingType) {
+      tokenTaggings.push(this.tokenTaggingList[tokenTaggingIndex]);
+    }
+  }
+
+  return tokenTaggings;
+};

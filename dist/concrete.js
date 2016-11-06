@@ -11120,6 +11120,9 @@ TweetInfo = function(args) {
   this.inReplyToScreenName = null;
   this.inReplyToStatusId = null;
   this.inReplyToUserId = null;
+  this.retweetedScreenName = null;
+  this.retweetedStatusId = null;
+  this.retweetedUserId = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -11165,6 +11168,15 @@ TweetInfo = function(args) {
     }
     if (args.inReplyToUserId !== undefined && args.inReplyToUserId !== null) {
       this.inReplyToUserId = args.inReplyToUserId;
+    }
+    if (args.retweetedScreenName !== undefined && args.retweetedScreenName !== null) {
+      this.retweetedScreenName = args.retweetedScreenName;
+    }
+    if (args.retweetedStatusId !== undefined && args.retweetedStatusId !== null) {
+      this.retweetedStatusId = args.retweetedStatusId;
+    }
+    if (args.retweetedUserId !== undefined && args.retweetedUserId !== null) {
+      this.retweetedUserId = args.retweetedUserId;
     }
   }
 };
@@ -11291,6 +11303,27 @@ TweetInfo.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 19:
+      if (ftype == Thrift.Type.STRING) {
+        this.retweetedScreenName = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 20:
+      if (ftype == Thrift.Type.I64) {
+        this.retweetedStatusId = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 21:
+      if (ftype == Thrift.Type.I64) {
+        this.retweetedUserId = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -11377,6 +11410,21 @@ TweetInfo.prototype.write = function(output) {
     output.writeI64(this.inReplyToUserId);
     output.writeFieldEnd();
   }
+  if (this.retweetedScreenName !== null && this.retweetedScreenName !== undefined) {
+    output.writeFieldBegin('retweetedScreenName', Thrift.Type.STRING, 19);
+    output.writeString(this.retweetedScreenName);
+    output.writeFieldEnd();
+  }
+  if (this.retweetedStatusId !== null && this.retweetedStatusId !== undefined) {
+    output.writeFieldBegin('retweetedStatusId', Thrift.Type.I64, 20);
+    output.writeI64(this.retweetedStatusId);
+    output.writeFieldEnd();
+  }
+  if (this.retweetedUserId !== null && this.retweetedUserId !== undefined) {
+    output.writeFieldBegin('retweetedUserId', Thrift.Type.I64, 21);
+    output.writeI64(this.retweetedUserId);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -11444,12 +11492,14 @@ UUID.prototype.write = function(output) {
   return;
 };
 
-;/*
-  COMMUNICATION_FU
-*/
+;/**
+ * @class Communication
+ * @classdesc concrete.js extensions to the Communication class
+ */
 
 
-/** Adds internal references between data structures contained in Communication
+/**
+ * Adds internal references between data structures contained in Communication
  *
  * Specifically, adds:
  *   - to each concrete.Section, a section.communication reference to the enclosing Communication
@@ -11480,7 +11530,8 @@ Communication.prototype.addInternalReferences = function() {
 };
 
 
-/** Return the Entity (or null) that has an EntityMention with the specified UUID
+/**
+ * Return the Entity (or null) that has an EntityMention with the specified UUID
  * @param {UUID} uuid
  * @returns {Entity|null}
  */
@@ -11509,7 +11560,8 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 };
 
 
-/** Return the EntityMention (or null) with the specified UUID
+/**
+ * Return the EntityMention (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {EntityMention|null}
  */
@@ -11537,9 +11589,10 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
 };
 
 
-/** Return the Sentence (or null) with the specified UUID
+/**
+ * Return the Sentence (or null) with the specified UUID
  * @param {UUID} uuid
- @ @returns {Sentence|null}
+ * @returns {Sentence|null}
  */
 Communication.prototype.getSentenceWithUUID = function(uuid) {
   if (!uuid || !uuid.uuidString) {
@@ -11566,7 +11619,8 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
 };
 
 
-/** Return the SituationMention (or null) with the specified UUID
+/**
+ * Return the SituationMention (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {SituationMention|null}
  */
@@ -11594,7 +11648,8 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 
 
 
-/** Return the Tokenization (or null) with the specified UUID
+/**
+ * Return the Tokenization (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {Tokenization|null}
  */
@@ -11623,7 +11678,8 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
 };
 
 
-/** Get list of token text strings for the EntityMention specified by the UUID
+/**
+ * Get list of token text strings for the EntityMention specified by the UUID
  * @param {UUID} mentionId
  * @returns {Array} An array of token text strings
  */
@@ -11640,7 +11696,8 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
 };
 
 
-/** Initialize Communication from a TJSONProtocol object created from a Communication
+/**
+ * Initialize Communication from a TJSONProtocol object created from a Communication.
  *
  * Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
  * something like this:
@@ -11664,7 +11721,8 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
 };
 
 
-/** Initialize Communication from a TJSONProtocol string created from a Communication
+/**
+ * Initialize Communication from a TJSONProtocol string created from a Communication
  * @param {String} commJSONString - A JSON string created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
@@ -11688,7 +11746,8 @@ Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
 };
 
 
-/** Returns JSON object for Communication serialized using TJSONProtocol
+/**
+ * Returns JSON object for Communication serialized using TJSONProtocol
  * @returns {Object}
  */
 Communication.prototype.toTJSONProtocolObject = function() {
@@ -11696,7 +11755,8 @@ Communication.prototype.toTJSONProtocolObject = function() {
 };
 
 
-/** Returns JSON string for Communication serialized using TJSONProtocol
+/**
+ * Returns JSON string for Communication serialized using TJSONProtocol
  * @returns {String}
  */
 Communication.prototype.toTJSONProtocolString = function() {
@@ -11708,40 +11768,8 @@ Communication.prototype.toTJSONProtocolString = function() {
 
   return protocol.tstack[0];
 };
-
-
-/** Get all TokenTaggings with the specified taggingType
- * @param {String} taggingType - A string specifying a TokenTagging.taggingType
- * @returns {Array} A (possibly empty) array of TokenTagging objects
- */
-Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
-  var tokenTaggings = [];
-
-  for (var tokenTaggingIndex in this.tokenTaggingList) {
-    if (this.tokenTaggingList[tokenTaggingIndex].taggingType === taggingType) {
-      tokenTaggings.push(this.tokenTaggingList[tokenTaggingIndex]);
-    }
-  }
-
-  return tokenTaggings;
-};
-
-
-/** Return the TaggedToken (or null) with the specified tokenIndex
- * @param {Number} tokenIndex
- * @returns {Entity|null}
- */
-TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
-  for (var i = 0; i < this.taggedTokenList.length; i++) {
-    if (this.taggedTokenList[i].tokenIndex === tokenIndex) {
-      return this.taggedTokenList[i];
-    }
-  }
-  return null;
-};
-
-
-/** Generate a Concrete UUID
+;/**
+ * Generate a Concrete UUID
  * @returns {UUID}
  */
 var generateUUID = function() {
@@ -11750,7 +11778,8 @@ var generateUUID = function() {
   return uuid;
 };
 
-/** Generate a UUID string
+/**
+ * Generate a UUID string
  *  Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
  *    https://github.com/LiosK/UUID.js
  * @returns {String}
@@ -11790,4 +11819,42 @@ var generateUUIDString = function() {
     hex(0x8000 | rand(14), 4) + // clock_seq_hi_and_reserved clock_seq_low
     "-" +
     hex(rand(48), 12);        // node
+};
+;/**
+ * @class Tokenization
+ * @classdesc concrete.js extensions to the Tokenization class
+ */
+
+/**
+ * Get all TokenTaggings with the specified taggingType
+ * @param {String} taggingType - A string specifying a TokenTagging.taggingType
+ * @returns {Array} A (possibly empty) array of TokenTagging objects
+ */
+Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
+  var tokenTaggings = [];
+
+  for (var tokenTaggingIndex in this.tokenTaggingList) {
+    if (this.tokenTaggingList[tokenTaggingIndex].taggingType === taggingType) {
+      tokenTaggings.push(this.tokenTaggingList[tokenTaggingIndex]);
+    }
+  }
+
+  return tokenTaggings;
+};
+;/**
+ * @class TokenTagging
+ * @classdesc concrete.js extensions to the TokenTagging class
+ */
+
+/** Return the TaggedToken (or null) with the specified tokenIndex
+ * @param {Number} tokenIndex
+ * @returns {TaggedToken|null}
+ */
+TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
+  for (var i = 0; i < this.taggedTokenList.length; i++) {
+    if (this.taggedTokenList[i].tokenIndex === tokenIndex) {
+      return this.taggedTokenList[i];
+    }
+  }
+  return null;
 };

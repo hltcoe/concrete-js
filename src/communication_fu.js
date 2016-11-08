@@ -68,7 +68,6 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 
 /**
  * Return the EntityMentionSet in the Communication with the specified toolname
- * @param {Communication} communication
  * @param {String} toolname
  * @returns {EntityMentionSet|null}
  */

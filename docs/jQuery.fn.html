@@ -1039,6 +1039,210 @@ documents the function and classes that are added to jQuery by this plug-in.</di
 
     
 
+    <h4 class="name" id=".$.fn.getTokenElementsWithMatchingTag"><span class="type-signature">(static) </span>$.fn.getTokenElementsWithMatchingTag<span class="signature">(tokenization, tokenTagging, matchFunction)</span><span class="type-signature"> &rarr; {jQuery_Object}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a jQuery object for the DOM elements for the Tokens in a Tokenization,
+selecting only those Tokens whose TokenTagging tags satisfy the specified
+matchFunction.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tokenization</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Tokenization.html">Tokenization</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tokenTagging</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="TokenTagging.html">TokenTagging</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The TokenTagging must be for the Tokenization
+                                     specified as the first parameter.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>matchFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that takes as input a TaggedToken.tag string,
+                                  and returns true or false based on whether or not the
+                                  string "matches".</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line359">line 359</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - jQuery Object for DOM elements for "matching" Tokens
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">jQuery_Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id=".$.fn.getTokenRefSequenceElements"><span class="type-signature">(static) </span>$.fn.getTokenRefSequenceElements<span class="signature">(tokenRefSequence)</span><span class="type-signature"> &rarr; {jQuery_Object}</span></h4>
 
     
@@ -1135,7 +1339,7 @@ documents the function and classes that are added to jQuery by this plug-in.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line350">line 350</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line384">line 384</a>
     </li></ul></dd>
     
 
@@ -1303,7 +1507,7 @@ documents the function and classes that are added to jQuery by this plug-in.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line374">line 374</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line408">line 408</a>
     </li></ul></dd>
     
 
@@ -1471,7 +1675,7 @@ documents the function and classes that are added to jQuery by this plug-in.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line385">line 385</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line419">line 419</a>
     </li></ul></dd>
     
 
@@ -1639,7 +1843,7 @@ documents the function and classes that are added to jQuery by this plug-in.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line396">line 396</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line430">line 430</a>
     </li></ul></dd>
     
 

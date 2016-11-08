@@ -12147,6 +12147,40 @@ var ConcreteWidgets = (function() {
     };
 
     /**
+     * Returns a jQuery object for the DOM elements for the Tokens in a Tokenization,
+     * selecting only those Tokens whose TokenTagging tags satisfy the specified
+     * matchFunction.
+     *
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @param {TokenTagging} tokenTagging - The TokenTagging must be for the Tokenization
+     *                                      specified as the first parameter.
+     * @param {Function} matchFunction - Function that takes as input a TaggedToken.tag string,
+     *                                   and returns true or false based on whether or not the
+     *                                   string "matches".
+     * @returns {jQuery_Object} - jQuery Object for DOM elements for "matching" Tokens
+     */
+    $.fn.getTokenElementsWithMatchingTag = function(tokenization, tokenTagging, matchFunction) {
+        if (!tokenization || !tokenTagging || !tokenTagging.taggedTokenList || !matchFunction) {
+            return $();
+        }
+
+        var tokenSelectorStrings = [];
+        for (var i = 0; i < tokenTagging.taggedTokenList.length; i++) {
+            if (matchFunction(tokenTagging.taggedTokenList[i].tag)) {
+                tokenSelectorStrings.push(
+                    '.tokenization_' + tokenization.uuid.uuidString +
+                        '_' + tokenTagging.taggedTokenList[i].tokenIndex);
+            }
+        }
+
+        var tokenizationObject = $('.tokenization_' + tokenization.uuid.uuidString);
+        var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
+
+        return tokenObjects;
+    };
+
+    /**
      * @memberOf jQuery.fn
      * @param {TokenRefSequence} tokenRefSequence
      * @returns {jQuery_Object}

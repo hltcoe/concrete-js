@@ -11561,6 +11561,24 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 
 
 /**
+ * Return the EntityMentionSet in the Communication with the specified toolname
+ * @param {Communication} communication
+ * @param {String} toolname
+ * @returns {EntityMentionSet|null}
+ */
+Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
+  if (this.entityMentionSetList && this.entityMentionSetList.length > 0) {
+    for (var i = 0; i < this.entityMentionSetList.length; i++) {
+      if (this.entityMentionSetList[i].metadata.tool === toolname) {
+        return this.entityMentionSetList[i];
+      }
+    }
+  }
+  return null;
+};
+
+
+/**
  * Return the EntityMention (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {EntityMention|null}
@@ -11585,6 +11603,23 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
   }
   // TODO: Error handling if no matching UUID could be found
   console.error("ERROR: No EntityMention found with UUID " + uuid.uuidString);
+  return null;
+};
+
+
+/**
+ * Return the first Sentence in a Communication if it exists, or null
+ * @returns {Sentence|null}
+ */
+Communication.prototype.getFirstSentence = function() {
+  // The first few Sections may be empty, so we need to iterate over Sections
+  if (this.sectionList && this.sectionList.length) {
+    for (var i = 0; i < this.sectionList.length; i++) {
+      if (this.sectionList[i].sentenceList && this.sectionList[i].sentenceList.length) {
+        return this.sectionList[i].sentenceList[0];
+      }
+    }
+  }
   return null;
 };
 

@@ -379,6 +379,181 @@ Specifically, adds:
 
     
 
+    <h4 class="name" id="getEntityMentionSetWithToolname"><span class="type-signature"></span>getEntityMentionSetWithToolname<span class="signature">(communication, toolname)</span><span class="type-signature"> &rarr; {EntityMentionSet|null}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Return the EntityMentionSet in the Communication with the specified toolname
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>communication</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Communication.html">Communication</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toolname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line75">line 75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">EntityMentionSet</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="getEntityMentionWithUUID"><span class="type-signature"></span>getEntityMentionWithUUID<span class="signature">(uuid)</span><span class="type-signature"> &rarr; {EntityMention|null}</span></h4>
 
     
@@ -479,7 +654,7 @@ Specifically, adds:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line74">line 74</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -514,6 +689,109 @@ Specifically, adds:
     <dd>
         
 <span class="param-type">EntityMention</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getFirstSentence"><span class="type-signature"></span>getFirstSentence<span class="signature">()</span><span class="type-signature"> &rarr; {Sentence|null}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Return the first Sentence in a Communication if it exists, or null
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line120">line 120</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Sentence</span>
 |
 
 <span class="param-type">null</span>
@@ -631,7 +909,7 @@ Specifically, adds:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line103">line 103</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -783,7 +1061,7 @@ Specifically, adds:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line133">line 133</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -935,7 +1213,7 @@ Specifically, adds:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line162">line 162</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -1087,7 +1365,7 @@ Specifically, adds:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line192">line 192</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line227">line 227</a>
     </li></ul></dd>
     
 
@@ -1249,7 +1527,7 @@ something like this:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line220">line 220</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -1402,7 +1680,7 @@ something like this:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line235">line 235</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -1506,7 +1784,7 @@ something like this:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line259">line 259</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line294">line 294</a>
     </li></ul></dd>
     
 
@@ -1606,7 +1884,7 @@ something like this:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line268">line 268</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line303">line 303</a>
     </li></ul></dd>
     
 
@@ -1672,7 +1950,7 @@ something like this:
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Mon Nov 07 2016 10:16:37 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Tue Nov 08 2016 09:00:04 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

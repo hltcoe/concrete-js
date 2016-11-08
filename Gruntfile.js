@@ -54,10 +54,11 @@ module.exports = function(grunt) {
       dist: {
         src: ['src/*.js'],
         options: {
-          destination: 'docs',
           access: 'all',
-        }
-      }
+          configure: 'jsdoc.conf.json',
+          destination: 'docs',
+        },
+      },
     },
   });
 

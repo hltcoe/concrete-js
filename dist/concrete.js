@@ -12081,6 +12081,7 @@ var ConcreteWidgets = (function() {
     /**
      * @memberOf jQuery.fn
      * @param {Communication} communication
+     * @returns {jQuery_Object}
      */
     $.fn.addAllEntityMentionsInCommunication = function(communication) {
         if (communication && communication.entityMentionSetList && communication.entityMentionSetList.length > 0) {
@@ -12094,6 +12095,7 @@ var ConcreteWidgets = (function() {
     /**
      * @memberOf jQuery.fn
      * @param {EntityMention} entityMention
+     * @returns {jQuery_Object}
      */
     $.fn.addEntityMention = function(entityMention) {
         $.fn.getEntityMentionElements(entityMention)
@@ -12104,6 +12106,7 @@ var ConcreteWidgets = (function() {
     /**
      * @memberOf jQuery.fn
      * @param {EntityMentionSet} entityMentionSet
+     * @returns {jQuery_Object}
      */
     $.fn.addEntityMentionSet = function(entityMentionSet) {
         if (entityMentionSet && entityMentionSet.mentionList && entityMentionSet.mentionList.length > 0) {
@@ -12118,6 +12121,7 @@ var ConcreteWidgets = (function() {
      * @memberOf jQuery.fn
      * @param {Communication} communication
      * @param {Object} options
+     * @returns {jQuery_Object}
      */
     $.fn.communicationWidget = function(communication, options) {
         this.append(ConcreteWidgets.createCommunicationDiv(communication, options));
@@ -12127,6 +12131,7 @@ var ConcreteWidgets = (function() {
     /**
      * @memberOf jQuery.fn
      * @param {EntityMention} entityMention
+     * @returns {jQuery_Object}
      */
     $.fn.getEntityMentionElements = function(entityMention) {
         return $.fn.getTokenRefSequenceElements(entityMention.tokens);
@@ -12135,6 +12140,7 @@ var ConcreteWidgets = (function() {
     /**
      * @memberOf jQuery.fn
      * @param {Sentence} sentence
+     * @returns {jQuery_Object}
      */
     $.fn.getSentenceElements = function(sentence) {
         return this.find('.sentence.sentence_' + sentence.uuid.uuidString);
@@ -12143,6 +12149,7 @@ var ConcreteWidgets = (function() {
     /**
      * @memberOf jQuery.fn
      * @param {TokenRefSequence} tokenRefSequence
+     * @returns {jQuery_Object}
      */
     $.fn.getTokenRefSequenceElements = function(tokenRefSequence) {
         if (!tokenRefSequence && !tokenRefSequence.tokenizationId) {
@@ -12166,6 +12173,7 @@ var ConcreteWidgets = (function() {
      * @memberOf jQuery.fn
      * @param {Section} section
      * @param {Object} options
+     * @returns {jQuery_Object}
      */
     $.fn.sectionWidget = function(section, options) {
         this.append(ConcreteWidgets.createSectionDiv(section, options));
@@ -12176,6 +12184,7 @@ var ConcreteWidgets = (function() {
      * @memberOf jQuery.fn
      * @param {Sentence} sentence
      * @param {Object} options
+     * @returns {jQuery_Object}
      */
     $.fn.sentenceWidget = function(sentence, options) {
         this.append(ConcreteWidgets.createSentenceDiv(sentence, options));
@@ -12186,6 +12195,7 @@ var ConcreteWidgets = (function() {
      * @memberOf jQuery.fn
      * @param {Tokenization} tokenization
      * @param {Object} options
+     * @returns {jQuery_Object}
      */
     $.fn.tokenizationWidget = function(tokenization, options) {
         this.append(ConcreteWidgets.createTokenizationDiv(tokenization, options));

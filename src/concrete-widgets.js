@@ -370,7 +370,7 @@ var ConcreteWidgets = (function() {
             }
         }
 
-        var tokenizationObject = $('.tokenization_' + tokenization.uuid.uuidString);
+        var tokenizationObject = this.find('.tokenization_' + tokenization.uuid.uuidString);
         var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
 
         return tokenObjects;
@@ -393,7 +393,7 @@ var ConcreteWidgets = (function() {
                     '_' + tokenRefSequence.tokenIndexList[i]);
         }
 
-        var tokenizationObject = $('.tokenization_' + tokenRefSequence.tokenizationId.uuidString);
+        var tokenizationObject = this.find('.tokenization_' + tokenRefSequence.tokenizationId.uuidString);
         var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
 
         return tokenObjects;

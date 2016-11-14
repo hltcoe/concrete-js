@@ -130,6 +130,21 @@ Communication.prototype.getFirstSentence = function() {
 
 
 /**
+ * Return the first Tokenization in a Communication if it exists, or null
+ * @returns {Tokenization|null}
+ */
+Communication.prototype.getFirstTokenization = function() {
+  var firstSentence = this.getFirstSentence();
+  if (firstSentence) {
+    return firstSentence.tokenization;
+  }
+  else {
+    return null;
+  }
+};
+
+
+/**
  * Return the Sentence (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {Sentence|null}

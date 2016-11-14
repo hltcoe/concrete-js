@@ -11624,6 +11624,21 @@ Communication.prototype.getFirstSentence = function() {
 
 
 /**
+ * Return the first Tokenization in a Communication if it exists, or null
+ * @returns {Tokenization|null}
+ */
+Communication.prototype.getFirstTokenization = function() {
+  var firstSentence = this.getFirstSentence();
+  if (firstSentence) {
+    return firstSentence.tokenization;
+  }
+  else {
+    return null;
+  }
+};
+
+
+/**
  * Return the Sentence (or null) with the specified UUID
  * @param {UUID} uuid
  * @returns {Sentence|null}
@@ -11803,11 +11818,13 @@ Communication.prototype.toTJSONProtocolString = function() {
   return protocol.tstack[0];
 };
 ;/**
- * @namespace ConcreteWidgets
+ * @namespace concrete.widget
  */
 
-var ConcreteWidgets = (function() {
-    var ConcreteWidgets = {};
+var concrete = concrete || {};
+
+concrete.widget = (function() {
+    var widget = {};
 
     /**
      * Returns a jQuery object containing the DOM structure:
@@ -11821,12 +11838,12 @@ var ConcreteWidgets = (function() {
      * createCommunicationDiv() calls createSectionDiv() to create the
      * DOM structure for the Sections.
      *
-     * @memberof ConcreteWidgets
+     * @memberof concrete.widget
      * @param {Communication} communication
      * @param {Object} options
      * @returns {jQuery_Object}
      */
-    ConcreteWidgets.createCommunicationDiv = function(communication, options) {
+    widget.createCommunicationDiv = function(communication, options) {
         if (!communication) {
             throw 'ERROR: CreateWidgets.createCommunicationDiv() must be passed a communication';
         }
@@ -11837,7 +11854,7 @@ var ConcreteWidgets = (function() {
         if (communication.sectionList && communication.sectionList.length) {
             for (var i = 0; i < communication.sectionList.length; i++) {
                 communicationDiv.append(
-                    ConcreteWidgets.createSectionDiv(communication.sectionList[i], options));
+                    widget.createSectionDiv(communication.sectionList[i], options));
             }
         }
         else {
@@ -11861,17 +11878,17 @@ var ConcreteWidgets = (function() {
      * createSectionDiv() calls createSentenceDiv() to create the
      * DOM structure for the Sentence.
      *
-     * @memberof ConcreteWidgets
+     * @memberof concrete.widget
      * @param {Section} section
      * @param {Object} options
      * @returns {jQuery_Object}
      */
-    ConcreteWidgets.createSectionDiv = function(section, options) {
+    widget.createSectionDiv = function(section, options) {
         if (!section) {
             throw 'CreateWidgets.createSectionDiv() must be passed a section';
         }
 
-        var opts = $.extend({}, ConcreteWidgets.createSectionDiv.defaultOptions, options);
+        var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
         var textSpansUsed = false;
         if (section.sentenceList.length > 0) {
@@ -11883,7 +11900,7 @@ var ConcreteWidgets = (function() {
 
         for (var i = 0; i < section.sentenceList.length; i++) {
             sectionDiv.append(
-                ConcreteWidgets.createSentenceDiv(section.sentenceList[i], options));
+                widget.createSentenceDiv(section.sentenceList[i], options));
 
             if (i+1 < section.sentenceList.length) {
                 if (textSpansUsed && !opts.whitespaceTokenization) {
@@ -11901,7 +11918,7 @@ var ConcreteWidgets = (function() {
         return sectionDiv;
     };
 
-    ConcreteWidgets.createSectionDiv.defaultOptions = {
+    widget.createSectionDiv.defaultOptions = {
         'whitespaceTokenization': false,
     };
 
@@ -11915,19 +11932,19 @@ var ConcreteWidgets = (function() {
      * createSentenceDiv() calls createTokenizationDiv() to create the
      * DOM structure for the Sentence's Tokenization.
      *
-     * @memberof ConcreteWidgets
+     * @memberof concrete.widget
      * @param {Sentence} sentence
      * @param {Object} options
      * @returns {jQuery_Object}
      */
-    ConcreteWidgets.createSentenceDiv = function(sentence, options) {
+    widget.createSentenceDiv = function(sentence, options) {
         if (!sentence) {
             throw 'CreateWidgets.createSentenceDiv() must be passed a sentence';
         }
 
         var sentenceDiv = $('<div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
-            .append(ConcreteWidgets.createTokenizationDiv(sentence.tokenization, options));
+            .append(widget.createTokenizationDiv(sentence.tokenization, options));
         return sentenceDiv;
     };
 
@@ -11942,17 +11959,17 @@ var ConcreteWidgets = (function() {
      *         [...]
      * </pre>
      *
-     * @memberof ConcreteWidgets
+     * @memberof concrete.widget
      * @param {Tokenization} tokenization
      * @param {Object} options
      * @returns {jQuery_Object}
      */
-    ConcreteWidgets.createTokenizationDiv = function(tokenization, options) {
+    widget.createTokenizationDiv = function(tokenization, options) {
         if (!tokenization) {
             throw 'CreateWidgets.createTokenizationDiv() must be passed a tokenization';
         }
 
-        var opts = $.extend({}, ConcreteWidgets.createTokenizationDiv.defaultOptions, options);
+        var opts = $.extend({}, widget.createTokenizationDiv.defaultOptions, options);
         var textSpansUsed = tokenizationUsesTextSpans(tokenization);
         var tokenList = tokenization.tokenList.tokenList;
 
@@ -11994,7 +12011,7 @@ var ConcreteWidgets = (function() {
         return tokenizationDiv;
     };
 
-    ConcreteWidgets.createTokenizationDiv.defaultOptions = {
+    widget.createTokenizationDiv.defaultOptions = {
         'convertTreebankBrackets': true,
         'whitespaceTokenization': false,
     };
@@ -12056,7 +12073,7 @@ var ConcreteWidgets = (function() {
         return concreteObjectUsesTextSpans(tokenization.tokenList.tokenList[0]);
     }
 
-    return ConcreteWidgets;
+    return widget;
 })();
 
 
@@ -12124,7 +12141,7 @@ var ConcreteWidgets = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.communicationWidget = function(communication, options) {
-        this.append(ConcreteWidgets.createCommunicationDiv(communication, options));
+        this.append(concrete.widget.createCommunicationDiv(communication, options));
         return this;
     };
 
@@ -12144,6 +12161,22 @@ var ConcreteWidgets = (function() {
      */
     $.fn.getSentenceElements = function(sentence) {
         return this.find('.sentence.sentence_' + sentence.uuid.uuidString);
+    };
+
+    /**
+     * Returns a jQuery object for DOM element(s) specified by tokenization+tokenIndex
+     *
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @param {int} tokenIndex
+     * @returns {jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
+     */
+    $.fn.getTokenElementsWithIndex = function(tokenization, tokenIndex) {
+        if (!tokenization) {
+            return $();
+        }
+
+        return this.find('.tokenization_' + tokenization.uuid.uuidString + '_' + tokenIndex);
     };
 
     /**
@@ -12210,7 +12243,7 @@ var ConcreteWidgets = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.sectionWidget = function(section, options) {
-        this.append(ConcreteWidgets.createSectionDiv(section, options));
+        this.append(concrete.widget.createSectionDiv(section, options));
         return this;
     };
 
@@ -12221,7 +12254,7 @@ var ConcreteWidgets = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.sentenceWidget = function(sentence, options) {
-        this.append(ConcreteWidgets.createSentenceDiv(sentence, options));
+        this.append(concrete.widget.createSentenceDiv(sentence, options));
         return this;
     };
 
@@ -12232,7 +12265,7 @@ var ConcreteWidgets = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.tokenizationWidget = function(tokenization, options) {
-        this.append(ConcreteWidgets.createTokenizationDiv(tokenization, options));
+        this.append(concrete.widget.createTokenizationDiv(tokenization, options));
         return this;
     };
 

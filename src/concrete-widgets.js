@@ -345,6 +345,22 @@ concrete.widget = (function() {
     };
 
     /**
+     * Returns a jQuery object for DOM element(s) specified by tokenization+tokenIndex
+     *
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @param {int} tokenIndex
+     * @returns {jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
+     */
+    $.fn.getTokenElementsWithIndex = function(tokenization, tokenIndex) {
+        if (!tokenization) {
+            return $();
+        }
+
+        return this.find('.tokenization_' + tokenization.uuid.uuidString + '_' + tokenIndex);
+    };
+
+    /**
      * Returns a jQuery object for the DOM elements for the Tokens in a Tokenization,
      * selecting only those Tokens whose TokenTagging tags satisfy the specified
      * matchFunction.

@@ -155,7 +155,8 @@ concrete.widget = (function() {
         var tokenList = tokenization.tokenList.tokenList;
 
         var tokenizationDiv = $('<div>')
-            .addClass('tokenization tokenization_' + tokenization.uuid.uuidString);
+            .addClass('tokenization tokenization_' + tokenization.uuid.uuidString)
+            .data('tokenization', tokenization);
 
         for (var i = 0; i < tokenList.length; i++) {
             var tokenText;
@@ -168,6 +169,8 @@ concrete.widget = (function() {
 
             var tokenSpan = $('<span>')
                 .addClass('token tokenization_' + tokenization.uuid.uuidString + '_' + i)
+                .data('tokenization', tokenization)
+                .data('tokenIndex', i)
                 .text(tokenText);
             tokenizationDiv.append(tokenSpan);
 

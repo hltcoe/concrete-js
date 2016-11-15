@@ -403,7 +403,7 @@ concrete.widget = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.getTokenizationElements = function(tokenization) {
-        return this.find('.tokenization.tokenization' + tokenization.uuid.uuidString);
+        return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
     };
 
     /**
@@ -412,7 +412,7 @@ concrete.widget = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.getTokenElements = function(tokenization) {
-        return this.getTokenizationElements.find('.token');
+        return this.getTokenizationElements(tokenization).find('.token');
     };
 
     /**

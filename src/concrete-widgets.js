@@ -396,6 +396,24 @@ concrete.widget = (function() {
 
     /**
      * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenizationElements = function(tokenization) {
+        return this.find('.tokenization.tokenization' + tokenization.uuid.uuidString);
+    };
+
+    /**
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenElements = function(tokenization) {
+        return this.getTokenizationElements.find('.token');
+    };
+
+    /**
+     * @memberOf jQuery.fn
      * @param {TokenRefSequence} tokenRefSequence
      * @returns {jQuery_Object}
      */

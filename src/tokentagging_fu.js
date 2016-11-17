@@ -15,3 +15,20 @@ TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
   }
   return null;
 };
+
+
+/** Sets the tag of the TaggedToken with the specified tokenIndex.
+ *  If a TaggedToken with the specified tokenIndex does not exist,
+ *  than it will be created.
+ * @param {String} tagText
+ * @param {Number] tokenIndex
+ */
+TokenTagging.prototype.setTaggedTokenTag = function(tagText, tokenIndex) {
+  var taggedToken = this.getTaggedTokenWithTokenIndex(tokenIndex);
+  if (!taggedToken) {
+    taggedToken = new TaggedToken();
+    taggedToken.tokenIndex = tokenIndex;
+    this.taggedTokenList.push(taggedToken);
+  }
+  taggedToken.tag = tagText;
+};

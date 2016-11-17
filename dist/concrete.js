@@ -11974,7 +11974,8 @@ concrete.widget = (function() {
         var tokenList = tokenization.tokenList.tokenList;
 
         var tokenizationDiv = $('<div>')
-            .addClass('tokenization tokenization_' + tokenization.uuid.uuidString);
+            .addClass('tokenization tokenization_' + tokenization.uuid.uuidString)
+            .data('tokenization', tokenization);
 
         for (var i = 0; i < tokenList.length; i++) {
             var tokenText;
@@ -11987,6 +11988,8 @@ concrete.widget = (function() {
 
             var tokenSpan = $('<span>')
                 .addClass('token tokenization_' + tokenization.uuid.uuidString + '_' + i)
+                .data('tokenization', tokenization)
+                .data('tokenIndex', i)
                 .text(tokenText);
             tokenizationDiv.append(tokenSpan);
 
@@ -12215,6 +12218,24 @@ concrete.widget = (function() {
 
     /**
      * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenizationElements = function(tokenization) {
+        return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
+    };
+
+    /**
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenElements = function(tokenization) {
+        return this.getTokenizationElements(tokenization).find('.token');
+    };
+
+    /**
+     * @memberOf jQuery.fn
      * @param {TokenRefSequence} tokenRefSequence
      * @returns {jQuery_Object}
      */
@@ -12359,4 +12380,21 @@ TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
     }
   }
   return null;
+};
+
+
+/** Sets the tag of the TaggedToken with the specified tokenIndex.
+ *  If a TaggedToken with the specified tokenIndex does not exist,
+ *  than it will be created.
+ * @param {String} tagText
+ * @param {Number] tokenIndex
+ */
+TokenTagging.prototype.setTaggedTokenTag = function(tagText, tokenIndex) {
+  var taggedToken = this.getTaggedTokenWithTokenIndex(tokenIndex);
+  if (!taggedToken) {
+    taggedToken = new TaggedToken();
+    taggedToken.tokenIndex = tokenIndex;
+    this.taggedTokenList.push(taggedToken);
+  }
+  taggedToken.tag = tagText;
 };

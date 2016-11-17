@@ -183,7 +183,8 @@ concrete.widget = (function() {
         var tokenList = tokenization.tokenList.tokenList;
 
         var tokenizationDiv = $('&lt;div>')
-            .addClass('tokenization tokenization_' + tokenization.uuid.uuidString);
+            .addClass('tokenization tokenization_' + tokenization.uuid.uuidString)
+            .data('tokenization', tokenization);
 
         for (var i = 0; i &lt; tokenList.length; i++) {
             var tokenText;
@@ -196,6 +197,8 @@ concrete.widget = (function() {
 
             var tokenSpan = $('&lt;span>')
                 .addClass('token tokenization_' + tokenization.uuid.uuidString + '_' + i)
+                .data('tokenization', tokenization)
+                .data('tokenIndex', i)
                 .text(tokenText);
             tokenizationDiv.append(tokenSpan);
 
@@ -420,6 +423,24 @@ concrete.widget = (function() {
         var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
 
         return tokenObjects;
+    };
+
+    /**
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenizationElements = function(tokenization) {
+        return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
+    };
+
+    /**
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenElements = function(tokenization) {
+        return this.getTokenizationElements(tokenization).find('.token');
     };
 
     /**

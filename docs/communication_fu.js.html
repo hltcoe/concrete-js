@@ -230,6 +230,27 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 };
 
 
+/**
+ * Return all Tokenizations in a Communication as a (flat) list
+ * @returns {List}
+ */
+Communication.prototype.getTokenizationsAsList = function() {
+  var tokenizations = [];
+
+  if (this.sectionList &amp;&amp; this.sectionList.length) {
+    for (var i = 0; i &lt; this.sectionList.length; i++) {
+      if (this.sectionList[i].sentenceList &amp;&amp; this.sectionList[i].sentenceList.length) {
+        for (var j = 0; j &lt; this.sectionList[i].sentenceList.length; j++) {
+          if (this.sectionList[i].sentenceList[j].tokenization) {
+            tokenizations.push(this.sectionList[i].sentenceList[j].tokenization);
+          }
+        }
+      }
+    }
+  }
+
+  return tokenizations;
+};
 
 /**
  * Return the Tokenization (or null) with the specified UUID

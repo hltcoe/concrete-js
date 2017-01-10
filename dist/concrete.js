@@ -10437,6 +10437,7 @@ SearchQuery = function(args) {
   this.type = null;
   this.lang = null;
   this.corpus = null;
+  this.k = null;
   if (args) {
     if (args.terms !== undefined && args.terms !== null) {
       this.terms = Thrift.copyList(args.terms, [null]);
@@ -10475,6 +10476,9 @@ SearchQuery = function(args) {
     }
     if (args.corpus !== undefined && args.corpus !== null) {
       this.corpus = args.corpus;
+    }
+    if (args.k !== undefined && args.k !== null) {
+      this.k = args.k;
     }
   }
 };
@@ -10616,6 +10620,13 @@ SearchQuery.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 13:
+      if (ftype == Thrift.Type.I32) {
+        this.k = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -10712,6 +10723,11 @@ SearchQuery.prototype.write = function(output) {
   if (this.corpus !== null && this.corpus !== undefined) {
     output.writeFieldBegin('corpus', Thrift.Type.STRING, 12);
     output.writeString(this.corpus);
+    output.writeFieldEnd();
+  }
+  if (this.k !== null && this.k !== undefined) {
+    output.writeFieldBegin('k', Thrift.Type.I32, 13);
+    output.writeI32(this.k);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

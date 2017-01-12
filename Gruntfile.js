@@ -32,7 +32,7 @@ module.exports = function(grunt) {
             command: 'cd dist; curl -O https://raw.githubusercontent.com/apache/thrift/0.10.0/lib/js/src/thrift.js'
 	},
 	ThriftGen: {
-            // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete-thrift'
+            // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete/thrift'
             command: 'for P in `find ${HOME}/concrete/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
 	}
     },

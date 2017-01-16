@@ -18489,7 +18489,7 @@ concrete.widget = (function() {
     $.fn.addAllEntityMentionsInCommunication = function(communication) {
         if (communication && communication.entityMentionSetList && communication.entityMentionSetList.length > 0) {
             for (var i = 0; i < communication.entityMentionSetList.length; i++) {
-                $.fn.addEntityMentionSet(communication.entityMentionSetList[i]);
+                this.addEntityMentionSet(communication.entityMentionSetList[i]);
             }
         }
         return this;
@@ -18501,7 +18501,7 @@ concrete.widget = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.addEntityMention = function(entityMention) {
-        $.fn.getEntityMentionElements(entityMention)
+        this.getEntityMentionElements(entityMention)
             .addClass('entity_mention entity_mention_' + entityMention.uuid.uuidString);
         return this;
     };
@@ -18514,7 +18514,7 @@ concrete.widget = (function() {
     $.fn.addEntityMentionSet = function(entityMentionSet) {
         if (entityMentionSet && entityMentionSet.mentionList && entityMentionSet.mentionList.length > 0) {
             for (var i = 0; i < entityMentionSet.mentionList.length; i++) {
-                $.fn.addEntityMention(entityMentionSet.mentionList[i]);
+                this.addEntityMention(entityMentionSet.mentionList[i]);
             }
         }
         return this;
@@ -18537,7 +18537,7 @@ concrete.widget = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.getEntityMentionElements = function(entityMention) {
-        return $.fn.getTokenRefSequenceElements(entityMention.tokens);
+        return this.getTokenRefSequenceElements(entityMention.tokens);
     };
 
     /**

@@ -1,6 +1,6 @@
 {
   "name": "concrete",
-  "version": "4.12.0",
+  "version": "4.12.1",
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-contrib-uglify": "~1.0.1",

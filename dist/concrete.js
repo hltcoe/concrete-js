@@ -18412,8 +18412,8 @@ concrete.widget = (function() {
     function concreteObjectUsesTextSpans(concreteObject) {
         if (concreteObject &&
             concreteObject.textSpan &&
-            concreteObject.textSpan.start &&
-            concreteObject.textSpan.ending) {
+            Number.isInteger(concreteObject.textSpan.start) &&
+            Number.isInteger(concreteObject.textSpan.ending)) {
             return true;
         }
         else {

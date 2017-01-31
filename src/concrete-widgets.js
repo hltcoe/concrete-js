@@ -71,13 +71,17 @@ concrete.widget = (function() {
 
         var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
+        var sectionDiv = $('<div>')
+            .addClass('section section_' + section.uuid.uuidString);
+
+        if (!section.sentenceList) {
+            return sectionDiv;
+        }
+
         var textSpansUsed = false;
         if (section.sentenceList.length > 0) {
             textSpansUsed = concreteObjectUsesTextSpans(section.sentenceList[0]);
         }
-
-        var sectionDiv = $('<div>')
-            .addClass('section section_' + section.uuid.uuidString);
 
         for (var i = 0; i < section.sentenceList.length; i++) {
             sectionDiv.append(

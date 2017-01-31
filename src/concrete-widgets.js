@@ -147,9 +147,9 @@ concrete.widget = (function() {
      * <pre>
      *     &lt;div class="tokenization_container"&gt;
      *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
-     *             &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
+     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
      *             &lt;span class="token_padding"&gt;
-     *             &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
+     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
      *             &lt;span class="token_padding"&gt;
      *             [...]
      * </pre>
@@ -188,7 +188,7 @@ concrete.widget = (function() {
             }
 
             var tokenSpan = $('<span>')
-                .addClass('token tokenization_' + tokenization.uuid.uuidString + '_' + i)
+                .addClass('token token_' + tokenization.uuid.uuidString + '_' + i)
                 .data('tokenization', tokenization)
                 .data('tokenIndex', i)
                 .text(tokenText);
@@ -381,7 +381,7 @@ concrete.widget = (function() {
             return $();
         }
 
-        return this.find('.tokenization_' + tokenization.uuid.uuidString + '_' + tokenIndex);
+        return this.find('.token_' + tokenization.uuid.uuidString + '_' + tokenIndex);
     };
 
     /**
@@ -407,7 +407,7 @@ concrete.widget = (function() {
         for (var i = 0; i < tokenTagging.taggedTokenList.length; i++) {
             if (matchFunction(tokenTagging.taggedTokenList[i].tag)) {
                 tokenSelectorStrings.push(
-                    '.tokenization_' + tokenization.uuid.uuidString +
+                    '.token_' + tokenization.uuid.uuidString +
                         '_' + tokenTagging.taggedTokenList[i].tokenIndex);
             }
         }
@@ -449,7 +449,7 @@ concrete.widget = (function() {
         var tokenSelectorStrings = [];
         for (var i = 0; i < tokenRefSequence.tokenIndexList.length; i++) {
             tokenSelectorStrings.push(
-                '.tokenization_' + tokenRefSequence.tokenizationId.uuidString +
+                '.token_' + tokenRefSequence.tokenizationId.uuidString +
                     '_' + tokenRefSequence.tokenIndexList[i]);
         }
 

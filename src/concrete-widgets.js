@@ -31,7 +31,7 @@ concrete.widget = (function() {
 
         var communicationDiv = $('<div>')
             .addClass('communication communication_' + communication.uuid.uuidString);
-        if (options.communicationDivClass) {
+        if (options && options.communicationDivClass) {
             communicationDiv.addClass(options.communicationDivClass);
         }
 
@@ -136,7 +136,7 @@ concrete.widget = (function() {
         var sentenceDiv = $('<div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
             .append(widget.createTokenizationDiv(sentence.tokenization, options));
-        if (options.sentenceDivClass) {
+        if (options && options.sentenceDivClass) {
             sentenceDiv.addClass(options.sentenceDivClass);
         }
         return sentenceDiv;

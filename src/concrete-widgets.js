@@ -148,9 +148,9 @@ concrete.widget = (function() {
      *     &lt;div class="tokenization_container"&gt;
      *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
      *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *             &lt;span class="token_padding"&gt;
+     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
      *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-     *             &lt;span class="token_padding"&gt;
+     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
      *             [...]
      * </pre>
      *
@@ -196,7 +196,7 @@ concrete.widget = (function() {
 
             if (i+1 < tokenList.length) {
                 var tokenPaddingSpan = $('<span>')
-                    .addClass('token_padding');
+                    .addClass('token_padding token_padding_' + tokenization.uuid.uuidString + '_' + i);
 
                 if (textSpansUsed && !opts.whitespaceTokenization) {
                     // Add whitespace IFF there is a character-offset gap between tokens

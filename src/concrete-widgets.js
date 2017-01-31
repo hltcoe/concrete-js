@@ -31,6 +31,9 @@ concrete.widget = (function() {
 
         var communicationDiv = $('<div>')
             .addClass('communication communication_' + communication.uuid.uuidString);
+        if (options.communicationDivClass) {
+            communicationDiv.addClass(options.communicationDivClass);
+        }
 
         if (communication.sectionList && communication.sectionList.length) {
             for (var i = 0; i < communication.sectionList.length; i++) {
@@ -73,6 +76,9 @@ concrete.widget = (function() {
 
         var sectionDiv = $('<div>')
             .addClass('section section_' + section.uuid.uuidString);
+        if (opts.sectionDivClass) {
+            sectionDiv.addClass(opts.sectionDivClass);
+        }
 
         if (!section.sentenceList) {
             return sectionDiv;
@@ -130,6 +136,9 @@ concrete.widget = (function() {
         var sentenceDiv = $('<div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
             .append(widget.createTokenizationDiv(sentence.tokenization, options));
+        if (options.sentenceDivClass) {
+            sentenceDiv.addClass(options.sentenceDivClass);
+        }
         return sentenceDiv;
     };
 
@@ -161,6 +170,9 @@ concrete.widget = (function() {
         var tokenizationDiv = $('<div>')
             .addClass('tokenization tokenization_' + tokenization.uuid.uuidString)
             .data('tokenization', tokenization);
+        if (opts.tokenizationDivClass) {
+            tokenizationDiv.addClass(opts.tokenizationDivClass);
+        }
 
         for (var i = 0; i < tokenList.length; i++) {
             var tokenText;

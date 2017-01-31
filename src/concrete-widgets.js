@@ -145,12 +145,13 @@ concrete.widget = (function() {
     /**
      * Returns a jQuery object containing the DOM structure:
      * <pre>
-     *     &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
-     *         &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *         &lt;span class="token_padding"&gt;
-     *         &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-     *         &lt;span class="token_padding"&gt;
-     *         [...]
+     *     &lt;div class="tokenization_container"&gt;
+     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
+     *             &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
+     *             &lt;span class="token_padding"&gt;
+     *             &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
+     *             &lt;span class="token_padding"&gt;
+     *             [...]
      * </pre>
      *
      * @memberof concrete.widget
@@ -166,6 +167,9 @@ concrete.widget = (function() {
         var opts = $.extend({}, widget.createTokenizationDiv.defaultOptions, options);
         var textSpansUsed = tokenizationUsesTextSpans(tokenization);
         var tokenList = tokenization.tokenList.tokenList;
+
+        var tokenizationContainerDiv = $('<div>')
+            .addClass('tokenization_container');
 
         var tokenizationDiv = $('<div>')
             .addClass('tokenization tokenization_' + tokenization.uuid.uuidString)
@@ -208,7 +212,8 @@ concrete.widget = (function() {
                 tokenizationDiv.append(tokenPaddingSpan);
             }
         }
-        return tokenizationDiv;
+        tokenizationContainerDiv.append(tokenizationDiv);
+        return tokenizationContainerDiv;
     };
 
     widget.createTokenizationDiv.defaultOptions = {

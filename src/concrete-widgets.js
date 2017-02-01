@@ -374,11 +374,12 @@ concrete.widget = (function() {
     };
 
     /**
-     * Add a callback function that will be called when the user
-     * selects DOM elements with their mouse.  If the selected
-     * elements contain token text, all callback functions registered
-     * with addTokenSelectCallback() will be called and passed a
-     * TokenRefSequence for the user-selected tokens.
+     * Enable "token select" callback functions that are registered
+     * through $.fn.getTokenSelectCallbacks().
+     *
+     * When the user selects a set of displayed tokens, all registered
+     * "token select" callback functions will be called and passed a
+     * TokenRefSequence containing the selected tokens.
      *
      * @memberOf jQuery.fn
      * @returns {jQuery_Object}

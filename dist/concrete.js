@@ -18233,6 +18233,9 @@ concrete.widget = (function() {
 
         var communicationDiv = $('<div>')
             .addClass('communication communication_' + communication.uuid.uuidString);
+        if (options && options.communicationDivClass) {
+            communicationDiv.addClass(options.communicationDivClass);
+        }
 
         if (communication.sectionList && communication.sectionList.length) {
             for (var i = 0; i < communication.sectionList.length; i++) {
@@ -18243,6 +18246,7 @@ concrete.widget = (function() {
         else {
             console.log('WARNING: CreateWidgets.createCommunicationsDiv() was passed a Communication ' +
                         'without any Sections');
+            communicationDiv.text(communication.text);
         }
 
         return communicationDiv;
@@ -18273,13 +18277,20 @@ concrete.widget = (function() {
 
         var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
+        var sectionDiv = $('<div>')
+            .addClass('section section_' + section.uuid.uuidString);
+        if (opts.sectionDivClass) {
+            sectionDiv.addClass(opts.sectionDivClass);
+        }
+
+        if (!section.sentenceList) {
+            return sectionDiv;
+        }
+
         var textSpansUsed = false;
         if (section.sentenceList.length > 0) {
             textSpansUsed = concreteObjectUsesTextSpans(section.sentenceList[0]);
         }
-
-        var sectionDiv = $('<div>')
-            .addClass('section section_' + section.uuid.uuidString);
 
         for (var i = 0; i < section.sentenceList.length; i++) {
             sectionDiv.append(
@@ -18328,18 +18339,22 @@ concrete.widget = (function() {
         var sentenceDiv = $('<div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
             .append(widget.createTokenizationDiv(sentence.tokenization, options));
+        if (options && options.sentenceDivClass) {
+            sentenceDiv.addClass(options.sentenceDivClass);
+        }
         return sentenceDiv;
     };
 
     /**
      * Returns a jQuery object containing the DOM structure:
      * <pre>
-     *     &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
-     *         &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *         &lt;span class="token_padding"&gt;
-     *         &lt;span class="token tokenization_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-     *         &lt;span class="token_padding"&gt;
-     *         [...]
+     *     &lt;div class="tokenization_container"&gt;
+     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
+     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
+     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
+     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
+     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
+     *             [...]
      * </pre>
      *
      * @memberof concrete.widget
@@ -18356,9 +18371,15 @@ concrete.widget = (function() {
         var textSpansUsed = tokenizationUsesTextSpans(tokenization);
         var tokenList = tokenization.tokenList.tokenList;
 
+        var tokenizationContainerDiv = $('<div>')
+            .addClass('tokenization_container');
+
         var tokenizationDiv = $('<div>')
             .addClass('tokenization tokenization_' + tokenization.uuid.uuidString)
             .data('tokenization', tokenization);
+        if (opts.tokenizationDivClass) {
+            tokenizationDiv.addClass(opts.tokenizationDivClass);
+        }
 
         for (var i = 0; i < tokenList.length; i++) {
             var tokenText;
@@ -18370,7 +18391,7 @@ concrete.widget = (function() {
             }
 
             var tokenSpan = $('<span>')
-                .addClass('token tokenization_' + tokenization.uuid.uuidString + '_' + i)
+                .addClass('token token_' + tokenization.uuid.uuidString + '_' + i)
                 .data('tokenization', tokenization)
                 .data('tokenIndex', i)
                 .text(tokenText);
@@ -18378,7 +18399,7 @@ concrete.widget = (function() {
 
             if (i+1 < tokenList.length) {
                 var tokenPaddingSpan = $('<span>')
-                    .addClass('token_padding');
+                    .addClass('token_padding token_padding_' + tokenization.uuid.uuidString + '_' + i);
 
                 if (textSpansUsed && !opts.whitespaceTokenization) {
                     // Add whitespace IFF there is a character-offset gap between tokens
@@ -18394,7 +18415,8 @@ concrete.widget = (function() {
                 tokenizationDiv.append(tokenPaddingSpan);
             }
         }
-        return tokenizationDiv;
+        tokenizationContainerDiv.append(tokenizationDiv);
+        return tokenizationContainerDiv;
     };
 
     widget.createTokenizationDiv.defaultOptions = {
@@ -18497,6 +18519,28 @@ concrete.widget = (function() {
 
     /**
      * @memberOf jQuery.fn
+     * @param {Communication} communication
+     * @returns {jQuery_Object}
+     */
+    $.fn.addAllEntitiesInCommunication = function(communication) {
+        // Add DOM classes for entity and entity_set UUID's to EntityMentions for the Entities
+        if (communication.entitySetList) {
+            for (var entitySetListIndex in communication.entitySetList) {
+                for (var entityListIndex in communication.entitySetList[entitySetListIndex].entityList) {
+                    var entity = communication.entitySetList[entitySetListIndex].entityList[entityListIndex];
+                    for (var i = 0; i < entity.mentionIdList.length; i++) {
+                        var entityMentionId = entity.mentionIdList[i];
+                        this.find('.entity_mention_' + entityMentionId.uuidString)
+                            .addClass('entity_' + entity.uuid.uuidString)
+                            .addClass('entity_set_' + communication.entitySetList[entitySetListIndex].uuid.uuidString);
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * @memberOf jQuery.fn
      * @param {EntityMention} entityMention
      * @returns {jQuery_Object}
      */
@@ -18562,7 +18606,7 @@ concrete.widget = (function() {
             return $();
         }
 
-        return this.find('.tokenization_' + tokenization.uuid.uuidString + '_' + tokenIndex);
+        return this.find('.token_' + tokenization.uuid.uuidString + '_' + tokenIndex);
     };
 
     /**
@@ -18588,7 +18632,7 @@ concrete.widget = (function() {
         for (var i = 0; i < tokenTagging.taggedTokenList.length; i++) {
             if (matchFunction(tokenTagging.taggedTokenList[i].tag)) {
                 tokenSelectorStrings.push(
-                    '.tokenization_' + tokenization.uuid.uuidString +
+                    '.token_' + tokenization.uuid.uuidString +
                         '_' + tokenTagging.taggedTokenList[i].tokenIndex);
             }
         }
@@ -18630,7 +18674,7 @@ concrete.widget = (function() {
         var tokenSelectorStrings = [];
         for (var i = 0; i < tokenRefSequence.tokenIndexList.length; i++) {
             tokenSelectorStrings.push(
-                '.tokenization_' + tokenRefSequence.tokenizationId.uuidString +
+                '.token_' + tokenRefSequence.tokenizationId.uuidString +
                     '_' + tokenRefSequence.tokenIndexList[i]);
         }
 

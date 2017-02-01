@@ -363,29 +363,6 @@ concrete.widget = (function() {
     };
 
     /**
-     * Add a "token select" callback function.  When the user
-     * highlights a set of displayed tokens with their mouse, all
-     * registered "token select" callback functions will be called and
-     * passed a TokenRefSequence containing the selected tokens.
-     *
-     * Callback functions registered with addTokenSelectCallback()
-     * will not be called unless the user has also called
-     * enableTokenSelectCallbacks().
-     *
-     * @memberOf jQuery.fn
-     * @param {function} callbackFunction
-     * @returns {jQuery_Object}
-     */
-    $.fn.addTokenSelectCallback = function(callbackFunction) {
-        if (!this.data('tokenSelectCallbacks')) {
-            this.data('tokenSelectCallbacks', jQuery.Callbacks());
-        }
-        var tokenSelectCallbacks = this.data('tokenSelectCallbacks');
-        tokenSelectCallbacks.add(callbackFunction);
-        return this;
-    };
-
-    /**
      * @memberOf jQuery.fn
      * @param {Communication} communication
      * @param {Object} options
@@ -407,12 +384,7 @@ concrete.widget = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.enableTokenSelectCallbacks = function() {
-        if (!this.data('tokenSelectCallbacks')) {
-            this.data('tokenSelectCallbacks', jQuery.Callbacks());
-        }
-        var tokenSelectCallbacks = this.data('tokenSelectCallbacks');
-
-        this.mouseup({tokenSelectCallbacks: tokenSelectCallbacks}, function (event) {
+        this.mouseup({tokenSelectCallbacks: this.getTokenSelectCallbacks()}, function (event) {
             var selection = window.getSelection();
             if (selection.rangeCount) {
                 // Selection objects have, at most, one Range:
@@ -554,6 +526,30 @@ concrete.widget = (function() {
         var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
 
         return tokenObjects;
+    };
+
+    /**
+     * Returns the jQuery.Callbacks object for "token select" callback
+     * functions.  If the jQuery.Callbacks object does not already exist,
+     * create it.  For details about jQuery.Callbacks, see:
+     *
+     *   http://api.jquery.com/category/callbacks-object/
+     *
+     * The "token select" callback functions will not be called unless
+     * the user has also called enableTokenSelectCallbacks().
+     *
+     * When the user selects a set of displayed tokens, all registered
+     * "token select" callback functions will be called and passed a
+     * TokenRefSequence containing the selected tokens.
+     *
+     * @memberOf jQuery.fn
+     * @returns {jQuery.Callbacks}
+     */
+    $.fn.getTokenSelectCallbacks = function() {
+        if (!this.data('tokenSelectCallbacks')) {
+            this.data('tokenSelectCallbacks', jQuery.Callbacks());
+        }
+        return this.data('tokenSelectCallbacks');
     };
 
     /**

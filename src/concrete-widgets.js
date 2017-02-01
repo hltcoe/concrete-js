@@ -415,6 +415,9 @@ concrete.widget = (function() {
                 else if (ancestorElement.hasClass('communication')) {
                     // TODO: What to do when user selections tokens from multiple sections?
                 }
+
+                // Unselect the selected elements
+                selection.removeAllRanges();
             }
         });
         return this;

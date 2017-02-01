@@ -44,6 +44,7 @@ concrete.widget = (function() {
         else {
             console.log('WARNING: CreateWidgets.createCommunicationsDiv() was passed a Communication ' +
                         'without any Sections');
+            communicationDiv.text(communication.text);
         }
 
         return communicationDiv;

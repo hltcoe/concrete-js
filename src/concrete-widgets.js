@@ -363,6 +363,29 @@ concrete.widget = (function() {
     };
 
     /**
+     * Add a "token select" callback function.  When the user
+     * highlights a set of displayed tokens with their mouse, all
+     * registered "token select" callback functions will be called and
+     * passed a TokenRefSequence containing the selected tokens.
+     *
+     * Callback functions registered with addTokenSelectCallback()
+     * will not be called unless the user has also called
+     * enableTokenSelectCallbacks().
+     *
+     * @memberOf jQuery.fn
+     * @param {function} callbackFunction
+     * @returns {jQuery_Object}
+     */
+    $.fn.addTokenSelectCallback = function(callbackFunction) {
+        if (!this.data('tokenSelectCallbacks')) {
+            this.data('tokenSelectCallbacks', jQuery.Callbacks());
+        }
+        var tokenSelectCallbacks = this.data('tokenSelectCallbacks');
+        tokenSelectCallbacks.add(callbackFunction);
+        return this;
+    };
+
+    /**
      * @memberOf jQuery.fn
      * @param {Communication} communication
      * @param {Object} options
@@ -370,6 +393,57 @@ concrete.widget = (function() {
      */
     $.fn.communicationWidget = function(communication, options) {
         this.append(concrete.widget.createCommunicationDiv(communication, options));
+        return this;
+    };
+
+    /**
+     * Add a callback function that will be called when the user
+     * selects DOM elements with their mouse.  If the selected
+     * elements contain token text, all callback functions registered
+     * with addTokenSelectCallback() will be called and passed a
+     * TokenRefSequence for the user-selected tokens.
+     *
+     * @memberOf jQuery.fn
+     * @returns {jQuery_Object}
+     */
+    $.fn.enableTokenSelectCallbacks = function() {
+        if (!this.data('tokenSelectCallbacks')) {
+            this.data('tokenSelectCallbacks', jQuery.Callbacks());
+        }
+        var tokenSelectCallbacks = this.data('tokenSelectCallbacks');
+
+        this.mouseup({tokenSelectCallbacks: tokenSelectCallbacks}, function (event) {
+            var selection = window.getSelection();
+            if (selection.rangeCount) {
+                // Selection objects have, at most, one Range:
+                //   https://developer.mozilla.org/en-US/docs/Web/API/Selection
+                var range = selection.getRangeAt(0);
+                var ancestorElement = $(range.commonAncestorContainer);
+                if (ancestorElement.hasClass('tokenization')) {
+                    var firstTokenElement = $(range.startContainer).parents('.token,.token_padding');
+                    var lastTokenElement = $(range.endContainer).parents('.token,.token_padding');
+                    var tokenElements = firstTokenElement.nextUntil(lastTokenElement).filter('.token');
+                    var tokenRefSequence = new TokenRefSequence();
+                    var tokenIndex;
+                    var tokenizationId;
+
+                    tokenIndexAndUUID = getTokenIndexAndUUID(firstTokenElement);
+                    tokenRefSequence.tokenizationId = tokenIndexAndUUID[1];
+                    tokenRefSequence.tokenIndexList = [tokenIndexAndUUID[0]];
+                    tokenElements.each(function(i, tokenElement) {
+                        tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                    });
+                    tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenElement));
+                    event.data.tokenSelectCallbacks.fire(tokenRefSequence);
+                }
+                else if (ancestorElement.hasClass('section')) {
+                    // TODO: What to do when user selects tokens from multiple sentences?
+                }
+                else if (ancestorElement.hasClass('communication')) {
+                    // TODO: What to do when user selections tokens from multiple sections?
+                }
+            }
+        });
         return this;
     };
 
@@ -514,5 +588,25 @@ concrete.widget = (function() {
         this.append(concrete.widget.createTokenizationDiv(tokenization, options));
         return this;
     };
+
+
+    function getTokenIndexAndUUID(tokenElement) {
+        var classList = tokenElement.attr('class').split(' ');
+        for (var i in classList) {
+            var fields = classList[i].split('_');
+            if (fields.length === 3 && fields[0] == 'token' && fields[1].length === 36) {
+                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
+            }
+        }
+        return [undefined, undefined];
+    }
+
+    function getTokenIndex(tokenElement) {
+        return getTokenIndexAndUUID(tokenElement)[0];
+    }
+
+    function getTokenUUID(tokenElement) {
+        return getTokenIndexAndUUID(tokenElement)[1];
+    }
 
 })(jQuery);

@@ -316,6 +316,28 @@ concrete.widget = (function() {
 
     /**
      * @memberOf jQuery.fn
+     * @param {Communication} communication
+     * @returns {jQuery_Object}
+     */
+    $.fn.addAllEntitiesInCommunication = function(communication) {
+        // Add DOM classes for entity and entity_set UUID's to EntityMentions for the Entities
+        if (communication.entitySetList) {
+            for (var entitySetListIndex in communication.entitySetList) {
+                for (var entityListIndex in communication.entitySetList[entitySetListIndex].entityList) {
+                    var entity = communication.entitySetList[entitySetListIndex].entityList[entityListIndex];
+                    for (var i = 0; i < entity.mentionIdList.length; i++) {
+                        var entityMentionId = entity.mentionIdList[i];
+                        this.find('.entity_mention_' + entityMentionId.uuidString)
+                            .addClass('entity_' + entity.uuid.uuidString)
+                            .addClass('entity_set_' + communication.entitySetList[entitySetListIndex].uuid.uuidString);
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * @memberOf jQuery.fn
      * @param {EntityMention} entityMention
      * @returns {jQuery_Object}
      */

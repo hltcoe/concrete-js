@@ -351,6 +351,7 @@ concrete.widget = (function() {
     };
 
     /**
+     * @memberof concrete.widget
      * @param {jQuery_Object} tokenElement - jQuery object for a Token element
      * @returns {TokenRefSequence}
      */

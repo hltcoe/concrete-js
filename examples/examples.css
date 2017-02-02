@@ -1,6 +1,6 @@
 body {
-  padding-top: 5em;
 }
+
 .communication .sentence {
     display: inline;
 }
@@ -13,7 +13,16 @@ body {
 .section + .section {
     padding-bottom: 1em;
 }
+
 .selected_entity {
     background-color: yellow;
     border-top: 1px solid #DDDDDD;
+}
+
+.communication_container {
+    border: 2px solid #CCCCCC;
+    padding: 1em;
+    margin-top: 1em;
+    margin-left: 3em;
+    margin-right: 3em;
 }

@@ -1,45 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>concrete-js examples</title>
-    <meta charset='UTF-8'>
+  <title>concrete-js examples</title>
+  <meta charset='UTF-8'>
 
-    <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap.css"/>
-    <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap-theme.css"/>
-    <link rel="stylesheet" href="examples.css"/>
+  <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap-theme.css"/>
+  <link rel="stylesheet" href="examples.css"/>
 
-    <script src="jquery-1.11.1.js"></script>
-    <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
+  <script src="jquery-1.11.1.js"></script>
+  <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
 
-    <script src="../dist/thrift.js"></script>
-    <script src="../dist/concrete.js"></script>
+  <script src="../dist/thrift.js"></script>
+  <script src="../dist/concrete.js"></script>
 
-    <script>
-    function toggleSelectedEntityClass(tokenRefSequenceList) {
-      for (var i in tokenRefSequenceList) {
-        $('#communication_one').getTokenRefSequenceElements(tokenRefSequenceList[i])
-                               .toggleClass('selected_entity');
-      }
+  <script>
+  function toggleSelectedEntityClass(tokenRefSequenceList) {
+    for (var i in tokenRefSequenceList) {
+      $('#communication_one').getTokenRefSequenceElements(tokenRefSequenceList[i])
+                             .toggleClass('selected_entity');
     }
+  }
 
-    $(document).ready(function() {
-      $.getJSON('dog-bites-man.concrete.json', function(data) {
-        var comm = new Communication();
-        comm.initFromTJSONProtocolObject(data);
-        var commWidget = $('#communication_one').communicationWidget(comm);
+  $(document).ready(function() {
+    $.getJSON('dog-bites-man.concrete.json', function(commJSONData) {
+      //// Token highlighting demo
+      var commOne = new Communication();
+      commOne.initFromTJSONProtocolObject(commJSONData);
+      var commWidgetOne = $('#communication_one').communicationWidget(commOne);
 
-        commWidget.getTokenSelectCallbacks().add(toggleSelectedEntityClass);
-        commWidget.getTokenClickCallbacks().add(toggleSelectedEntityClass);
+      commWidgetOne.getTokenSelectCallbacks().add(toggleSelectedEntityClass);
+      commWidgetOne.getTokenClickCallbacks().add(toggleSelectedEntityClass);
 
-        commWidget.enableTokenClickCallbacks();
-        commWidget.enableTokenSelectCallbacks();
-      });
+      commWidgetOne.enableTokenClickCallbacks();
+      commWidgetOne.enableTokenSelectCallbacks();
+
+
+      //// Token tagging demo
+      var commTwo = new Communication();
+      commTwo.initFromTJSONProtocolObject(commJSONData);
+      var commWidgetTwo = $('#communication_two').communicationWidget(commTwo);
+
+      var tokenizations = commTwo.getTokenizationsAsList();
+      for (var tokenizationIndex = 0; tokenizationIndex < tokenizations.length; tokenizationIndex++) {
+        var tokenization = tokenizations[tokenizationIndex];
+
+        var posTokenTagging = tokenization.getTokenTaggingsOfType('POS')[0];
+
+        // Add a Bootstrap tooltip with POS tag to each Token element
+        if (posTokenTagging) {
+          var allTokenElements = commWidgetTwo.getTokenElements(tokenization);
+          allTokenElements.each(function() {
+            // communicationWidget() uses jQuery's data() function to store the
+            // tokenization and tokenIndex associated with each Token element
+            var tokenization = $(this).data('tokenization');
+            var tokenIndex = $(this).data('tokenIndex');
+
+            // posTokenTagging is defined in enclosing scope
+            var tokenTagging = posTokenTagging;
+
+            var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
+
+            if (taggedToken) {
+              // By default, the tooltip is only shown when mousing over the token text.
+              //   http://getbootstrap.com/javascript/#tooltips
+              $(this).attr('data-placement', 'auto top')
+                     .attr('title', taggedToken.tag)
+                     .tooltip();
+            }
+          });
+        }
+      }
     });
-    </script>
+  });
+  </script>
 </head>
 <body>
-    <div class="container-fluid">
+  <div class="container-fluid">
+    <div>
+      <h2>Token highlighting</h2>
+      <div>
+        Click or drag-to-select tokens to toggle highlighting:
+      </div>
+      <div class="communication_container">
         <div id="communication_one"></div>
+      </div>
     </div>
+
+    <hr />
+
+    <div>
+      <h2>Token tagging</h2>
+      <div>
+        Mouse over a token to see the POS tag for that token:
+      </div>
+      <div class="communication_container">
+        <div id="communication_two"></div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

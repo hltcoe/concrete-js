@@ -351,6 +351,17 @@ concrete.widget = (function() {
     };
 
     /**
+     * @param {jQuery_Object} tokenElement - jQuery object for a Token element
+     * @returns {TokenRefSequence}
+     */
+    widget.getTokenRefSequenceForTokenElement = function(tokenElement) {
+        var tokenRefSequence = new TokenRefSequence();
+        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElement);
+        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenElement)];
+        return tokenRefSequence;
+    };
+
+    /**
      * Returns a boolean indicating if a Concrete Object (e.g. Section, Sentence, Token)
      * uses an (optional) TextSpan field.
      *
@@ -521,6 +532,24 @@ concrete.widget = (function() {
     };
 
     /**
+     * Enable "token click" callback functions that are registered
+     * through $.fn.getTokenClickCallbacks().
+     *
+     * When the user clicks on a displayed tokens, all registered
+     * "token select" callback functions will be called and passed a
+     * list of TokenRefSequences containing the selected token.
+     *
+     * @memberOf jQuery.fn
+     * @returns {jQuery_Object}
+     */
+    $.fn.enableTokenClickCallbacks = function() {
+        this.find('.token').click({tokenClickCallbacks: this.getTokenClickCallbacks()}, function(event) {
+            var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenElement($(this))];
+            event.data.tokenClickCallbacks.fire(tokenRefSequenceList);
+        });
+    };
+
+    /**
      * Enable "token select" callback functions that are registered
      * through $.fn.getTokenSelectCallbacks().
      *
@@ -655,9 +684,21 @@ concrete.widget = (function() {
     };
 
     /**
+     * Returns the jQuery.Callbacks object for "token click" callback
+     * functions.  If the jQuery.Callbacks object does not already
+     * exist, it will be created.
+     */
+    $.fn.getTokenClickCallbacks = function() {
+        if (!this.data('tokenClickCallbacks')) {
+            this.data('tokenClickCallbacks', jQuery.Callbacks());
+        }
+        return this.data('tokenClickCallbacks');
+    };
+
+    /**
      * Returns the jQuery.Callbacks object for "token select" callback
      * functions.  If the jQuery.Callbacks object does not already exist,
-     * create it.  For details about jQuery.Callbacks, see:
+     * it will be created.  For details about jQuery.Callbacks, see:
      *
      *   http://api.jquery.com/category/callbacks-object/
      *

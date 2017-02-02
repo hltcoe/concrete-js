@@ -398,10 +398,9 @@ concrete.widget = (function() {
         function getTokenRefSequenceForStartContainer(range) {
             var firstTokenFirstSentence = $(range.startContainer).parents('.token,.token_padding');
             var tokenRefSequence = new TokenRefSequence();
-            var tokenIndexAndUUID = getTokenIndexAndUUID(firstTokenFirstSentence);
 
-            tokenRefSequence.tokenizationId = tokenIndexAndUUID[1];
-            tokenRefSequence.tokenIndexList = [tokenIndexAndUUID[0]];
+            tokenRefSequence.tokenizationId = getTokenUUID(firstTokenFirstSentence);
+            tokenRefSequence.tokenIndexList = [getTokenIndex(firstTokenFirstSentence)];
             firstTokenFirstSentence.nextAll('.token').each(function(i, tokenElement) {
                 tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
             });
@@ -431,7 +430,6 @@ concrete.widget = (function() {
                 //   https://developer.mozilla.org/en-US/docs/Web/API/Selection
                 var range = selection.getRangeAt(0);
                 var ancestorElement = $(range.commonAncestorContainer);
-                var tokenIndexAndUUID;
                 var tokenRefSequenceList = [];
 
                 if (ancestorElement.hasClass('tokenization')) {
@@ -441,10 +439,9 @@ concrete.widget = (function() {
                     var lastTokenElement = $(range.endContainer).parents('.token,.token_padding');
                     var middleTokenElements = firstTokenElement.nextUntil(lastTokenElement).filter('.token');
                     var tokenRefSequence = new TokenRefSequence();
-                    tokenIndexAndUUID = getTokenIndexAndUUID(firstTokenElement);
 
-                    tokenRefSequence.tokenizationId = tokenIndexAndUUID[1];
-                    tokenRefSequence.tokenIndexList = [tokenIndexAndUUID[0]];
+                    tokenRefSequence.tokenizationId = getTokenUUID(firstTokenElement);
+                    tokenRefSequence.tokenIndexList = getTokenIndex(firstTokenElement);
                     middleTokenElements.each(function(i, tokenElement) {
                         tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
                     });

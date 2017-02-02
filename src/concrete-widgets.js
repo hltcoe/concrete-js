@@ -379,7 +379,11 @@ concrete.widget = (function() {
      *
      * When the user selects a set of displayed tokens, all registered
      * "token select" callback functions will be called and passed a
-     * list of TokenRefSequences containing the selected tokens.
+     * list of TokenRefSequences containing the selected tokens.  If
+     * all the selected tokens belong to the same tokenization, then
+     * there will only be one TokenRefSequence in the list.  But if
+     * the selected tokens include tokens from multiple sentences or
+     * sections, multiple TokenRefSequences will be returned.
      *
      * @memberOf jQuery.fn
      * @returns {jQuery_Object}

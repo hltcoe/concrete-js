@@ -593,6 +593,27 @@ concrete.widget = (function() {
     };
 
     /**
+     * Returns the jQuery.Callbacks object for "token click" callback
+     * functions.  If the jQuery.Callbacks object does not already
+     * exist, it will be created.
+     */
+    $.fn.getTokenClickCallbacks = function() {
+        if (!this.data('tokenClickCallbacks')) {
+            this.data('tokenClickCallbacks', jQuery.Callbacks());
+        }
+        return this.data('tokenClickCallbacks');
+    };
+
+    /**
+     * @memberOf jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenElements = function(tokenization) {
+        return this.getTokenizationElements(tokenization).find('.token');
+    };
+
+    /**
      * Returns a jQuery object for DOM element(s) specified by tokenization+tokenIndex
      *
      * @memberOf jQuery.fn
@@ -653,15 +674,6 @@ concrete.widget = (function() {
 
     /**
      * @memberOf jQuery.fn
-     * @param {Tokenization} tokenization
-     * @returns {jQuery_Object}
-     */
-    $.fn.getTokenElements = function(tokenization) {
-        return this.getTokenizationElements(tokenization).find('.token');
-    };
-
-    /**
-     * @memberOf jQuery.fn
      * @param {TokenRefSequence} tokenRefSequence
      * @returns {jQuery_Object}
      */
@@ -681,18 +693,6 @@ concrete.widget = (function() {
         var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
 
         return tokenObjects;
-    };
-
-    /**
-     * Returns the jQuery.Callbacks object for "token click" callback
-     * functions.  If the jQuery.Callbacks object does not already
-     * exist, it will be created.
-     */
-    $.fn.getTokenClickCallbacks = function() {
-        if (!this.data('tokenClickCallbacks')) {
-            this.data('tokenClickCallbacks', jQuery.Callbacks());
-        }
-        return this.data('tokenClickCallbacks');
     };
 
     /**

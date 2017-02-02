@@ -379,42 +379,95 @@ concrete.widget = (function() {
      *
      * When the user selects a set of displayed tokens, all registered
      * "token select" callback functions will be called and passed a
-     * TokenRefSequence containing the selected tokens.
+     * list of TokenRefSequences containing the selected tokens.
      *
      * @memberOf jQuery.fn
      * @returns {jQuery_Object}
      */
     $.fn.enableTokenSelectCallbacks = function() {
+        function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
+            var tokenRefSequence = new TokenRefSequence();
+            tokenRefSequence.tokenizationId = getTokenUUID(tokenizationElement.first('.token'));
+            tokenRefSequence.tokenIndexList = [];
+            tokenizationElement.find('.token').each(function(i, tokenElement) {
+                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            });
+            return tokenRefSequence;
+        }
+
+        function getTokenRefSequenceForStartContainer(range) {
+            var firstTokenFirstSentence = $(range.startContainer).parents('.token,.token_padding');
+            var tokenRefSequence = new TokenRefSequence();
+            var tokenIndexAndUUID = getTokenIndexAndUUID(firstTokenFirstSentence);
+
+            tokenRefSequence.tokenizationId = tokenIndexAndUUID[1];
+            tokenRefSequence.tokenIndexList = [tokenIndexAndUUID[0]];
+            firstTokenFirstSentence.nextAll('.token').each(function(i, tokenElement) {
+                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            });
+
+            return tokenRefSequence;
+        }
+
+        function getTokenRefSequenceForEndContainer(range) {
+            var lastTokenLastSentence = $(range.endContainer).parents('.token,.token_padding');
+            var tokenRefSequence = new TokenRefSequence();
+
+            tokenRefSequence.tokenizationId = getTokenUUID(lastTokenLastSentence);
+            tokenRefSequence.tokenIndexList = [];
+            lastTokenLastSentence.prevAll('.token').each(function(i, tokenElement) {
+                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            });
+            tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenLastSentence));
+
+            return tokenRefSequence;
+        }
+
         this.mouseup({tokenSelectCallbacks: this.getTokenSelectCallbacks()}, function (event) {
             var selection = window.getSelection();
             if (selection.rangeCount) {
+
                 // Selection objects have, at most, one Range:
                 //   https://developer.mozilla.org/en-US/docs/Web/API/Selection
                 var range = selection.getRangeAt(0);
                 var ancestorElement = $(range.commonAncestorContainer);
+                var tokenIndexAndUUID;
+                var tokenRefSequenceList = [];
+
                 if (ancestorElement.hasClass('tokenization')) {
+                    // The selected elements all belong to a single tokenization
+
                     var firstTokenElement = $(range.startContainer).parents('.token,.token_padding');
                     var lastTokenElement = $(range.endContainer).parents('.token,.token_padding');
-                    var tokenElements = firstTokenElement.nextUntil(lastTokenElement).filter('.token');
+                    var middleTokenElements = firstTokenElement.nextUntil(lastTokenElement).filter('.token');
                     var tokenRefSequence = new TokenRefSequence();
-                    var tokenIndex;
-                    var tokenizationId;
-
                     tokenIndexAndUUID = getTokenIndexAndUUID(firstTokenElement);
+
                     tokenRefSequence.tokenizationId = tokenIndexAndUUID[1];
                     tokenRefSequence.tokenIndexList = [tokenIndexAndUUID[0]];
-                    tokenElements.each(function(i, tokenElement) {
+                    middleTokenElements.each(function(i, tokenElement) {
                         tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
                     });
                     tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenElement));
-                    event.data.tokenSelectCallbacks.fire(tokenRefSequence);
+                    tokenRefSequenceList.push(tokenRefSequence);
                 }
                 else if (ancestorElement.hasClass('section')) {
-                    // TODO: What to do when user selects tokens from multiple sentences?
+                    // The selected elements belong to multiple tokenizations in a single section
+
+                    var firstSentenceElement = $(range.startContainer).parents('.sentence');
+                    var lastSentenceElement = $(range.endContainer).parents('.sentence');
+                    var middleSentenceElements = firstSentenceElement.nextUntil(lastSentenceElement).filter('.sentence');
+
+                    tokenRefSequenceList.push(getTokenRefSequenceForStartContainer(range));
+                    // TODO: Middle sentences
+                    tokenRefSequenceList.push(getTokenRefSequenceForEndContainer(range));
                 }
                 else if (ancestorElement.hasClass('communication')) {
-                    // TODO: What to do when user selections tokens from multiple sections?
+                    // The selected elements belong to tokenizations in multiple sections
+                    // TODO: Create tokenRefSequences for all selected tokens
                 }
+
+                event.data.tokenSelectCallbacks.fire(tokenRefSequenceList);
 
                 // Unselect the selected elements
                 selection.removeAllRanges();

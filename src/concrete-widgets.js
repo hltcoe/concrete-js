@@ -387,7 +387,7 @@ concrete.widget = (function() {
     $.fn.enableTokenSelectCallbacks = function() {
         function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
             var tokenRefSequence = new TokenRefSequence();
-            tokenRefSequence.tokenizationId = getTokenUUID(tokenizationElement.find('.token').first());
+            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
             tokenRefSequence.tokenIndexList = [];
             tokenizationElement.find('.token').each(function(i, tokenElement) {
                 tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
@@ -399,7 +399,7 @@ concrete.widget = (function() {
             var firstTokenFirstSentence = $(range.startContainer).parents('.token,.token_padding');
             var tokenRefSequence = new TokenRefSequence();
 
-            tokenRefSequence.tokenizationId = getTokenUUID(firstTokenFirstSentence);
+            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenFirstSentence);
             tokenRefSequence.tokenIndexList = [getTokenIndex(firstTokenFirstSentence)];
             firstTokenFirstSentence.nextAll('.token').each(function(i, tokenElement) {
                 tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
@@ -412,7 +412,7 @@ concrete.widget = (function() {
             var lastTokenLastSentence = $(range.endContainer).parents('.token,.token_padding');
             var tokenRefSequence = new TokenRefSequence();
 
-            tokenRefSequence.tokenizationId = getTokenUUID(lastTokenLastSentence);
+            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(lastTokenLastSentence);
             tokenRefSequence.tokenIndexList = [];
             lastTokenLastSentence.prevAll('.token').each(function(i, tokenElement) {
                 tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
@@ -440,7 +440,7 @@ concrete.widget = (function() {
                     var middleTokenElements = firstTokenElement.nextUntil(lastTokenElement).filter('.token');
                     var tokenRefSequence = new TokenRefSequence();
 
-                    tokenRefSequence.tokenizationId = getTokenUUID(firstTokenElement);
+                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenElement);
                     tokenRefSequence.tokenIndexList = getTokenIndex(firstTokenElement);
                     middleTokenElements.each(function(i, tokenElement) {
                         tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
@@ -644,7 +644,7 @@ concrete.widget = (function() {
     };
 
 
-    function getTokenIndexAndUUID(tokenElement) {
+    function getTokenIndexAndTokenizationUUID(tokenElement) {
         var classList = tokenElement.attr('class').split(' ');
         for (var i in classList) {
             var fields = classList[i].split('_');
@@ -656,11 +656,11 @@ concrete.widget = (function() {
     }
 
     function getTokenIndex(tokenElement) {
-        return getTokenIndexAndUUID(tokenElement)[0];
+        return getTokenIndexAndTokenizationUUID(tokenElement)[0];
     }
 
-    function getTokenUUID(tokenElement) {
-        return getTokenIndexAndUUID(tokenElement)[1];
+    function getTokenizationUUIDForToken(tokenElement) {
+        return getTokenIndexAndTokenizationUUID(tokenElement)[1];
     }
 
 })(jQuery);

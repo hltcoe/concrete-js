@@ -1,0 +1,19 @@
+body {
+  padding-top: 5em;
+}
+.communication .sentence {
+    display: inline;
+}
+.communication .tokenization {
+    display: inline;
+}
+.communication .tokenization_container {
+    display: inline;
+}
+.section + .section {
+    padding-bottom: 1em;
+}
+.selected_entity {
+    background-color: yellow;
+    border-top: 1px solid #DDDDDD;
+}

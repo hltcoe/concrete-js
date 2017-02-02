@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>concrete-js examples</title>
+    <meta charset='UTF-8'>
+
+    <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="examples.css"/>
+
+    <script src="jquery-1.11.1.js"></script>
+    <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
+
+    <script src="../dist/thrift.js"></script>
+    <script src="../dist/concrete.js"></script>
+
+    <script>
+    function toggleSelectedEntityClass(tokenRefSequenceList) {
+      for (var i in tokenRefSequenceList) {
+        $('#communication_one').getTokenRefSequenceElements(tokenRefSequenceList[i])
+                               .toggleClass('selected_entity');
+      }
+    }
+
+    $(document).ready(function() {
+      $.getJSON('dog-bites-man.concrete.json', function(data) {
+        var comm = new Communication();
+        comm.initFromTJSONProtocolObject(data);
+        var commWidget = $('#communication_one').communicationWidget(comm);
+
+        commWidget.getTokenSelectCallbacks().add(toggleSelectedEntityClass);
+        commWidget.getTokenClickCallbacks().add(toggleSelectedEntityClass);
+
+        commWidget.enableTokenClickCallbacks();
+        commWidget.enableTokenSelectCallbacks();
+      });
+    });
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="communication_one"></div>
+    </div>
+</body>
+</html>

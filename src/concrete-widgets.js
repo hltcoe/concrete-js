@@ -438,10 +438,10 @@ concrete.widget = (function() {
                     var firstTokenElement = $(range.startContainer).parents('.token,.token_padding');
                     var lastTokenElement = $(range.endContainer).parents('.token,.token_padding');
                     var middleTokenElements = firstTokenElement.nextUntil(lastTokenElement).filter('.token');
-                    var tokenRefSequence = new TokenRefSequence();
 
+                    var tokenRefSequence = new TokenRefSequence();
                     tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenElement);
-                    tokenRefSequence.tokenIndexList = getTokenIndex(firstTokenElement);
+                    tokenRefSequence.tokenIndexList = [getTokenIndex(firstTokenElement)];
                     middleTokenElements.each(function(i, tokenElement) {
                         tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
                     });

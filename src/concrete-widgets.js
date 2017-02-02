@@ -385,6 +385,20 @@ concrete.widget = (function() {
      * @returns {jQuery_Object}
      */
     $.fn.enableTokenSelectCallbacks = function() {
+        function getTokenRefSequenceForEndContainer(range) {
+            var lastTokenLastSentence = $(range.endContainer).parents('.token,.token_padding');
+            var tokenRefSequence = new TokenRefSequence();
+
+            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(lastTokenLastSentence);
+            tokenRefSequence.tokenIndexList = [];
+            lastTokenLastSentence.prevAll('.token').each(function(i, tokenElement) {
+                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            });
+            tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenLastSentence));
+
+            return tokenRefSequence;
+        }
+
         function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
             var tokenRefSequence = new TokenRefSequence();
             tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
@@ -404,20 +418,6 @@ concrete.widget = (function() {
             firstTokenFirstSentence.nextAll('.token').each(function(i, tokenElement) {
                 tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
             });
-
-            return tokenRefSequence;
-        }
-
-        function getTokenRefSequenceForEndContainer(range) {
-            var lastTokenLastSentence = $(range.endContainer).parents('.token,.token_padding');
-            var tokenRefSequence = new TokenRefSequence();
-
-            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(lastTokenLastSentence);
-            tokenRefSequence.tokenIndexList = [];
-            lastTokenLastSentence.prevAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
-            });
-            tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenLastSentence));
 
             return tokenRefSequence;
         }

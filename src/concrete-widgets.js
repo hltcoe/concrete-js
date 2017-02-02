@@ -465,7 +465,36 @@ concrete.widget = (function() {
                 }
                 else if (ancestorElement.hasClass('communication')) {
                     // The selected elements belong to tokenizations in multiple sections
-                    // TODO: Create tokenRefSequences for all selected tokens
+
+                    var firstSectionElement = $(range.startContainer).parents('.section');
+                    var lastSectionElement = $(range.endContainer).parents('.section');
+                    var middleSectionElements = firstSectionElement.nextUntil(lastSectionElement).filter('.section');
+
+                    tokenRefSequenceList.push(getTokenRefSequenceForStartContainer(range));
+                    var firstSectionFirstSentence = $(range.startContainer).parents('.sentence');
+                    var firstSectionSentences = firstSectionFirstSentence.nextAll('.sentence').each(
+                        function(i, sentenceElement) {
+                            tokenRefSequenceList.push(
+                                getTokenRefSequenceForEntireTokenization(
+                                    $(sentenceElement).find('.tokenization')));
+                        }
+                    );
+
+                    middleSectionElements.find('.tokenization').each(function(i, tokenizationElement) {
+                        tokenRefSequenceList.push(
+                            getTokenRefSequenceForEntireTokenization(
+                                $(tokenizationElement)));
+                    });
+
+                    var lastSectionLastSentence = $(range.endContainer).parents('.sentence');
+                    var lastSectionSentences = lastSectionLastSentence.prevAll('.sentence').each(
+                        function(i, sentenceElement) {
+                            tokenRefSequenceList.push(
+                                getTokenRefSequenceForEntireTokenization(
+                                    $(sentenceElement).find('.tokenization')));
+                        }
+                    );
+                    tokenRefSequenceList.push(getTokenRefSequenceForEndContainer(range));
                 }
 
                 event.data.tokenSelectCallbacks.fire(tokenRefSequenceList);

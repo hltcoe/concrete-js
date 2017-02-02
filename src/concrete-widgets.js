@@ -363,6 +363,29 @@ concrete.widget = (function() {
     };
 
     /**
+     * @memberof concrete.widget
+     * @param {jQuery_Object} tokenizationElement - jQuery object for a Tokenization element
+     * @param {String} selector - CSS selector string, e.g. '.selected_token'
+     * @returns {TokenRefSequence}
+     */
+    widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationElement, selector) {
+        if (!tokenizationElement.hasClass('tokenization')) {
+            console.error("getTokenRefSequenceForTokensWithClass() expected a jQuery object " +
+                          "with class 'tokenization', but object has class(es) '" +
+                          tokenizationElement.attr('class') + "'");
+            return;
+        }
+        var tokenRefSequence = new TokenRefSequence();
+        var tokenElements = tokenizationElement.find('.token');
+        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
+        tokenRefSequence.tokenIndexList = [];
+        tokenElements.filter(selector).each(function(i, tokenElement) {
+            tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+        });
+        return tokenRefSequence;
+    };
+
+    /**
      * Returns a boolean indicating if a Concrete Object (e.g. Section, Sentence, Token)
      * uses an (optional) TextSpan field.
      *
@@ -697,6 +720,15 @@ concrete.widget = (function() {
         var tokenObjects = tokenizationObject.find(tokenSelectorStrings.join(', '));
 
         return tokenObjects;
+    };
+
+    /**
+     * @memberof jQuery.fn
+     * @param {String} selector - CSS selector string, e.g. '.selected_token'
+     * @returns {TokenRefSequence}
+     */
+    $.fn.getTokenRefSequenceForTokensMatchingSelector = function(selector) {
+        return concrete.widget.getTokenRefSequenceForTokensMatchingSelector(this, selector);
     };
 
     /**

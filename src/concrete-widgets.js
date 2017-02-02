@@ -351,6 +351,41 @@ concrete.widget = (function() {
     };
 
     /**
+     * @memberof concrete.widget
+     * @param {jQuery_Object} tokenElement - jQuery object for a Token element
+     * @returns {TokenRefSequence}
+     */
+    widget.getTokenRefSequenceForTokenElement = function(tokenElement) {
+        var tokenRefSequence = new TokenRefSequence();
+        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElement);
+        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenElement)];
+        return tokenRefSequence;
+    };
+
+    /**
+     * @memberof concrete.widget
+     * @param {jQuery_Object} tokenizationElement - jQuery object for a Tokenization element
+     * @param {String} selector - CSS selector string, e.g. '.selected_token'
+     * @returns {TokenRefSequence}
+     */
+    widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationElement, selector) {
+        if (!tokenizationElement.hasClass('tokenization')) {
+            console.error("getTokenRefSequenceForTokensWithClass() expected a jQuery object " +
+                          "with class 'tokenization', but object has class(es) '" +
+                          tokenizationElement.attr('class') + "'");
+            return;
+        }
+        var tokenRefSequence = new TokenRefSequence();
+        var tokenElements = tokenizationElement.find('.token');
+        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
+        tokenRefSequence.tokenIndexList = [];
+        tokenElements.filter(selector).each(function(i, tokenElement) {
+            tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+        });
+        return tokenRefSequence;
+    };
+
+    /**
      * Returns a boolean indicating if a Concrete Object (e.g. Section, Sentence, Token)
      * uses an (optional) TextSpan field.
      *
@@ -444,12 +479,12 @@ concrete.widget = (function() {
  * @class
  * See the jQuery Library  (http://jquery.com/) for full details.  This just
  * documents the function and classes that are added to jQuery by this plug-in.
- * @memberOf jQuery
+ * @memberof jQuery
  */
 
 (function($) {
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Communication} communication
      * @returns {jQuery_Object}
      */
@@ -463,7 +498,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Communication} communication
      * @returns {jQuery_Object}
      */
@@ -485,7 +520,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {EntityMention} entityMention
      * @returns {jQuery_Object}
      */
@@ -496,7 +531,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {EntityMentionSet} entityMentionSet
      * @returns {jQuery_Object}
      */
@@ -510,7 +545,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Communication} communication
      * @param {Object} options
      * @returns {jQuery_Object}
@@ -521,6 +556,24 @@ concrete.widget = (function() {
     };
 
     /**
+     * Enable "token click" callback functions that are registered
+     * through $.fn.getTokenClickCallbacks().
+     *
+     * When the user clicks on a displayed tokens, all registered
+     * "token select" callback functions will be called and passed a
+     * list of TokenRefSequences containing the selected token.
+     *
+     * @memberof jQuery.fn
+     * @returns {jQuery_Object}
+     */
+    $.fn.enableTokenClickCallbacks = function() {
+        this.find('.token').click({tokenClickCallbacks: this.getTokenClickCallbacks()}, function(event) {
+            var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenElement($(this))];
+            event.data.tokenClickCallbacks.fire(tokenRefSequenceList);
+        });
+    };
+
+    /**
      * Enable "token select" callback functions that are registered
      * through $.fn.getTokenSelectCallbacks().
      *
@@ -528,7 +581,7 @@ concrete.widget = (function() {
      * "token select" callback functions will be called and passed a
      * list of TokenRefSequences containing the selected tokens.
      *
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @returns {jQuery_Object}
      */
     $.fn.enableTokenSelectCallbacks = function() {
@@ -546,7 +599,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {EntityMention} entityMention
      * @returns {jQuery_Object}
      */
@@ -555,7 +608,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Sentence} sentence
      * @returns {jQuery_Object}
      */
@@ -564,9 +617,33 @@ concrete.widget = (function() {
     };
 
     /**
+     * Returns the jQuery.Callbacks object for "token click" callback
+     * functions.  If the jQuery.Callbacks object does not already
+     * exist, it will be created.
+     *
+     * @memberof jQuery.fn
+     * @returns {jQuery.Callbacks}
+     */
+    $.fn.getTokenClickCallbacks = function() {
+        if (!this.data('tokenClickCallbacks')) {
+            this.data('tokenClickCallbacks', jQuery.Callbacks());
+        }
+        return this.data('tokenClickCallbacks');
+    };
+
+    /**
+     * @memberof jQuery.fn
+     * @param {Tokenization} tokenization
+     * @returns {jQuery_Object}
+     */
+    $.fn.getTokenElements = function(tokenization) {
+        return this.getTokenizationElements(tokenization).find('.token');
+    };
+
+    /**
      * Returns a jQuery object for DOM element(s) specified by tokenization+tokenIndex
      *
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
      * @returns {jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
@@ -584,7 +661,7 @@ concrete.widget = (function() {
      * selecting only those Tokens whose TokenTagging tags satisfy the specified
      * matchFunction.
      *
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Tokenization} tokenization
      * @param {TokenTagging} tokenTagging - The TokenTagging must be for the Tokenization
      *                                      specified as the first parameter.
@@ -614,7 +691,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Tokenization} tokenization
      * @returns {jQuery_Object}
      */
@@ -623,16 +700,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
-     * @param {Tokenization} tokenization
-     * @returns {jQuery_Object}
-     */
-    $.fn.getTokenElements = function(tokenization) {
-        return this.getTokenizationElements(tokenization).find('.token');
-    };
-
-    /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {TokenRefSequence} tokenRefSequence
      * @returns {jQuery_Object}
      */
@@ -655,9 +723,18 @@ concrete.widget = (function() {
     };
 
     /**
+     * @memberof jQuery.fn
+     * @param {String} selector - CSS selector string, e.g. '.selected_token'
+     * @returns {TokenRefSequence}
+     */
+    $.fn.getTokenRefSequenceForTokensMatchingSelector = function(selector) {
+        return concrete.widget.getTokenRefSequenceForTokensMatchingSelector(this, selector);
+    };
+
+    /**
      * Returns the jQuery.Callbacks object for "token select" callback
      * functions.  If the jQuery.Callbacks object does not already exist,
-     * create it.  For details about jQuery.Callbacks, see:
+     * it will be created.  For details about jQuery.Callbacks, see:
      *
      *   http://api.jquery.com/category/callbacks-object/
      *
@@ -668,7 +745,7 @@ concrete.widget = (function() {
      * select" callback functions will be called and passed a
      * list of TokenRefSequences containing the selected tokens.
      *
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @returns {jQuery.Callbacks}
      */
     $.fn.getTokenSelectCallbacks = function() {
@@ -679,7 +756,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Section} section
      * @param {Object} options
      * @returns {jQuery_Object}
@@ -690,7 +767,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Sentence} sentence
      * @param {Object} options
      * @returns {jQuery_Object}
@@ -701,7 +778,7 @@ concrete.widget = (function() {
     };
 
     /**
-     * @memberOf jQuery.fn
+     * @memberof jQuery.fn
      * @param {Tokenization} tokenization
      * @param {Object} options
      * @returns {jQuery_Object}

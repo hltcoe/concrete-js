@@ -387,7 +387,7 @@ concrete.widget = (function() {
     $.fn.enableTokenSelectCallbacks = function() {
         function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
             var tokenRefSequence = new TokenRefSequence();
-            tokenRefSequence.tokenizationId = getTokenUUID(tokenizationElement.first('.token'));
+            tokenRefSequence.tokenizationId = getTokenUUID(tokenizationElement.find('.token').first());
             tokenRefSequence.tokenIndexList = [];
             tokenizationElement.find('.token').each(function(i, tokenElement) {
                 tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
@@ -456,7 +456,11 @@ concrete.widget = (function() {
                     var middleSentenceElements = firstSentenceElement.nextUntil(lastSentenceElement).filter('.sentence');
 
                     tokenRefSequenceList.push(getTokenRefSequenceForStartContainer(range));
-                    // TODO: Middle sentences
+                    middleSentenceElements.each(function(i, middleSentenceElement) {
+                        tokenRefSequenceList.push(
+                            getTokenRefSequenceForEntireTokenization(
+                                $(middleSentenceElement).find('.tokenization')));
+                    });
                     tokenRefSequenceList.push(getTokenRefSequenceForEndContainer(range));
                 }
                 else if (ancestorElement.hasClass('communication')) {

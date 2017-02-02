@@ -662,11 +662,11 @@ concrete.widget = (function() {
      *   http://api.jquery.com/category/callbacks-object/
      *
      * The "token select" callback functions will not be called unless
-     * the user has also called enableTokenSelectCallbacks().
-     *
-     * When the user selects a set of displayed tokens, all registered
-     * "token select" callback functions will be called and passed a
-     * TokenRefSequence containing the selected tokens.
+     * the user has also called enableTokenSelectCallbacks().  Once
+     * enableTokenSelectCallbacks() has been called, when the user
+     * selects a set of displayed tokens, all registered "token
+     * select" callback functions will be called and passed a
+     * list of TokenRefSequences containing the selected tokens.
      *
      * @memberOf jQuery.fn
      * @returns {jQuery.Callbacks}

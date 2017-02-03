@@ -15,23 +15,51 @@
   <script src="../dist/concrete.js"></script>
 
   <script>
+  /**
+   * toggleSelectedEntityClass() is a callback function that is used
+   * with getTokenClickCallbacks()/enableTokenClickCallbacks() and
+   * getTokenSelectCallbacks()/enableTokenClickCallbacks().
+   *
+   * When a user clicks on a token or selects token(s), this
+   * function will be called and passed a list of
+   * TokenRefSequences containing the token(s) clicked/selected.
+   *
+   * @param {TokenRefSequence[]} tokenRefSequenceList
+   */
   function toggleSelectedEntityClass(tokenRefSequenceList) {
     for (var i in tokenRefSequenceList) {
+
       $('#communication_one').getTokenRefSequenceElements(tokenRefSequenceList[i])
                              .toggleClass('selected_entity');
     }
   }
 
+  // When the page has loaded...
   $(document).ready(function() {
+    // ...make an AJAX call to retrieve a JSON-serialized Communication...
     $.getJSON('dog-bites-man.concrete.json', function(commJSONData) {
+      // ...and call this (unnamed) callback function with the JSON data.
+
       //// Token highlighting demo
+
+      // Create an empty Concrete Communication object
       var commOne = new Communication();
+
+      // Load the JSON-serialized Communication data into the Communication object
       commOne.initFromTJSONProtocolObject(commJSONData);
+
+      // Create a "Communication Widget" that is an HTML representation of the
+      // Sections, Sentences, Tokenizations, and Tokens in the Communication.
+      // Attach this HTML representation to the <div> with ID 'communication_one'.
       var commWidgetOne = $('#communication_one').communicationWidget(commOne);
 
-      commWidgetOne.getTokenSelectCallbacks().add(toggleSelectedEntityClass);
+      // Register a callback function when the user clicks on or selects a token
+      // from this Communication Widget.
       commWidgetOne.getTokenClickCallbacks().add(toggleSelectedEntityClass);
+      commWidgetOne.getTokenSelectCallbacks().add(toggleSelectedEntityClass);
 
+      // Activate any registered callback functions for handling clicking or
+      // selecting tokens
       commWidgetOne.enableTokenClickCallbacks();
       commWidgetOne.enableTokenSelectCallbacks();
 
@@ -57,9 +85,7 @@
             var tokenIndex = $(this).data('tokenIndex');
 
             // posTokenTagging is defined in enclosing scope
-            var tokenTagging = posTokenTagging;
-
-            var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
+            var taggedToken = posTokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
 
             if (taggedToken) {
               // By default, the tooltip is only shown when mousing over the token text.
@@ -70,6 +96,29 @@
             }
           });
         }
+      }
+
+      //// Token filtering demo
+      var commThree = new Communication();
+      commThree.initFromTJSONProtocolObject(commJSONData);
+      var commWidgetThree = $('#communication_three').communicationWidget(commThree);
+
+      var tokenizations = commTwo.getTokenizationsAsList();
+      for (var tokenizationIndex = 0; tokenizationIndex < tokenizations.length; tokenizationIndex++) {
+        var tokenization = tokenizations[tokenizationIndex];
+
+        var posTokenTagging = tokenization.getTokenTaggingsOfType('POS')[0];
+
+        var matchingTokenElements = commWidgetThree.getTokenElementsWithMatchingTag(
+          tokenization,
+          posTokenTagging,
+
+          // Filter function returns a boolean if a TaggedToken.tag string "matches"
+          function(tagText) {
+            return tagText.substring(0,1) === 'N';
+          }
+        );
+        matchingTokenElements.addClass('selected_entity');
       }
     });
   });
@@ -96,6 +145,19 @@
       </div>
       <div class="communication_container">
         <div id="communication_two"></div>
+      </div>
+    </div>
+
+    <hr />
+
+    <div>
+      <h2>Token filtering</h2>
+      <div>
+        Use <code>getTokenElementsWithMatchingTag()</code> to
+        select elements with a POS tag starting with the letter 'N':
+      </div>
+      <div class="communication_container">
+        <div id="communication_three"></div>
       </div>
     </div>
   </div>

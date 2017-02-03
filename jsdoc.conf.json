@@ -1,5 +1,6 @@
 {
   "templates": {
+    "cleverLinks": true,
     "default": {
       "includeDate": false
     }

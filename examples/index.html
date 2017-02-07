@@ -36,7 +36,7 @@
 
   // When the page has loaded...
   $(document).ready(function() {
-    // ...make an AJAX call to retrieve a JSON-serialized Communication...
+    // ...make an HTTP GET request to retrieve a JSON-serialized Communication...
     $.getJSON('dog-bites-man.concrete.json', function(commJSONData) {
       // ...and call this (unnamed) callback function with the JSON data.
 
@@ -45,7 +45,7 @@
       // Create an empty Concrete Communication object
       var commOne = new Communication();
 
-      // Load the JSON-serialized Communication data into the Communication object
+      // Load JSON-serialized Communication data into Communication object
       commOne.initFromTJSONProtocolObject(commJSONData);
 
       // Create a "Communication Widget" that is an HTML representation of the
@@ -126,6 +126,24 @@
 </head>
 <body>
   <div class="container-fluid">
+
+    <div style="padding-top: 2em;">
+      <p>
+        This page contains well-documented JavaScript code examples
+        showing developers how to use <b>concrete-js</b>.
+
+        The rendered HTML here is much less interesting than the
+        source code.
+      </p>
+      <p>
+        If you want a full-featured example of what you can do
+        using <b>concrete-js</b>, please take a look at
+        <a href="https://github.com/hltcoe/quicklime">Quicklime</a>.
+      </p>
+    </div>
+
+    <hr />
+
     <div>
       <h2>Token highlighting</h2>
       <div>

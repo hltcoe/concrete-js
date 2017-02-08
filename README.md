@@ -7,9 +7,9 @@ types defined by a [Thrift](https://thrift.apache.org) schema.  Thrift
 makes it easy to use a shared set of data structures across multiple
 programming languages.
 
-**concrete-js** is designed to be used for visualization and
-annotation.  While it is *technically* possible to implement NLP
-algorithms in JavaScript, you should instead use
+**concrete-js** is designed for visualization and annotation.  While
+it is *technically* possible to implement NLP algorithms in
+JavaScript, you should instead use
 [concrete-python](https://github.com/hltcoe/concrete-python) or
 [concrete-java](https://github.com/hltcoe/concrete-java).
 
@@ -51,15 +51,14 @@ Fetching Communications with JavaScript
 ---------------------------------------
 
 There are two primary ways to load Concrete Communications into
-JavaScript - Thrift RPC (Remote Procedure Calls) or using HTTP GET
-requests to retrieve JSON serialized Communications.  The Thrift
-version of JavaScript only supports the *TJSONProtocol* serialization
-protocol.
+JavaScript - Thrift RPC (Remote Procedure Calls) and HTTP GET requests
+for JSON serialized Communications.  The JavaScript version of Thrift
+only supports the *TJSONProtocol* serialization protocol.
 
 The `Communication` class in **concrete-js** has been extended with
 some helper functions for working with TJSONProtocol.  Here is an
-example of how to retrieve a JSON-serialized Communication using
-jQuery to make an HTTP GET request:
+example of how to retrieve a JSON-serialized Communication with a GET
+request using jQuery:
 
 ```javascript
   // When the page has loaded...

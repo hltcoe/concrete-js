@@ -1,6 +1,6 @@
 describe("TokenTagging unit tests", function() {
   beforeEach(function() {
-    jasmine.getJSONFixtures().fixturesPath='base/test/mock';
+    jasmine.getJSONFixtures().fixturesPath='base/test/fixtures';
     var comm = new Communication();
     var commJSONData = getJSONFixture('dog-bites-man.concrete.json');
     comm.initFromTJSONProtocolObject(commJSONData);

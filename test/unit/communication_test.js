@@ -1,6 +1,6 @@
 describe("Communication unit tests", function() {
   beforeEach(function() {
-    jasmine.getJSONFixtures().fixturesPath='base/test/mock';
+    jasmine.getJSONFixtures().fixturesPath='base/test/fixtures';
   });
 
   it("communication.initFromTJSONProtocolObject()", function() {

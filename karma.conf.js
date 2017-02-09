@@ -21,7 +21,7 @@ module.exports = function(config) {
       'test/vendor/*.js',
 
       // Fixtures
-      {pattern: 'test/mock/*.json', watched: true, served: true, included: false}
+      {pattern: 'test/fixtures/*.json', watched: true, served: true, included: false}
     ],
 
 

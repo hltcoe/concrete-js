@@ -4,6 +4,17 @@
  */
 
 /**
+ * Add a TokenTagging to this Tokenization
+ * @param {TokenTagging} tokenTagging
+ */
+Tokenization.prototype.addTokenTagging = function(tokenTagging) {
+  if (!this.tokenTaggingList) {
+    this.tokenTaggingList = [];
+  }
+  this.tokenTaggingList.push(tokenTagging);
+};
+
+/**
  * Get all TokenTaggings with the specified taggingType
  * @param {String} taggingType - A string specifying a TokenTagging.taggingType
  * @returns {Array} A (possibly empty) array of TokenTagging objects

@@ -17,10 +17,12 @@ module.exports = function(config) {
     files: [
       'dist/thrift.js',
       'dist/concrete.js',
+      'test/integration/*.js',
       'test/unit/*.js',
       'test/vendor/*.js',
 
       // Fixtures
+      {pattern: 'test/fixtures/*.html', watched: true, served: true, included: false},
       {pattern: 'test/fixtures/*.json', watched: true, served: true, included: false}
     ],
 

@@ -66,7 +66,7 @@ describe("TokenTagging unit tests", function() {
 
     var zThrow = function() {
       tokenTagging.bioSetTaggedTokenTag('Z', 'FOO', 4);
-    }
+    };
     expect(zThrow).toThrowError(TypeError);
   });
 
@@ -75,7 +75,7 @@ describe("TokenTagging unit tests", function() {
 
     var iThrow = function() {
       tokenTagging.bioSetTaggedTokenTag('I', 'FOO', 3);
-    }
+    };
     expect(iThrow).toThrowError(TypeError);
   });
 

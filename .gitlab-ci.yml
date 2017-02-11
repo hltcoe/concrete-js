@@ -13,3 +13,5 @@ test_app:
     - npm install
     - grunt jshint
     - karma start karma.conf.js
+  tags:
+  - docker

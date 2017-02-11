@@ -7,6 +7,12 @@ describe("TokenTagging unit tests", function() {
     this.tokenization = comm.getFirstTokenization();
   });
 
+  it("TokenTagging.create() - initializing fields", function() {
+    var tokenTagging = TokenTagging.create({taggingType: 'fooType'}, {tool: 'fooTool'});
+    expect(tokenTagging.taggingType).toEqual('fooType');
+    expect(tokenTagging.metadata.tool).toEqual('fooTool');
+  });
+
   it("tokenTagging.bioGetTagSeparator() default value", function() {
     var tokenTagging = TokenTagging.create();
     expect(tokenTagging.bioGetTagSeparator()).toEqual('-');

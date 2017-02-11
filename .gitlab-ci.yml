@@ -1,0 +1,15 @@
+image: node:7.5
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - test
+
+test_app:
+  stage: test
+  script:
+    - npm install
+    - grunt jshint
+    - karma start karma.conf.js

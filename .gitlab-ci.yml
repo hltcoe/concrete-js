@@ -16,7 +16,7 @@ test_app:
     - 'git config --global url."https://github.com/".insteadOf git@github.com:'
     - 'git config --global url."https://".insteadOf git://'
     - npm install
-    - grunt jshint
+    - node_modules/grunt/bin/grunt jshint
     - karma start karma.conf.js
   tags:
   - docker

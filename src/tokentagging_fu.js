@@ -8,9 +8,8 @@
  * Create a valid TokenTagging with required fields AnnotationMetadata and UUID
  *
  * Example usage:
- * <pre>
- *   tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
- * </pre>
+ *
+ *     tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
  *
  * @param {Object} options - Override default TokenTagging fields (except metadata)
  * @param {Object} metadataOptions - Override default tokenTagging.metadata fields

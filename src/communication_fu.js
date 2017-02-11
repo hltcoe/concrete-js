@@ -38,6 +38,7 @@ Communication.prototype.addInternalReferences = function() {
 
 /**
  * Return the Entity (or null) that has an EntityMention with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {Entity|null}
  */
@@ -68,6 +69,7 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 
 /**
  * Return the EntityMentionSet in the Communication with the specified toolname
+ *
  * @param {String} toolname
  * @returns {EntityMentionSet|null}
  */
@@ -85,6 +87,7 @@ Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
 
 /**
  * Return the EntityMention (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {EntityMention|null}
  */
@@ -114,6 +117,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
 
 /**
  * Return the first Sentence in a Communication if it exists, or null
+ *
  * @returns {Sentence|null}
  */
 Communication.prototype.getFirstSentence = function() {
@@ -131,6 +135,7 @@ Communication.prototype.getFirstSentence = function() {
 
 /**
  * Return the first Tokenization in a Communication if it exists, or null
+ *
  * @returns {Tokenization|null}
  */
 Communication.prototype.getFirstTokenization = function() {
@@ -146,6 +151,7 @@ Communication.prototype.getFirstTokenization = function() {
 
 /**
  * Return the Sentence (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {Sentence|null}
  */
@@ -176,6 +182,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
 
 /**
  * Return the SituationMention (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {SituationMention|null}
  */
@@ -204,6 +211,7 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 
 /**
  * Return all Sections in a Communication as a (flat) list
+ *
  * @returns {List}
  */
 Communication.prototype.getSectionsAsList = function() {
@@ -221,6 +229,7 @@ Communication.prototype.getSectionsAsList = function() {
 
 /**
  * Return all Sentences in a Communication as a (flat) list
+ *
  * @returns {List}
  */
 Communication.prototype.getSentencesAsList = function() {
@@ -242,6 +251,7 @@ Communication.prototype.getSentencesAsList = function() {
 
 /**
  * Return all Tokenizations in a Communication as a (flat) list
+ *
  * @returns {List}
  */
 Communication.prototype.getTokenizationsAsList = function() {
@@ -264,6 +274,7 @@ Communication.prototype.getTokenizationsAsList = function() {
 
 /**
  * Return the Tokenization (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {Tokenization|null}
  */
@@ -294,6 +305,7 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
 
 /**
  * Get list of token text strings for the EntityMention specified by the UUID
+ *
  * @param {UUID} mentionId
  * @returns {Array} An array of token text strings
  */
@@ -315,12 +327,13 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
  *
  * Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
  * something like this:
- *    {
- *     "1":{"str":"tests/testdata/serif_dog-bites-man.xml"},
- *     "2":{"rec":{"1":{"str":"a90d397a-560f-44a0-baae-c82a34e4be09"}}},
- *     "3":{"str":"CommunicationType.OTHER"},
- *     ...
- *    }
+ *
+ *     {
+ *       "1":{"str":"tests/testdata/serif_dog-bites-man.xml"},
+ *       "2":{"rec":{"1":{"str":"a90d397a-560f-44a0-baae-c82a34e4be09"}}},
+ *       "3":{"str":"CommunicationType.OTHER"},
+ *       ...
+ *     }
  *
  * @param {Object} commJSONObject - An object created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
@@ -337,6 +350,7 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
 
 /**
  * Initialize Communication from a TJSONProtocol string created from a Communication
+ *
  * @param {String} commJSONString - A JSON string created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
@@ -362,6 +376,7 @@ Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
 
 /**
  * Returns JSON object for Communication serialized using TJSONProtocol
+ *
  * @returns {Object}
  */
 Communication.prototype.toTJSONProtocolObject = function() {
@@ -371,6 +386,7 @@ Communication.prototype.toTJSONProtocolObject = function() {
 
 /**
  * Returns JSON string for Communication serialized using TJSONProtocol
+ *
  * @returns {String}
  */
 Communication.prototype.toTJSONProtocolString = function() {

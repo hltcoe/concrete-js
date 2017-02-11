@@ -16,13 +16,12 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="communication communication_[COMMUNICATION_UUID]"&gt;
-     *         &lt;div class="section section_[SECTION_UUID]"&gt;
+     *
+     *     <div class="communication communication_[COMMUNICATION_UUID]">
+     *         <div class="section section_[SECTION_UUID]">
      *             [...]
-     *         &lt;div class="section section_[SECTION_UUID]"&gt;
+     *         <div class="section section_[SECTION_UUID]">
      *             [...]
-     * </pre>
      *
      * {@link concrete.widget.createCommunicationDiv} calls
      * {@link concrete.widget.createSectionDiv} to create the
@@ -62,14 +61,14 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="section section_[SECTION_UUID]"&gt;
-     *         &lt;div class="sentence sentence_[SENTENCE_UUID]"&gt;
+     *
+     *     <div class="section section_[SECTION_UUID]">
+     *         <div class="sentence sentence_[SENTENCE_UUID]">
      *             [...]
-     *         &lt;span class="sentence_padding"&gt; &lt;/span&gt;
-     *         &lt;div class="sentence sentence_[SENTENCE_UUID]"&gt;
+     *         <span class="sentence_padding"> </span>
+     *         <div class="sentence sentence_[SENTENCE_UUID]">
      *             [...]
-     * </pre>
+     *
      * {@link concrete.widget.createSectionDiv} calls
      * {@link concrete.widget.createSentenceDiv}
      * to create the DOM structure for the Sentence.
@@ -129,11 +128,11 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="sentence sentence_[SENTENCE_UUID]"&gt;
-     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
+     *
+     *     <div class="sentence sentence_[SENTENCE_UUID]">
+     *         <div class="tokenization tokenization_[TOKENIZATION_UUID]">
      *             [...]
-     * </pre>
+     *
      * {@link concrete.widget.createSentenceDiv} calls
      * {@link concrete.widget.createTokenizationDiv}
      * to create the DOM structure for the Sentence's Tokenization.
@@ -161,15 +160,14 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="tokenization_container"&gt;
-     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
-     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
+     *
+     *     <div class="tokenization_container">
+     *         <div class="tokenization tokenization_[TOKENIZATION_UUID]">
+     *             <span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]">
+     *             <span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]">
+     *             <span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
+     *             <span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
      *             [...]
-     * </pre>
      *
      * @function concrete.widget.createTokenizationDiv
      * @memberof concrete.widget

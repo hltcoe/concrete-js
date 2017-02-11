@@ -57,6 +57,7 @@ module.exports = function(grunt) {
           access: 'all',
           configure: 'jsdoc.conf.json',
           destination: 'docs',
+          template: 'node_modules/docdash',
         },
       },
     },

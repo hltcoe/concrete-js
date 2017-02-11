@@ -22,18 +22,26 @@ describe("CommunicationWidget", function() {
     expect($('#communication')).toContainElement('.token_padding');
   });
 
-  it("concrete.widget.createCommunicationDiv() creates Communication DOM structure", function() {
+  it("$.fn.communicationWidget() creates Communication DOM structure", function() {
     loadFixtures('mostly-empty.html');
-    expect($('#communication')).toExist();
-
-    expect($.fn.communicationWidget).toBeTruthy();
 
     $('#communication').communicationWidget(this.comm);
-
     expect($('#communication')).toContainElement('.section');
     expect($('#communication')).toContainElement('.sentence');
     expect($('#communication')).toContainElement('.tokenization');
     expect($('#communication')).toContainElement('.token');
     expect($('#communication')).toContainElement('.token_padding');
+  });
+
+  it("$.fn.tokenizationWidget() attaches tokenization as jQuery data", function() {
+    loadFixtures('mostly-empty.html');
+    $('#tokenization').tokenizationWidget(this.tokenization);
+
+    // Attaches Tokenization object to DOM element for Tokenization
+    expect($('#tokenization').find('.tokenization').data('tokenization')).toEqual(this.tokenization);
+
+    // Attaches Tokenization object to DOM element for Token
+    var firstToken = $('#tokenization').find('.token').first();
+    expect(firstToken.data('tokenization')).toEqual(this.tokenization);
   });
 });

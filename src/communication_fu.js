@@ -203,6 +203,44 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 
 
 /**
+ * Return all Sections in a Communication as a (flat) list
+ * @returns {List}
+ */
+Communication.prototype.getSectionsAsList = function() {
+  var sections = [];
+
+  if (this.sectionList && this.sectionList.length) {
+    for (var i = 0; i < this.sectionList.length; i++) {
+      sections.push(this.sectionList[i]);
+    }
+  }
+
+  return sections;
+};
+
+
+/**
+ * Return all Sentences in a Communication as a (flat) list
+ * @returns {List}
+ */
+Communication.prototype.getSentencesAsList = function() {
+  var sentences = [];
+
+  if (this.sectionList && this.sectionList.length) {
+    for (var i = 0; i < this.sectionList.length; i++) {
+      if (this.sectionList[i].sentenceList && this.sectionList[i].sentenceList.length) {
+        for (var j = 0; j < this.sectionList[i].sentenceList.length; j++) {
+          sentences.push(this.sectionList[i].sentenceList[j]);
+        }
+      }
+    }
+  }
+
+  return sentences;
+};
+
+
+/**
  * Return all Tokenizations in a Communication as a (flat) list
  * @returns {List}
  */

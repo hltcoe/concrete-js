@@ -10,8 +10,11 @@ stages:
 test_app:
   stage: test
   script:
-    - git config --global url."https://github.com/".insteadOf git@github.com:
-    - git config --global url."https://".insteadOf git://
+    # Force git to use https to work around JHU firewall settings,
+    # as recommended here:
+    #   https://github.com/npm/npm/issues/5257
+    - 'git config --global url."https://github.com/".insteadOf git@github.com:'
+    - 'git config --global url."https://".insteadOf git://'
     - npm install
     - grunt jshint
     - karma start karma.conf.js

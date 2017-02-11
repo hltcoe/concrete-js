@@ -18059,6 +18059,44 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 
 
 /**
+ * Return all Sections in a Communication as a (flat) list
+ * @returns {List}
+ */
+Communication.prototype.getSectionsAsList = function() {
+  var sections = [];
+
+  if (this.sectionList && this.sectionList.length) {
+    for (var i = 0; i < this.sectionList.length; i++) {
+      sections.push(this.sectionList[i]);
+    }
+  }
+
+  return sections;
+};
+
+
+/**
+ * Return all Sentences in a Communication as a (flat) list
+ * @returns {List}
+ */
+Communication.prototype.getSentencesAsList = function() {
+  var sentences = [];
+
+  if (this.sectionList && this.sectionList.length) {
+    for (var i = 0; i < this.sectionList.length; i++) {
+      if (this.sectionList[i].sentenceList && this.sectionList[i].sentenceList.length) {
+        for (var j = 0; j < this.sectionList[i].sentenceList.length; j++) {
+          sentences.push(this.sectionList[i].sentenceList[j]);
+        }
+      }
+    }
+  }
+
+  return sentences;
+};
+
+
+/**
  * Return all Tokenizations in a Communication as a (flat) list
  * @returns {List}
  */
@@ -18201,6 +18239,11 @@ Communication.prototype.toTJSONProtocolString = function() {
   return protocol.tstack[0];
 };
 ;/**
+ * @external jQuery_Object
+ * @see https://learn.jquery.com/using-jquery-core/jquery-object/
+ */
+
+/**
  * @namespace concrete
  */
 var concrete = concrete || {};
@@ -18229,7 +18272,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Communication} communication
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createCommunicationDiv = function(communication, options) {
         if (!communication) {
@@ -18275,7 +18318,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Section} section
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createSectionDiv = function(section, options) {
         if (!section) {
@@ -18285,7 +18328,8 @@ concrete.widget = (function() {
         var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
         var sectionDiv = $('<div>')
-            .addClass('section section_' + section.uuid.uuidString);
+            .addClass('section section_' + section.uuid.uuidString)
+            .data('section', section);
         if (opts.sectionDivClass) {
             sectionDiv.addClass(opts.sectionDivClass);
         }
@@ -18338,7 +18382,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Sentence} sentence
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createSentenceDiv = function(sentence, options) {
         if (!sentence) {
@@ -18347,7 +18391,8 @@ concrete.widget = (function() {
 
         var sentenceDiv = $('<div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
-            .append(widget.createTokenizationDiv(sentence.tokenization, options));
+            .append(widget.createTokenizationDiv(sentence.tokenization, options))
+            .data('sentence', sentence);
         if (options && options.sentenceDivClass) {
             sentenceDiv.addClass(options.sentenceDivClass);
         }
@@ -18370,7 +18415,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Tokenization} tokenization
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createTokenizationDiv = function(tokenization, options) {
         if (!tokenization) {
@@ -18589,34 +18634,34 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function concrete.widget.getTokenRefSequenceForTokenElement
+     * @function concrete.widget.getTokenRefSequenceForTokenObject
      * @memberof concrete.widget
-     * @param {jQuery_Object} tokenElement - jQuery object for a Token element
+     * @param {external:jQuery_Object} tokenObject - jQuery object for a Token element
      * @returns {TokenRefSequence}
      */
-    widget.getTokenRefSequenceForTokenElement = function(tokenElement) {
+    widget.getTokenRefSequenceForTokenObject = function(tokenObject) {
         var tokenRefSequence = new TokenRefSequence();
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElement);
-        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenElement)];
+        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenObject);
+        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenObject)];
         return tokenRefSequence;
     };
 
     /**
      * @function concrete.widget.getTokenRefSequenceForTokensMatchingSelector
      * @memberof concrete.widget
-     * @param {jQuery_Object} tokenizationElement - jQuery object for a Tokenization element
+     * @param {external:jQuery_Object} tokenizationObject - jQuery object for a Tokenization element
      * @param {String} selector - CSS selector string, e.g. '.selected_token'
      * @returns {TokenRefSequence}
      */
-    widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationElement, selector) {
-        if (!tokenizationElement.hasClass('tokenization')) {
+    widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationObject, selector) {
+        if (!tokenizationObject.hasClass('tokenization')) {
             console.error("getTokenRefSequenceForTokensWithClass() expected a jQuery object " +
                           "with class 'tokenization', but object has class(es) '" +
-                          tokenizationElement.attr('class') + "'");
+                          tokenizationObject.attr('class') + "'");
             return;
         }
         var tokenRefSequence = new TokenRefSequence();
-        var tokenElements = tokenizationElement.find('.token');
+        var tokenElements = tokenizationObject.find('.token');
         tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
         tokenRefSequence.tokenIndexList = [];
         tokenElements.filter(selector).each(function(i, tokenElement) {
@@ -18715,7 +18760,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addAllEntityMentionsInCommunication
      * @param {Communication} communication
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addAllEntityMentionsInCommunication = function(communication) {
         if (communication && communication.entityMentionSetList && communication.entityMentionSetList.length > 0) {
@@ -18729,7 +18774,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addAllEntitiesInCommunication
      * @param {Communication} communication
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addAllEntitiesInCommunication = function(communication) {
         // Add DOM classes for entity and entity_set UUID's to EntityMentions for the Entities
@@ -18751,7 +18796,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addEntityMention
      * @param {EntityMention} entityMention
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addEntityMention = function(entityMention) {
         this.getEntityMentionElements(entityMention)
@@ -18762,7 +18807,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addEntityMentionSet
      * @param {EntityMentionSet} entityMentionSet
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addEntityMentionSet = function(entityMentionSet) {
         if (entityMentionSet && entityMentionSet.mentionList && entityMentionSet.mentionList.length > 0) {
@@ -18777,7 +18822,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".communicationWidget
      * @param {Communication} communication
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.communicationWidget = function(communication, options) {
         this.append(concrete.widget.createCommunicationDiv(communication, options));
@@ -18793,11 +18838,11 @@ concrete.widget = (function() {
      * list of TokenRefSequences containing the selected token.
      *
      * @function external:"jQuery.fn".enableTokenClickCallbacks
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.enableTokenClickCallbacks = function() {
         this.find('.token').click({tokenClickCallbacks: this.getTokenClickCallbacks()}, function(event) {
-            var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenElement($(this))];
+            var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenObject($(this))];
             event.data.tokenClickCallbacks.fire(tokenRefSequenceList);
         });
     };
@@ -18811,7 +18856,7 @@ concrete.widget = (function() {
      * list of TokenRefSequences containing the selected tokens.
      *
      * @function external:"jQuery.fn".enableTokenSelectCallbacks
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.enableTokenSelectCallbacks = function() {
         this.mouseup({tokenSelectCallbacks: this.getTokenSelectCallbacks()}, function (event) {
@@ -18830,7 +18875,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getEntityMentionElements
      * @param {EntityMention} entityMention
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getEntityMentionElements = function(entityMention) {
         return this.getTokenRefSequenceElements(entityMention.tokens);
@@ -18839,7 +18884,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getSentenceElements
      * @param {Sentence} sentence
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getSentenceElements = function(sentence) {
         return this.find('.sentence.sentence_' + sentence.uuid.uuidString);
@@ -18863,7 +18908,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getTokenElements
      * @param {Tokenization} tokenization
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getTokenElements = function(tokenization) {
         return this.getTokenizationElements(tokenization).find('.token');
@@ -18875,7 +18920,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".getTokenElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
-     * @returns {jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
+     * @returns {external:jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
      */
     $.fn.getTokenElementsWithIndex = function(tokenization, tokenIndex) {
         if (!tokenization) {
@@ -18897,7 +18942,7 @@ concrete.widget = (function() {
      * @param {Function} matchFunction - Function that takes as input a TaggedToken.tag string,
      *                                   and returns true or false based on whether or not the
      *                                   string "matches".
-     * @returns {jQuery_Object} - jQuery Object for DOM elements for "matching" Tokens
+     * @returns {external:jQuery_Object} - jQuery Object for DOM elements for "matching" Tokens
      */
     $.fn.getTokenElementsWithMatchingTag = function(tokenization, tokenTagging, matchFunction) {
         if (!tokenization || !tokenTagging || !tokenTagging.taggedTokenList || !matchFunction) {
@@ -18922,7 +18967,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getTokenizationElements
      * @param {Tokenization} tokenization
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getTokenizationElements = function(tokenization) {
         return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
@@ -18931,7 +18976,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getTokenRefSequenceElements
      * @param {TokenRefSequence} tokenRefSequence
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getTokenRefSequenceElements = function(tokenRefSequence) {
         if (!tokenRefSequence && !tokenRefSequence.tokenizationId) {
@@ -18988,7 +19033,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".sectionWidget
      * @param {Section} section
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.sectionWidget = function(section, options) {
         this.append(concrete.widget.createSectionDiv(section, options));
@@ -18999,7 +19044,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".sentenceWidget
      * @param {Sentence} sentence
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.sentenceWidget = function(sentence, options) {
         this.append(concrete.widget.createSentenceDiv(sentence, options));
@@ -19010,7 +19055,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".tokenizationWidget
      * @param {Tokenization} tokenization
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.tokenizationWidget = function(tokenization, options) {
         this.append(concrete.widget.createTokenizationDiv(tokenization, options));
@@ -19018,62 +19063,30 @@ concrete.widget = (function() {
     };
 
 })(jQuery);
-;/**
- * Generate a Concrete UUID
- * @returns {UUID}
- */
-var generateUUID = function() {
-  var uuid = new UUID();
-  uuid.uuidString = generateUUIDString();
-  return uuid;
+;var generateUUID = function() {
+  console.warn("DEPRECATION WARNING: Use concrete.util.generateUUID() instead of generateUUID()");
+  return concrete.util.generateUUID();
 };
 
-/**
- * Generate a UUID string
- *  Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
- *    https://github.com/LiosK/UUID.js
- * @returns {String}
- */
 var generateUUIDString = function() {
-  /**
-   * Returns an unsigned x-bit random integer.
-   * @param {int} x A positive integer ranging from 0 to 53, inclusive.
-   * @returns {int} An unsigned x-bit random integer (0 <= f(x) < 2^x).
-   */
-  function rand(x) {  // _getRandomInt
-    if (x <   0) return NaN;
-    if (x <= 30) return (0 | Math.random() * (1 <<      x));
-    if (x <= 53) return (0 | Math.random() * (1 <<     30)) +
-      (0 | Math.random() * (1 << x - 30)) * (1 << 30);
-    return NaN;
-  }
-
-  /**
-   * Converts an integer to a zero-filled hexadecimal string.
-   * @param {int} num
-   * @param {int} length
-   * @returns {string}
-   */
-  function hex(num, length) { // _hexAligner
-    var str = num.toString(16), i = length - str.length, z = "0";
-    for (; i > 0; i >>>= 1, z += z) { if (i & 1) { str = z + str; } }
-    return str;
-  }
-
-  return  hex(rand(32), 8) +    // time_low
-    "-" +
-    hex(rand(16), 4) +          // time_mid
-    "-" +
-    hex(0x4000 | rand(12), 4) + // time_hi_and_version
-    "-" +
-    hex(0x8000 | rand(14), 4) + // clock_seq_hi_and_reserved clock_seq_low
-    "-" +
-    hex(rand(48), 12);        // node
+  console.warn("DEPRECATION WARNING: Use concrete.util.generateUUIDString() instead of generateUUIDString()");
+  return concrete.util.generateUUIDString();
 };
 ;/**
  * @class Tokenization
  * @classdesc concrete.js extensions to the Tokenization class
  */
+
+/**
+ * Add a TokenTagging to this Tokenization
+ * @param {TokenTagging} tokenTagging
+ */
+Tokenization.prototype.addTokenTagging = function(tokenTagging) {
+  if (!this.tokenTaggingList) {
+    this.tokenTaggingList = [];
+  }
+  this.tokenTaggingList.push(tokenTagging);
+};
 
 /**
  * Get all TokenTaggings with the specified taggingType
@@ -19096,7 +19109,174 @@ Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
  * @classdesc concrete.js extensions to the TokenTagging class
  */
 
-/** Return the TaggedToken (or null) with the specified tokenIndex
+
+/**
+ * Create a valid TokenTagging with required fields AnnotationMetadata and UUID
+ *
+ * Example usage:
+ * <pre>
+ *   tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
+ * </pre>
+ *
+ * @param {Object} options - Override default TokenTagging fields (except metadata)
+ * @param {Object} metadataOptions - Override default tokenTagging.metadata fields
+ */
+TokenTagging.create = function(options, metadataOptions) {
+  var tokenTagging = new TokenTagging();
+  tokenTagging.metadata = new AnnotationMetadata();
+  tokenTagging.metadata.timestamp = Math.floor(Date.now()/1000);
+  tokenTagging.metadata.tool = 'concrete.js - TokenTagging.create()';
+  tokenTagging.taggedTokenList = [];
+  tokenTagging.taggingType = '';
+  tokenTagging.uuid = concrete.util.generateUUID();
+
+  tokenTagging = $.extend({}, tokenTagging, options);
+  tokenTagging.metadata = $.extend({}, tokenTagging.metadata, metadataOptions);
+  return tokenTagging;
+};
+
+/**
+ * Get BIO value for TaggedToken at tokenIndex
+ *
+ * @param {Integer] tokenIndex
+ * @returns {String|null} - 'B', 'I', 'O' or null
+ */
+TokenTagging.prototype.bioGetBIOValue = function(tokenIndex) {
+  var taggedToken = this.getTaggedTokenWithTokenIndex(tokenIndex);
+  if (taggedToken && taggedToken.tag) {
+    var firstChar = taggedToken.tag.charAt(0);
+    if (firstChar === 'B' || firstChar === 'I' || firstChar === 'O' ) {
+      return firstChar;
+    }
+  }
+  return null;
+};
+
+/**
+ * Get tag value (stripped of BIO tag and separator) for TaggedToken at tokenIndex
+ *
+ * @param {Integer] tokenIndex
+ * @returns {String|null} - 'B', 'I', 'O' or null
+ *
+ */
+TokenTagging.prototype.bioGetTagValue = function(tokenIndex) {
+  var taggedToken = this.getTaggedTokenWithTokenIndex(tokenIndex);
+  if (taggedToken && taggedToken.tag) {
+    return taggedToken.tag.substring(2);
+  }
+  return null;
+};
+
+/**
+ * Returns separator character for BIO TokenTaggings.
+ *
+ * If the separator character had not been set before this function was called,
+ * the separator character will be set to '-'.
+ *
+ * @returns {String} - Separator character for BIO TokenTaggings
+ */
+TokenTagging.prototype.bioGetTagSeparator = function() {
+  if (this.bioTagSeparator === undefined) {
+    this.bioTagSeparator = '-';
+  }
+  return this.bioTagSeparator;
+};
+
+/**
+ * Returns token index of 'B' tag for the (possibly multi-token) 'BI'
+ * tagging at the specified tokenIndex.
+ *
+ * If the tag at tokenIndex is a 'B' tag, return tokenIndex.  If the
+ * tag at tokenIndex is an 'I' tag, find the index of the 'B' tag for
+ * this 'I' tag.
+ *
+ * @param {Number} tokenIndex -
+ * @returns {Number} - Token index of "B" tag
+ * @throws {TypeError} Thrown if the tag at TokenIndex is not a 'B' or
+ *                     'I' tag.  Also thrown if the tag at TokenIndex
+ *                     is a valid 'I' tag, but not part of a valid 'BI*'
+ *                     multi-token tagging.
+ */
+TokenTagging.prototype.bioGetTokenIndexForB = function(tokenIndex) {
+  if (this.bioGetBIOValue(tokenIndex) !== 'B' && this.bioGetBIOValue(tokenIndex) !== 'I') {
+    throw new TypeError("TokenTagging.getBIOTokenIndexForB expected a 'B' or 'I' tag at tokenIndex " + tokenIndex);
+  }
+
+  var bTokenIndex = tokenIndex;
+  while (this.bioGetBIOValue(bTokenIndex) === 'I') {
+    bTokenIndex -= 1;
+  }
+  if (this.bioGetBIOValue(bTokenIndex) !== 'B') {
+    throw new TypeError("TokenTagging.getBIOTokenIndex expected a 'B' tag at tokenIndex " +
+                        bTokenIndex + ', but tag was "' +
+                        this.getTaggedTokenWithTokenIndex(bTokenIndex) + "'");
+  }
+  return bTokenIndex;
+};
+
+/**
+ * Set BIO TaggedToken tag
+ *
+ * @param {String} bioValue - Should be 'B', 'I' or 'O'
+ * @param {String} tagText
+ * @param {Number} tokenIndex
+ * @throws {TypeError} Thrown if bioValue is not 'B'|'I'|'O'.  Also thrown
+ *                     if bioValue is 'I', but not part of a valid 'BI*'
+ *                     multi-token tagging.
+ */
+TokenTagging.prototype.bioSetTaggedTokenTag = function(bioValue, tagText, tokenIndex) {
+  if (bioValue !== 'B' && bioValue !== 'I' && bioValue !== 'O') {
+    throw new TypeError("TokenTagging.bioSetTaggedTokenTag() expected bioValue to be 'B', 'I' or 'O', " +
+                        "but instead it was '" + bioValue + "'");
+  }
+
+  var bioTagText;
+  if (bioValue === 'B') {
+    this.setTaggedTokenTag(bioValue + this.bioGetTagSeparator() + tagText, tokenIndex);
+  }
+  else if (bioValue === 'I') {
+    var bioPreviousValue = this.bioGetBIOValue(tokenIndex-1);
+    if (bioPreviousValue === 'B' || bioPreviousValue === 'I') {
+      // Get tag value from previous tag, ignore 'tagText' passed into function
+      this.setTaggedTokenTag(bioValue + this.bioGetTagSeparator() + this.bioGetTagValue(tokenIndex-1), tokenIndex);
+    }
+    else {
+      throw new TypeError("TokenTagging.bioSetTaggedTokenTag() encountered inconsistent BIO tagging " +
+                          "at tokenIndex " + (tokenIndex-1));
+    }
+  }
+  else {
+    this.setTaggedTokenTag('O', tokenIndex);
+  }
+
+  var bioValueNext = this.bioGetBIOValue(tokenIndex+1);
+  var tagTextNext = this.bioGetTagValue(tokenIndex+1);
+  if (bioValueNext === 'I') {
+    if (bioValue === 'O') {
+      this.bioSetTaggedTokenTag('B', tagTextNext, tokenIndex+1);
+    }
+    else {
+      if (tagText !== tagTextNext) {
+        // Update tagText for all following 'I' tokens
+        this.bioSetTaggedTokenTag('I', tagText, tokenIndex+1);
+      }
+    }
+  }
+};
+
+/**
+ * For BIO TokenTaggings, sets separator character to be used between
+ * B/I/O character and rest of tag
+ *
+ * @param {String} separator - String used as separator character
+ */
+TokenTagging.prototype.bioSetTagSeparator = function(separator) {
+  this.bioTagSeparator = separator;
+};
+
+/**
+ * Return the TaggedToken (or null) with the specified tokenIndex
+ *
  * @param {Number} tokenIndex
  * @returns {TaggedToken|null}
  */
@@ -19109,10 +19289,29 @@ TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
   return null;
 };
 
+/**
+ * Set taggedTokenList to a list of TaggedTokens (one per token) with identical tags
+ *
+ * @param {Tokenization} tokenization - Used to determine # of TokenTags
+ * @param {String} tagText - Value for each TaggedToken's "tag" field
+ */
+TokenTagging.prototype.setAllTaggedTokenTags = function(tokenization, tagText) {
+  // Discard the contents of the existing taggedTokenList
+  this.taggedTokenList = [];
 
-/** Sets the tag of the TaggedToken with the specified tokenIndex.
- *  If a TaggedToken with the specified tokenIndex does not exist,
- *  than it will be created.
+  for (var tokenIndex in tokenization.tokenList.tokenList) {
+    taggedToken = new TaggedToken();
+    taggedToken.tag = "O";
+    taggedToken.tokenIndex = tokenIndex;
+    this.taggedTokenList.push(taggedToken);
+  }
+};
+
+/**
+ * Sets the tag of the TaggedToken with the specified tokenIndex.
+ * If a TaggedToken with the specified tokenIndex does not exist,
+ * than it will be created.
+ *
  * @param {String} tagText
  * @param {Number} tokenIndex
  */
@@ -19125,3 +19324,75 @@ TokenTagging.prototype.setTaggedTokenTag = function(tagText, tokenIndex) {
   }
   taggedToken.tag = tagText;
 };
+;/**
+ * @namespace concrete
+ */
+var concrete = concrete || {};
+
+/**
+ * @namespace concrete.util
+ */
+concrete.util = (function() {
+  var util = {};
+
+  /**
+   * Generate a Concrete UUID
+   *
+   * @function concrete.util.generateUUID
+   * @memberof concrete.util
+   * @returns {UUID}
+   */
+  util.generateUUID = function() {
+    var uuid = new UUID();
+    uuid.uuidString = util.generateUUIDString();
+    return uuid;
+  };
+
+  /**
+   * Generate a UUID string
+   * Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
+   *    https://github.com/LiosK/UUID.js
+   *
+   * @function concrete.util.generateUUIDString
+   * @memberof concrete.util
+   * @returns {String}
+   */
+  util.generateUUIDString = function() {
+    /**
+     * Returns an unsigned x-bit random integer.
+     * @param {int} x A positive integer ranging from 0 to 53, inclusive.
+     * @returns {int} An unsigned x-bit random integer (0 <= f(x) < 2^x).
+     */
+    function rand(x) {  // _getRandomInt
+      if (x <   0) return NaN;
+      if (x <= 30) return (0 | Math.random() * (1 <<      x));
+      if (x <= 53) return (0 | Math.random() * (1 <<     30)) +
+        (0 | Math.random() * (1 << x - 30)) * (1 << 30);
+      return NaN;
+    }
+
+    /**
+     * Converts an integer to a zero-filled hexadecimal string.
+     * @param {int} num
+     * @param {int} length
+     * @returns {string}
+     */
+    function hex(num, length) { // _hexAligner
+      var str = num.toString(16), i = length - str.length, z = "0";
+      for (; i > 0; i >>>= 1, z += z) { if (i & 1) { str = z + str; } }
+      return str;
+    }
+
+    return  hex(rand(32), 8) +    // time_low
+      "-" +
+      hex(rand(16), 4) +          // time_mid
+      "-" +
+      hex(0x4000 | rand(12), 4) + // time_hi_and_version
+      "-" +
+      hex(0x8000 | rand(14), 4) + // clock_seq_hi_and_reserved clock_seq_low
+      "-" +
+      hex(rand(48), 12);        // node
+  };
+
+  return util;
+})();

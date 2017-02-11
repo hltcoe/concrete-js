@@ -106,7 +106,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Section} section
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createSectionDiv = function(section, options) {
         if (!section) {
@@ -116,7 +116,8 @@ concrete.widget = (function() {
         var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
         var sectionDiv = $('&lt;div>')
-            .addClass('section section_' + section.uuid.uuidString);
+            .addClass('section section_' + section.uuid.uuidString)
+            .data('section', section);
         if (opts.sectionDivClass) {
             sectionDiv.addClass(opts.sectionDivClass);
         }
@@ -169,7 +170,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Sentence} sentence
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createSentenceDiv = function(sentence, options) {
         if (!sentence) {
@@ -178,7 +179,8 @@ concrete.widget = (function() {
 
         var sentenceDiv = $('&lt;div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
-            .append(widget.createTokenizationDiv(sentence.tokenization, options));
+            .append(widget.createTokenizationDiv(sentence.tokenization, options))
+            .data('sentence', sentence);
         if (options &amp;&amp; options.sentenceDivClass) {
             sentenceDiv.addClass(options.sentenceDivClass);
         }
@@ -201,7 +203,7 @@ concrete.widget = (function() {
      * @memberof concrete.widget
      * @param {Tokenization} tokenization
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     widget.createTokenizationDiv = function(tokenization, options) {
         if (!tokenization) {
@@ -420,34 +422,34 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function concrete.widget.getTokenRefSequenceForTokenElement
+     * @function concrete.widget.getTokenRefSequenceForTokenObject
      * @memberof concrete.widget
-     * @param {jQuery_Object} tokenElement - jQuery object for a Token element
+     * @param {external:jQuery_Object} tokenObject - jQuery object for a Token element
      * @returns {TokenRefSequence}
      */
-    widget.getTokenRefSequenceForTokenElement = function(tokenElement) {
+    widget.getTokenRefSequenceForTokenObject = function(tokenObject) {
         var tokenRefSequence = new TokenRefSequence();
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElement);
-        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenElement)];
+        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenObject);
+        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenObject)];
         return tokenRefSequence;
     };
 
     /**
      * @function concrete.widget.getTokenRefSequenceForTokensMatchingSelector
      * @memberof concrete.widget
-     * @param {jQuery_Object} tokenizationElement - jQuery object for a Tokenization element
+     * @param {external:jQuery_Object} tokenizationObject - jQuery object for a Tokenization element
      * @param {String} selector - CSS selector string, e.g. '.selected_token'
      * @returns {TokenRefSequence}
      */
-    widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationElement, selector) {
-        if (!tokenizationElement.hasClass('tokenization')) {
+    widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationObject, selector) {
+        if (!tokenizationObject.hasClass('tokenization')) {
             console.error("getTokenRefSequenceForTokensWithClass() expected a jQuery object " +
                           "with class 'tokenization', but object has class(es) '" +
-                          tokenizationElement.attr('class') + "'");
+                          tokenizationObject.attr('class') + "'");
             return;
         }
         var tokenRefSequence = new TokenRefSequence();
-        var tokenElements = tokenizationElement.find('.token');
+        var tokenElements = tokenizationObject.find('.token');
         tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
         tokenRefSequence.tokenIndexList = [];
         tokenElements.filter(selector).each(function(i, tokenElement) {
@@ -546,7 +548,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addAllEntityMentionsInCommunication
      * @param {Communication} communication
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addAllEntityMentionsInCommunication = function(communication) {
         if (communication &amp;&amp; communication.entityMentionSetList &amp;&amp; communication.entityMentionSetList.length > 0) {
@@ -560,7 +562,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addAllEntitiesInCommunication
      * @param {Communication} communication
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addAllEntitiesInCommunication = function(communication) {
         // Add DOM classes for entity and entity_set UUID's to EntityMentions for the Entities
@@ -582,7 +584,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addEntityMention
      * @param {EntityMention} entityMention
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addEntityMention = function(entityMention) {
         this.getEntityMentionElements(entityMention)
@@ -593,7 +595,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".addEntityMentionSet
      * @param {EntityMentionSet} entityMentionSet
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.addEntityMentionSet = function(entityMentionSet) {
         if (entityMentionSet &amp;&amp; entityMentionSet.mentionList &amp;&amp; entityMentionSet.mentionList.length > 0) {
@@ -608,7 +610,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".communicationWidget
      * @param {Communication} communication
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.communicationWidget = function(communication, options) {
         this.append(concrete.widget.createCommunicationDiv(communication, options));
@@ -624,11 +626,11 @@ concrete.widget = (function() {
      * list of TokenRefSequences containing the selected token.
      *
      * @function external:"jQuery.fn".enableTokenClickCallbacks
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.enableTokenClickCallbacks = function() {
         this.find('.token').click({tokenClickCallbacks: this.getTokenClickCallbacks()}, function(event) {
-            var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenElement($(this))];
+            var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenObject($(this))];
             event.data.tokenClickCallbacks.fire(tokenRefSequenceList);
         });
     };
@@ -642,7 +644,7 @@ concrete.widget = (function() {
      * list of TokenRefSequences containing the selected tokens.
      *
      * @function external:"jQuery.fn".enableTokenSelectCallbacks
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.enableTokenSelectCallbacks = function() {
         this.mouseup({tokenSelectCallbacks: this.getTokenSelectCallbacks()}, function (event) {
@@ -661,7 +663,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getEntityMentionElements
      * @param {EntityMention} entityMention
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getEntityMentionElements = function(entityMention) {
         return this.getTokenRefSequenceElements(entityMention.tokens);
@@ -670,7 +672,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getSentenceElements
      * @param {Sentence} sentence
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getSentenceElements = function(sentence) {
         return this.find('.sentence.sentence_' + sentence.uuid.uuidString);
@@ -694,7 +696,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getTokenElements
      * @param {Tokenization} tokenization
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getTokenElements = function(tokenization) {
         return this.getTokenizationElements(tokenization).find('.token');
@@ -706,7 +708,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".getTokenElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
-     * @returns {jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
+     * @returns {external:jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
      */
     $.fn.getTokenElementsWithIndex = function(tokenization, tokenIndex) {
         if (!tokenization) {
@@ -728,7 +730,7 @@ concrete.widget = (function() {
      * @param {Function} matchFunction - Function that takes as input a TaggedToken.tag string,
      *                                   and returns true or false based on whether or not the
      *                                   string "matches".
-     * @returns {jQuery_Object} - jQuery Object for DOM elements for "matching" Tokens
+     * @returns {external:jQuery_Object} - jQuery Object for DOM elements for "matching" Tokens
      */
     $.fn.getTokenElementsWithMatchingTag = function(tokenization, tokenTagging, matchFunction) {
         if (!tokenization || !tokenTagging || !tokenTagging.taggedTokenList || !matchFunction) {
@@ -753,7 +755,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getTokenizationElements
      * @param {Tokenization} tokenization
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getTokenizationElements = function(tokenization) {
         return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
@@ -762,7 +764,7 @@ concrete.widget = (function() {
     /**
      * @function external:"jQuery.fn".getTokenRefSequenceElements
      * @param {TokenRefSequence} tokenRefSequence
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.getTokenRefSequenceElements = function(tokenRefSequence) {
         if (!tokenRefSequence &amp;&amp; !tokenRefSequence.tokenizationId) {
@@ -819,7 +821,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".sectionWidget
      * @param {Section} section
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.sectionWidget = function(section, options) {
         this.append(concrete.widget.createSectionDiv(section, options));
@@ -830,7 +832,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".sentenceWidget
      * @param {Sentence} sentence
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.sentenceWidget = function(sentence, options) {
         this.append(concrete.widget.createSentenceDiv(sentence, options));
@@ -841,7 +843,7 @@ concrete.widget = (function() {
      * @function external:"jQuery.fn".tokenizationWidget
      * @param {Tokenization} tokenization
      * @param {Object} options
-     * @returns {jQuery_Object}
+     * @returns {external:jQuery_Object}
      */
     $.fn.tokenizationWidget = function(tokenization, options) {
         this.append(concrete.widget.createTokenizationDiv(tokenization, options));
@@ -859,13 +861,13 @@ concrete.widget = (function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a></li><li><a href="Tokenization.html">Tokenization</a></li><li><a href="TokenTagging.html">TokenTagging</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.widget.html">widget</a></li></ul><h3>Global</h3><ul><li><a href="global.html#generateUUID">generateUUID</a></li><li><a href="global.html#generateUUIDString">generateUUIDString</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a></li><li><a href="Tokenization.html">Tokenization</a></li><li><a href="TokenTagging.html">TokenTagging</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.util.html">util</a></li><li><a href="concrete.widget.html">widget</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 </footer>
 
 <script> prettyPrint(); </script>

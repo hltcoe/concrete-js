@@ -140,6 +140,1104 @@
 
     
 
+    <h4 class="name" id=".create"><span class="type-signature">(static) </span>create<span class="signature">(options, metadataOptions)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Create a valid TokenTagging with required fields AnnotationMetadata and UUID
+
+Example usage:
+<pre>
+  tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
+</pre>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Override default TokenTagging fields (except metadata)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>metadataOptions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Override default tokenTagging.metadata fields</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="bioGetBIOValue"><span class="type-signature"></span>bioGetBIOValue<span class="signature">({Integer)</span><span class="type-signature"> &rarr; {String|null}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Get BIO value for TaggedToken at tokenIndex
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>{Integer</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">tokenIndex</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - 'B', 'I', 'O' or null
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="bioGetTagSeparator"><span class="type-signature"></span>bioGetTagSeparator<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns separator character for BIO TokenTaggings.
+
+If the separator character had not been set before this function was called,
+the separator character will be set to '-'.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Separator character for BIO TokenTaggings
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="bioGetTagValue"><span class="type-signature"></span>bioGetTagValue<span class="signature">({Integer)</span><span class="type-signature"> &rarr; {String|null}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Get tag value (stripped of BIO tag and separator) for TaggedToken at tokenIndex
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>{Integer</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">tokenIndex</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - 'B', 'I', 'O' or null
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="bioGetTokenIndexForB"><span class="type-signature"></span>bioGetTokenIndexForB<span class="signature">(tokenIndex)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns token index of 'B' tag for the (possibly multi-token) 'BI'
+tagging at the specified tokenIndex.
+
+If the tag at tokenIndex is a 'B' tag, return tokenIndex.  If the
+tag at tokenIndex is an 'I' tag, find the index of the 'B' tag for
+this 'I' tag.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tokenIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">-</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        Thrown if the tag at TokenIndex is not a 'B' or
+                    'I' tag.  Also thrown if the tag at TokenIndex
+                    is a valid 'I' tag, but not part of a valid 'BI*'
+                    multi-token tagging.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Token index of "B" tag
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="bioSetTaggedTokenTag"><span class="type-signature"></span>bioSetTaggedTokenTag<span class="signature">(bioValue, tagText, tokenIndex)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Set BIO TaggedToken tag
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>bioValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Should be 'B', 'I' or 'O'</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tagText</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tokenIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        Thrown if bioValue is not 'B'|'I'|'O'.  Also thrown
+                    if bioValue is 'I', but not part of a valid 'BI*'
+                    multi-token tagging.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="bioSetTagSeparator"><span class="type-signature"></span>bioSetTagSeparator<span class="signature">(separator)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    For BIO TokenTaggings, sets separator character to be used between
+B/I/O character and rest of tag
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>separator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">String used as separator character</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line167">line 167</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="getTaggedTokenWithTokenIndex"><span class="type-signature"></span>getTaggedTokenWithTokenIndex<span class="signature">(tokenIndex)</span><span class="type-signature"> &rarr; {TaggedToken|null}</span></h4>
 
     
@@ -240,7 +1338,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line10">line 10</a>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -292,6 +1390,160 @@
 
     
 
+    <h4 class="name" id="setAllTaggedTokenTags"><span class="type-signature"></span>setAllTaggedTokenTags<span class="signature">(tokenization, tagText)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Set taggedTokenList to a list of TaggedTokens (one per token) with identical tags
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tokenization</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Tokenization.html">Tokenization</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Used to determine # of TokenTags</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tagText</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value for each TaggedToken's "tag" field</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line192">line 192</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="setTaggedTokenTag"><span class="type-signature"></span>setTaggedTokenTag<span class="signature">(tagText, tokenIndex)</span><span class="type-signature"></span></h4>
 
     
@@ -300,8 +1552,8 @@
 
 <div class="description">
     Sets the tag of the TaggedToken with the specified tokenIndex.
- If a TaggedToken with the specified tokenIndex does not exist,
- than it will be created.
+If a TaggedToken with the specified tokenIndex does not exist,
+than it will be created.
 </div>
 
 
@@ -417,7 +1669,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line26">line 26</a>
+        <a href="tokentagging_fu.js.html">tokentagging_fu.js</a>, <a href="tokentagging_fu.js.html#line212">line 212</a>
     </li></ul></dd>
     
 
@@ -459,13 +1711,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a></li><li><a href="Tokenization.html">Tokenization</a></li><li><a href="TokenTagging.html">TokenTagging</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.widget.html">widget</a></li></ul><h3>Global</h3><ul><li><a href="global.html#generateUUID">generateUUID</a></li><li><a href="global.html#generateUUIDString">generateUUIDString</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a></li><li><a href="Tokenization.html">Tokenization</a></li><li><a href="TokenTagging.html">TokenTagging</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.util.html">util</a></li><li><a href="concrete.widget.html">widget</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 </footer>
 
 <script> prettyPrint(); </script>

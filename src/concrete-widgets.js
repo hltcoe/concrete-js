@@ -88,7 +88,8 @@ concrete.widget = (function() {
         var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
         var sectionDiv = $('<div>')
-            .addClass('section section_' + section.uuid.uuidString);
+            .addClass('section section_' + section.uuid.uuidString)
+            .data('section', section);
         if (opts.sectionDivClass) {
             sectionDiv.addClass(opts.sectionDivClass);
         }
@@ -150,7 +151,8 @@ concrete.widget = (function() {
 
         var sentenceDiv = $('<div>')
             .addClass('sentence sentence_' + sentence.uuid.uuidString)
-            .append(widget.createTokenizationDiv(sentence.tokenization, options));
+            .append(widget.createTokenizationDiv(sentence.tokenization, options))
+            .data('sentence', sentence);
         if (options && options.sentenceDivClass) {
             sentenceDiv.addClass(options.sentenceDivClass);
         }

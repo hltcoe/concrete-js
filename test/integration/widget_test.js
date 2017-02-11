@@ -33,6 +33,17 @@ describe("CommunicationWidget", function() {
     expect($('#communication')).toContainElement('.token_padding');
   });
 
+  it("$.fn.communicationWidget() attaches Concrete objects as jQuery data", function() {
+    loadFixtures('mostly-empty.html');
+    $('#communication').communicationWidget(this.comm);
+
+    var firstSection = this.comm.getSectionsAsList()[0];
+    var firstSentence = this.comm.getSentencesAsList()[0];
+
+    expect($('#communication').find('.section').first().data('section')).toEqual(firstSection);
+    expect($('#communication').find('.sentence').first().data('sentence')).toEqual(firstSentence);
+  });
+
   it("$.fn.tokenizationWidget() attaches tokenization as jQuery data", function() {
     loadFixtures('mostly-empty.html');
     $('#tokenization').tokenizationWidget(this.tokenization);

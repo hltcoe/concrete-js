@@ -22,7 +22,7 @@ TokenTagging.create = function(options, metadataOptions) {
   tokenTagging.metadata.tool = 'concrete.js - TokenTagging.create()';
   tokenTagging.taggedTokenList = [];
   tokenTagging.taggingType = '';
-  tokenTagging.uuid = generateUUID();
+  tokenTagging.uuid = concrete.util.generateUUID();
 
   tokenTagging = $.extend({}, tokenTagging, options);
   tokenTagging.metadata = $.extend({}, tokenTagging.metadata, metadataOptions);

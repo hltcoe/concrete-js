@@ -15,11 +15,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/vendor/*.js',
       'dist/thrift.js',
       'dist/concrete.js',
       'test/integration/*.js',
       'test/unit/*.js',
-      'test/vendor/*.js',
 
       // Fixtures
       {pattern: 'test/fixtures/*.html', watched: true, served: true, included: false},

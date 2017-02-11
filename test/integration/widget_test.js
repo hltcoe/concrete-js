@@ -9,12 +9,27 @@ describe("CommunicationWidget", function() {
     this.tokenization = this.comm.getFirstTokenization();
   });
 
-  it("concrete.widget.creatCommunicationDiv() creates DOM structure", function() {
+  it("concrete.widget.createCommunicationDiv() creates Communication DOM structure", function() {
     loadFixtures('mostly-empty.html');
     expect($('#communication')).toExist();
 
     var commDiv = concrete.widget.createCommunicationDiv(this.comm);
     $('#communication').append(commDiv);
+    expect($('#communication')).toContainElement('.section');
+    expect($('#communication')).toContainElement('.sentence');
+    expect($('#communication')).toContainElement('.tokenization');
+    expect($('#communication')).toContainElement('.token');
+    expect($('#communication')).toContainElement('.token_padding');
+  });
+
+  it("concrete.widget.createCommunicationDiv() creates Communication DOM structure", function() {
+    loadFixtures('mostly-empty.html');
+    expect($('#communication')).toExist();
+
+    expect($.fn.communicationWidget).toBeTruthy();
+
+    $('#communication').communicationWidget(this.comm);
+
     expect($('#communication')).toContainElement('.section');
     expect($('#communication')).toContainElement('.sentence');
     expect($('#communication')).toContainElement('.tokenization');

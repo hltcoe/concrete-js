@@ -1,3 +1,5 @@
+![Travis CI build status](https://travis-ci.org/hltcoe/concrete-js.svg?branch=master)
+
 concrete-js
 ===========
 

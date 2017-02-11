@@ -2,22 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Communication</title>
+    <title>Communication - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Class: Communication</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="TokenTagging.html#.create">create</a></li><li data-type='method'><a href="TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li></ul><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a><ul class='methods'><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntitiesInCommunication">addAllEntitiesInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntityMentionsInCommunication">addAllEntityMentionsInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMention">addEntityMention</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMentionSet">addEntityMentionSet</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.communicationWidget">communicationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenClickCallbacks">enableTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenSelectCallbacks">enableTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getEntityMentionElements">getEntityMentionElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getSentenceElements">getSentenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenClickCallbacks">getTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElements">getTokenElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithIndex">getTokenElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithMatchingTag">getTokenElementsWithMatchingTag</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenizationElements">getTokenizationElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceElements">getTokenRefSequenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenSelectCallbacks">getTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sectionWidget">sectionWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sentenceWidget">sentenceWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.tokenizationWidget">tokenizationWidget</a></li></ul></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.generateUUIDString">generateUUIDString</a></li></ul></li><li><a href="concrete.widget.html">widget</a><ul class='methods'><li data-type='method'><a href="concrete.widget.html#.createCommunicationDiv">createCommunicationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSectionDiv">createSectionDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSentenceDiv">createSentenceDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createTokenizationDiv">createTokenizationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.getSelectedTokenRefSequences">getSelectedTokenRefSequences</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokenObject">getTokenRefSequenceForTokenObject</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Communication</h1>
+    
 
     
 
@@ -28,9 +39,11 @@
 
 <header>
     
-        <h2>Communication</h2>
+        <h2>
+        Communication
+        </h2>
         
-            <div class="class-description">concrete.js extensions to the Communication class</div>
+            <div class="class-description"><p>concrete.js extensions to the Communication class</p></div>
         
     
 </header>
@@ -51,42 +64,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -100,7 +78,44 @@
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,52 +161,8 @@
 
 
 
-<div class="description">
-    Adds internal references between data structures contained in Communication
-
-Specifically, adds:
-  - to each concrete.Section, a section.communication reference to the enclosing Communication
-  - to each concrete.Sentence, a sentence.section reference to the enclosing Section
-  - to each concrete.Tokenization, a tokenization.sentence reference to the enclosing Sentence
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -205,7 +176,54 @@ Specifically, adds:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Adds internal references between data structures contained in Communication</p>
+<p>Specifically, adds:</p>
+<ul>
+<li>to each concrete.Section, a section.communication reference to the enclosing Communication</li>
+<li>to each concrete.Sentence, a sentence.section reference to the enclosing Section</li>
+<li>to each concrete.Tokenization, a tokenization.sentence reference to the enclosing Sentence</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -233,9 +251,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Return the Entity (or null) that has an EntityMention with the specified UUID
+    <p>Return the Entity (or null) that has an EntityMention with the specified UUID</p>
 </div>
+
+
 
 
 
@@ -298,50 +363,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line44">line 44</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -355,7 +376,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -373,7 +394,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -385,9 +405,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Return the EntityMentionSet in the Communication with the specified toolname
+    <p>Return the EntityMentionSet in the Communication with the specified toolname</p>
 </div>
+
+
 
 
 
@@ -450,50 +517,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line74">line 74</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -507,7 +530,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -525,7 +548,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -537,9 +559,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line91">line 91</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Return the EntityMention (or null) with the specified UUID
+    <p>Return the EntityMention (or null) with the specified UUID</p>
 </div>
+
+
 
 
 
@@ -602,50 +671,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line91">line 91</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -659,7 +684,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -677,7 +702,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -689,47 +713,8 @@ Specifically, adds:
 
 
 
-<div class="description">
-    Return the first Sentence in a Communication if it exists, or null
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -743,7 +728,49 @@ Specifically, adds:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Return the first Sentence in a Communication if it exists, or null</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -762,7 +789,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -780,7 +807,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -792,47 +818,8 @@ Specifically, adds:
 
 
 
-<div class="description">
-    Return the first Tokenization in a Communication if it exists, or null
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -846,7 +833,49 @@ Specifically, adds:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Return the first Tokenization in a Communication if it exists, or null</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -865,7 +894,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -883,7 +912,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -895,47 +923,8 @@ Specifically, adds:
 
 
 
-<div class="description">
-    Return all Sections in a Communication as a (flat) list
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -949,7 +938,49 @@ Specifically, adds:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Return all Sections in a Communication as a (flat) list</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -968,7 +999,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -981,7 +1012,6 @@ Specifically, adds:
 </dl>
 
     
-
 
 
         
@@ -995,47 +1025,8 @@ Specifically, adds:
 
 
 
-<div class="description">
-    Return all Sentences in a Communication as a (flat) list
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1049,7 +1040,49 @@ Specifically, adds:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Return all Sentences in a Communication as a (flat) list</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1068,7 +1101,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1083,7 +1116,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -1095,9 +1127,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line152">line 152</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Return the Sentence (or null) with the specified UUID
+    <p>Return the Sentence (or null) with the specified UUID</p>
 </div>
+
+
 
 
 
@@ -1160,50 +1239,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line152">line 152</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -1217,7 +1252,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1235,7 +1270,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -1247,9 +1281,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line182">line 182</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Return the SituationMention (or null) with the specified UUID
+    <p>Return the SituationMention (or null) with the specified UUID</p>
 </div>
+
+
 
 
 
@@ -1312,50 +1393,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line182">line 182</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -1369,7 +1406,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1387,7 +1424,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -1399,47 +1435,8 @@ Specifically, adds:
 
 
 
-<div class="description">
-    Return all Tokenizations in a Communication as a (flat) list
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1453,7 +1450,49 @@ Specifically, adds:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Return all Tokenizations in a Communication as a (flat) list</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1472,7 +1511,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1487,7 +1526,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -1499,9 +1537,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line270">line 270</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Return the Tokenization (or null) with the specified UUID
+    <p>Return the Tokenization (or null) with the specified UUID</p>
 </div>
+
+
 
 
 
@@ -1564,50 +1649,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line270">line 270</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -1621,7 +1662,7 @@ Specifically, adds:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1639,7 +1680,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -1651,9 +1691,56 @@ Specifically, adds:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line300">line 300</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Get list of token text strings for the EntityMention specified by the UUID
+    <p>Get list of token text strings for the EntityMention specified by the UUID</p>
 </div>
+
+
 
 
 
@@ -1716,50 +1803,6 @@ Specifically, adds:
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line300">line 300</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -1772,12 +1815,12 @@ Specifically, adds:
 
         
 <div class="param-desc">
-    An array of token text strings
+    <p>An array of token text strings</p>
 </div>
 
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1792,7 +1835,6 @@ Specifically, adds:
     
 
 
-
         
             
 
@@ -1804,18 +1846,64 @@ Specifically, adds:
 
 
 
-<div class="description">
-    Initialize Communication from a TJSONProtocol object created from a Communication.
 
-Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line328">line 328</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Initialize Communication from a TJSONProtocol object created from a Communication.</p>
+<p>Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
 something like this:
    {
-    "1":{"str":"tests/testdata/serif_dog-bites-man.xml"},
-    "2":{"rec":{"1":{"str":"a90d397a-560f-44a0-baae-c82a34e4be09"}}},
-    "3":{"str":"CommunicationType.OTHER"},
+    &quot;1&quot;:{&quot;str&quot;:&quot;tests/testdata/serif_dog-bites-man.xml&quot;},
+    &quot;2&quot;:{&quot;rec&quot;:{&quot;1&quot;:{&quot;str&quot;:&quot;a90d397a-560f-44a0-baae-c82a34e4be09&quot;}}},
+    &quot;3&quot;:{&quot;str&quot;:&quot;CommunicationType.OTHER&quot;},
     ...
-   }
+   }</p>
 </div>
+
+
 
 
 
@@ -1866,57 +1954,13 @@ something like this:
 
             
 
-            <td class="description last">An object created from a Communication using TJSONProtocol</td>
+            <td class="description last"><p>An object created from a Communication using TJSONProtocol</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line328">line 328</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
@@ -1934,12 +1978,14 @@ something like this:
 
         
 <div class="param-desc">
-    - This Communication
+    <ul>
+<li>This Communication</li>
+</ul>
 </div>
 
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -1954,7 +2000,6 @@ something like this:
     
 
 
-
         
             
 
@@ -1966,9 +2011,56 @@ something like this:
 
 
 
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line343">line 343</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 <div class="description">
-    Initialize Communication from a TJSONProtocol string created from a Communication
+    <p>Initialize Communication from a TJSONProtocol string created from a Communication</p>
 </div>
+
+
 
 
 
@@ -2019,57 +2111,13 @@ something like this:
 
             
 
-            <td class="description last">A JSON string created from a Communication using TJSONProtocol</td>
+            <td class="description last"><p>A JSON string created from a Communication using TJSONProtocol</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line343">line 343</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
@@ -2087,12 +2135,14 @@ something like this:
 
         
 <div class="param-desc">
-    - This Communication
+    <ul>
+<li>This Communication</li>
+</ul>
 </div>
 
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -2107,7 +2157,6 @@ something like this:
     
 
 
-
         
             
 
@@ -2119,47 +2168,8 @@ something like this:
 
 
 
-<div class="description">
-    Returns JSON object for Communication serialized using TJSONProtocol
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -2173,7 +2183,49 @@ something like this:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Returns JSON object for Communication serialized using TJSONProtocol</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2192,7 +2244,7 @@ something like this:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -2207,7 +2259,6 @@ something like this:
     
 
 
-
         
             
 
@@ -2219,47 +2270,8 @@ something like this:
 
 
 
-<div class="description">
-    Returns JSON string for Communication serialized using TJSONProtocol
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
     <dt class="tag-source">Source:</dt>
@@ -2273,7 +2285,49 @@ something like this:
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description">
+    <p>Returns JSON string for Communication serialized using TJSONProtocol</p>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2292,7 +2346,7 @@ something like this:
         
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -2305,7 +2359,6 @@ something like this:
 </dl>
 
     
-
 
 
         
@@ -2323,17 +2376,13 @@ something like this:
 
 </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a></li><li><a href="Tokenization.html">Tokenization</a></li><li><a href="TokenTagging.html">TokenTagging</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.util.html">util</a></li><li><a href="concrete.widget.html">widget</a></li></ul>
-</nav>
-
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
 </body>
 </html>

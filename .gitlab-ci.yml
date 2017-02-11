@@ -1,4 +1,6 @@
-image: node:7.5
+# Image automatically built from GitHub repo:
+#   https://github.com/charman/docker-node-phantomjs
+image: charman/docker-node-phantomjs
 
 cache:
   paths:
@@ -17,6 +19,6 @@ test_app:
     - 'git config --global url."https://".insteadOf git://'
     - npm install
     - node_modules/grunt/bin/grunt jshint
-#    - node_modules/karma/bin/karma start karma.conf.js
+    - node_modules/karma/bin/karma start karma.conf.js
   tags:
   - docker

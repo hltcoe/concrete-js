@@ -1,3 +1,8 @@
+# Travis node.js documentation:
+#   https://docs.travis-ci.com/user/languages/javascript-with-nodejs
+#
+# Travis will run "npm test", which will run the test suite specified in package.json
 language: node_js
 node_js:
-  - "4"
+  # "node' is a convenience version for the latest stable release of Node.js
+  - "node"

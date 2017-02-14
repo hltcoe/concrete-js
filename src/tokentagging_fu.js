@@ -192,10 +192,10 @@ TokenTagging.prototype.setAllTaggedTokenTags = function(tokenization, tagText) {
   // Discard the contents of the existing taggedTokenList
   this.taggedTokenList = [];
 
-  for (var tokenIndex in tokenization.tokenList.tokenList) {
+  for (var i = 0; i < tokenization.tokenList.tokenList.length; i++) {
     taggedToken = new TaggedToken();
-    taggedToken.tag = "O";
-    taggedToken.tokenIndex = tokenIndex;
+    taggedToken.tag = tagText;
+    taggedToken.tokenIndex = i;
     this.taggedTokenList.push(taggedToken);
   }
 };

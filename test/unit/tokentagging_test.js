@@ -108,11 +108,19 @@ describe("TokenTagging unit tests", function() {
     expect(tokenTagging.bioGetTagSeparator()).toEqual('_');
   });
 
+  it("tokenTagging.setAllTaggedTokens() - integer tokenIndices", function() {
+    var tokenTagging = TokenTagging.create();
+    tokenTagging.setAllTaggedTokenTags(this.tokenization, 'FOO');
+    for (var i = 0; i < this.tokenization.tokenList.tokenList.length; i++) {
+      expect(tokenTagging.getTaggedTokenWithTokenIndex(i).tokenIndex).toEqual(i);
+    }
+  });
+
   it("tokenTagging.setAllTaggedTokens()", function() {
     var tokenTagging = TokenTagging.create();
     tokenTagging.setAllTaggedTokenTags(this.tokenization, 'FOO');
-    for (var i = 0; i < this.tokenization.tokenList.length; i++) {
-      expect(tokenTagging.getTaggedTokenWithTokenIndex(i)).toEqual('FOO');
+    for (var i = 0; i < this.tokenization.tokenList.tokenList.length; i++) {
+      expect(tokenTagging.getTaggedTokenWithTokenIndex(i).tag).toEqual('FOO');
     }
   });
 });

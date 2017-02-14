@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>concrete-js examples</title>
+  <meta charset='UTF-8'>
+
+  <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap-theme.css"/>
+  <link rel="stylesheet" href="examples.css"/>
+
+  <script src="jquery-1.11.1.js"></script>
+  <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
+
+  <script src="../dist/thrift.js"></script>
+  <script src="../dist/concrete.js"></script>
+
+  <style>
+  .highlighted {
+    background-color: yellow;
+  }
+  .token_padding {
+    background-color: purple;
+    border-bottom: 10px solid #CCCCCC;
+    cursor: pointer;
+    display: inline-block;
+    width: 1em;
+  }
+  .token_padding.highlighted {
+    border-bottom: 10px solid yellow;
+    border-top: 2px solid #CCCCCC;
+  }
+  .token {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 1em;
+  }
+  </style>
+
+  <script>
+
+  $.fn.segmentationWidget = function() {
+    function togglePadding(event) {
+      var tokenPaddingElement = $(this);
+
+      tokenPaddingElement.toggleClass('highlighted');
+
+      var nextTokenIndex = 1 + concrete.widget.getTokenIndex(tokenPaddingElement);
+      if (tokenTagging.bioGetBIOValue(nextTokenIndex) === 'B') {
+        tokenTagging.bioSetTaggedTokenTag('I', 'SEG', nextTokenIndex);
+      }
+      else if (tokenTagging.bioGetBIOValue(nextTokenIndex) === 'I') {
+        tokenTagging.bioSetTaggedTokenTag('B', 'SEG', nextTokenIndex);
+      }
+    }
+
+    var tokenization = this.find('.tokenization').data('tokenization');
+    var tokenTagging = TokenTagging.create({taggingType: 'Segmentation'}, {tool: 'segmentation.html'});
+
+    // For initial segmentation, all segments are connected
+    tokenTagging.setAllTaggedTokenTags(tokenization, 'I-SEG');
+    tokenTagging.bioSetTaggedTokenTag('B', 'SEG', 0);
+
+    // Update DOM to reflect that all segments are connected
+    var tokenElements = this.getTokenElements(tokenization);
+    tokenElements.addClass('highlighted');
+    this.find('.token_padding').addClass('highlighted').click(togglePadding);
+  };
+
+  $(document).ready(function() {
+    $.getJSON('dog-bites-man.concrete.json', function(commJSONData) {
+      var comm = new Communication();
+      comm.initFromTJSONProtocolObject(commJSONData);
+
+      var tokenizationList = comm.getTokenizationsAsList();
+      var tokenization = tokenizationList[0];
+
+      var tokenizationWidget = $('#tokenization_one').tokenizationWidget(
+        tokenization, {whitespaceTokenization: true});
+      tokenizationWidget.segmentationWidget();
+    });
+  });
+  </script>
+</head>
+<body>
+  <div class="container-fluid">
+
+    <div style="padding-top: 2em;">
+      <p>
+      </p>
+    </div>
+
+    <hr />
+
+    <div>
+      <h2>Segmentation</h2>
+      <div>
+        Click or drag-to-select tokens to toggle highlighting:
+      </div>
+      <div class="communication_container">
+        <div id="tokenization_one"></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

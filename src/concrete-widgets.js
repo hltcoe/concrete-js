@@ -395,11 +395,12 @@ concrete.widget = (function() {
         var classList = tokenElement.attr('class').split(' ');
         for (var i in classList) {
             var fields = classList[i].split('_');
-            if (fields.length === 3 &&
-                (fields[0] == 'token' || fields[0] == 'token_padding') &&
-                fields[1].length === 36)
-            {
+            if (fields.length === 3 && fields[0] === 'token' && fields[1].length === 36) {
                 return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
+            }
+            else if (fields.length === 4 && fields[0] === 'token' &&
+                     fields[1] === 'padding' && fields[2].length === 36) {
+                return [parseInt(fields[3]), new UUID({'uuidString': fields[2]})];
             }
         }
         return [undefined, undefined];

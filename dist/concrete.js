@@ -18934,12 +18934,12 @@ concrete.widget = (function() {
     };
 
     /**
-     * Returns a jQuery object for DOM element(s) specified by tokenization+tokenIndex
+     * Returns a jQuery object for .token element(s) specified by tokenization+tokenIndex
      *
      * @function external:"jQuery.fn".getTokenElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
-     * @returns {external:jQuery_Object} - jQuery Object for DOM element(s) for tokenization+tokenIndex
+     * @returns {external:jQuery_Object} - jQuery Object for .token element(s) for tokenization+tokenIndex
      */
     $.fn.getTokenElementsWithIndex = function(tokenization, tokenIndex) {
         if (!tokenization) {
@@ -18990,6 +18990,22 @@ concrete.widget = (function() {
      */
     $.fn.getTokenizationElements = function(tokenization) {
         return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
+    };
+
+    /**
+     * Returns a jQuery object for .token_padding element(s) specified by tokenization+tokenIndex
+     *
+     * @function external:"jQuery.fn".getTokenElementsWithIndex
+     * @param {Tokenization} tokenization
+     * @param {int} tokenIndex
+     * @returns {external:jQuery_Object} - jQuery Object for .token_padding element(s) for tokenization+tokenIndex
+     */
+    $.fn.getTokenPaddingElementsWithIndex = function(tokenization, tokenIndex) {
+        if (!tokenization) {
+            return $();
+        }
+
+        return this.find('.token_padding_' + tokenization.uuid.uuidString + '_' + tokenIndex);
     };
 
     /**

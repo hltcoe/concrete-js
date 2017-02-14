@@ -256,18 +256,18 @@ concrete.widget = (function() {
             var tokenRefSequence = new TokenRefSequence();
 
             if (lastTokenesqueLastSentence.hasClass('token')) {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(lastTokenesqueLastSentence);
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(lastTokenesqueLastSentence);
             }
             else {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                     lastTokenesqueLastSentence.prev('.token'));
             }
             tokenRefSequence.tokenIndexList = [];
             lastTokenesqueLastSentence.prevAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
             if (lastTokenesqueLastSentence.hasClass('token')) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenesqueLastSentence));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(lastTokenesqueLastSentence));
             }
 
             return tokenRefSequence;
@@ -275,10 +275,10 @@ concrete.widget = (function() {
 
         function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
             var tokenRefSequence = new TokenRefSequence();
-            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
+            tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
             tokenRefSequence.tokenIndexList = [];
             tokenizationElement.find('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
             return tokenRefSequence;
         }
@@ -289,15 +289,15 @@ concrete.widget = (function() {
             var tokenRefSequence = new TokenRefSequence();
             tokenRefSequence.tokenIndexList = [];
             if (firstTokenesqueFirstSentence.hasClass('token')) {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenesqueFirstSentence);
-                tokenRefSequence.tokenIndexList.push(getTokenIndex(firstTokenesqueFirstSentence));
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(firstTokenesqueFirstSentence);
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(firstTokenesqueFirstSentence));
             }
             else {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                     firstTokenesqueFirstSentence.next('.token'));
             }
             firstTokenesqueFirstSentence.nextAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
 
             return tokenRefSequence;
@@ -323,18 +323,18 @@ concrete.widget = (function() {
                 var tokenRefSequence = new TokenRefSequence();
                 tokenRefSequence.tokenIndexList = [];
                 if (firstTokenesqueElement.hasClass('token')) {
-                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenesqueElement);
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex(firstTokenesqueElement));
+                    tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(firstTokenesqueElement);
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(firstTokenesqueElement));
                 }
                 else {
-                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                    tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                         firstTokenesqueElement.next('.token'));
                 }
                 middleTokenElements.each(function(i, tokenElement) {
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
                 });
                 if (lastTokenesqueElement.hasClass('token')) {
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenesqueElement));
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(lastTokenesqueElement));
                 }
                 tokenRefSequenceList.push(tokenRefSequence);
             }
@@ -391,6 +391,26 @@ concrete.widget = (function() {
         return tokenRefSequenceList;
     };
 
+    widget.getTokenIndexAndTokenizationUUID = function(tokenElement) {
+        var classList = tokenElement.attr('class').split(' ');
+        for (var i in classList) {
+            var fields = classList[i].split('_');
+            if (fields.length === 3 && fields[0] == 'token' && fields[1].length === 36) {
+                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
+            }
+        }
+        return [undefined, undefined];
+    };
+
+    widget.getTokenIndex = function(tokenElement) {
+        return widget.getTokenIndexAndTokenizationUUID(tokenElement)[0];
+    };
+
+    widget.getTokenizationUUIDForToken = function(tokenElement) {
+        return widget.getTokenIndexAndTokenizationUUID(tokenElement)[1];
+    };
+
+
     /**
      * @function concrete.widget.getTokenRefSequenceForTokenObject
      * @memberof concrete.widget
@@ -399,8 +419,8 @@ concrete.widget = (function() {
      */
     widget.getTokenRefSequenceForTokenObject = function(tokenObject) {
         var tokenRefSequence = new TokenRefSequence();
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenObject);
-        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenObject)];
+        tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenObject);
+        tokenRefSequence.tokenIndexList = [widget.getTokenIndex(tokenObject)];
         return tokenRefSequence;
     };
 
@@ -420,10 +440,10 @@ concrete.widget = (function() {
         }
         var tokenRefSequence = new TokenRefSequence();
         var tokenElements = tokenizationObject.find('.token');
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
+        tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenElements.first());
         tokenRefSequence.tokenIndexList = [];
         tokenElements.filter(selector).each(function(i, tokenElement) {
-            tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
         });
         return tokenRefSequence;
     };
@@ -473,25 +493,6 @@ concrete.widget = (function() {
         default:
             return tokenText;
         }
-    }
-
-    function getTokenIndexAndTokenizationUUID(tokenElement) {
-        var classList = tokenElement.attr('class').split(' ');
-        for (var i in classList) {
-            var fields = classList[i].split('_');
-            if (fields.length === 3 && fields[0] == 'token' && fields[1].length === 36) {
-                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
-            }
-        }
-        return [undefined, undefined];
-    }
-
-    function getTokenIndex(tokenElement) {
-        return getTokenIndexAndTokenizationUUID(tokenElement)[0];
-    }
-
-    function getTokenizationUUIDForToken(tokenElement) {
-        return getTokenIndexAndTokenizationUUID(tokenElement)[1];
     }
 
     /**

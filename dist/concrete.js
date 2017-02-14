@@ -17894,6 +17894,7 @@ Communication.prototype.addInternalReferences = function() {
 
 /**
  * Return the Entity (or null) that has an EntityMention with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {Entity|null}
  */
@@ -17924,6 +17925,7 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 
 /**
  * Return the EntityMentionSet in the Communication with the specified toolname
+ *
  * @param {String} toolname
  * @returns {EntityMentionSet|null}
  */
@@ -17941,6 +17943,7 @@ Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
 
 /**
  * Return the EntityMention (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {EntityMention|null}
  */
@@ -17970,6 +17973,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
 
 /**
  * Return the first Sentence in a Communication if it exists, or null
+ *
  * @returns {Sentence|null}
  */
 Communication.prototype.getFirstSentence = function() {
@@ -17987,6 +17991,7 @@ Communication.prototype.getFirstSentence = function() {
 
 /**
  * Return the first Tokenization in a Communication if it exists, or null
+ *
  * @returns {Tokenization|null}
  */
 Communication.prototype.getFirstTokenization = function() {
@@ -18002,6 +18007,7 @@ Communication.prototype.getFirstTokenization = function() {
 
 /**
  * Return the Sentence (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {Sentence|null}
  */
@@ -18032,6 +18038,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
 
 /**
  * Return the SituationMention (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {SituationMention|null}
  */
@@ -18060,6 +18067,7 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 
 /**
  * Return all Sections in a Communication as a (flat) list
+ *
  * @returns {List}
  */
 Communication.prototype.getSectionsAsList = function() {
@@ -18077,6 +18085,7 @@ Communication.prototype.getSectionsAsList = function() {
 
 /**
  * Return all Sentences in a Communication as a (flat) list
+ *
  * @returns {List}
  */
 Communication.prototype.getSentencesAsList = function() {
@@ -18098,6 +18107,7 @@ Communication.prototype.getSentencesAsList = function() {
 
 /**
  * Return all Tokenizations in a Communication as a (flat) list
+ *
  * @returns {List}
  */
 Communication.prototype.getTokenizationsAsList = function() {
@@ -18120,6 +18130,7 @@ Communication.prototype.getTokenizationsAsList = function() {
 
 /**
  * Return the Tokenization (or null) with the specified UUID
+ *
  * @param {UUID} uuid
  * @returns {Tokenization|null}
  */
@@ -18150,6 +18161,7 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
 
 /**
  * Get list of token text strings for the EntityMention specified by the UUID
+ *
  * @param {UUID} mentionId
  * @returns {Array} An array of token text strings
  */
@@ -18171,12 +18183,13 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
  *
  * Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
  * something like this:
- *    {
- *     "1":{"str":"tests/testdata/serif_dog-bites-man.xml"},
- *     "2":{"rec":{"1":{"str":"a90d397a-560f-44a0-baae-c82a34e4be09"}}},
- *     "3":{"str":"CommunicationType.OTHER"},
- *     ...
- *    }
+ *
+ *     {
+ *       "1":{"str":"tests/testdata/serif_dog-bites-man.xml"},
+ *       "2":{"rec":{"1":{"str":"a90d397a-560f-44a0-baae-c82a34e4be09"}}},
+ *       "3":{"str":"CommunicationType.OTHER"},
+ *       ...
+ *     }
  *
  * @param {Object} commJSONObject - An object created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
@@ -18193,6 +18206,7 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
 
 /**
  * Initialize Communication from a TJSONProtocol string created from a Communication
+ *
  * @param {String} commJSONString - A JSON string created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
@@ -18218,6 +18232,7 @@ Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
 
 /**
  * Returns JSON object for Communication serialized using TJSONProtocol
+ *
  * @returns {Object}
  */
 Communication.prototype.toTJSONProtocolObject = function() {
@@ -18227,6 +18242,7 @@ Communication.prototype.toTJSONProtocolObject = function() {
 
 /**
  * Returns JSON string for Communication serialized using TJSONProtocol
+ *
  * @returns {String}
  */
 Communication.prototype.toTJSONProtocolString = function() {
@@ -18256,13 +18272,12 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="communication communication_[COMMUNICATION_UUID]"&gt;
-     *         &lt;div class="section section_[SECTION_UUID]"&gt;
+     *
+     *     <div class="communication communication_[COMMUNICATION_UUID]">
+     *         <div class="section section_[SECTION_UUID]">
      *             [...]
-     *         &lt;div class="section section_[SECTION_UUID]"&gt;
+     *         <div class="section section_[SECTION_UUID]">
      *             [...]
-     * </pre>
      *
      * {@link concrete.widget.createCommunicationDiv} calls
      * {@link concrete.widget.createSectionDiv} to create the
@@ -18302,14 +18317,14 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="section section_[SECTION_UUID]"&gt;
-     *         &lt;div class="sentence sentence_[SENTENCE_UUID]"&gt;
+     *
+     *     <div class="section section_[SECTION_UUID]">
+     *         <div class="sentence sentence_[SENTENCE_UUID]">
      *             [...]
-     *         &lt;span class="sentence_padding"&gt; &lt;/span&gt;
-     *         &lt;div class="sentence sentence_[SENTENCE_UUID]"&gt;
+     *         <span class="sentence_padding"> </span>
+     *         <div class="sentence sentence_[SENTENCE_UUID]">
      *             [...]
-     * </pre>
+     *
      * {@link concrete.widget.createSectionDiv} calls
      * {@link concrete.widget.createSentenceDiv}
      * to create the DOM structure for the Sentence.
@@ -18369,11 +18384,11 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="sentence sentence_[SENTENCE_UUID]"&gt;
-     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
+     *
+     *     <div class="sentence sentence_[SENTENCE_UUID]">
+     *         <div class="tokenization tokenization_[TOKENIZATION_UUID]">
      *             [...]
-     * </pre>
+     *
      * {@link concrete.widget.createSentenceDiv} calls
      * {@link concrete.widget.createTokenizationDiv}
      * to create the DOM structure for the Sentence's Tokenization.
@@ -18401,15 +18416,14 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * <pre>
-     *     &lt;div class="tokenization_container"&gt;
-     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
-     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
+     *
+     *     <div class="tokenization_container">
+     *         <div class="tokenization tokenization_[TOKENIZATION_UUID]">
+     *             <span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]">
+     *             <span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]">
+     *             <span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
+     *             <span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
      *             [...]
-     * </pre>
      *
      * @function concrete.widget.createTokenizationDiv
      * @memberof concrete.widget
@@ -18498,18 +18512,18 @@ concrete.widget = (function() {
             var tokenRefSequence = new TokenRefSequence();
 
             if (lastTokenesqueLastSentence.hasClass('token')) {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(lastTokenesqueLastSentence);
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(lastTokenesqueLastSentence);
             }
             else {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                     lastTokenesqueLastSentence.prev('.token'));
             }
             tokenRefSequence.tokenIndexList = [];
             lastTokenesqueLastSentence.prevAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
             if (lastTokenesqueLastSentence.hasClass('token')) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenesqueLastSentence));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(lastTokenesqueLastSentence));
             }
 
             return tokenRefSequence;
@@ -18517,10 +18531,10 @@ concrete.widget = (function() {
 
         function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
             var tokenRefSequence = new TokenRefSequence();
-            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
+            tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
             tokenRefSequence.tokenIndexList = [];
             tokenizationElement.find('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
             return tokenRefSequence;
         }
@@ -18531,15 +18545,15 @@ concrete.widget = (function() {
             var tokenRefSequence = new TokenRefSequence();
             tokenRefSequence.tokenIndexList = [];
             if (firstTokenesqueFirstSentence.hasClass('token')) {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenesqueFirstSentence);
-                tokenRefSequence.tokenIndexList.push(getTokenIndex(firstTokenesqueFirstSentence));
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(firstTokenesqueFirstSentence);
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(firstTokenesqueFirstSentence));
             }
             else {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                     firstTokenesqueFirstSentence.next('.token'));
             }
             firstTokenesqueFirstSentence.nextAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
 
             return tokenRefSequence;
@@ -18565,18 +18579,18 @@ concrete.widget = (function() {
                 var tokenRefSequence = new TokenRefSequence();
                 tokenRefSequence.tokenIndexList = [];
                 if (firstTokenesqueElement.hasClass('token')) {
-                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenesqueElement);
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex(firstTokenesqueElement));
+                    tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(firstTokenesqueElement);
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(firstTokenesqueElement));
                 }
                 else {
-                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                    tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                         firstTokenesqueElement.next('.token'));
                 }
                 middleTokenElements.each(function(i, tokenElement) {
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
                 });
                 if (lastTokenesqueElement.hasClass('token')) {
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenesqueElement));
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(lastTokenesqueElement));
                 }
                 tokenRefSequenceList.push(tokenRefSequence);
             }
@@ -18633,6 +18647,30 @@ concrete.widget = (function() {
         return tokenRefSequenceList;
     };
 
+    widget.getTokenIndexAndTokenizationUUID = function(tokenElement) {
+        var classList = tokenElement.attr('class').split(' ');
+        for (var i in classList) {
+            var fields = classList[i].split('_');
+            if (fields.length === 3 && fields[0] === 'token' && fields[1].length === 36) {
+                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
+            }
+            else if (fields.length === 4 && fields[0] === 'token' &&
+                     fields[1] === 'padding' && fields[2].length === 36) {
+                return [parseInt(fields[3]), new UUID({'uuidString': fields[2]})];
+            }
+        }
+        return [undefined, undefined];
+    };
+
+    widget.getTokenIndex = function(tokenElement) {
+        return widget.getTokenIndexAndTokenizationUUID(tokenElement)[0];
+    };
+
+    widget.getTokenizationUUIDForToken = function(tokenElement) {
+        return widget.getTokenIndexAndTokenizationUUID(tokenElement)[1];
+    };
+
+
     /**
      * @function concrete.widget.getTokenRefSequenceForTokenObject
      * @memberof concrete.widget
@@ -18641,8 +18679,8 @@ concrete.widget = (function() {
      */
     widget.getTokenRefSequenceForTokenObject = function(tokenObject) {
         var tokenRefSequence = new TokenRefSequence();
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenObject);
-        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenObject)];
+        tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenObject);
+        tokenRefSequence.tokenIndexList = [widget.getTokenIndex(tokenObject)];
         return tokenRefSequence;
     };
 
@@ -18662,10 +18700,10 @@ concrete.widget = (function() {
         }
         var tokenRefSequence = new TokenRefSequence();
         var tokenElements = tokenizationObject.find('.token');
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
+        tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenElements.first());
         tokenRefSequence.tokenIndexList = [];
         tokenElements.filter(selector).each(function(i, tokenElement) {
-            tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
         });
         return tokenRefSequence;
     };
@@ -18715,25 +18753,6 @@ concrete.widget = (function() {
         default:
             return tokenText;
         }
-    }
-
-    function getTokenIndexAndTokenizationUUID(tokenElement) {
-        var classList = tokenElement.attr('class').split(' ');
-        for (var i in classList) {
-            var fields = classList[i].split('_');
-            if (fields.length === 3 && fields[0] == 'token' && fields[1].length === 36) {
-                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
-            }
-        }
-        return [undefined, undefined];
-    }
-
-    function getTokenIndex(tokenElement) {
-        return getTokenIndexAndTokenizationUUID(tokenElement)[0];
-    }
-
-    function getTokenizationUUIDForToken(tokenElement) {
-        return getTokenIndexAndTokenizationUUID(tokenElement)[1];
     }
 
     /**
@@ -19114,9 +19133,8 @@ Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
  * Create a valid TokenTagging with required fields AnnotationMetadata and UUID
  *
  * Example usage:
- * <pre>
- *   tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
- * </pre>
+ *
+ *     tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
  *
  * @param {Object} options - Override default TokenTagging fields (except metadata)
  * @param {Object} metadataOptions - Override default tokenTagging.metadata fields
@@ -19299,10 +19317,10 @@ TokenTagging.prototype.setAllTaggedTokenTags = function(tokenization, tagText) {
   // Discard the contents of the existing taggedTokenList
   this.taggedTokenList = [];
 
-  for (var tokenIndex in tokenization.tokenList.tokenList) {
+  for (var i = 0; i < tokenization.tokenList.tokenList.length; i++) {
     taggedToken = new TaggedToken();
-    taggedToken.tag = "O";
-    taggedToken.tokenIndex = tokenIndex;
+    taggedToken.tag = tagText;
+    taggedToken.tokenIndex = i;
     this.taggedTokenList.push(taggedToken);
   }
 };

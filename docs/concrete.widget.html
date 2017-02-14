@@ -175,15 +175,11 @@
 
 <div class="description">
     <p>Returns a jQuery object containing the DOM structure:</p>
-<pre>
-    &lt;div class="communication communication_[COMMUNICATION_UUID]"&gt;
-        &lt;div class="section section_[SECTION_UUID]"&gt;
-            [...]
-        &lt;div class="section section_[SECTION_UUID]"&gt;
-            [...]
-</pre>
-
-<p><a href="concrete.widget.html#.createCommunicationDiv"><code>concrete.widget.createCommunicationDiv</code></a> calls
+<pre class="prettyprint source"><code>&lt;div class=&quot;communication communication_[COMMUNICATION_UUID]&quot;>
+    &lt;div class=&quot;section section_[SECTION_UUID]&quot;>
+        [...]
+    &lt;div class=&quot;section section_[SECTION_UUID]&quot;>
+        [...]</code></pre><p><a href="concrete.widget.html#.createCommunicationDiv"><code>concrete.widget.createCommunicationDiv</code></a> calls
 <a href="concrete.widget.html#.createSectionDiv"><code>concrete.widget.createSectionDiv</code></a> to create the
 DOM structure for the Sections.</p>
 </div>
@@ -319,7 +315,7 @@ DOM structure for the Sections.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line63">line 63</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -360,15 +356,12 @@ DOM structure for the Sections.</p>
 
 <div class="description">
     <p>Returns a jQuery object containing the DOM structure:</p>
-<p><pre>
-    &lt;div class=&quot;section section_[SECTION<em>UUID]&quot;&gt;
-        &lt;div class=&quot;sentence sentence</em>[SENTENCE_UUID]&quot;&gt;
-            [...]
-        &lt;span class=&quot;sentence<em>padding&quot;&gt; &lt;/span&gt;
-        &lt;div class=&quot;sentence sentence</em>[SENTENCE_UUID]&quot;&gt;
-            [...]
-</pre>
-<a href="concrete.widget.html#.createSectionDiv"><code>concrete.widget.createSectionDiv</code></a> calls
+<pre class="prettyprint source"><code>&lt;div class=&quot;section section_[SECTION_UUID]&quot;>
+    &lt;div class=&quot;sentence sentence_[SENTENCE_UUID]&quot;>
+        [...]
+    &lt;span class=&quot;sentence_padding&quot;> &lt;/span>
+    &lt;div class=&quot;sentence sentence_[SENTENCE_UUID]&quot;>
+        [...]</code></pre><p><a href="concrete.widget.html#.createSectionDiv"><code>concrete.widget.createSectionDiv</code></a> calls
 <a href="concrete.widget.html#.createSentenceDiv"><code>concrete.widget.createSentenceDiv</code></a>
 to create the DOM structure for the Sentence.</p>
 </div>
@@ -504,7 +497,7 @@ to create the DOM structure for the Sentence.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line130">line 130</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -545,12 +538,9 @@ to create the DOM structure for the Sentence.</p>
 
 <div class="description">
     <p>Returns a jQuery object containing the DOM structure:</p>
-<p><pre>
-    &lt;div class=&quot;sentence sentence_[SENTENCE<em>UUID]&quot;&gt;
-        &lt;div class=&quot;tokenization tokenization</em>[TOKENIZATION_UUID]&quot;&gt;
-            [...]
-</pre>
-<a href="concrete.widget.html#.createSentenceDiv"><code>concrete.widget.createSentenceDiv</code></a> calls
+<pre class="prettyprint source"><code>&lt;div class=&quot;sentence sentence_[SENTENCE_UUID]&quot;>
+    &lt;div class=&quot;tokenization tokenization_[TOKENIZATION_UUID]&quot;>
+        [...]</code></pre><p><a href="concrete.widget.html#.createSentenceDiv"><code>concrete.widget.createSentenceDiv</code></a> calls
 <a href="concrete.widget.html#.createTokenizationDiv"><code>concrete.widget.createTokenizationDiv</code></a>
 to create the DOM structure for the Sentence's Tokenization.</p>
 </div>
@@ -686,7 +676,7 @@ to create the DOM structure for the Sentence's Tokenization.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line162">line 162</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -727,15 +717,13 @@ to create the DOM structure for the Sentence's Tokenization.</p>
 
 <div class="description">
     <p>Returns a jQuery object containing the DOM structure:</p>
-<pre>
-    &lt;div class="tokenization_container"&gt;
-        &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&gt;
-            &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-            &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&gt;
-            &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-            &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&gt;
-            [...]
-</pre>
+<pre class="prettyprint source"><code>&lt;div class=&quot;tokenization_container&quot;>
+    &lt;div class=&quot;tokenization tokenization_[TOKENIZATION_UUID]&quot;>
+        &lt;span class=&quot;token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]&quot;>
+        &lt;span class=&quot;token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]&quot;>
+        &lt;span class=&quot;token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]&quot;>
+        &lt;span class=&quot;token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]&quot;>
+        [...]</code></pre>
 </div>
 
 
@@ -869,7 +857,7 @@ to create the DOM structure for the Sentence's Tokenization.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line242">line 242</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -976,7 +964,7 @@ or sections, multiple TokenRefSequences will be returned.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line396">line 396</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line417">line 417</a>
     </li></ul></dd>
     
 
@@ -1123,7 +1111,7 @@ or sections, multiple TokenRefSequences will be returned.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line409">line 409</a>
+        <a href="concrete-widgets.js.html">concrete-widgets.js</a>, <a href="concrete-widgets.js.html#line430">line 430</a>
     </li></ul></dd>
     
 

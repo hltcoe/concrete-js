@@ -55,13 +55,12 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * &lt;pre>
-     *     &amp;lt;div class="communication communication_[COMMUNICATION_UUID]"&amp;gt;
-     *         &amp;lt;div class="section section_[SECTION_UUID]"&amp;gt;
+     *
+     *     &lt;div class="communication communication_[COMMUNICATION_UUID]">
+     *         &lt;div class="section section_[SECTION_UUID]">
      *             [...]
-     *         &amp;lt;div class="section section_[SECTION_UUID]"&amp;gt;
+     *         &lt;div class="section section_[SECTION_UUID]">
      *             [...]
-     * &lt;/pre>
      *
      * {@link concrete.widget.createCommunicationDiv} calls
      * {@link concrete.widget.createSectionDiv} to create the
@@ -101,14 +100,14 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * &lt;pre>
-     *     &amp;lt;div class="section section_[SECTION_UUID]"&amp;gt;
-     *         &amp;lt;div class="sentence sentence_[SENTENCE_UUID]"&amp;gt;
+     *
+     *     &lt;div class="section section_[SECTION_UUID]">
+     *         &lt;div class="sentence sentence_[SENTENCE_UUID]">
      *             [...]
-     *         &amp;lt;span class="sentence_padding"&amp;gt; &amp;lt;/span&amp;gt;
-     *         &amp;lt;div class="sentence sentence_[SENTENCE_UUID]"&amp;gt;
+     *         &lt;span class="sentence_padding"> &lt;/span>
+     *         &lt;div class="sentence sentence_[SENTENCE_UUID]">
      *             [...]
-     * &lt;/pre>
+     *
      * {@link concrete.widget.createSectionDiv} calls
      * {@link concrete.widget.createSentenceDiv}
      * to create the DOM structure for the Sentence.
@@ -168,11 +167,11 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * &lt;pre>
-     *     &amp;lt;div class="sentence sentence_[SENTENCE_UUID]"&amp;gt;
-     *         &amp;lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&amp;gt;
+     *
+     *     &lt;div class="sentence sentence_[SENTENCE_UUID]">
+     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]">
      *             [...]
-     * &lt;/pre>
+     *
      * {@link concrete.widget.createSentenceDiv} calls
      * {@link concrete.widget.createTokenizationDiv}
      * to create the DOM structure for the Sentence's Tokenization.
@@ -200,15 +199,14 @@ concrete.widget = (function() {
 
     /**
      * Returns a jQuery object containing the DOM structure:
-     * &lt;pre>
-     *     &amp;lt;div class="tokenization_container"&amp;gt;
-     *         &amp;lt;div class="tokenization tokenization_[TOKENIZATION_UUID]"&amp;gt;
-     *             &amp;lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&amp;gt;
-     *             &amp;lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]"&amp;gt;
-     *             &amp;lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&amp;gt;
-     *             &amp;lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]"&amp;gt;
+     *
+     *     &lt;div class="tokenization_container">
+     *         &lt;div class="tokenization tokenization_[TOKENIZATION_UUID]">
+     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]">
+     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_0]">
+     *             &lt;span class="token token_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
+     *             &lt;span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
      *             [...]
-     * &lt;/pre>
      *
      * @function concrete.widget.createTokenizationDiv
      * @memberof concrete.widget
@@ -297,18 +295,18 @@ concrete.widget = (function() {
             var tokenRefSequence = new TokenRefSequence();
 
             if (lastTokenesqueLastSentence.hasClass('token')) {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(lastTokenesqueLastSentence);
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(lastTokenesqueLastSentence);
             }
             else {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                     lastTokenesqueLastSentence.prev('.token'));
             }
             tokenRefSequence.tokenIndexList = [];
             lastTokenesqueLastSentence.prevAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
             if (lastTokenesqueLastSentence.hasClass('token')) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenesqueLastSentence));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(lastTokenesqueLastSentence));
             }
 
             return tokenRefSequence;
@@ -316,10 +314,10 @@ concrete.widget = (function() {
 
         function getTokenRefSequenceForEntireTokenization(tokenizationElement) {
             var tokenRefSequence = new TokenRefSequence();
-            tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
+            tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenizationElement.find('.token').first());
             tokenRefSequence.tokenIndexList = [];
             tokenizationElement.find('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
             return tokenRefSequence;
         }
@@ -330,15 +328,15 @@ concrete.widget = (function() {
             var tokenRefSequence = new TokenRefSequence();
             tokenRefSequence.tokenIndexList = [];
             if (firstTokenesqueFirstSentence.hasClass('token')) {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenesqueFirstSentence);
-                tokenRefSequence.tokenIndexList.push(getTokenIndex(firstTokenesqueFirstSentence));
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(firstTokenesqueFirstSentence);
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(firstTokenesqueFirstSentence));
             }
             else {
-                tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                     firstTokenesqueFirstSentence.next('.token'));
             }
             firstTokenesqueFirstSentence.nextAll('.token').each(function(i, tokenElement) {
-                tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
             });
 
             return tokenRefSequence;
@@ -364,18 +362,18 @@ concrete.widget = (function() {
                 var tokenRefSequence = new TokenRefSequence();
                 tokenRefSequence.tokenIndexList = [];
                 if (firstTokenesqueElement.hasClass('token')) {
-                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(firstTokenesqueElement);
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex(firstTokenesqueElement));
+                    tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(firstTokenesqueElement);
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(firstTokenesqueElement));
                 }
                 else {
-                    tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(
+                    tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(
                         firstTokenesqueElement.next('.token'));
                 }
                 middleTokenElements.each(function(i, tokenElement) {
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
                 });
                 if (lastTokenesqueElement.hasClass('token')) {
-                    tokenRefSequence.tokenIndexList.push(getTokenIndex(lastTokenesqueElement));
+                    tokenRefSequence.tokenIndexList.push(widget.getTokenIndex(lastTokenesqueElement));
                 }
                 tokenRefSequenceList.push(tokenRefSequence);
             }
@@ -432,6 +430,29 @@ concrete.widget = (function() {
         return tokenRefSequenceList;
     };
 
+    widget.getTokenIndexAndTokenizationUUID = function(tokenElement) {
+        var classList = tokenElement.attr('class').split(' ');
+        for (var i in classList) {
+            var fields = classList[i].split('_');
+            if (fields.length === 3 &amp;&amp;
+                (fields[0] == 'token' || fields[0] == 'token_padding') &amp;&amp;
+                fields[1].length === 36)
+            {
+                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
+            }
+        }
+        return [undefined, undefined];
+    };
+
+    widget.getTokenIndex = function(tokenElement) {
+        return widget.getTokenIndexAndTokenizationUUID(tokenElement)[0];
+    };
+
+    widget.getTokenizationUUIDForToken = function(tokenElement) {
+        return widget.getTokenIndexAndTokenizationUUID(tokenElement)[1];
+    };
+
+
     /**
      * @function concrete.widget.getTokenRefSequenceForTokenObject
      * @memberof concrete.widget
@@ -440,8 +461,8 @@ concrete.widget = (function() {
      */
     widget.getTokenRefSequenceForTokenObject = function(tokenObject) {
         var tokenRefSequence = new TokenRefSequence();
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenObject);
-        tokenRefSequence.tokenIndexList = [getTokenIndex(tokenObject)];
+        tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenObject);
+        tokenRefSequence.tokenIndexList = [widget.getTokenIndex(tokenObject)];
         return tokenRefSequence;
     };
 
@@ -461,10 +482,10 @@ concrete.widget = (function() {
         }
         var tokenRefSequence = new TokenRefSequence();
         var tokenElements = tokenizationObject.find('.token');
-        tokenRefSequence.tokenizationId = getTokenizationUUIDForToken(tokenElements.first());
+        tokenRefSequence.tokenizationId = widget.getTokenizationUUIDForToken(tokenElements.first());
         tokenRefSequence.tokenIndexList = [];
         tokenElements.filter(selector).each(function(i, tokenElement) {
-            tokenRefSequence.tokenIndexList.push(getTokenIndex($(tokenElement)));
+            tokenRefSequence.tokenIndexList.push(widget.getTokenIndex($(tokenElement)));
         });
         return tokenRefSequence;
     };
@@ -514,25 +535,6 @@ concrete.widget = (function() {
         default:
             return tokenText;
         }
-    }
-
-    function getTokenIndexAndTokenizationUUID(tokenElement) {
-        var classList = tokenElement.attr('class').split(' ');
-        for (var i in classList) {
-            var fields = classList[i].split('_');
-            if (fields.length === 3 &amp;&amp; fields[0] == 'token' &amp;&amp; fields[1].length === 36) {
-                return [parseInt(fields[2]), new UUID({'uuidString': fields[1]})];
-            }
-        }
-        return [undefined, undefined];
-    }
-
-    function getTokenIndex(tokenElement) {
-        return getTokenIndexAndTokenizationUUID(tokenElement)[0];
-    }
-
-    function getTokenizationUUIDForToken(tokenElement) {
-        return getTokenIndexAndTokenizationUUID(tokenElement)[1];
     }
 
     /**

@@ -40,10 +40,8 @@
   <script>
 
   $.fn.segmentationWidget = function() {
-    function togglePadding(event) {
+    function updateSegmentation(event) {
       var tokenPaddingElement = $(this);
-
-      tokenPaddingElement.toggleClass('highlighted');
 
       var nextTokenIndex = 1 + concrete.widget.getTokenIndex(tokenPaddingElement);
       if (tokenTagging.bioGetBIOValue(nextTokenIndex) === 'B') {
@@ -52,8 +50,22 @@
       else if (tokenTagging.bioGetBIOValue(nextTokenIndex) === 'I') {
         tokenTagging.bioSetTaggedTokenTag('B', 'SEG', nextTokenIndex);
       }
+
+      updateTokenPaddingHighlighting();
     }
 
+    function updateTokenPaddingHighlighting() {
+      for (var i = 1; i < tokenization.tokenList.tokenList.length; i++) {
+        if (tokenTagging.bioGetBIOValue(i) === 'B') {
+          tokenizationWidget.getTokenPaddingElementsWithIndex(tokenization, i-1).removeClass('highlighted');
+        }
+        else if (tokenTagging.bioGetBIOValue(i) === 'I') {
+          tokenizationWidget.getTokenPaddingElementsWithIndex(tokenization, i-1).addClass('highlighted');
+        }
+      }
+    }
+
+    var tokenizationWidget = this;
     var tokenization = this.find('.tokenization').data('tokenization');
     var tokenTagging = TokenTagging.create({taggingType: 'Segmentation'}, {tool: 'segmentation.html'});
 
@@ -64,7 +76,10 @@
     // Update DOM to reflect that all segments are connected
     var tokenElements = this.getTokenElements(tokenization);
     tokenElements.addClass('highlighted');
-    this.find('.token_padding').addClass('highlighted').click(togglePadding);
+
+    this.find('.token_padding').click(updateSegmentation);
+
+    updateTokenPaddingHighlighting();
   };
 
   $(document).ready(function() {

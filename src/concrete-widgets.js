@@ -739,7 +739,7 @@ concrete.widget = (function() {
     /**
      * Returns a jQuery object for .token_padding element(s) specified by tokenization+tokenIndex
      *
-     * @function external:"jQuery.fn".getTokenElementsWithIndex
+     * @function external:"jQuery.fn".getTokenPaddingElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
      * @returns {external:jQuery_Object} - jQuery Object for .token_padding element(s) for tokenization+tokenIndex

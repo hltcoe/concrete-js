@@ -66,15 +66,17 @@
 
     var tokenizeSentenceDiv = $('<div>').addClass('tokenize_sentence')
                                         .data('sentence', sentence);
-    for (var i = sentence.textSpan.start; i < sentence.textSpan.ending-1; i++) {
+    for (var i = sentence.textSpan.start; i < sentence.textSpan.ending; i++) {
       tokenizeSentenceDiv.append(
         $('<span>').addClass('character')
                    .text(sentence.section.comm.text.substring(i, i+1)));
-      tokenizeSentenceDiv.append(
-        $('<span>').addClass('character_gap')
-                   .attr('tabindex', $.fn.TOKENIZE_TABINDEX_OFFSET + i)
-                   .html('&nbsp; ')
-                   .keydown(toggleHighlightingWhenSpacePressed));
+      if (i < sentence.textSpan.ending-1) {
+        tokenizeSentenceDiv.append(
+          $('<span>').addClass('character_gap')
+                     .attr('tabindex', $.fn.TOKENIZE_TABINDEX_OFFSET + i)
+                     .html('&nbsp; ')
+                     .keydown(toggleHighlightingWhenSpacePressed));
+      }
     }
     this.append(tokenizeSentenceDiv);
 
@@ -123,8 +125,13 @@
       comm.initFromTJSONProtocolObject(commJSONData);
       comm.addInternalReferences();
 
-      var firstSentence = comm.getFirstSentence();
-      $('#sentence_one').tokenizeSentenceWidget(firstSentence);
+      var sentences = comm.getSentencesAsList();
+
+      for (i = 0 ; i < sentences.length; i++) {
+        var sentenceDiv = $('<div>').addClass('communication_container');
+        sentenceDiv.tokenizeSentenceWidget(sentences[i]);
+        $('#sentence_list').append(sentenceDiv);
+      }
 
       $('#initial_focus').attr('tabindex', 1).focus();
     });
@@ -143,10 +150,9 @@
           Press the space key to connect merge characters into multi-character tokens.
         </p>
       </div>
-      <div class="communication_container">
-        <div id="sentence_one">
-          <span id="initial_focus"></span>
-        </div>
+      <div>
+        <span id="initial_focus"></span>
+        <div id="sentence_list"></div>
       </div>
     </div>
 

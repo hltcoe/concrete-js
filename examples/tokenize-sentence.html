@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>concrete-js examples</title>
+  <meta charset='UTF-8'>
+
+  <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bootstrap-3.2.0/css/bootstrap-theme.css"/>
+  <link rel="stylesheet" href="examples.css"/>
+
+  <script src="jquery-1.11.1.js"></script>
+  <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
+
+  <script src="../dist/thrift.js"></script>
+  <script src="../dist/concrete.js"></script>
+
+  <style>
+  .character {
+    display: inline-block;
+    border-bottom: 10px solid #F4F4F4;
+  }
+  .character_gap {
+    cursor: pointer;
+    display: inline-block;
+    min-width: 1em;
+  }
+  .connected {
+    background-color: yellow;
+    border-bottom: 10px solid #CCCCCC;
+  }
+  </style>
+
+  <script>
+  function toggleHighlightingWhenSpacePressed(event) {
+    var el = $(this);
+    if (el.hasClass('character_gap')) {
+      if (event.which === 32) {
+        var prevEl = el.prev();
+        var nextEl = el.next();
+
+        if (el.hasClass('connected')) {
+          el.removeClass('connected');
+          if (!el.prev().prev('.character_gap').hasClass('connected')) {
+            prevEl.removeClass('connected');
+          }
+          if (!el.next().next('.character_gap').hasClass('connected')) {
+            nextEl.removeClass('connected');
+          }
+        }
+        else {
+          el.addClass('connected');
+          prevEl.addClass('connected');
+          nextEl.addClass('connected');
+        }
+      }
+    }
+  }
+
+  // We do not want any of the .character_gap spans to have a tabindex of 0, as
+  // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
+  //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+  // We use a TABINDEX_OFFSET, so that the character in the Communication with
+  // character index 0 is not assigned a tabindex of 0.
+  var TABINDEX_OFFSET = 10;
+
+  $(document).ready(function() {
+    $.getJSON('weibo.comm.json', function(commJSONData) {
+      var comm = new Communication();
+      comm.initFromTJSONProtocolObject(commJSONData);
+
+      var firstSentence = comm.getFirstSentence();
+      var sentenceText = comm.text.substring(firstSentence.textSpan.start, firstSentence.textSpan.ending);
+
+      var sentenceDiv = $('<div>');
+      for (var i = firstSentence.textSpan.start; i < firstSentence.textSpan.ending-1; i++) {
+        sentenceDiv.append(
+          $('<span>').addClass('character')
+                     .text(comm.text.substring(i, i+1)));
+        sentenceDiv.append(
+          $('<span>').addClass('character_gap')
+                     .attr('tabindex', TABINDEX_OFFSET + i)
+                     .html('&nbsp; ')
+                     .keydown(toggleHighlightingWhenSpacePressed));
+      }
+      $('#sentence_one').append(sentenceDiv);
+      $('#initial_focus').attr('tabindex', TABINDEX_OFFSET - 1)
+                         .focus();
+    });
+  });
+  </script>
+</head>
+<body>
+  <div class="container-fluid">
+
+    <div style="padding-top: 2em;">
+      <h2>Sentence tokenization UI example</h2>
+      <div>
+        <p>
+          Press tab (or shift-tab) to move the focus between two characters.
+
+          Press the space key to connect merge characters into multi-character tokens.
+        </p>
+      </div>
+      <div class="communication_container">
+        <div id="sentence_one">
+          <span id="initial_focus"></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -82,16 +82,14 @@ class DirectoryBackedStoreHandler(object):
 
 @bottle.post('/fetch_http_endpoint/')
 def fetch_http_endpoint():
-    logging.info('fetch_http_endpoint()')
-    thrift_endpoint(AccessHTTPServer.FETCH_TSERVER)
+    return thrift_endpoint(AccessHTTPServer.FETCH_TSERVER)
 
 @bottle.post('/store_http_endpoint/')
 def store_http_endpoint():
-    thrift_endpoint(AccessHTTPServer.STORE_TSERVER)
+    return thrift_endpoint(AccessHTTPServer.STORE_TSERVER)
 
 @bottle.route('/<filepath:path>')
 def server_static(filepath):
-    logging.info('server_static: %s' % filepath)
     return bottle.static_file(filepath, root=AccessHTTPServer.STATIC_PATH)
 
 def thrift_endpoint(tserver):

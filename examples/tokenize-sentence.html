@@ -36,17 +36,18 @@
   </style>
 
   <script>
-  // We do not want any of the .character_gap spans to have a tabindex of 0, as
-  // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
-  //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
-  // We use a positive offset, so that the character in the Communication with
-  // character index 0 is not assigned a tabindex of 0.
-  $.fn.TOKENIZE_TABINDEX_OFFSET = 10;
-
   /**
    *
    */
   $.fn.manualTokenizationWidget = function(sentence) {
+    // We do not want any of the .character_gap spans to have a tabindex of 0, as
+    // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
+    //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+    // We use a positive offset, so that the character in the Communication with
+    // character index 0 is not assigned a tabindex of 0.
+    var TOKENIZE_TABINDEX_OFFSET = 10;
+
+
     function toggleHighlightingWhenSpacePressed(event) {
       var el = $(this);
       if (el.hasClass('character_gap')) {
@@ -81,7 +82,8 @@
       if (i < sentence.textSpan.ending-1) {
         tokenizeSentenceDiv.append(
           $('<span>').addClass('character_gap')
-                     .attr('tabindex', $.fn.TOKENIZE_TABINDEX_OFFSET + i)
+                     .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
+                     .data('tokenIndex', i)
                      .html('&nbsp; ')
                      .keydown(toggleHighlightingWhenSpacePressed));
       }
@@ -106,7 +108,7 @@
 
     var joinedTokenIndices = [];
     tokenizeSentenceDiv.find('.character_gap.connected_characters').each(function() {
-      joinedTokenIndices.push(parseInt($(this).attr('tabindex')) - $.fn.TOKENIZE_TABINDEX_OFFSET);
+      joinedTokenIndices.push($(this).data('tokenIndex'));
     });
 
     var tokenization = new Tokenization();

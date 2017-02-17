@@ -18995,7 +18995,7 @@ concrete.widget = (function() {
     /**
      * Returns a jQuery object for .token_padding element(s) specified by tokenization+tokenIndex
      *
-     * @function external:"jQuery.fn".getTokenElementsWithIndex
+     * @function external:"jQuery.fn".getTokenPaddingElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
      * @returns {external:jQuery_Object} - jQuery Object for .token_padding element(s) for tokenization+tokenIndex
@@ -19427,6 +19427,32 @@ concrete.util = (function() {
       "-" +
       hex(rand(48), 12);        // node
   };
+
+  /** Retrieve HTTP GET parameters by name
+   *
+   * Copied from:
+   *   http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
+   *
+   * @param {String} sParam - Name of HTTP GET parameter to retrieve
+   * @function concrete.util.getURLParameter
+   * @memberof concrete.util
+   * @returns {String}
+   */
+  util.getURLParameter = function(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+    }
+  };
+
 
   return util;
 })();

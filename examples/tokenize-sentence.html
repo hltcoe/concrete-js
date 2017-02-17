@@ -28,6 +28,11 @@
     background-color: yellow;
     border-bottom: 10px solid #CCCCCC;
   }
+
+  .communication_id_item {
+    display: inline-block;
+    padding: 0.5em;
+  }
   </style>
 
   <script>
@@ -130,6 +135,23 @@
     return tokenization;
   };
 
+  function displayErrorMessage(message) {
+    $('#error_message_text').text(message);
+    $('#error_message_div').show();
+  }
+
+  function renderSentences(comm) {
+    comm.addInternalReferences();
+
+    var sentences = comm.getSentencesAsList();
+
+    for (i = 0 ; i < sentences.length; i++) {
+      var sentenceDiv = $('<div>').addClass('communication_container');
+      sentenceDiv.manualTokenizationWidget(sentences[i]);
+      $('#sentence_list').append(sentenceDiv);
+    }
+  }
+
   function saveManuallyTokenizedCommunication() {
     var comm = $('#sentence_list').find('.manual_tokenization').first().data('sentence').section.comm;
     $('#sentence_list').find('.manual_tokenization').each(function() {
@@ -141,49 +163,80 @@
     var transport = new Thrift.Transport("/store_http_endpoint/");
     var protocol = new Thrift.TJSONProtocol(transport);
     var storeClient = new StoreCommunicationServiceClient(protocol);
-    try {
-      storeClient.store(comm);
-    }
-    catch (e) {
-      // HACK: For some reason, the Thrift-generated JavaScript is expecting some sort of return
-      //       value for StoreCommunicationService.store(), even though the function has a void
-      //       return type.  We ignore this particular error message.
-      //
-      //       The concrete.js call stack is store() -> recv_store() -> readMessageBegin(), and
-      //       readMessageBegin() tries to call JSON.parse() on the empty string, "".
-      if (!(e instanceof SyntaxError && e.toString() === "SyntaxError: JSON Parse error: Unexpected EOF")) {
-        throw e;
-      }
-    }
+    storeClient.store(comm);
   }
 
   $(document).ready(function() {
-    $.getJSON('weibo.comm.json', function(commJSONData) {
-      var comm = new Communication();
-      comm.initFromTJSONProtocolObject(commJSONData);
-      comm.addInternalReferences();
+    var transport = new Thrift.Transport("/fetch_http_endpoint/");
+    var protocol = new Thrift.TJSONProtocol(transport);
+    var fetchClient = new FetchCommunicationServiceClient(protocol);
 
-      var sentences = comm.getSentencesAsList();
+    var fetchAvailable = false;
+    try {
+      fetchClient.alive();
+      fetchAvailable = true;
+    }
+    catch (e) {
+      // If Fetch is unavailable, ignore expected behavior
+      if (e !== "encountered a unknown request status: 0") {
+        throw e;
+      }
+    }
 
-      for (i = 0 ; i < sentences.length; i++) {
-        var sentenceDiv = $('<div>').addClass('communication_container');
-        sentenceDiv.manualTokenizationWidget(sentences[i]);
-        $('#sentence_list').append(sentenceDiv);
+    if (fetchAvailable) {
+      $('#document_list_button').show();
+
+      var commID = concrete.util.getURLParameter('id');
+
+      if (commID) {
+        var fetchRequest = new FetchRequest({communicationIds: [commID]});
+        var fetchResult = fetchClient.fetch(fetchRequest);
+        comm =fetchResult.communications[0];
+        if (comm) {
+          renderSentences(comm);
+        }
+        else {
+          displayErrorMessage('Unable to Fetch Communication with ID "' + commID + '"');
+        }
+      }
+      else {
+        var communicationIDs = fetchClient.getCommunicationIDs(0, fetchClient.getCommunicationCount());
+        for (var i = 0; i < communicationIDs.length; i++) {
+          $('#communication_id_list').append(
+            $('<span>').addClass('communication_id_item')
+                       .append(
+                         $('<a>').attr('href', '?id=' + communicationIDs[i])
+                                 .text(communicationIDs[i])));
+        }
       }
 
-      $('#initial_focus').attr('tabindex', 1).focus();
+    }
+    else {
+      $.getJSON('weibo.comm.json', function(commJSONData) {
+        var comm = new Communication();
+        comm.initFromTJSONProtocolObject(commJSONData);
+        renderSentences(comm);
+      });
+    }
 
-      $('#save_button').click(saveManuallyTokenizedCommunication);
-    });
+    $('#initial_focus').attr('tabindex', 1).focus();
+    $('#save_button').click(saveManuallyTokenizedCommunication);
   });
   </script>
 </head>
 <body>
   <div class="container-fluid">
+    <div style="padding-top: 1em;">
+      <button id="save_button" type="button" class="btn btn-default">Save</button>
+      <a id="document_list_button" type="button" class="btn btn-default" href="?" style="display: none;">Document List</a>
+    </div>
 
-    <button id="save_button" type="button" class="btn btn-default">Save</button>
+    <div id="error_message_div" class="alert alert-danger" style="display: none; margin-top: 1em;">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span id="error_message_text"></span>
+    </div>
 
-    <div style="padding-top: 2em;">
+    <div style="padding-top: 1em;">
       <h2>Manual tokenization UI example</h2>
       <div>
         <p>
@@ -198,6 +251,9 @@
       </div>
     </div>
 
+    <hr />
+
+    <div id="communication_id_list"></div>
   </div>
 </body>
 </html>

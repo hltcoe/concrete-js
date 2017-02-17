@@ -11,8 +11,8 @@
   <script src="jquery-1.11.1.js"></script>
   <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
 
-  <script src="../dist/thrift.js"></script>
-  <script src="../dist/concrete.js"></script>
+  <script src="thrift.js"></script>
+  <script src="concrete.js"></script>
 
   <style>
   .character {
@@ -38,7 +38,10 @@
   // character index 0 is not assigned a tabindex of 0.
   $.fn.TOKENIZE_TABINDEX_OFFSET = 10;
 
-  $.fn.tokenizeSentenceWidget = function(sentence) {
+  /**
+   *
+   */
+  $.fn.manualTokenizationWidget = function(sentence) {
     function toggleHighlightingWhenSpacePressed(event) {
       var el = $(this);
       if (el.hasClass('character_gap')) {
@@ -64,7 +67,7 @@
       }
     }
 
-    var tokenizeSentenceDiv = $('<div>').addClass('tokenize_sentence')
+    var tokenizeSentenceDiv = $('<div>').addClass('manual_tokenization')
                                         .data('sentence', sentence);
     for (var i = sentence.textSpan.start; i < sentence.textSpan.ending; i++) {
       tokenizeSentenceDiv.append(
@@ -83,9 +86,17 @@
     return this;
   };
 
-
-  $.fn.getTokenizedSentence = function() {
-    var tokenizeSentenceDiv = this.find('.tokenize_sentence').first();
+  /**
+   *
+   */
+  $.fn.getManualTokenization = function() {
+    var tokenizeSentenceDiv;
+    if (this.hasClass('manual_tokenization')) {
+      tokenizeSentenceDiv = this;
+    }
+    else {
+      tokenizeSentenceDiv = this.find('.manual_tokenization').first();
+    }
     var sentence = tokenizeSentenceDiv.data('sentence');
 
     var joinedTokenIndices = [];
@@ -98,7 +109,8 @@
     tokenization.metadata = new AnnotationMetadata();
     tokenization.metadata.timestamp = Math.floor(Date.now()/1000);
     tokenization.metadata.tool = 'concrete.js - getTokenizedSentence()';
-    tokenization.tokenList = [];
+    tokenization.tokenList = new TokenList();
+    tokenization.tokenList.tokenList = [];
     tokenization.uuid = concrete.util.generateUUID();
 
     for (var i = sentence.textSpan.start; i < sentence.textSpan.ending-1; i++) {
@@ -111,13 +123,39 @@
       var token = new Token();
       token.text = sentence.section.comm.text.substring(textSpan.start, textSpan.ending);
       token.textSpan = textSpan;
-      token.tokenIndex = tokenization.tokenList.length;
-      tokenization.tokenList.push(token);
+      token.tokenIndex = tokenization.tokenList.tokenList.length;
+      tokenization.tokenList.tokenList.push(token);
     }
 
     return tokenization;
   };
 
+  function saveManuallyTokenizedCommunication() {
+    var comm = $('#sentence_list').find('.manual_tokenization').first().data('sentence').section.comm;
+    $('#sentence_list').find('.manual_tokenization').each(function() {
+      var sentence = $(this).data('sentence');
+      var tokenization = $(this).getManualTokenization();
+      sentence.tokenization = tokenization;
+    });
+
+    var transport = new Thrift.Transport("/store_http_endpoint/");
+    var protocol = new Thrift.TJSONProtocol(transport);
+    var storeClient = new StoreCommunicationServiceClient(protocol);
+    try {
+      storeClient.store(comm);
+    }
+    catch (e) {
+      // HACK: For some reason, the Thrift-generated JavaScript is expecting some sort of return
+      //       value for StoreCommunicationService.store(), even though the function has a void
+      //       return type.  We ignore this particular error message.
+      //
+      //       The concrete.js call stack is store() -> recv_store() -> readMessageBegin(), and
+      //       readMessageBegin() tries to call JSON.parse() on the empty string, "".
+      if (!(e instanceof SyntaxError && e.toString() === "SyntaxError: JSON Parse error: Unexpected EOF")) {
+        throw e;
+      }
+    }
+  }
 
   $(document).ready(function() {
     $.getJSON('weibo.comm.json', function(commJSONData) {
@@ -129,11 +167,13 @@
 
       for (i = 0 ; i < sentences.length; i++) {
         var sentenceDiv = $('<div>').addClass('communication_container');
-        sentenceDiv.tokenizeSentenceWidget(sentences[i]);
+        sentenceDiv.manualTokenizationWidget(sentences[i]);
         $('#sentence_list').append(sentenceDiv);
       }
 
       $('#initial_focus').attr('tabindex', 1).focus();
+
+      $('#save_button').click(saveManuallyTokenizedCommunication);
     });
   });
   </script>
@@ -141,8 +181,10 @@
 <body>
   <div class="container-fluid">
 
+    <button id="save_button" type="button" class="btn btn-default">Save</button>
+
     <div style="padding-top: 2em;">
-      <h2>Sentence tokenization UI example</h2>
+      <h2>Manual tokenization UI example</h2>
       <div>
         <p>
           Press tab (or shift-tab) to move the focus between two characters.

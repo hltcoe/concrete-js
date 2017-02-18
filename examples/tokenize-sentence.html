@@ -75,11 +75,33 @@
             // Move cursor to left
             el.prev().prev('.character_gap').focus();
           }
+          else {
+            var characterGapEls = $('.character_gap');
+            var characterGapIndex = characterGapEls.index(el);
+            if (characterGapIndex === 0) {
+              // Wraparound
+              characterGapEls.last().focus();
+            }
+            else {
+              characterGapEls.eq(characterGapIndex-1).focus();
+            }
+          }
         }
         else if (event.which === 39) { // Right arrow
           if (el.next().next('.character_gap').length !== 0) {
             // Move cursor to right
             el.next().next('.character_gap').focus();
+          }
+          else {
+            var characterGapEls = $('.character_gap');
+            var characterGapIndex = characterGapEls.index(el);
+            if (characterGapIndex >= characterGapEls.length-1) {
+              // Wraparound
+              characterGapEls.first().focus();
+            }
+            else {
+              characterGapEls.eq(characterGapIndex+1).focus();
+            }
           }
         }
       }

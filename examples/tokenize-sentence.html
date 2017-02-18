@@ -238,6 +238,8 @@
       sentenceDiv.manualTokenizationWidget(sentences[i]);
       $('#sentence_list').append(sentenceDiv);
     }
+
+    $('.concrete_character_gap').first().focus();
   }
 
   function saveManuallyTokenizedCommunication() {
@@ -309,7 +311,6 @@
       });
     }
 
-    $('#initial_focus').attr('tabindex', 1).focus();
     $('#save_button').click(saveManuallyTokenizedCommunication);
   });
   </script>
@@ -338,7 +339,6 @@
         </p>
       </div>
       <div>
-        <span id="initial_focus"></span>
         <div id="sentence_list"></div>
       </div>
     </div>

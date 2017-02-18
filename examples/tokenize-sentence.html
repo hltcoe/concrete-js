@@ -37,20 +37,18 @@
 
   <script>
   /**
-   *
+   * @function external:"jQuery.fn".manualTokenizationWidget
+   * @param {Sentence} sentence
+   * @returns {external:jQuery_Object}
    */
   $.fn.manualTokenizationWidget = function(sentence) {
-    // We do not want any of the .character_gap spans to have a tabindex of 0, as
-    // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
-    //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
-    // We use a positive offset, so that the character in the Communication with
-    // character index 0 is not assigned a tabindex of 0.
-    var TOKENIZE_TABINDEX_OFFSET = 10;
 
-
-    function toggleHighlightingWhenSpacePressed(event) {
+    function manualTokenizationKeyboardNavigation(event) {
       var el = $(this);
       if (el.hasClass('character_gap')) {
+        var characterGapEls;
+        var characterGapIndex;
+
         if (event.which === 32) { // Space
           var prevEl = el.prev();
           var nextEl = el.next();
@@ -76,8 +74,8 @@
             el.prev().prev('.character_gap').focus();
           }
           else {
-            var characterGapEls = $('.character_gap');
-            var characterGapIndex = characterGapEls.index(el);
+            characterGapEls = $('.character_gap');
+            characterGapIndex = characterGapEls.index(el);
             if (characterGapIndex === 0) {
               // Wraparound
               characterGapEls.last().focus();
@@ -93,8 +91,8 @@
             el.next().next('.character_gap').focus();
           }
           else {
-            var characterGapEls = $('.character_gap');
-            var characterGapIndex = characterGapEls.index(el);
+            characterGapEls = $('.character_gap');
+            characterGapIndex = characterGapEls.index(el);
             if (characterGapIndex >= characterGapEls.length-1) {
               // Wraparound
               characterGapEls.first().focus();
@@ -105,8 +103,8 @@
           }
         }
         else if (event.which === 38) { // Up arrow
-          var characterGapEls = $('.character_gap');
-          var characterGapIndex = characterGapEls.index(el);
+          characterGapEls = $('.character_gap');
+          characterGapIndex = characterGapEls.index(el);
           if (characterGapIndex === 0 ||
               characterGapEls.index(el.siblings('.character_gap').first()) === 0)
           {
@@ -125,7 +123,7 @@
           }
         }
         else if (event.which === 40) { // Down arrow
-          var characterGapEls = $('.character_gap');
+          characterGapEls = $('.character_gap');
           var lastInSentence = el.siblings('.character_gap').last();
           var lastInSentenceIndex = characterGapEls.index(lastInSentence);
           if (lastInSentenceIndex === characterGapEls.length-1) {
@@ -145,6 +143,13 @@
       }
     }
 
+    // We do not want any of the .character_gap spans to have a tabindex of 0, as
+    // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
+    //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+    // We use a positive offset, so that the character in the Communication with
+    // character index 0 is not assigned a tabindex of 0.
+    var TOKENIZE_TABINDEX_OFFSET = 10;
+
     var tokenizeSentenceDiv = $('<div>').addClass('manual_tokenization')
                                         .data('sentence', sentence);
     for (var i = sentence.textSpan.start; i < sentence.textSpan.ending; i++) {
@@ -157,7 +162,7 @@
                      .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
                      .data('tokenIndex', i)
                      .html('&nbsp; ')
-                     .keydown(toggleHighlightingWhenSpacePressed));
+                     .keydown(manualTokenizationKeyboardNavigation));
       }
     }
     this.append(tokenizeSentenceDiv);
@@ -166,7 +171,9 @@
   };
 
   /**
-   *
+   * @function external:"jQuery.fn".getManualTokenization
+   * @param {Sentence} sentence
+   * @returns {external:jQuery_Object}
    */
   $.fn.getManualTokenization = function() {
     var tokenizeSentenceDiv;
@@ -187,7 +194,7 @@
     tokenization.kind = TokenizationKind.TOKEN_LIST;
     tokenization.metadata = new AnnotationMetadata();
     tokenization.metadata.timestamp = Math.floor(Date.now()/1000);
-    tokenization.metadata.tool = 'concrete.js - getTokenizedSentence()';
+    tokenization.metadata.tool = 'concrete.js - getManualTokenization()';
     tokenization.tokenList = new TokenList();
     tokenization.tokenList.tokenList = [];
     tokenization.uuid = concrete.util.generateUUID();
@@ -265,7 +272,7 @@
       if (commID) {
         var fetchRequest = new FetchRequest({communicationIds: [commID]});
         var fetchResult = fetchClient.fetch(fetchRequest);
-        comm =fetchResult.communications[0];
+        comm = fetchResult.communications[0];
         if (comm) {
           renderSentences(comm);
         }
@@ -274,6 +281,7 @@
         }
       }
       else {
+        // Display list of Communication IDs
         var communicationIDs = fetchClient.getCommunicationIDs(0, fetchClient.getCommunicationCount());
         for (var i = 0; i < communicationIDs.length; i++) {
           $('#communication_id_list').append(
@@ -286,6 +294,7 @@
 
     }
     else {
+      // If Fetch server is unavailable, retrieve JSON file from current directory
       $.getJSON('weibo.comm.json', function(commJSONData) {
         var comm = new Communication();
         comm.initFromTJSONProtocolObject(commJSONData);

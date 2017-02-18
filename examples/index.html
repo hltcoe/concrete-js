@@ -69,49 +69,52 @@
       commTwo.initFromTJSONProtocolObject(commJSONData);
       var commWidgetTwo = $('#communication_two').communicationWidget(commTwo);
 
-      var tokenizations = commTwo.getTokenizationsAsList();
-      for (var tokenizationIndex = 0; tokenizationIndex < tokenizations.length; tokenizationIndex++) {
-        var tokenization = tokenizations[tokenizationIndex];
+      function addTokenTagTooltip(event) {
+        // communicationWidget() uses jQuery's data() function to store the
+        // tokenization and tokenIndex associated with each Token element
+        var tokenization = $(this).data('tokenization');
+        var tokenIndex = $(this).data('tokenIndex');
 
-        var posTokenTagging = tokenization.getTokenTaggingsOfType('POS')[0];
+        // posTokenTagging2 is defined in enclosing scope
+        var taggedToken = posTokenTagging2.getTaggedTokenWithTokenIndex(tokenIndex);
 
-        // Add a Bootstrap tooltip with POS tag to each Token element
-        if (posTokenTagging) {
-          var allTokenElements = commWidgetTwo.getTokenElements(tokenization);
-          allTokenElements.each(function() {
-            // communicationWidget() uses jQuery's data() function to store the
-            // tokenization and tokenIndex associated with each Token element
-            var tokenization = $(this).data('tokenization');
-            var tokenIndex = $(this).data('tokenIndex');
-
-            // posTokenTagging is defined in enclosing scope
-            var taggedToken = posTokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
-
-            if (taggedToken) {
-              // By default, the tooltip is only shown when mousing over the token text.
-              //   http://getbootstrap.com/javascript/#tooltips
-              $(this).attr('data-placement', 'auto top')
-                     .attr('title', taggedToken.tag)
-                     .tooltip();
-            }
-          });
+        if (taggedToken) {
+          // By default, the tooltip is only shown when mousing over the token text.
+          //   http://getbootstrap.com/javascript/#tooltips
+          $(this).attr('data-placement', 'auto top')
+                 .attr('title', taggedToken.tag)
+                 .tooltip();
         }
       }
+
+      var tokenizations2 = commTwo.getTokenizationsAsList();
+      for (var tokenizationIndex2 = 0; tokenizationIndex2 < tokenizations2.length; tokenizationIndex2++) {
+        var tokenization2 = tokenizations2[tokenizationIndex2];
+
+        var posTokenTagging2 = tokenization2.getTokenTaggingsOfType('POS')[0];
+
+        // Add a Bootstrap tooltip with POS tag to each Token element
+        if (posTokenTagging2) {
+          var allTokenElements = commWidgetTwo.getTokenElements(tokenization2);
+          allTokenElements.each(addTokenTagTooltip);
+        }
+      }
+
 
       //// Token filtering demo
       var commThree = new Communication();
       commThree.initFromTJSONProtocolObject(commJSONData);
       var commWidgetThree = $('#communication_three').communicationWidget(commThree);
 
-      var tokenizations = commThree.getTokenizationsAsList();
-      for (var tokenizationIndex = 0; tokenizationIndex < tokenizations.length; tokenizationIndex++) {
-        var tokenization = tokenizations[tokenizationIndex];
+      tokenizations3 = commThree.getTokenizationsAsList();
+      for (var tokenizationIndex3 = 0; tokenizationIndex3 < tokenizations3.length; tokenizationIndex3++) {
+        var tokenization3 = tokenizations3[tokenizationIndex3];
 
-        var posTokenTagging = tokenization.getTokenTaggingsOfType('POS')[0];
+        var posTokenTagging3 = tokenization3.getTokenTaggingsOfType('POS')[0];
 
         var matchingTokenElements = commWidgetThree.getTokenElementsWithMatchingTag(
-          tokenization,
-          posTokenTagging,
+          tokenization3,
+          posTokenTagging3,
 
           // Filter function returns a boolean if a TaggedToken.tag string "matches"
           function(tagText) {

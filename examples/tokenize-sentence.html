@@ -15,16 +15,16 @@
   <script src="concrete.js"></script>
 
   <style>
-  .character {
+  .concrete_character {
     display: inline-block;
     border-bottom: 10px solid #F4F4F4;
   }
-  .character_gap {
+  .concrete_character_gap {
     cursor: pointer;
     display: inline-block;
     min-width: 1em;
   }
-  .connected_characters {
+  .connected_concrete_characters {
     background-color: yellow;
     border-bottom: 10px solid #CCCCCC;
   }
@@ -43,9 +43,17 @@
    */
   $.fn.manualTokenizationWidget = function(sentence) {
 
+    // onkeydown event handler for navigating manualTokenizationWidget
+    //
+    // Space bar connects/disconnects characters, arrow keys used for
+    // navigation.
+    //
+    // Tab and shift-tab can also be used to navigate, but tab
+    // navigation is handled by the browser (using 'tabindex'
+    // attributes) instead of this function.
     function manualTokenizationKeyboardNavigation(event) {
       var el = $(this);
-      if (el.hasClass('character_gap')) {
+      if (el.hasClass('concrete_character_gap')) {
         var characterGapEls;
         var characterGapIndex;
 
@@ -53,28 +61,28 @@
           var prevEl = el.prev();
           var nextEl = el.next();
 
-          if (el.hasClass('connected_characters')) {
-            el.removeClass('connected_characters');
-            if (!el.prev().prev('.character_gap').hasClass('connected_characters')) {
-              prevEl.removeClass('connected_characters');
+          if (el.hasClass('connected_concrete_characters')) {
+            el.removeClass('connected_concrete_characters');
+            if (!el.prev().prev('.concrete_character_gap').hasClass('connected_concrete_characters')) {
+              prevEl.removeClass('connected_concrete_characters');
             }
-            if (!el.next().next('.character_gap').hasClass('connected_characters')) {
-              nextEl.removeClass('connected_characters');
+            if (!el.next().next('.concrete_character_gap').hasClass('connected_concrete_characters')) {
+              nextEl.removeClass('connected_concrete_characters');
             }
           }
           else {
-            el.addClass('connected_characters');
-            prevEl.addClass('connected_characters');
-            nextEl.addClass('connected_characters');
+            el.addClass('connected_concrete_characters');
+            prevEl.addClass('connected_concrete_characters');
+            nextEl.addClass('connected_concrete_characters');
           }
         }
         else if (event.which === 37) { // Left arrow
-          if (el.prev().prev('.character_gap').length !== 0) {
+          if (el.prev().prev('.concrete_character_gap').length !== 0) {
             // Move cursor to left
-            el.prev().prev('.character_gap').focus();
+            el.prev().prev('.concrete_character_gap').focus();
           }
           else {
-            characterGapEls = $('.character_gap');
+            characterGapEls = $('.concrete_character_gap');
             characterGapIndex = characterGapEls.index(el);
             if (characterGapIndex === 0) {
               // Wraparound
@@ -86,12 +94,12 @@
           }
         }
         else if (event.which === 39) { // Right arrow
-          if (el.next().next('.character_gap').length !== 0) {
+          if (el.next().next('.concrete_character_gap').length !== 0) {
             // Move cursor to right
-            el.next().next('.character_gap').focus();
+            el.next().next('.concrete_character_gap').focus();
           }
           else {
-            characterGapEls = $('.character_gap');
+            characterGapEls = $('.concrete_character_gap');
             characterGapIndex = characterGapEls.index(el);
             if (characterGapIndex >= characterGapEls.length-1) {
               // Wraparound
@@ -103,28 +111,28 @@
           }
         }
         else if (event.which === 38) { // Up arrow
-          characterGapEls = $('.character_gap');
+          characterGapEls = $('.concrete_character_gap');
           characterGapIndex = characterGapEls.index(el);
           if (characterGapIndex === 0 ||
-              characterGapEls.index(el.siblings('.character_gap').first()) === 0)
+              characterGapEls.index(el.siblings('.concrete_character_gap').first()) === 0)
           {
             // Wraparound
-            characterGapEls.eq(characterGapEls.length-1).siblings('.character_gap').first().focus();
+            characterGapEls.eq(characterGapEls.length-1).siblings('.concrete_character_gap').first().focus();
           }
           else {
-            var firstInSentenceIndex = characterGapEls.index(el.siblings('.character_gap').first());
+            var firstInSentenceIndex = characterGapEls.index(el.siblings('.concrete_character_gap').first());
             if (characterGapEls.index(el) < firstInSentenceIndex) {
               // All siblings are to right of current element
-              characterGapEls.eq(characterGapEls.index(el)-1).siblings('.character_gap').first().focus();
+              characterGapEls.eq(characterGapEls.index(el)-1).siblings('.concrete_character_gap').first().focus();
             }
             else {
-              characterGapEls.eq(firstInSentenceIndex-1).siblings('.character_gap').first().focus();
+              characterGapEls.eq(firstInSentenceIndex-1).siblings('.concrete_character_gap').first().focus();
             }
           }
         }
         else if (event.which === 40) { // Down arrow
-          characterGapEls = $('.character_gap');
-          var lastInSentence = el.siblings('.character_gap').last();
+          characterGapEls = $('.concrete_character_gap');
+          var lastInSentence = el.siblings('.concrete_character_gap').last();
           var lastInSentenceIndex = characterGapEls.index(lastInSentence);
           if (lastInSentenceIndex === characterGapEls.length-1) {
             // Wraparound
@@ -143,7 +151,7 @@
       }
     }
 
-    // We do not want any of the .character_gap spans to have a tabindex of 0, as
+    // We do not want any of the .concrete_character_gap spans to have a tabindex of 0, as
     // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
     //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
     // We use a positive offset, so that the character in the Communication with
@@ -154,11 +162,11 @@
                                         .data('sentence', sentence);
     for (var i = sentence.textSpan.start; i < sentence.textSpan.ending; i++) {
       tokenizeSentenceDiv.append(
-        $('<span>').addClass('character')
+        $('<span>').addClass('concrete_character')
                    .text(sentence.section.comm.text.substring(i, i+1)));
       if (i < sentence.textSpan.ending-1) {
         tokenizeSentenceDiv.append(
-          $('<span>').addClass('character_gap')
+          $('<span>').addClass('concrete_character_gap')
                      .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
                      .data('tokenIndex', i)
                      .html('&nbsp; ')
@@ -172,7 +180,6 @@
 
   /**
    * @function external:"jQuery.fn".getManualTokenization
-   * @param {Sentence} sentence
    * @returns {external:jQuery_Object}
    */
   $.fn.getManualTokenization = function() {
@@ -186,7 +193,7 @@
     var sentence = tokenizeSentenceDiv.data('sentence');
 
     var joinedTokenIndices = [];
-    tokenizeSentenceDiv.find('.character_gap.connected_characters').each(function() {
+    tokenizeSentenceDiv.find('.concrete_character_gap.connected_concrete_characters').each(function() {
       joinedTokenIndices.push($(this).data('tokenIndex'));
     });
 

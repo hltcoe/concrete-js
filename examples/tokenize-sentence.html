@@ -104,6 +104,38 @@
             }
           }
         }
+        else if (event.which === 38) { // Up arrow
+          var characterGapEls = $('.character_gap');
+          var characterGapIndex = characterGapEls.index(el);
+          if (characterGapIndex === 0 ||
+              characterGapEls.index(el.siblings('.character_gap').first()) === 0)
+          {
+            // Wraparound
+            characterGapEls.eq(characterGapEls.length-1).siblings('.character_gap').first().focus();
+          }
+          else {
+            var firstInSentenceIndex = characterGapEls.index(el.siblings('.character_gap').first());
+            if (characterGapEls.index(el) < firstInSentenceIndex) {
+              // All siblings are to right of current element
+              characterGapEls.eq(characterGapEls.index(el)-1).siblings('.character_gap').first().focus();
+            }
+            else {
+              characterGapEls.eq(firstInSentenceIndex-1).siblings('.character_gap').first().focus();
+            }
+          }
+        }
+        else if (event.which === 40) { // Down arrow
+          var characterGapEls = $('.character_gap');
+          var lastInSentence = el.siblings('.character_gap').last();
+          var lastInSentenceIndex = characterGapEls.index(lastInSentence);
+          if (lastInSentenceIndex === characterGapEls.length-1) {
+            // Wraparound
+            characterGapEls.first().focus();
+          }
+          else {
+            characterGapEls.eq(lastInSentenceIndex+1).focus();
+          }
+        }
       }
     }
 
@@ -264,7 +296,9 @@
   <div class="container-fluid">
     <div style="padding-top: 1em;">
       <button id="save_button" type="button" class="btn btn-default">Save</button>
-      <a id="document_list_button" type="button" class="btn btn-default" href="?" style="display: none;">Document List</a>
+      <a id="document_list_button" type="button" class="btn btn-default" href="?" style="display: none;">
+        Document List
+      </a>
     </div>
 
     <div id="error_message_div" class="alert alert-danger" style="display: none; margin-top: 1em;">
@@ -276,9 +310,9 @@
       <h2>Manual tokenization UI example</h2>
       <div>
         <p>
-          Press tab (or shift-tab) to move the focus between two characters.
+          Use tab, shift-tab, or the arrow keys to move the focus between two characters.
 
-          Press the space key to connect merge characters into multi-character tokens.
+          Press the space key to connect characters into multi-character tokens.
         </p>
       </div>
       <div>

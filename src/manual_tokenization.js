@@ -148,23 +148,7 @@ $.fn.manualTokenizationWidget = function(sentence) {
       var characterGapIndex;
 
       if (event.which === 32) { // Space
-        var prevEl = el.prev();
-        var nextEl = el.next();
-
-        if (el.hasClass('connected_concrete_characters')) {
-          el.removeClass('connected_concrete_characters');
-          if (!el.prev().prev('.concrete_character_gap').hasClass('connected_concrete_characters')) {
-            prevEl.removeClass('connected_concrete_characters');
-          }
-          if (!el.next().next('.concrete_character_gap').hasClass('connected_concrete_characters')) {
-            nextEl.removeClass('connected_concrete_characters');
-          }
-        }
-        else {
-          el.addClass('connected_concrete_characters');
-          prevEl.addClass('connected_concrete_characters');
-          nextEl.addClass('connected_concrete_characters');
-        }
+        toggleConnectedCharacters(el);
       }
       else if (event.which === 37) { // Left arrow
         if (el.prev().prev('.concrete_character_gap').length !== 0) {
@@ -241,6 +225,40 @@ $.fn.manualTokenizationWidget = function(sentence) {
     }
   }
 
+  /**
+   * mousedown event handler.  Toggles connected characters IFF
+   * the element already has the focus.
+   */
+  function mouseToggleConnectedCharacters() {
+    var el = $(this);
+    if (el.hasClass('concrete_character_gap')) {
+      if (el.is(':focus')) {
+        toggleConnectedCharacters(el);
+      }
+    }
+  }
+
+  function toggleConnectedCharacters(el) {
+    var prevEl = el.prev();
+    var nextEl = el.next();
+
+    if (el.hasClass('connected_concrete_characters')) {
+      el.removeClass('connected_concrete_characters');
+      if (!el.prev().prev('.concrete_character_gap').hasClass('connected_concrete_characters')) {
+        prevEl.removeClass('connected_concrete_characters');
+      }
+      if (!el.next().next('.concrete_character_gap').hasClass('connected_concrete_characters')) {
+        nextEl.removeClass('connected_concrete_characters');
+      }
+    }
+    else {
+      el.addClass('connected_concrete_characters');
+      prevEl.addClass('connected_concrete_characters');
+      nextEl.addClass('connected_concrete_characters');
+    }
+  }
+
+
   // We do not want any of the .concrete_character_gap spans to have a tabindex of 0, as
   // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
   //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
@@ -260,7 +278,8 @@ $.fn.manualTokenizationWidget = function(sentence) {
                    .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
                    .data('tokenIndex', i)
                    .html('&nbsp; ')
-                   .keydown(manualTokenizationKeyboardNavigation));
+                   .keydown(manualTokenizationKeyboardNavigation)
+                   .mousedown(mouseToggleConnectedCharacters));
     }
   }
   this.append(tokenizeSentenceDiv);

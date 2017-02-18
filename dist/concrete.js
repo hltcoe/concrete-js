@@ -18281,13 +18281,26 @@ concrete.widget = (function() {
      *
      * {@link concrete.widget.createCommunicationDiv} calls
      * {@link concrete.widget.createSectionDiv} to create the
-     * DOM structure for the Sections.
+     * DOM structure for the Sections.  The `options` object
+     * is passed to {@link concrete.widget.createSectionDiv}
+     * (which passes it to {@link concrete.widget.createSentenceDiv},
+     * which passes it to {@link concrete.widget.createTokenizationDiv}).
      *
-     * @function concrete.widget.createCommunicationDiv
-     * @memberof concrete.widget
+     * Parameters for `options` object:
+     * - `convertTreebankBrackets` (Boolean): Convert
+     *   {@link http://www.cis.upenn.edu/~treebank/tokenization.html Penn Treebank-style symbols}
+     *   for bracket characters to corresponding bracket characters.
+     *   Default value: *true*
+     * - `whitespaceTokenization` (Boolean): Use whitespace
+     *   tokenization instead of character offsets specified
+     *   by the Tokenization.  Default value: *false*
+     *
      * @param {Communication} communication
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function concrete.widget.createCommunicationDiv
+     * @memberof concrete.widget
      */
     widget.createCommunicationDiv = function(communication, options) {
         if (!communication) {
@@ -18329,11 +18342,15 @@ concrete.widget = (function() {
      * {@link concrete.widget.createSentenceDiv}
      * to create the DOM structure for the Sentence.
      *
-     * @function concrete.widget.createSectionDiv
-     * @memberof concrete.widget
+     * See {@link concrete.widget.createCommunicationDiv} for
+     * a list of possible `options` object parameters.
+     *
      * @param {Section} section
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function concrete.widget.createSectionDiv
+     * @memberof concrete.widget
      */
     widget.createSectionDiv = function(section, options) {
         if (!section) {
@@ -18393,11 +18410,15 @@ concrete.widget = (function() {
      * {@link concrete.widget.createTokenizationDiv}
      * to create the DOM structure for the Sentence's Tokenization.
      *
-     * @function concrete.widget.createSentenceDiv
-     * @memberof concrete.widget
+     * See {@link concrete.widget.createCommunicationDiv} for
+     * a list of possible `options` object parameters.
+     *
      * @param {Sentence} sentence
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function concrete.widget.createSentenceDiv
+     * @memberof concrete.widget
      */
     widget.createSentenceDiv = function(sentence, options) {
         if (!sentence) {
@@ -18425,11 +18446,15 @@ concrete.widget = (function() {
      *             <span class="token_padding token_padding_[TOKENIZATION_UUID]_[TOKEN_INDEX_1]">
      *             [...]
      *
-     * @function concrete.widget.createTokenizationDiv
-     * @memberof concrete.widget
+     * See {@link concrete.widget.createCommunicationDiv} for
+     * a list of possible `options` object parameters.
+     *
      * @param {Tokenization} tokenization
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function concrete.widget.createTokenizationDiv
+     * @memberof concrete.widget
      */
     widget.createTokenizationDiv = function(tokenization, options) {
         if (!tokenization) {
@@ -18502,9 +18527,10 @@ concrete.widget = (function() {
      * if the selected tokens include tokens from multiple sentences
      * or sections, multiple TokenRefSequences will be returned.
      *
+     * @returns {TokenRefSequence[]}
+     *
      * @function concrete.widget.getSelectedTokenRefSequences
      * @memberof concrete.widget
-     * @returns {TokenRefSequence[]}
      */
     widget.getSelectedTokenRefSequences = function() {
         function getTokenRefSequenceForEndContainer(range) {
@@ -18672,10 +18698,13 @@ concrete.widget = (function() {
 
 
     /**
-     * @function concrete.widget.getTokenRefSequenceForTokenObject
-     * @memberof concrete.widget
+     * Creates a new TokenRefSequence for the Token represented by specified element
+     *
      * @param {external:jQuery_Object} tokenObject - jQuery object for a Token element
      * @returns {TokenRefSequence}
+     *
+     * @function concrete.widget.getTokenRefSequenceForTokenObject
+     * @memberof concrete.widget
      */
     widget.getTokenRefSequenceForTokenObject = function(tokenObject) {
         var tokenRefSequence = new TokenRefSequence();
@@ -18685,11 +18714,14 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function concrete.widget.getTokenRefSequenceForTokensMatchingSelector
-     * @memberof concrete.widget
+     * Creates a new TokenRefSequence for the Tokens whose corresponding elements match selector
+     *
      * @param {external:jQuery_Object} tokenizationObject - jQuery object for a Tokenization element
      * @param {String} selector - CSS selector string, e.g. '.selected_token'
      * @returns {TokenRefSequence}
+     *
+     * @function concrete.widget.getTokenRefSequenceForTokensMatchingSelector
+     * @memberof concrete.widget
      */
     widget.getTokenRefSequenceForTokensMatchingSelector = function(tokenizationObject, selector) {
         if (!tokenizationObject.hasClass('tokenization')) {
@@ -18777,9 +18809,14 @@ concrete.widget = (function() {
 
 (function($) {
     /**
-     * @function external:"jQuery.fn".addAllEntityMentionsInCommunication
+     * Add .entity_mention and .entity_mention_[UUID] classes to
+     * .token elements for all EntityMentions associated with an
+     * Entity in the Communication.
+     *
      * @param {Communication} communication
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".addAllEntityMentionsInCommunication
      */
     $.fn.addAllEntityMentionsInCommunication = function(communication) {
         if (communication && communication.entityMentionSetList && communication.entityMentionSetList.length > 0) {
@@ -18791,9 +18828,14 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".addAllEntitiesInCommunication
+     * Add .entity and .entity_[UUID] classes to .token elements
+     * for all Entities with associated EntityMentions in the
+     * Communication.
+     *
      * @param {Communication} communication
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".addAllEntitiesInCommunication
      */
     $.fn.addAllEntitiesInCommunication = function(communication) {
         // Add DOM classes for entity and entity_set UUID's to EntityMentions for the Entities
@@ -18810,12 +18852,17 @@ concrete.widget = (function() {
                 }
             }
         }
+        return this;
     };
 
     /**
-     * @function external:"jQuery.fn".addEntityMention
+     * Add .entity_mention and .entity_mention_[UUID] classes
+     * to .token elements for entityMention
+     *
      * @param {EntityMention} entityMention
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".addEntityMention
      */
     $.fn.addEntityMention = function(entityMention) {
         this.getEntityMentionElements(entityMention)
@@ -18824,9 +18871,13 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".addEntityMentionSet
+     * Add .entity_mention and .entity_mention_[UUID] classes
+     * to .token elements for all EntityMentions in entityMentionSet.
+     *
      * @param {EntityMentionSet} entityMentionSet
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".addEntityMentionSet
      */
     $.fn.addEntityMentionSet = function(entityMentionSet) {
         if (entityMentionSet && entityMentionSet.mentionList && entityMentionSet.mentionList.length > 0) {
@@ -18838,10 +18889,16 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".communicationWidget
+     * jQuery plugin wrapper for {@link concrete.widget.createCommunicationDiv}
+     *
+     * Appends a div created by {@link concrete.widget.createCommunicationDiv}
+     * to the current jQuery object, returns the current jQuery object.
+     *
      * @param {Communication} communication
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".communicationWidget
      */
     $.fn.communicationWidget = function(communication, options) {
         this.append(concrete.widget.createCommunicationDiv(communication, options));
@@ -18850,32 +18907,35 @@ concrete.widget = (function() {
 
     /**
      * Enable "token click" callback functions that are registered
-     * through $.fn.getTokenClickCallbacks().
+     * through {@link external:"jQuery.fn".getTokenClickCallbacks jQuery.fn.getTokenClickCallbacks}
      *
      * When the user clicks on a displayed tokens, all registered
      * "token select" callback functions will be called and passed a
      * list of TokenRefSequences containing the selected token.
      *
-     * @function external:"jQuery.fn".enableTokenClickCallbacks
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".enableTokenClickCallbacks
      */
     $.fn.enableTokenClickCallbacks = function() {
         this.find('.token').click({tokenClickCallbacks: this.getTokenClickCallbacks()}, function(event) {
             var tokenRefSequenceList = [concrete.widget.getTokenRefSequenceForTokenObject($(this))];
             event.data.tokenClickCallbacks.fire(tokenRefSequenceList);
         });
+        return this;
     };
 
     /**
      * Enable "token select" callback functions that are registered
-     * through $.fn.getTokenSelectCallbacks().
+     * through {@link external:"jQuery.fn".getTokenSelectCallbacks jQuery.fn.getTokenSelectCallbacks}
      *
      * When the user selects a set of displayed tokens, all registered
      * "token select" callback functions will be called and passed a
      * list of TokenRefSequences containing the selected tokens.
      *
-     * @function external:"jQuery.fn".enableTokenSelectCallbacks
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".enableTokenSelectCallbacks
      */
     $.fn.enableTokenSelectCallbacks = function() {
         this.mouseup({tokenSelectCallbacks: this.getTokenSelectCallbacks()}, function (event) {
@@ -18892,18 +18952,24 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".getEntityMentionElements
+     * Returns a jQuery object for .token element(s) for entityMention
+     *
      * @param {EntityMention} entityMention
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".getEntityMentionElements
      */
     $.fn.getEntityMentionElements = function(entityMention) {
         return this.getTokenRefSequenceElements(entityMention.tokens);
     };
 
     /**
-     * @function external:"jQuery.fn".getSentenceElements
+     * Returns a jQuery object for .sentence element(s) specified by sentence
+     *
      * @param {Sentence} sentence
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".getSentenceElements
      */
     $.fn.getSentenceElements = function(sentence) {
         return this.find('.sentence.sentence_' + sentence.uuid.uuidString);
@@ -18914,8 +18980,9 @@ concrete.widget = (function() {
      * functions.  If the jQuery.Callbacks object does not already
      * exist, it will be created.
      *
-     * @function external:"jQuery.fn".getTokenClickCallbacks
      * @returns {jQuery.Callbacks}
+     *
+     * @function external:"jQuery.fn".getTokenClickCallbacks
      */
     $.fn.getTokenClickCallbacks = function() {
         if (!this.data('tokenClickCallbacks')) {
@@ -18925,9 +18992,16 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".getTokenElements
+     * Returns a jQuery object for all .token element(s) for the
+     * Tokenization object.
+     *
+     * If you want the .tokenization element(s) for the Tokenization object, use
+     * {@link external:"jQuery.fn".getTokenizationElements jQuery.fn.getTokenizationElements}
+     *
      * @param {Tokenization} tokenization
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".getTokenElements
      */
     $.fn.getTokenElements = function(tokenization) {
         return this.getTokenizationElements(tokenization).find('.token');
@@ -18936,10 +19010,11 @@ concrete.widget = (function() {
     /**
      * Returns a jQuery object for .token element(s) specified by tokenization+tokenIndex
      *
-     * @function external:"jQuery.fn".getTokenElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
      * @returns {external:jQuery_Object} - jQuery Object for .token element(s) for tokenization+tokenIndex
+     *
+     * @function external:"jQuery.fn".getTokenElementsWithIndex
      */
     $.fn.getTokenElementsWithIndex = function(tokenization, tokenIndex) {
         if (!tokenization) {
@@ -18954,7 +19029,6 @@ concrete.widget = (function() {
      * selecting only those Tokens whose TokenTagging tags satisfy the specified
      * matchFunction.
      *
-     * @function external:"jQuery.fn".getTokenElementsWithMatchingTag
      * @param {Tokenization} tokenization
      * @param {TokenTagging} tokenTagging - The TokenTagging must be for the Tokenization
      *                                      specified as the first parameter.
@@ -18962,6 +19036,8 @@ concrete.widget = (function() {
      *                                   and returns true or false based on whether or not the
      *                                   string "matches".
      * @returns {external:jQuery_Object} - jQuery Object for DOM elements for "matching" Tokens
+     *
+     * @function external:"jQuery.fn".getTokenElementsWithMatchingTag
      */
     $.fn.getTokenElementsWithMatchingTag = function(tokenization, tokenTagging, matchFunction) {
         if (!tokenization || !tokenTagging || !tokenTagging.taggedTokenList || !matchFunction) {
@@ -18984,9 +19060,16 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".getTokenizationElements
+     * Returns a jQuery object for all .tokenization element(s) for the
+     * Tokenization object.
+     *
+     * If you want the .token element(s) for the Tokenization object, use
+     * {@link external:"jQuery.fn".getTokenElements jQuery.fn.getTokenElements}
+     *
      * @param {Tokenization} tokenization
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".getTokenizationElements
      */
     $.fn.getTokenizationElements = function(tokenization) {
         return this.find('.tokenization.tokenization_' + tokenization.uuid.uuidString);
@@ -18995,10 +19078,11 @@ concrete.widget = (function() {
     /**
      * Returns a jQuery object for .token_padding element(s) specified by tokenization+tokenIndex
      *
-     * @function external:"jQuery.fn".getTokenPaddingElementsWithIndex
      * @param {Tokenization} tokenization
      * @param {int} tokenIndex
      * @returns {external:jQuery_Object} - jQuery Object for .token_padding element(s) for tokenization+tokenIndex
+     *
+     * @function external:"jQuery.fn".getTokenPaddingElementsWithIndex
      */
     $.fn.getTokenPaddingElementsWithIndex = function(tokenization, tokenIndex) {
         if (!tokenization) {
@@ -19009,9 +19093,12 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".getTokenRefSequenceElements
+     * Returns a jQuery object for .token element(s) specified by tokenRefSequence
+     *
      * @param {TokenRefSequence} tokenRefSequence
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".getTokenRefSequenceElements
      */
     $.fn.getTokenRefSequenceElements = function(tokenRefSequence) {
         if (!tokenRefSequence && !tokenRefSequence.tokenizationId) {
@@ -19032,9 +19119,12 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".getTokenRefSequenceForTokensMatchingSelector
+     * jQuery plugin wrapper for {@link concrete.widget.getTokenRefSequenceForTokensMatchingSelector}
+     *
      * @param {String} selector - CSS selector string, e.g. '.selected_token'
      * @returns {TokenRefSequence}
+     *
+     * @function external:"jQuery.fn".getTokenRefSequenceForTokensMatchingSelector
      */
     $.fn.getTokenRefSequenceForTokensMatchingSelector = function(selector) {
         return concrete.widget.getTokenRefSequenceForTokensMatchingSelector(this, selector);
@@ -19045,17 +19135,21 @@ concrete.widget = (function() {
      * functions.  If the jQuery.Callbacks object does not already exist,
      * it will be created.  For details about jQuery.Callbacks, see:
      *
-     *   http://api.jquery.com/category/callbacks-object/
+     * {@link http://api.jquery.com/category/callbacks-object/}
      *
      * The "token select" callback functions will not be called unless
-     * the user has also called enableTokenSelectCallbacks().  Once
-     * enableTokenSelectCallbacks() has been called, when the user
-     * selects a set of displayed tokens, all registered "token
-     * select" callback functions will be called and passed a
-     * list of TokenRefSequences containing the selected tokens.
+     * the user has also called
+     * {@link external:"jQuery.fn".enableTokenSelectCallbacks jQuery.fn.enableTokenSelectCallbacks}.
+     * Once
+     * {@link external:"jQuery.fn".enableTokenSelectCallbacks jQuery.fn.enableTokenSelectCallbacks}
+     * has been called, when the user selects a set of displayed
+     * tokens, all registered "token select" callback functions
+     * will be called and passed a list of TokenRefSequences
+     * containing the selected tokens.
+     *
+     * @returns {jQuery.Callbacks}
      *
      * @function external:"jQuery.fn".getTokenSelectCallbacks
-     * @returns {jQuery.Callbacks}
      */
     $.fn.getTokenSelectCallbacks = function() {
         if (!this.data('tokenSelectCallbacks')) {
@@ -19065,10 +19159,16 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".sectionWidget
+     * jQuery plugin wrapper for {@link concrete.widget.createSectionDiv}
+     *
+     * Appends a div created by {@link concrete.widget.createSectionDiv}
+     * to the current jQuery object, returns the current jQuery object.
+     *
      * @param {Section} section
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".sectionWidget
      */
     $.fn.sectionWidget = function(section, options) {
         this.append(concrete.widget.createSectionDiv(section, options));
@@ -19076,10 +19176,16 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".sentenceWidget
+     * jQuery plugin wrapper for {@link concrete.widget.createSentenceDiv}
+     *
+     * Appends a div created by {@link concrete.widget.createSentenceDiv}
+     * to the current jQuery object, returns the current jQuery object.
+     *
      * @param {Sentence} sentence
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".sentenceWidget
      */
     $.fn.sentenceWidget = function(sentence, options) {
         this.append(concrete.widget.createSentenceDiv(sentence, options));
@@ -19087,10 +19193,16 @@ concrete.widget = (function() {
     };
 
     /**
-     * @function external:"jQuery.fn".tokenizationWidget
+     * jQuery plugin wrapper for {@link concrete.widget.createTokenizationDiv}
+     *
+     * Appends a div created by {@link concrete.widget.createTokenizationDiv}
+     * to the current jQuery object, returns the current jQuery object.
+     *
      * @param {Tokenization} tokenization
      * @param {Object} options
      * @returns {external:jQuery_Object}
+     *
+     * @function external:"jQuery.fn".tokenizationWidget
      */
     $.fn.tokenizationWidget = function(tokenization, options) {
         this.append(concrete.widget.createTokenizationDiv(tokenization, options));
@@ -19110,13 +19222,15 @@ var generateUUIDString = function() {
 ;/**
  * Creates a Tokenization for a manualTokenizationWidget
  *
- * The $.fn.manualTokenizationWidget function creates a UI
- * widet that allows a user to specify token boundaries between
- * characters.  This function creates a Tokenization object
- * based on the token boundaries currently shown in the UI.
+ * The {@link external:"jQuery.fn".manualTokenizationWidget jQuery.fn.manualTokenizationWidget}
+ * function creates a UI widget that allows a user to specify
+ * token boundaries between characters.  This function creates
+ * a Tokenization object based on the token boundaries currently
+ * shown in the UI.
  *
  * This function should be called on the same jQuery element
- * that $.fn.manualTokenizationWidget was called on.
+ * that {@link external:"jQuery.fn".manualTokenizationWidget jQuery.fn.manualTokenizationWidget}
+ * was called on.
  *
  * @function external:"jQuery.fn".getManualTokenization
  * @returns {Tokenization}
@@ -19173,8 +19287,9 @@ $.fn.getManualTokenization = function() {
  * to connect/disconnect characters, and the arrow keys used
  * to navigate between characters.
  *
- * Use the function {@link jQuery.fn.getManualTokenization} to retrieve
- * the Tokenization object associated with a widget instance.
+ * Use {@link external:"jQuery.fn".getManualTokenization jQuery.fn.getManualTokenization}
+ * to get a Tokenization object reflecting the current token
+ * boundaries shown in the UI.
  *
  * This function attaches a div to the jQuery element with
  * the structure:

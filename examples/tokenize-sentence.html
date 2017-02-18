@@ -133,7 +133,13 @@
             characterGapEls.first().focus();
           }
           else {
-            characterGapEls.eq(lastInSentenceIndex+1).focus();
+            if (characterGapEls.index(el) > lastInSentenceIndex) {
+              // All siblings are to left of current element
+              characterGapEls.eq(characterGapEls.index(el)+1).focus();
+            }
+            else {
+              characterGapEls.eq(lastInSentenceIndex+1).focus();
+            }
           }
         }
       }

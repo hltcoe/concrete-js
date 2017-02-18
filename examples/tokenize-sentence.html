@@ -37,6 +37,75 @@
 
   <script>
   /**
+   * UI widget for manual tokenization of a Concrete Sentence
+   *
+   * Takes a Sentence, creates DOM structure for characters in
+   * Sentence, attaches event handlers for keyboard input and
+   * navigation.  When the widget is first created, each character
+   * is treated as a separate token.  The space key can be used
+   * to connect/disconnect characters, and the arrow keys used
+   * to navigate between characters.
+   *
+   * Use the function $.fn.getManualTokenization() to retrieve
+   * the Tokenization object associated with a widget instance.
+   *
+   * This function attaches a <div> to the jQuery element
+   * containing the structure:
+   *
+   * ```
+   * <div class="manual_tokenization">
+   *   <span class="concrete_character">A</span>
+   *   <span class="concrete_character_gap">&nbsp; </span>
+   *   <span class="concrete_character">B</span>
+   *   <span class="concrete_character_gap">&nbsp; </span>
+   *   <span class="concrete_character">C</span>
+   *   <span class="concrete_character_gap">&nbsp; </span>
+   *   ...
+   *   <span class="concrete_character">Z</span>
+   * </div>
+   * ```
+   *
+   * When the user uses the UI to "connect" two characters into
+   * a single token, the .concrete_connected_character_class will
+   * be added to the .concrete_character spans for the two
+   * characters and the .concrete_character_gap span between the
+   * character spans.
+   *
+   * Using the DOM structure shown above, if the character spans
+   * for 'A' and 'B' were connected, the new DOM structure would be:
+   *
+   * ```
+   * <div class="manual_tokenization">
+   *   <span class="concrete_character connected_concrete_characters">A</span>
+   *   <span class="concrete_character_gap connected_concrete_characters">&nbsp; </span>
+   *   <span class="concrete_character connected_concrete_characters">B</span>
+   *   <span class="concrete_character_gap">&nbsp; </span>
+   *   <span class="concrete_character">C</span>
+   *   <span class="concrete_character_gap">&nbsp; </span>
+   *   ...
+   *   <span class="concrete_character">Z</span>
+   * </div>
+   * ```
+   *
+   * This function does not set any CSS properties on the elements
+   * it creates.  Here is some suggested CSS styling:
+   *
+   * ```
+   *   .concrete_character {
+   *     display: inline-block;
+   *     border-bottom: 10px solid #F4F4F4;
+   *   }
+   *   .concrete_character_gap {
+   *     cursor: pointer;
+   *     display: inline-block;
+   *     min-width: 1em;
+   *   }
+   *   .connected_concrete_characters {
+   *     background-color: yellow;
+   *     border-bottom: 10px solid #CCCCCC;
+   *   }
+   * ```
+   *
    * @function external:"jQuery.fn".manualTokenizationWidget
    * @param {Sentence} sentence
    * @returns {external:jQuery_Object}
@@ -179,8 +248,18 @@
   };
 
   /**
+   * Creates a Tokenization for a manualTokenizationWidget
+   *
+   * The $.fn.manualTokenizationWidget function creates a UI
+   * widet that allows a user to specify token boundaries between
+   * characters.  This function creates a Tokenization object
+   * based on the token boundaries currently shown in the UI.
+   *
+   * This function should be called on the same jQuery element
+   * that $.fn.manualTokenizationWidget was called on.
+   *
    * @function external:"jQuery.fn".getManualTokenization
-   * @returns {external:jQuery_Object}
+   * @returns {Tokenization}
    */
   $.fn.getManualTokenization = function() {
     var tokenizeSentenceDiv;

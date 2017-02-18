@@ -51,7 +51,7 @@
     function toggleHighlightingWhenSpacePressed(event) {
       var el = $(this);
       if (el.hasClass('character_gap')) {
-        if (event.which === 32) {
+        if (event.which === 32) { // Space
           var prevEl = el.prev();
           var nextEl = el.next();
 
@@ -68,6 +68,18 @@
             el.addClass('connected_characters');
             prevEl.addClass('connected_characters');
             nextEl.addClass('connected_characters');
+          }
+        }
+        else if (event.which === 37) { // Left arrow
+          if (el.prev().prev('.character_gap').length !== 0) {
+            // Move cursor to left
+            el.prev().prev('.character_gap').focus();
+          }
+        }
+        else if (event.which === 39) { // Right arrow
+          if (el.next().next('.character_gap').length !== 0) {
+            // Move cursor to right
+            el.next().next('.character_gap').focus();
           }
         }
       }
@@ -179,7 +191,7 @@
       fetchAvailable = true;
     }
     catch (e) {
-      // If Fetch is unavailable, ignore expected behavior
+      // If Fetch is unavailable, ignore expected exception
       if (e !== "encountered a unknown request status: 0") {
         throw e;
       }

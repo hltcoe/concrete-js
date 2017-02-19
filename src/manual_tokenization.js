@@ -11,8 +11,9 @@
  * that {@link external:"jQuery.fn".manualTokenizationWidget jQuery.fn.manualTokenizationWidget}
  * was called on.
  *
- * @function external:"jQuery.fn".getManualTokenization
  * @returns {Tokenization}
+ *
+ * @function external:"jQuery.fn".getManualTokenization
  */
 $.fn.getManualTokenization = function() {
   var tokenizeSentenceDiv;
@@ -127,9 +128,10 @@ $.fn.getManualTokenization = function() {
  *   }
  * ```
  *
- * @function external:"jQuery.fn".manualTokenizationWidget
  * @param {Sentence} sentence
- * @returns {external:jQuery_Object}
+ * @returns {external:jQuery_Object} - this jQuery object
+ *
+ * @function external:"jQuery.fn".manualTokenizationWidget
  */
 $.fn.manualTokenizationWidget = function(sentence) {
 

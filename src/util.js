@@ -12,9 +12,10 @@ concrete.util = (function() {
   /**
    * Generate a Concrete UUID
    *
+   * @returns {UUID}
+   *
    * @function concrete.util.generateUUID
    * @memberof concrete.util
-   * @returns {UUID}
    */
   util.generateUUID = function() {
     var uuid = new UUID();
@@ -27,9 +28,10 @@ concrete.util = (function() {
    * Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
    *    https://github.com/LiosK/UUID.js
    *
+   * @returns {String}
+   *
    * @function concrete.util.generateUUIDString
    * @memberof concrete.util
-   * @returns {String}
    */
   util.generateUUIDString = function() {
     /**
@@ -70,13 +72,14 @@ concrete.util = (function() {
 
   /** Retrieve HTTP GET parameters by name
    *
-   * Copied from:
+   * Adapted from:
    *   http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
    *
    * @param {String} sParam - Name of HTTP GET parameter to retrieve
+   * @returns {String}
+   *
    * @function concrete.util.getURLParameter
    * @memberof concrete.util
-   * @returns {String}
    */
   util.getURLParameter = function(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),

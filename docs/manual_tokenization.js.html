@@ -50,8 +50,9 @@
  * that {@link external:"jQuery.fn".manualTokenizationWidget jQuery.fn.manualTokenizationWidget}
  * was called on.
  *
- * @function external:"jQuery.fn".getManualTokenization
  * @returns {Tokenization}
+ *
+ * @function external:"jQuery.fn".getManualTokenization
  */
 $.fn.getManualTokenization = function() {
   var tokenizeSentenceDiv;
@@ -166,9 +167,10 @@ $.fn.getManualTokenization = function() {
  *   }
  * ```
  *
- * @function external:"jQuery.fn".manualTokenizationWidget
  * @param {Sentence} sentence
- * @returns {external:jQuery_Object}
+ * @returns {external:jQuery_Object} - this jQuery object
+ *
+ * @function external:"jQuery.fn".manualTokenizationWidget
  */
 $.fn.manualTokenizationWidget = function(sentence) {
 
@@ -307,18 +309,43 @@ $.fn.manualTokenizationWidget = function(sentence) {
 
   var tokenizeSentenceDiv = $('&lt;div>').addClass('manual_tokenization')
                                       .data('sentence', sentence);
+
+  var hasTokenization = !!sentence.tokenization;
+  var tokenConnectedCharacters = [];
+
+  if (hasTokenization) {
+    for (var j = 0; j &lt; sentence.tokenization.tokenList.tokenList.length; j++) {
+      var tokenTextSpan = sentence.tokenization.tokenList.tokenList[j].textSpan;
+      if (tokenTextSpan.ending - tokenTextSpan.start > 1) {
+        for (var k = tokenTextSpan.start; k &lt; tokenTextSpan.ending-1; k++) {
+          tokenConnectedCharacters.push(k);
+        }
+      }
+    }
+  }
+
   for (var i = sentence.textSpan.start; i &lt; sentence.textSpan.ending; i++) {
-    tokenizeSentenceDiv.append(
-      $('&lt;span>').addClass('concrete_character')
-                 .text(sentence.section.comm.text.substring(i, i+1)));
+    var characterSpan = $('&lt;span>').addClass('concrete_character')
+                                   .text(sentence.section.comm.text.substring(i, i+1));
+    if (hasTokenization) {
+      if (tokenConnectedCharacters.includes(i-1) || tokenConnectedCharacters.includes(i)) {
+        characterSpan.addClass('connected_concrete_characters');
+      }
+    }
+
+    tokenizeSentenceDiv.append(characterSpan);
     if (i &lt; sentence.textSpan.ending-1) {
-      tokenizeSentenceDiv.append(
-        $('&lt;span>').addClass('concrete_character_gap')
-                   .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
-                   .data('tokenIndex', i)
-                   .html('&amp;nbsp; ')
-                   .keydown(manualTokenizationKeyboardNavigation)
-                   .mousedown(mouseToggleConnectedCharacters));
+      var characterGapSpan = $('&lt;span>').addClass('concrete_character_gap')
+                                        .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
+                                        .data('tokenIndex', i)
+                                        .html('&amp;nbsp; ')
+                                        .keydown(manualTokenizationKeyboardNavigation)
+                                        .mousedown(mouseToggleConnectedCharacters);
+      if (hasTokenization &amp;&amp; tokenConnectedCharacters.includes(i)) {
+        characterGapSpan.addClass('connected_concrete_characters');
+      }
+
+      tokenizeSentenceDiv.append(characterGapSpan);
     }
   }
   this.append(tokenizeSentenceDiv);

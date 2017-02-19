@@ -19232,8 +19232,9 @@ var generateUUIDString = function() {
  * that {@link external:"jQuery.fn".manualTokenizationWidget jQuery.fn.manualTokenizationWidget}
  * was called on.
  *
- * @function external:"jQuery.fn".getManualTokenization
  * @returns {Tokenization}
+ *
+ * @function external:"jQuery.fn".getManualTokenization
  */
 $.fn.getManualTokenization = function() {
   var tokenizeSentenceDiv;
@@ -19348,9 +19349,10 @@ $.fn.getManualTokenization = function() {
  *   }
  * ```
  *
- * @function external:"jQuery.fn".manualTokenizationWidget
  * @param {Sentence} sentence
- * @returns {external:jQuery_Object}
+ * @returns {external:jQuery_Object} - this jQuery object
+ *
+ * @function external:"jQuery.fn".manualTokenizationWidget
  */
 $.fn.manualTokenizationWidget = function(sentence) {
 
@@ -19489,18 +19491,43 @@ $.fn.manualTokenizationWidget = function(sentence) {
 
   var tokenizeSentenceDiv = $('<div>').addClass('manual_tokenization')
                                       .data('sentence', sentence);
+
+  var hasTokenization = !!sentence.tokenization;
+  var tokenConnectedCharacters = [];
+
+  if (hasTokenization) {
+    for (var j = 0; j < sentence.tokenization.tokenList.tokenList.length; j++) {
+      var tokenTextSpan = sentence.tokenization.tokenList.tokenList[j].textSpan;
+      if (tokenTextSpan.ending - tokenTextSpan.start > 1) {
+        for (var k = tokenTextSpan.start; k < tokenTextSpan.ending-1; k++) {
+          tokenConnectedCharacters.push(k);
+        }
+      }
+    }
+  }
+
   for (var i = sentence.textSpan.start; i < sentence.textSpan.ending; i++) {
-    tokenizeSentenceDiv.append(
-      $('<span>').addClass('concrete_character')
-                 .text(sentence.section.comm.text.substring(i, i+1)));
+    var characterSpan = $('<span>').addClass('concrete_character')
+                                   .text(sentence.section.comm.text.substring(i, i+1));
+    if (hasTokenization) {
+      if (tokenConnectedCharacters.includes(i-1) || tokenConnectedCharacters.includes(i)) {
+        characterSpan.addClass('connected_concrete_characters');
+      }
+    }
+
+    tokenizeSentenceDiv.append(characterSpan);
     if (i < sentence.textSpan.ending-1) {
-      tokenizeSentenceDiv.append(
-        $('<span>').addClass('concrete_character_gap')
-                   .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
-                   .data('tokenIndex', i)
-                   .html('&nbsp; ')
-                   .keydown(manualTokenizationKeyboardNavigation)
-                   .mousedown(mouseToggleConnectedCharacters));
+      var characterGapSpan = $('<span>').addClass('concrete_character_gap')
+                                        .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
+                                        .data('tokenIndex', i)
+                                        .html('&nbsp; ')
+                                        .keydown(manualTokenizationKeyboardNavigation)
+                                        .mousedown(mouseToggleConnectedCharacters);
+      if (hasTokenization && tokenConnectedCharacters.includes(i)) {
+        characterGapSpan.addClass('connected_concrete_characters');
+      }
+
+      tokenizeSentenceDiv.append(characterGapSpan);
     }
   }
   this.append(tokenizeSentenceDiv);
@@ -19772,9 +19799,10 @@ concrete.util = (function() {
   /**
    * Generate a Concrete UUID
    *
+   * @returns {UUID}
+   *
    * @function concrete.util.generateUUID
    * @memberof concrete.util
-   * @returns {UUID}
    */
   util.generateUUID = function() {
     var uuid = new UUID();
@@ -19787,9 +19815,10 @@ concrete.util = (function() {
    * Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
    *    https://github.com/LiosK/UUID.js
    *
+   * @returns {String}
+   *
    * @function concrete.util.generateUUIDString
    * @memberof concrete.util
-   * @returns {String}
    */
   util.generateUUIDString = function() {
     /**
@@ -19830,13 +19859,14 @@ concrete.util = (function() {
 
   /** Retrieve HTTP GET parameters by name
    *
-   * Copied from:
+   * Adapted from:
    *   http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
    *
    * @param {String} sParam - Name of HTTP GET parameter to retrieve
+   * @returns {String}
+   *
    * @function concrete.util.getURLParameter
    * @memberof concrete.util
-   * @returns {String}
    */
   util.getURLParameter = function(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),

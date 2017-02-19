@@ -270,18 +270,43 @@ $.fn.manualTokenizationWidget = function(sentence) {
 
   var tokenizeSentenceDiv = $('<div>').addClass('manual_tokenization')
                                       .data('sentence', sentence);
+
+  var hasTokenization = !!sentence.tokenization;
+  var tokenConnectedCharacters = [];
+
+  if (hasTokenization) {
+    for (var j = 0; j < sentence.tokenization.tokenList.tokenList.length; j++) {
+      var tokenTextSpan = sentence.tokenization.tokenList.tokenList[j].textSpan;
+      if (tokenTextSpan.ending - tokenTextSpan.start > 1) {
+        for (var k = tokenTextSpan.start; k < tokenTextSpan.ending-1; k++) {
+          tokenConnectedCharacters.push(k);
+        }
+      }
+    }
+  }
+
   for (var i = sentence.textSpan.start; i < sentence.textSpan.ending; i++) {
-    tokenizeSentenceDiv.append(
-      $('<span>').addClass('concrete_character')
-                 .text(sentence.section.comm.text.substring(i, i+1)));
+    var characterSpan = $('<span>').addClass('concrete_character')
+                                   .text(sentence.section.comm.text.substring(i, i+1));
+    if (hasTokenization) {
+      if (tokenConnectedCharacters.includes(i-1) || tokenConnectedCharacters.includes(i)) {
+        characterSpan.addClass('connected_concrete_characters');
+      }
+    }
+
+    tokenizeSentenceDiv.append(characterSpan);
     if (i < sentence.textSpan.ending-1) {
-      tokenizeSentenceDiv.append(
-        $('<span>').addClass('concrete_character_gap')
-                   .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
-                   .data('tokenIndex', i)
-                   .html('&nbsp; ')
-                   .keydown(manualTokenizationKeyboardNavigation)
-                   .mousedown(mouseToggleConnectedCharacters));
+      var characterGapSpan = $('<span>').addClass('concrete_character_gap')
+                                        .attr('tabindex', TOKENIZE_TABINDEX_OFFSET + i)
+                                        .data('tokenIndex', i)
+                                        .html('&nbsp; ')
+                                        .keydown(manualTokenizationKeyboardNavigation)
+                                        .mousedown(mouseToggleConnectedCharacters);
+      if (hasTokenization && tokenConnectedCharacters.includes(i)) {
+        characterGapSpan.addClass('connected_concrete_characters');
+      }
+
+      tokenizeSentenceDiv.append(characterGapSpan);
     }
   }
   this.append(tokenizeSentenceDiv);

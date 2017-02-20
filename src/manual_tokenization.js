@@ -50,7 +50,11 @@ $.fn.getManualTokenization = function() {
     token.text = sentence.section.comm.text.substring(textSpan.start, textSpan.ending);
     token.textSpan = textSpan;
     token.tokenIndex = tokenization.tokenList.tokenList.length;
-    tokenization.tokenList.tokenList.push(token);
+
+    // Don't create Tokens if the text field contains only whitespace
+    if (token.text.trim().length !== 0) {
+      tokenization.tokenList.tokenList.push(token);
+    }
   }
 
   return tokenization;

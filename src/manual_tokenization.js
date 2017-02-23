@@ -67,7 +67,7 @@ $.fn.getManualTokenization = function() {
  * Takes a Sentence, creates DOM structure for characters in
  * Sentence, attaches event handlers for keyboard input and
  * navigation.  When the widget is first created, each character
- * is treated as a separate token.  The space key can be used
+ * is treated as a separate token.  The 'x' key can be used
  * to connect/disconnect characters, and the arrow keys used
  * to navigate between characters.
  *
@@ -141,7 +141,7 @@ $.fn.manualTokenizationWidget = function(sentence) {
 
   // onkeydown event handler for navigating manualTokenizationWidget
   //
-  // Space bar connects/disconnects characters, arrow keys used for
+  // 'x' key connects/disconnects characters, arrow keys used for
   // navigation.
   //
   // Tab and shift-tab can also be used to navigate, but tab
@@ -153,7 +153,7 @@ $.fn.manualTokenizationWidget = function(sentence) {
       var characterGapEls;
       var characterGapIndex;
 
-      if (event.which === 32) { // Space
+      if (event.which === 88) { // 'x' key
         toggleConnectedCharacters(el);
       }
       else if (event.which === 37) { // Left arrow

@@ -133,6 +133,12 @@ $.fn.getManualTokenization = function() {
  * ```
  *
  * Parameters for `options` object:
+ * - `charactersInitiallyConnected` (Boolean): Flag
+ *   for whether all characters in an *untokenized*
+ *   Sentence should be connected.  If the Sentence
+ *   already has a Tokenization, then this flag
+ *   will be ignored.
+ *   Default value: *true*
  * - `toggleConnectionKey` (String): Key used to toggle
  *   the connection between characters.  The string should
  *   be a
@@ -317,6 +323,9 @@ $.fn.manualTokenizationWidget = function(sentence, options) {
         characterSpan.addClass('connected_concrete_characters');
       }
     }
+    else if (opts.charactersInitiallyConnected) {
+      characterSpan.addClass('connected_concrete_characters');
+    }
 
     tokenizeSentenceDiv.append(characterSpan);
     if (i < sentence.textSpan.ending-1) {
@@ -326,7 +335,9 @@ $.fn.manualTokenizationWidget = function(sentence, options) {
                                         .html('&nbsp; ')
                                         .keydown(manualTokenizationKeyboardNavigation)
                                         .mousedown(mouseToggleConnectedCharacters);
-      if (hasTokenization && tokenConnectedCharacters.includes(i)) {
+      if ((hasTokenization && tokenConnectedCharacters.includes(i)) ||
+          (!hasTokenization && opts.charactersInitiallyConnected))
+      {
         characterGapSpan.addClass('connected_concrete_characters');
       }
 
@@ -339,6 +350,7 @@ $.fn.manualTokenizationWidget = function(sentence, options) {
 };
 
 $.fn.manualTokenizationWidget.defaultOptions = {
+  'charactersInitiallyConnected': true,
   'toggleConnectionKey': 'x',
   'toggleConnectionKeyCode': 88,
 };

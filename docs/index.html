@@ -80,7 +80,7 @@ are concatenated together to create <code>dist/concrete.js</code>.</p>
 <p>In your HTML file, you should include the scripts in this order:</p>
 <pre class="prettyprint source"><code>&lt;script src=&quot;your/copy/of/jquery.js&quot;>&lt;/script>
 &lt;script src=&quot;thrift.js&quot;>&lt;/script>
-&lt;script src=&quot;concrete.js&quot;>&lt;/script></code></pre><h2>Fetching Communications with JavaScript</h2><p>There are two primary ways to load Concrete Communications into
+&lt;script src=&quot;concrete.js&quot;>&lt;/script></code></pre><h2>Fetching Communications - with HTTP requests</h2><p>There are two primary ways to load Concrete Communications into
 JavaScript - Thrift RPC (Remote Procedure Calls) and HTTP GET requests
 for JSON serialized Communications.  The JavaScript version of Thrift
 only supports the <em>TJSONProtocol</em> serialization protocol.</p>
@@ -110,7 +110,7 @@ var comm2 = new Communication();
 comm2.initFromTJSONProtocolObject(comm_as_json_object);
 
 var comm3 = new Communication();
-comm3.initFromTJSONProtocolString(comm_as_json_string);</code></pre><h2>Building concrete-js</h2><p>You do not need to build <strong>concrete-js</strong> in order to use
+comm3.initFromTJSONProtocolString(comm_as_json_string);</code></pre><h2>Fetching Communications - with Thrift RPC calls</h2><h2>Building concrete-js</h2><p>You do not need to build <strong>concrete-js</strong> in order to use
 <strong>concrete-js</strong> - a working copy of the library is included in the
 <code>dist/</code> directory.  The <strong>concrete-js</strong> library only needs to
 (re)built when the Thrift schema files for Concrete have been updated,

@@ -31,10 +31,21 @@ describe("Manual Tokenization", function() {
     expect(sentenceText).toEqual('one two three');
   });
 
-  it("$.fn.manualTokenizationWidget - Initialize untokenized without connected tokens", function() {
+  it("$.fn.manualTokenizationWidget - Initialize untokenized with connected tokens", function() {
     loadFixtures('mostly-empty.html');
     expect(this.numbersSentence).not.toBe(undefined);
     $('#sentence').manualTokenizationWidget(this.numbersSentence);
+
+    expect($('#sentence .concrete_character')).toHaveLength(13);
+    expect($('#sentence .concrete_character_gap')).toHaveLength(12);
+    expect($('#sentence .concrete_character.connected_concrete_characters')).toHaveLength(13);
+    expect($('#sentence .concrete_character_gap.connected_concrete_characters')).toHaveLength(12);
+  });
+
+  it("$.fn.manualTokenizationWidget - Initialize untokenized without connected tokens", function() {
+    loadFixtures('mostly-empty.html');
+    expect(this.numbersSentence).not.toBe(undefined);
+    $('#sentence').manualTokenizationWidget(this.numbersSentence, {charactersInitiallyConnected: false});
 
     expect($('#sentence .concrete_character')).toHaveLength(13);
     expect($('#sentence .concrete_character_gap')).toHaveLength(12);

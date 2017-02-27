@@ -2935,7 +2935,7 @@ containing the selected tokens.</p>
 
     
 
-    <h4 class="name" id=".manualTokenizationWidget"><span class="type-signature">(static) </span>manualTokenizationWidget<span class="signature">(sentence)</span><span class="type-signature"> &rarr; {<a href="external-jQuery_Object.html">external:jQuery_Object</a>}</span></h4>
+    <h4 class="name" id=".manualTokenizationWidget"><span class="type-signature">(static) </span>manualTokenizationWidget<span class="signature">(sentence, options)</span><span class="type-signature"> &rarr; {<a href="external-jQuery_Object.html">external:jQuery_Object</a>}</span></h4>
 
     
 
@@ -2947,7 +2947,7 @@ containing the selected tokens.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="manual_tokenization.js.html">manual_tokenization.js</a>, <a href="manual_tokenization.js.html#line60">line 60</a>
+        <a href="manual_tokenization.js.html">manual_tokenization.js</a>, <a href="manual_tokenization.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -2991,7 +2991,7 @@ containing the selected tokens.</p>
 <p>Takes a Sentence, creates DOM structure for characters in
 Sentence, attaches event handlers for keyboard input and
 navigation.  When the widget is first created, each character
-is treated as a separate token.  The space key can be used
+is treated as a separate token.  The 'x' key can be used
 to connect/disconnect characters, and the arrow keys used
 to navigate between characters.</p>
 <p>Use <a href="external-_jQuery.fn_.html#.getManualTokenization"><code>jQuery.fn.getManualTokenization</code></a>
@@ -3038,7 +3038,29 @@ it creates.  Here is some suggested CSS styling:</p>
   .connected_concrete_characters {
     background-color: yellow;
     border-bottom: 10px solid #CCCCCC;
-  }</code></pre>
+  }</code></pre><p>Parameters for <code>options</code> object:</p>
+<ul>
+<li><code>charactersInitiallyConnected</code> (Boolean): Flag
+for whether all characters in an <em>untokenized</em>
+Sentence should be connected.  If the Sentence
+already has a Tokenization, then this flag
+will be ignored.
+Default value: <em>true</em></li>
+<li><code>toggleConnectionKey</code> (String): Key used to toggle
+the connection between characters.  The string should
+be a
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values"> valid KeyboardEvent.key value</a>.
+Please note that Safari/WebKit does not currently
+support the KeyboardEvent.key field, so you need
+to set the <code>toggleConnectionKeyCode</code> option for
+these browsers.
+Default value: 'x'</li>
+<li><code>toggleConnectionKeyCode</code> (Number): KeyCode used to
+toggle the connection between characters.  Please
+note that KeyCode values are system and implementation
+dependent.
+Default value: 88 (KeyCode for 'x')</li>
+</ul>
 </div>
 
 
@@ -3083,6 +3105,29 @@ it creates.  Here is some suggested CSS styling:</p>
             
                 
 <span class="param-type">Sentence</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
 
 
             

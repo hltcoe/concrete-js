@@ -19353,12 +19353,36 @@ $.fn.getManualTokenization = function() {
  *   }
  * ```
  *
+ * Parameters for `options` object:
+ * - `charactersInitiallyConnected` (Boolean): Flag
+ *   for whether all characters in an *untokenized*
+ *   Sentence should be connected.  If the Sentence
+ *   already has a Tokenization, then this flag
+ *   will be ignored.
+ *   Default value: *true*
+ * - `toggleConnectionKey` (String): Key used to toggle
+ *   the connection between characters.  The string should
+ *   be a
+ *   {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ *    valid KeyboardEvent.key value}.
+ *   Please note that Safari/WebKit does not currently
+ *   support the KeyboardEvent.key field, so you need
+ *   to set the `toggleConnectionKeyCode` option for
+ *   these browsers.
+ *   Default value: 'x'
+ * - `toggleConnectionKeyCode` (Number): KeyCode used to
+ *   toggle the connection between characters.  Please
+ *   note that KeyCode values are system and implementation
+ *   dependent.
+ *   Default value: 88 (KeyCode for 'x')
+ *
  * @param {Sentence} sentence
+ * @param {Object} options
  * @returns {external:jQuery_Object} - this jQuery object
  *
  * @function external:"jQuery.fn".manualTokenizationWidget
  */
-$.fn.manualTokenizationWidget = function(sentence) {
+$.fn.manualTokenizationWidget = function(sentence, options) {
 
   // onkeydown event handler for navigating manualTokenizationWidget
   //
@@ -19374,10 +19398,10 @@ $.fn.manualTokenizationWidget = function(sentence) {
       var characterGapEls;
       var characterGapIndex;
 
-      if (event.which === 88) { // 'x' key
+      if (event.key === opts.toggleConnectionKey || event.keyCode === opts.toggleConnectionKeyCode) {
         toggleConnectedCharacters(el);
       }
-      else if (event.which === 37) { // Left arrow
+      else if (event.key === 'ArrowLeft' || event.keyCode === 37) {
         if (el.prev().prev('.concrete_character_gap').length !== 0) {
           // Move cursor to left
           el.prev().prev('.concrete_character_gap').focus();
@@ -19394,7 +19418,7 @@ $.fn.manualTokenizationWidget = function(sentence) {
           }
         }
       }
-      else if (event.which === 39) { // Right arrow
+      else if (event.key === 'ArrowRight' || event.keyCode === 39) {
         if (el.next().next('.concrete_character_gap').length !== 0) {
           // Move cursor to right
           el.next().next('.concrete_character_gap').focus();
@@ -19411,7 +19435,7 @@ $.fn.manualTokenizationWidget = function(sentence) {
           }
         }
       }
-      else if (event.which === 38) { // Up arrow
+      else if (event.key === 'ArrowUp' || event.keyCode === 38) {
         characterGapEls = $('.concrete_character_gap');
         characterGapIndex = characterGapEls.index(el);
         if (characterGapIndex === 0 ||
@@ -19431,7 +19455,7 @@ $.fn.manualTokenizationWidget = function(sentence) {
           }
         }
       }
-      else if (event.which === 40) { // Down arrow
+      else if (event.key === 'ArrowDown' || event.keyCode === 40) {
         characterGapEls = $('.concrete_character_gap');
         var lastInSentence = el.siblings('.concrete_character_gap').last();
         var lastInSentenceIndex = characterGapEls.index(lastInSentence);
@@ -19486,6 +19510,8 @@ $.fn.manualTokenizationWidget = function(sentence) {
   }
 
 
+  var opts = $.extend({}, $.fn.manualTokenizationWidget.defaultOptions, options);
+
   // We do not want any of the .concrete_character_gap spans to have a tabindex of 0, as
   // a tabindex of 0 is treated differently than a tabindex of 1 or greater:
   //   https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
@@ -19518,6 +19544,9 @@ $.fn.manualTokenizationWidget = function(sentence) {
         characterSpan.addClass('connected_concrete_characters');
       }
     }
+    else if (opts.charactersInitiallyConnected) {
+      characterSpan.addClass('connected_concrete_characters');
+    }
 
     tokenizeSentenceDiv.append(characterSpan);
     if (i < sentence.textSpan.ending-1) {
@@ -19527,7 +19556,9 @@ $.fn.manualTokenizationWidget = function(sentence) {
                                         .html('&nbsp; ')
                                         .keydown(manualTokenizationKeyboardNavigation)
                                         .mousedown(mouseToggleConnectedCharacters);
-      if (hasTokenization && tokenConnectedCharacters.includes(i)) {
+      if ((hasTokenization && tokenConnectedCharacters.includes(i)) ||
+          (!hasTokenization && opts.charactersInitiallyConnected))
+      {
         characterGapSpan.addClass('connected_concrete_characters');
       }
 
@@ -19537,6 +19568,12 @@ $.fn.manualTokenizationWidget = function(sentence) {
   this.append(tokenizeSentenceDiv);
 
   return this;
+};
+
+$.fn.manualTokenizationWidget.defaultOptions = {
+  'charactersInitiallyConnected': true,
+  'toggleConnectionKey': 'x',
+  'toggleConnectionKeyCode': 88,
 };
 ;/**
  * @class Tokenization

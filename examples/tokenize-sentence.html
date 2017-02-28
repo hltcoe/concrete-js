@@ -106,6 +106,7 @@
         // Display list of Communication IDs and instructions
 
         $('#tokenization_ui_instructions').hide();
+        $('#save_button').hide();
         $('#communication_list_instructions').show();
 
         var communicationIDs = fetchClient.getCommunicationIDs(0, fetchClient.getCommunicationCount());
@@ -135,10 +136,10 @@
 <body>
   <div class="container-fluid">
     <div style="padding-top: 1em;">
-      <button id="save_button" type="button" class="btn btn-default">Save</button>
       <a id="document_list_button" type="button" class="btn btn-default" href="?" style="display: none;">
         Document List
       </a>
+      <button id="save_button" type="button" class="btn btn-default">Save</button>
     </div>
 
     <div id="error_message_div" class="alert alert-danger" style="display: none; margin-top: 1em;">
@@ -165,8 +166,7 @@
 
     <div id="communication_list_instructions" style="display: none;">
       <p>
-        Please select the Communication listed below that you want to
-        manually tokenize:
+        Please select the Communication that you want to manually tokenize:
       </p>
       <div id="communication_id_list"></div>
     </div>

@@ -63,4 +63,30 @@ describe("Manual Tokenization", function() {
     expect($('#sentence .concrete_character_gap.connected_concrete_characters')).toHaveLength(8);
   });
 
+  it("$.fn.getManualTokenization correctly records existing tokenization", function() {
+    loadFixtures('mostly-empty.html');
+
+    // manualTokenizationWidget will use existing tokenization for token boundaries
+    $('#sentence').manualTokenizationWidget(this.numbersTokenizedSentence);
+    var originalTokenization = this.numbersTokenizedSentence.tokenization;
+    var originalTokenList = originalTokenization.tokenList.tokenList;
+
+    // getManualTokenization will create new Tokenization based on the token
+    // boundaries currently displayed by the UI
+    var newTokenization = $('#sentence').getManualTokenization();
+    var newTokenList = newTokenization.tokenList.tokenList;
+
+    // Verify that the two Tokenizations have the same structure
+    expect(newTokenList.length).toEqual(originalTokenList.length);
+    for (var i = 0; i < newTokenList.length; i++) {
+      expect(newTokenList[i].text).toEqual(originalTokenList[i].text);
+      expect(newTokenList[i].textSpan.start).toEqual(originalTokenList[i].textSpan.start);
+      expect(newTokenList[i].textSpan.ending).toEqual(originalTokenList[i].textSpan.ending);
+    }
+
+    // The UUID and AnnotationMetadata values will differ
+    expect(newTokenization.uuid.uuidString).not.toEqual(originalTokenization.uuid.uuidString);
+    expect(newTokenization.metadata.timestamp).not.toEqual(originalTokenization.metadata.timestamp);
+  });
+
 });

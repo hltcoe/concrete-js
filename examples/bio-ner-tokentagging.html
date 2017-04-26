@@ -81,10 +81,10 @@
         // If there is not a previous NER TokenTagging, a new one is created
         // and initialized with "O" tags for all tokens.
         else {
-          tokenTagging = createTokenTagging("NER");
-          setAllTokenTagsToO(tokenization, tokenTagging);
+          tokenTagging = TokenTagging.create({taggingType: 'NER'});
+          tokenTagging.setAllTaggedTokens(tokenization, 'O');
         }
-        addTokenTagging(tokenization, tokenTagging);
+        tokenization.addTokenTagging(tokenTagging);
         for (var tokenIndex in tokenization.tokenList.tokenList) {
           var tokenTag = getTaggedTokenWithIndex(tokenTagging,tokenIndex).tag;
           var foo = tagSet.indexOf(tokenTag.split("-").pop());

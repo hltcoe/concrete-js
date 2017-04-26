@@ -19,17 +19,6 @@ function zipTagColor(){
 
 var tagColorPairs = zipTagColor();
 
-/** Add a TokenTagging to a Tokenization
- * @param {Tokenization} tokenization
- * @param {TokenTagging} tokenTagging
- */
-function addTokenTagging(tokenization, tokenTagging) {
-    if (!tokenization.tokenTaggingList) {
-        tokenization.tokenTaggingList = [];
-    }
-    tokenization.tokenTaggingList.push(tokenTagging);
-}
-
 /** Check for NER tags in tokenTaggingList.
  * @param {Tokenization} tokenization
  * @returns {Integer} tokenTaggingIndex
@@ -47,21 +36,6 @@ function checkForPreviousNERTags(tokenization) {
     return NERIndex;
 }
 
-
-/** Create a TokenTagging object with the specified taggingType
- * @param {String} taggingType
- * @returns {TokenTagging} tokenTagging
- */
-function createTokenTagging(taggingType) {
-    var tokenTagging = new TokenTagging();
-    tokenTagging.metadata = new AnnotationMetadata();
-    tokenTagging.metadata.timestamp = Math.floor(Date.now()/1000);
-    tokenTagging.metadata.tool = 'HIT';
-    tokenTagging.taggedTokenList = [];
-    tokenTagging.taggingType = taggingType;
-    tokenTagging.uuid = generateUUID();
-    return tokenTagging;
-}
 
 /** Duplicate a TokenTagging object with the specified taggingType
  * @param {Tokenization} tokenization
@@ -95,19 +69,6 @@ function findOrCreateTaggedTokenWithIndex(tokenTagging, tokenIndex) {
     }
 }
 
-/** Get Tokenization for first Sentence of first Section of a Communication
- * @param {Communication} comm
- * @returns {Tokenization|null} - Will return null if Communication does not have a Tokenization
- */
-function getFirstTokenization(comm) {
-    if (comm.sectionList) {
-        if (comm.sectionList[0].sentenceList) {
-            return comm.sectionList[0].sentenceList[0].tokenization;
-        }
-    }
-    return null;
-}
-
 /**
  * Return the proper CSS class for a tokenTag based on its taggingType.
  * @param  {TokenTagging} tokenTagging
@@ -138,22 +99,6 @@ function getTaggedTokenWithIndex(tokenTagging, tokenIndex) {
         }
     }
     return null;
-}
-
-/** Modifies a TokenTagging, creating an "O" tag for each token in the corresponding tokenization
- * @param {Tokenization} tokenization
- * @param {TokenTagging} tokenTagging
- */
-function setAllTokenTagsToO(tokenization, tokenTagging) {
-    // Discard the contents of the existing taggedTokenList
-    tokenTagging.taggedTokenList = [];
-
-    for (var tokenIndex in tokenization.tokenList.tokenList) {
-        taggedToken = new TaggedToken();
-        taggedToken.tag = "O";
-        taggedToken.tokenIndex = tokenIndex;
-        tokenTagging.taggedTokenList.push(taggedToken);
-    }
 }
 
 /** Add a <div> to DOM containing a select box for changing the NE label for a token

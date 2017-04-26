@@ -231,9 +231,9 @@ function updateTokenTag(commIndex, tokenIndex, taggedToken, tagText) {
 
     // Change background color for token text based on tagText
     var tokenSpan = $('#comm_' + commIndex + '_token_' + tokenIndex);
-    var foo = tagSet.indexOf(tagText.split("-").pop());
-    tokenSpan.attr('data-tag-type-index', foo);
-    tokenSpan.css("background-color", tagColorPairs[foo]);
+    var tagTypeIndex = tagSet.indexOf(tagText.split("-").pop());
+    tokenSpan.attr('data-tag-type-index', tagTypeIndex);
+    tokenSpan.css("background-color", tagColorPairs[tagTypeIndex]);
 
     if (tagText.charAt(0) == "O") {
         tokenSpan.removeClass("token_tag_type_B");

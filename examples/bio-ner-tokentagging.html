@@ -87,12 +87,12 @@
         tokenization.addTokenTagging(tokenTagging);
         for (var tokenIndex in tokenization.tokenList.tokenList) {
           var tokenTag = getTaggedTokenWithIndex(tokenTagging,tokenIndex).tag;
-          var foo = tagSet.indexOf(tokenTag.split("-").pop());
+          var tagTypeIndex = tagSet.indexOf(tokenTag.split("-").pop());
           var token_span = $('<span>')
             .addClass(getCSSClassForTag(tokenTagging, tokenIndex))
-            .attr('data-tag-type-index', foo)
+            .attr('data-tag-type-index', tagTypeIndex)
             .attr('id', 'comm_' + tokenizationIndex + '_token_' + tokenIndex)
-            .css('background-color', tagColorPairs[foo])
+            .css('background-color', tagColorPairs[tagTypeIndex])
             .click({'commIndex': tokenizationIndex,
                     'tokenization': tokenization,
                     'tokenIndex': tokenIndex,

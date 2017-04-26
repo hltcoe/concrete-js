@@ -214,7 +214,6 @@ function changeTokenTagCallback(event) {
     if (isTaggedTokenI(event.data.tokenTagging, event.data.tokenIndex+1)) {
         updateContiguousITagsStartingWithTokenIndex(event.data.commIndex, event.data.tokenTagging, event.data.tokenIndex+1, updatedBTag);
     }
-    saveCommsToFormData();
 }
 
 /** Update token tag both in the Concrete datastructure and shown in UI

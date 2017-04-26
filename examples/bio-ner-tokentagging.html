@@ -110,7 +110,8 @@
               .attr('id', 'comm_' + tokenizationIndex + '_token_' + tokenIndex + '_ne_input_container'));
           // Add NE label control for all "B" tokens and intializes with the correct value based on its tag.
           if (tokenTag.charAt(0)=="B") {
-            addNEInputControl(tokenizationIndex, tokenization, tokenIndex, tokenTagging, tagSet);
+            tokenTagInputsDiv.append(
+              createNEInputControlDiv(tokenizationIndex, tokenization, tokenIndex, tokenTagging, tagSet));
           }
         }
         var tokenTaggingDiv = $('<div>').addClass('token_tagging_container')

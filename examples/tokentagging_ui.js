@@ -164,9 +164,14 @@ function setAllTokenTagsToO(tokenization, tokenTagging) {
  */
 function addNEInputControl(commIndex, tokenization, tokenIndex, tokenTagging, tagSet) {
     tokenIndex = parseInt(tokenIndex);
-    var $selector =  $('<select id=comm_' + commIndex + '_token_' + tokenIndex + '_selector>');
     $('#comm_' + commIndex + '_token_' + tokenIndex + '_ne_input_container').append(
-        $('<div>')
+        createNEInputControlDiv(commIndex, tokenization, tokenIndex, tokenTagging, tagSet));
+}
+
+function createNEInputControlDiv(commIndex, tokenization, tokenIndex, tokenTagging, tagSet) {
+    tokenIndex = parseInt(tokenIndex);
+    var $selector =  $('<select id=comm_' + commIndex + '_token_' + tokenIndex + '_selector>');
+    var div = $('<div>')
             .attr('id', 'comm_' + commIndex + '_token_' + tokenIndex + '_ne_input')
             .append(
                 $('<span>')
@@ -177,7 +182,7 @@ function addNEInputControl(commIndex, tokenization, tokenIndex, tokenTagging, ta
                     .on('change',
                         {'commIndex': commIndex, 'tokenIndex': tokenIndex, 'tokenTagging': tokenTagging},
                         changeTokenTagCallback)
-                    ));
+            );
 
     var selectOptions = [];
     for (var option in tagSet) {
@@ -187,6 +192,8 @@ function addNEInputControl(commIndex, tokenization, tokenIndex, tokenTagging, ta
     // Returns tag text minus any BIO prefixes.
     var tokenTag = getTaggedTokenWithIndex(tokenTagging,tokenIndex).tag.split("-").pop();
     $selector.val(tokenTag);
+
+    return div;
 }
 
 

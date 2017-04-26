@@ -71,16 +71,17 @@
         var tokensDiv = $('<div>').attr('id', 'comm_' + tokenizationIndex + '_tokens');
         var tokenTagInputsDiv = $('<div>').attr('id', 'comm_' + tokenizationIndex + '_ne_inputs');
 
+        var tokenTagging;
         var tokenTaggingIndex = checkForPreviousNERTags(tokenization);
 
         // If there is a previous NER TokenTagging, it is duplicated.
         if (tokenTaggingIndex !== false) {
-          var tokenTagging = duplicateTokenTagging(tokenization, tokenTaggingIndex, "NER");
+          tokenTagging = duplicateTokenTagging(tokenization, tokenTaggingIndex, "NER");
         }
         // If there is not a previous NER TokenTagging, a new one is created
         // and initialized with "O" tags for all tokens.
         else {
-          var tokenTagging = createTokenTagging("NER");
+          tokenTagging = createTokenTagging("NER");
           setAllTokenTagsToO(tokenization, tokenTagging);
         }
         addTokenTagging(tokenization, tokenTagging);
@@ -155,7 +156,7 @@
   }
 
   // Global variable
-  var COMM = undefined;
+  var COMM;
 
   $(document).ready(function() {
     var transport = new Thrift.Transport("/fetch_http_endpoint/");

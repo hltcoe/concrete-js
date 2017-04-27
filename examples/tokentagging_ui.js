@@ -19,37 +19,6 @@ function zipTagColor(){
 
 var tagColorPairs = zipTagColor();
 
-/** Check for NER tags in tokenTaggingList.
- * @param {Tokenization} tokenization
- * @returns {Integer} tokenTaggingIndex
- */
-function checkForPreviousNERTags(tokenization) {
-    var NERIndex = false;
-    if (tokenization.tokenTaggingList && tokenization.tokenTaggingList.length > 0) {
-        for (i=0; i < tokenization.tokenTaggingList.length; i++) {
-            if (tokenization.tokenTaggingList[i].taggingType==='NER') {
-                NERIndex = i;
-                break;
-            }
-        }
-    }
-    return NERIndex;
-}
-
-
-/** Duplicate a TokenTagging object with the specified taggingType
- * @param {Tokenization} tokenization
- * @param {String} taggingType
- * @returns {TokenTagging}
- */
-function duplicateTokenTagging(tokenization, tokenTaggingIndex, taggingType) {
-    var tokenTagging = jQuery.extend(true, {}, tokenization.tokenTaggingList[tokenTaggingIndex]);
-    tokenTagging.metadata.timestamp = Math.floor(Date.now()/1000);
-    tokenTagging.metadata.tool = 'HIT';
-    tokenTagging.taggingType = taggingType;
-    tokenTagging.uuid = generateUUID();
-    return tokenTagging;
-}
 
 /** Return the TaggedToken specified by tokenIndex if it exists - otherwise, create and return a new TaggedToken
  * @param {TokenTagging} tokenTagging

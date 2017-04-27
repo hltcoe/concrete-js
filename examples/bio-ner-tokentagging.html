@@ -71,20 +71,21 @@
         var tokensDiv = $('<div>').attr('id', 'comm_' + tokenizationIndex + '_tokens');
         var tokenTagInputsDiv = $('<div>').attr('id', 'comm_' + tokenizationIndex + '_ne_inputs');
 
-        var tokenTagging;
-        var tokenTaggingIndex = checkForPreviousNERTags(tokenization);
+        var nerTokenTaggings = tokenization.getTokenTaggingsOfType('NER');
+        var tokenTagging = TokenTagging.create({taggingType: 'NER'});
 
-        // If there is a previous NER TokenTagging, it is duplicated.
-        if (tokenTaggingIndex !== false) {
-          tokenTagging = duplicateTokenTagging(tokenization, tokenTaggingIndex, "NER");
+        // If there is at least one previous NER TokenTagging, we create
+        // a copy of the last NER TokenTagging's taggedTokenList
+        // TODO: Add parameter to specify *which* NER TokenTagging
+        if (nerTokenTaggings.length > 0) {
+          tokenTagging.taggedTokenList = nerTokenTaggings[nerTokenTaggings.length - 1].deepCopyTaggedTokenList();
         }
-        // If there is not a previous NER TokenTagging, a new one is created
-        // and initialized with "O" tags for all tokens.
+        // If there is not a previous NER TokenTagging, initialize all tags to "O"
         else {
-          tokenTagging = TokenTagging.create({taggingType: 'NER'});
-          tokenTagging.setAllTaggedTokens(tokenization, 'O');
+          tokenTagging.setAllTaggedTokenTags(tokenization, 'O');
         }
         tokenization.addTokenTagging(tokenTagging);
+
         for (var tokenIndex in tokenization.tokenList.tokenList) {
           var tokenTag = getTaggedTokenWithIndex(tokenTagging,tokenIndex).tag;
           var tagTypeIndex = tagSet.indexOf(tokenTag.split("-").pop());

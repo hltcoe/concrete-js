@@ -26,7 +26,7 @@ var tagColorPairs = zipTagColor();
  * @returns {TaggedToken}
  */
 function findOrCreateTaggedTokenWithIndex(tokenTagging, tokenIndex) {
-    var taggedToken = getTaggedTokenWithIndex(tokenTagging, tokenIndex);
+    var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
     if (taggedToken) {
         return taggedToken;
     }
@@ -45,29 +45,15 @@ function findOrCreateTaggedTokenWithIndex(tokenTagging, tokenIndex) {
  * @return {String} CSS class.
  */
 function getCSSClassForTag(tokenTagging, tokenIndex) {
-    if (getTaggedTokenWithIndex(tokenTagging, tokenIndex).tag.charAt(0) == "B") {
+    if (tokenTagging.bioGetBIOValue(tokenIndex) === 'B') {
         return "token_tag_type_B";
     }
-    else if (getTaggedTokenWithIndex(tokenTagging, tokenIndex).tag.charAt(0) == "I") {
+    else if (tokenTagging.bioGetBIOValue(tokenIndex) === 'I') {
         return "token_tag_type_I";
     }
     else {
         return "token_tag_type_O";
     }
-}
-
-/** Get the TaggedToken specified by tokenIndex if it exists, or return null
- * @param {TokenTagging} tokenTagging
- * @param {Integer} tokenIndex
- * @returns {TaggedToken|null}
- */
-function getTaggedTokenWithIndex(tokenTagging, tokenIndex) {
-    for (var taggedTokenIndex in tokenTagging.taggedTokenList) {
-        if (tokenTagging.taggedTokenList[taggedTokenIndex].tokenIndex == tokenIndex) {
-            return tokenTagging.taggedTokenList[taggedTokenIndex];
-        }
-    }
-    return null;
 }
 
 /** Add a <div> to DOM containing a select box for changing the NE label for a token
@@ -104,7 +90,7 @@ function createNEInputControlDiv(commIndex, tokenization, tokenIndex, tokenTaggi
     }
     $selector.append(selectOptions);
     // Returns tag text minus any BIO prefixes.
-    var tokenTag = getTaggedTokenWithIndex(tokenTagging,tokenIndex).tag.split("-").pop();
+    var tokenTag = tokenTagging.bioGetTagValue(tokenIndex);
     $selector.val(tokenTag);
 
     return div;
@@ -149,7 +135,7 @@ function getTokenIndexOfFirstTokenOfNE(tokenTagging, tokenIndex) {
  * @returns {Boolean}
  */
 function isTaggedTokenB(tokenTagging, tokenIndex) {
-    var taggedToken = getTaggedTokenWithIndex(tokenTagging, tokenIndex);
+    var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
     if (taggedToken && taggedToken.tag) {
         if (taggedToken.tag.charAt(0) == "B") {
             return true;
@@ -164,7 +150,7 @@ function isTaggedTokenB(tokenTagging, tokenIndex) {
  * @returns {Boolean}
  */
 function isTaggedTokenI(tokenTagging, tokenIndex) {
-    var taggedToken = getTaggedTokenWithIndex(tokenTagging, tokenIndex);
+    var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
     if (taggedToken && taggedToken.tag) {
         if (taggedToken.tag.charAt(0) == "I") {
             return true;
@@ -223,7 +209,7 @@ function updateTokenTag(commIndex, tokenIndex, taggedToken, tagText) {
 
 /** Update 'I-' tags that immediately follow a 'B-' tag **/
 function updateContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging, tokenIndex, updatedBTag) {
-    var updatingToken = getTaggedTokenWithIndex(tokenTagging, tokenIndex);
+    var updatingToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
     if (isTaggedTokenI(tokenTagging, tokenIndex)) {
         updateTokenTag(commIndex, tokenIndex, updatingToken, "I-" + updatedBTag);
         updateContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging,
@@ -259,7 +245,7 @@ function updateTagForNECallback(event) {
      */
     function removeContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging, tokenIndex) {
         if (isTaggedTokenI(tokenTagging, tokenIndex)) {
-            var taggedToken = getTaggedTokenWithIndex(tokenTagging, tokenIndex);
+            var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
             updateTokenTag(commIndex, tokenIndex, taggedToken, "O");
             removeContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging, tokenIndex+1);
         }
@@ -294,7 +280,7 @@ function updateTagForNECallback(event) {
         //   "O" -> "I" -> "B" -> "O"
         if (!taggedToken.tag || taggedToken.tag == "O") {
             // Set Intermediate tag type based on tag type of previous tag
-            var previousTokenTag = getTaggedTokenWithIndex(tokenTagging, tokenIndex-1).tag;
+            var previousTokenTag = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex-1).tag;
             updateTokenTag(commIndex, tokenIndex, taggedToken, "I-" + previousTokenTag.substring(2));
             updateNEInputControlText(commIndex, tokenTagging, tokenization, tokenIndex);
         }

@@ -86,8 +86,8 @@
         }
         tokenization.addTokenTagging(tokenTagging);
 
-        for (var tokenIndex in tokenization.tokenList.tokenList) {
-          var tokenTag = getTaggedTokenWithIndex(tokenTagging,tokenIndex).tag;
+        for (var tokenIndex = 0; tokenIndex < tokenization.tokenList.tokenList.length; tokenIndex++) {
+          var tokenTag = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex).tag;
           var tagTypeIndex = tagSet.indexOf(tokenTag.split("-").pop());
           var token_span = $('<span>')
             .addClass(getCSSClassForTag(tokenTagging, tokenIndex))

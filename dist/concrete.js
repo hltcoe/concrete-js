@@ -19777,6 +19777,20 @@ TokenTagging.prototype.bioSetTagSeparator = function(separator) {
 };
 
 /**
+ * Return a deep copy of this TokenTagging's taggedTokenList.
+ *
+ * @returns {TaggedToken[]}
+ */
+TokenTagging.prototype.deepCopyTaggedTokenList = function() {
+  var taggedTokenListCopy = [];
+  for (var i = 0; i < this.taggedTokenList.length; i++) {
+    var taggedToken = new TaggedToken();
+    taggedTokenListCopy.push(jQuery.extend(true, taggedToken, this.taggedTokenList[i]));
+  }
+  return taggedTokenListCopy;
+};
+
+/**
  * Return the TaggedToken (or null) with the specified tokenIndex
  *
  * @param {Number} tokenIndex

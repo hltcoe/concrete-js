@@ -108,6 +108,26 @@ describe("TokenTagging unit tests", function() {
     expect(tokenTagging.bioGetTagSeparator()).toEqual('_');
   });
 
+  it("tokenTagging.deepCopyTaggedTokenList() - makes deep copy", function() {
+    var tokenTagging = TokenTagging.create();
+    tokenTagging.bioSetTaggedTokenTag('B', 'FOO', 3);
+    tokenTagging.bioSetTaggedTokenTag('I', 'FOO', 4);
+    tokenTagging.bioSetTaggedTokenTag('I', 'FOO', 5);
+
+    var tokenTaggingCopy = TokenTagging.create();
+    tokenTaggingCopy.taggedTokenList = tokenTagging.deepCopyTaggedTokenList();
+
+    expect(tokenTaggingCopy.taggedTokenList.length).toEqual(tokenTagging.taggedTokenList.length);
+
+    for (var i = 0; i < tokenTagging.taggedTokenList.length; i++) {
+      expect(tokenTaggingCopy.taggedTokenList[i].tag).toEqual(tokenTagging.taggedTokenList[i].tag);
+      expect(tokenTaggingCopy.taggedTokenList[i].tokenIndex).toEqual(tokenTagging.taggedTokenList[i].tokenIndex);
+
+      // Verify that
+      expect(tokenTaggingCopy.taggedTokenList[i]).not.toBe(tokenTagging.taggedTokenList[i]);
+    }
+  });
+
   it("tokenTagging.setAllTaggedTokens() - integer tokenIndices", function() {
     var tokenTagging = TokenTagging.create();
     tokenTagging.setAllTaggedTokenTags(this.tokenization, 'FOO');

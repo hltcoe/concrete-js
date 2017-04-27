@@ -105,7 +105,7 @@ function createNEInputControlDiv(commIndex, tokenization, tokenIndex, tokenTaggi
 function getMultiTokenNEText(tokenization, tokenTagging, tokenIndex) {
     var firstTokenIndex = getTokenIndexOfFirstTokenOfNE(tokenTagging, tokenIndex);
     var lastTokenIndex = tokenIndex;
-    while (isTaggedTokenI(tokenTagging, lastTokenIndex+1)) {
+    while (tokenTagging.bioGetBIOValue(lastTokenIndex+1) === 'I') {
         lastTokenIndex += 1;
     }
 
@@ -123,40 +123,10 @@ function getMultiTokenNEText(tokenization, tokenTagging, tokenIndex) {
  */
 function getTokenIndexOfFirstTokenOfNE(tokenTagging, tokenIndex) {
     var firstTokenIndex = tokenIndex;
-    while (isTaggedTokenI(tokenTagging, firstTokenIndex)) {
+    while (tokenTagging.bioGetBIOValue(firstTokenIndex) === 'I') {
         firstTokenIndex -= 1;
     }
     return firstTokenIndex;
-}
-
-/** Check if token tag is a "B" tag
- * @param {TokenTagging} tokenTagging
- * @param {Integer} tokenIndex
- * @returns {Boolean}
- */
-function isTaggedTokenB(tokenTagging, tokenIndex) {
-    var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
-    if (taggedToken && taggedToken.tag) {
-        if (taggedToken.tag.charAt(0) == "B") {
-            return true;
-        }
-    }
-    return false;
-}
-
-/** Check if token tag is an I" tag
- * @param {TokenTagging} tokenTagging
- * @param {Integer} tokenIndex
- * @returns {Boolean}
- */
-function isTaggedTokenI(tokenTagging, tokenIndex) {
-    var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
-    if (taggedToken && taggedToken.tag) {
-        if (taggedToken.tag.charAt(0) == "I") {
-            return true;
-        }
-    }
-    return false;
 }
 
 /** Event handler that updates token tag when NE select box changes
@@ -166,7 +136,7 @@ function changeTokenTagCallback(event) {
     var taggedToken = findOrCreateTaggedTokenWithIndex(event.data.tokenTagging, event.data.tokenIndex);
     var updatedBTag = $(this).val();
     updateTokenTag(event.data.commIndex, event.data.tokenIndex, taggedToken, "B-" + updatedBTag);
-    if (isTaggedTokenI(event.data.tokenTagging, event.data.tokenIndex+1)) {
+    if (event.data.tokenTagging.bioGetBIOValue(event.data.tokenIndex+1) === 'I') {
         updateContiguousITagsStartingWithTokenIndex(event.data.commIndex, event.data.tokenTagging, event.data.tokenIndex+1, updatedBTag);
     }
 }
@@ -210,7 +180,7 @@ function updateTokenTag(commIndex, tokenIndex, taggedToken, tagText) {
 /** Update 'I-' tags that immediately follow a 'B-' tag **/
 function updateContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging, tokenIndex, updatedBTag) {
     var updatingToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
-    if (isTaggedTokenI(tokenTagging, tokenIndex)) {
+    if (tokenTagging.bioGetBIOValue(tokenIndex) === 'I') {
         updateTokenTag(commIndex, tokenIndex, updatingToken, "I-" + updatedBTag);
         updateContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging,
                                                     tokenIndex+1,updatedBTag);
@@ -235,7 +205,8 @@ function updateTagForNECallback(event) {
      * @returns {Boolean}
      */
     function isTaggedTokenBorI(tokenTagging, tokenIndex) {
-        return isTaggedTokenB(tokenTagging, tokenIndex) || isTaggedTokenI(tokenTagging, tokenIndex);
+        return tokenTagging.bioGetBIOValue(tokenIndex) === 'B' ||
+            tokenTagging.bioGetBIOValue(tokenIndex) === 'I';
     }
 
     /** Remove "I" tags that are part of the multi-token NE identified by tokenIndex
@@ -244,7 +215,7 @@ function updateTagForNECallback(event) {
      * @param {Integer} tokenIndex
      */
     function removeContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging, tokenIndex) {
-        if (isTaggedTokenI(tokenTagging, tokenIndex)) {
+        if (tokenTagging.bioGetBIOValue(tokenIndex) === 'I') {
             var taggedToken = tokenTagging.getTaggedTokenWithTokenIndex(tokenIndex);
             updateTokenTag(commIndex, tokenIndex, taggedToken, "O");
             removeContiguousITagsStartingWithTokenIndex(commIndex, tokenTagging, tokenIndex+1);

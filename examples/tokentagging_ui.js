@@ -103,7 +103,7 @@ function createNEInputControlDiv(commIndex, tokenization, tokenIndex, tokenTaggi
  * @param {Integer} tokenIndex
  */
 function getMultiTokenNEText(tokenization, tokenTagging, tokenIndex) {
-    var firstTokenIndex = getTokenIndexOfFirstTokenOfNE(tokenTagging, tokenIndex);
+    var firstTokenIndex = tokenTagging.bioGetTokenIndexForB(tokenIndex);
     var lastTokenIndex = tokenIndex;
     while (tokenTagging.bioGetBIOValue(lastTokenIndex+1) === 'I') {
         lastTokenIndex += 1;
@@ -114,19 +114,6 @@ function getMultiTokenNEText(tokenization, tokenTagging, tokenIndex) {
         s += tokenization.tokenList.tokenList[i].text + " ";
     }
     return s;
-}
-
-/** Get token index of first token of (possibly multi-word) NE identified by tokenIndex
- * @param {TokenTagging} tokenTagging
- * @param {Integer} tokenIndex
- * @returns {Integer}
- */
-function getTokenIndexOfFirstTokenOfNE(tokenTagging, tokenIndex) {
-    var firstTokenIndex = tokenIndex;
-    while (tokenTagging.bioGetBIOValue(firstTokenIndex) === 'I') {
-        firstTokenIndex -= 1;
-    }
-    return firstTokenIndex;
 }
 
 /** Event handler that updates token tag when NE select box changes
@@ -230,7 +217,7 @@ function updateTagForNECallback(event) {
      */
     function updateNEInputControlText(commIndex, tokenTagging, tokenization, tokenIndex) {
         if (tokenIndex >= 0) {
-            var firstTokenIndex = getTokenIndexOfFirstTokenOfNE(tokenTagging, tokenIndex);
+            var firstTokenIndex = tokenTagging.bioGetTokenIndexForB(tokenIndex);
             $("#comm_" + commIndex + "_token_" + firstTokenIndex + '_ne_input_text').text(
                 getMultiTokenNEText(tokenization, tokenTagging, tokenIndex)
             );

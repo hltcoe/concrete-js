@@ -137,6 +137,9 @@
                                .attr('type', 'text')
                                .change({'tagSet': tagSet, 'tagIndex':tagIndex}, function(event) {
                                  event.data.tagSet[event.data.tagIndex] = $(this).val();
+
+                                 // Update hash mapping tag names to colors
+                                 tagColorPairs = zipTagColor();
                                })
                                .val(tagSet[tagIndex])));
     }

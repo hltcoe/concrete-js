@@ -212,7 +212,7 @@
         $('#save_button').hide();
         $('#communication_list_instructions').show();
 
-        var communicationIDs = fetchClient.getCommunicationIDs(0, fetchClient.getCommunicationCount());
+        var communicationIDs = fetchClient.getCommunicationIDs(0, fetchClient.getCommunicationCount()).sort();
         for (var i = 0; i < communicationIDs.length; i++) {
           $('#communication_id_list').append(
             $('<span>').addClass('communication_id_item')

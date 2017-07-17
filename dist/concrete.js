@@ -3590,7 +3590,9 @@ EmailCommunicationInfo.prototype.write = function(output) {
 
 Entity = function(args) {
   this.uuid = null;
+  this.id = null;
   this.mentionIdList = null;
+  this.rawMentionList = null;
   this.type = null;
   this.confidence = null;
   this.canonicalName = null;
@@ -3600,10 +3602,16 @@ Entity = function(args) {
     } else {
       throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
     }
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
+    }
     if (args.mentionIdList !== undefined && args.mentionIdList !== null) {
       this.mentionIdList = Thrift.copyList(args.mentionIdList, [UUID]);
     } else {
       throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field mentionIdList is unset!');
+    }
+    if (args.rawMentionList !== undefined && args.rawMentionList !== null) {
+      this.rawMentionList = Thrift.copyList(args.rawMentionList, [TokenRefSequence]);
     }
     if (args.type !== undefined && args.type !== null) {
       this.type = args.type;
@@ -3638,6 +3646,13 @@ Entity.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
       case 2:
       if (ftype == Thrift.Type.LIST) {
         var _size0 = 0;
@@ -3653,6 +3668,27 @@ Entity.prototype.read = function(input) {
           elem6 = new UUID();
           elem6.read(input);
           this.mentionIdList.push(elem6);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.LIST) {
+        var _size7 = 0;
+        var _rtmp311;
+        this.rawMentionList = [];
+        var _etype10 = 0;
+        _rtmp311 = input.readListBegin();
+        _etype10 = _rtmp311.etype;
+        _size7 = _rtmp311.size;
+        for (var _i12 = 0; _i12 < _size7; ++_i12)
+        {
+          var elem13 = null;
+          elem13 = new TokenRefSequence();
+          elem13.read(input);
+          this.rawMentionList.push(elem13);
         }
         input.readListEnd();
       } else {
@@ -3696,15 +3732,34 @@ Entity.prototype.write = function(output) {
     this.uuid.write(output);
     output.writeFieldEnd();
   }
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.STRING, 6);
+    output.writeString(this.id);
+    output.writeFieldEnd();
+  }
   if (this.mentionIdList !== null && this.mentionIdList !== undefined) {
     output.writeFieldBegin('mentionIdList', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.mentionIdList.length);
-    for (var iter7 in this.mentionIdList)
+    for (var iter14 in this.mentionIdList)
     {
-      if (this.mentionIdList.hasOwnProperty(iter7))
+      if (this.mentionIdList.hasOwnProperty(iter14))
       {
-        iter7 = this.mentionIdList[iter7];
-        iter7.write(output);
+        iter14 = this.mentionIdList[iter14];
+        iter14.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.rawMentionList !== null && this.rawMentionList !== undefined) {
+    output.writeFieldBegin('rawMentionList', Thrift.Type.LIST, 7);
+    output.writeListBegin(Thrift.Type.STRUCT, this.rawMentionList.length);
+    for (var iter15 in this.rawMentionList)
+    {
+      if (this.rawMentionList.hasOwnProperty(iter15))
+      {
+        iter15 = this.rawMentionList[iter15];
+        iter15.write(output);
       }
     }
     output.writeListEnd();
@@ -3792,19 +3847,19 @@ EntitySet.prototype.read = function(input) {
       break;
       case 3:
       if (ftype == Thrift.Type.LIST) {
-        var _size8 = 0;
-        var _rtmp312;
+        var _size16 = 0;
+        var _rtmp320;
         this.entityList = [];
-        var _etype11 = 0;
-        _rtmp312 = input.readListBegin();
-        _etype11 = _rtmp312.etype;
-        _size8 = _rtmp312.size;
-        for (var _i13 = 0; _i13 < _size8; ++_i13)
+        var _etype19 = 0;
+        _rtmp320 = input.readListBegin();
+        _etype19 = _rtmp320.etype;
+        _size16 = _rtmp320.size;
+        for (var _i21 = 0; _i21 < _size16; ++_i21)
         {
-          var elem14 = null;
-          elem14 = new Entity();
-          elem14.read(input);
-          this.entityList.push(elem14);
+          var elem22 = null;
+          elem22 = new Entity();
+          elem22.read(input);
+          this.entityList.push(elem22);
         }
         input.readListEnd();
       } else {
@@ -3813,19 +3868,19 @@ EntitySet.prototype.read = function(input) {
       break;
       case 4:
       if (ftype == Thrift.Type.LIST) {
-        var _size15 = 0;
-        var _rtmp319;
+        var _size23 = 0;
+        var _rtmp327;
         this.linkingList = [];
-        var _etype18 = 0;
-        _rtmp319 = input.readListBegin();
-        _etype18 = _rtmp319.etype;
-        _size15 = _rtmp319.size;
-        for (var _i20 = 0; _i20 < _size15; ++_i20)
+        var _etype26 = 0;
+        _rtmp327 = input.readListBegin();
+        _etype26 = _rtmp327.etype;
+        _size23 = _rtmp327.size;
+        for (var _i28 = 0; _i28 < _size23; ++_i28)
         {
-          var elem21 = null;
-          elem21 = new Linking();
-          elem21.read(input);
-          this.linkingList.push(elem21);
+          var elem29 = null;
+          elem29 = new Linking();
+          elem29.read(input);
+          this.linkingList.push(elem29);
         }
         input.readListEnd();
       } else {
@@ -3864,12 +3919,12 @@ EntitySet.prototype.write = function(output) {
   if (this.entityList !== null && this.entityList !== undefined) {
     output.writeFieldBegin('entityList', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.entityList.length);
-    for (var iter22 in this.entityList)
+    for (var iter30 in this.entityList)
     {
-      if (this.entityList.hasOwnProperty(iter22))
+      if (this.entityList.hasOwnProperty(iter30))
       {
-        iter22 = this.entityList[iter22];
-        iter22.write(output);
+        iter30 = this.entityList[iter30];
+        iter30.write(output);
       }
     }
     output.writeListEnd();
@@ -3878,12 +3933,12 @@ EntitySet.prototype.write = function(output) {
   if (this.linkingList !== null && this.linkingList !== undefined) {
     output.writeFieldBegin('linkingList', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRUCT, this.linkingList.length);
-    for (var iter23 in this.linkingList)
+    for (var iter31 in this.linkingList)
     {
-      if (this.linkingList.hasOwnProperty(iter23))
+      if (this.linkingList.hasOwnProperty(iter31))
       {
-        iter23 = this.linkingList[iter23];
-        iter23.write(output);
+        iter31 = this.linkingList[iter31];
+        iter31.write(output);
       }
     }
     output.writeListEnd();
@@ -3995,19 +4050,19 @@ EntityMention.prototype.read = function(input) {
       break;
       case 7:
       if (ftype == Thrift.Type.LIST) {
-        var _size24 = 0;
-        var _rtmp328;
+        var _size32 = 0;
+        var _rtmp336;
         this.childMentionIdList = [];
-        var _etype27 = 0;
-        _rtmp328 = input.readListBegin();
-        _etype27 = _rtmp328.etype;
-        _size24 = _rtmp328.size;
-        for (var _i29 = 0; _i29 < _size24; ++_i29)
+        var _etype35 = 0;
+        _rtmp336 = input.readListBegin();
+        _etype35 = _rtmp336.etype;
+        _size32 = _rtmp336.size;
+        for (var _i37 = 0; _i37 < _size32; ++_i37)
         {
-          var elem30 = null;
-          elem30 = new UUID();
-          elem30.read(input);
-          this.childMentionIdList.push(elem30);
+          var elem38 = null;
+          elem38 = new UUID();
+          elem38.read(input);
+          this.childMentionIdList.push(elem38);
         }
         input.readListEnd();
       } else {
@@ -4058,12 +4113,12 @@ EntityMention.prototype.write = function(output) {
   if (this.childMentionIdList !== null && this.childMentionIdList !== undefined) {
     output.writeFieldBegin('childMentionIdList', Thrift.Type.LIST, 7);
     output.writeListBegin(Thrift.Type.STRUCT, this.childMentionIdList.length);
-    for (var iter31 in this.childMentionIdList)
+    for (var iter39 in this.childMentionIdList)
     {
-      if (this.childMentionIdList.hasOwnProperty(iter31))
+      if (this.childMentionIdList.hasOwnProperty(iter39))
       {
-        iter31 = this.childMentionIdList[iter31];
-        iter31.write(output);
+        iter39 = this.childMentionIdList[iter39];
+        iter39.write(output);
       }
     }
     output.writeListEnd();
@@ -4132,19 +4187,19 @@ EntityMentionSet.prototype.read = function(input) {
       break;
       case 3:
       if (ftype == Thrift.Type.LIST) {
-        var _size32 = 0;
-        var _rtmp336;
+        var _size40 = 0;
+        var _rtmp344;
         this.mentionList = [];
-        var _etype35 = 0;
-        _rtmp336 = input.readListBegin();
-        _etype35 = _rtmp336.etype;
-        _size32 = _rtmp336.size;
-        for (var _i37 = 0; _i37 < _size32; ++_i37)
+        var _etype43 = 0;
+        _rtmp344 = input.readListBegin();
+        _etype43 = _rtmp344.etype;
+        _size40 = _rtmp344.size;
+        for (var _i45 = 0; _i45 < _size40; ++_i45)
         {
-          var elem38 = null;
-          elem38 = new EntityMention();
-          elem38.read(input);
-          this.mentionList.push(elem38);
+          var elem46 = null;
+          elem46 = new EntityMention();
+          elem46.read(input);
+          this.mentionList.push(elem46);
         }
         input.readListEnd();
       } else {
@@ -4153,19 +4208,19 @@ EntityMentionSet.prototype.read = function(input) {
       break;
       case 4:
       if (ftype == Thrift.Type.LIST) {
-        var _size39 = 0;
-        var _rtmp343;
+        var _size47 = 0;
+        var _rtmp351;
         this.linkingList = [];
-        var _etype42 = 0;
-        _rtmp343 = input.readListBegin();
-        _etype42 = _rtmp343.etype;
-        _size39 = _rtmp343.size;
-        for (var _i44 = 0; _i44 < _size39; ++_i44)
+        var _etype50 = 0;
+        _rtmp351 = input.readListBegin();
+        _etype50 = _rtmp351.etype;
+        _size47 = _rtmp351.size;
+        for (var _i52 = 0; _i52 < _size47; ++_i52)
         {
-          var elem45 = null;
-          elem45 = new Linking();
-          elem45.read(input);
-          this.linkingList.push(elem45);
+          var elem53 = null;
+          elem53 = new Linking();
+          elem53.read(input);
+          this.linkingList.push(elem53);
         }
         input.readListEnd();
       } else {
@@ -4196,12 +4251,12 @@ EntityMentionSet.prototype.write = function(output) {
   if (this.mentionList !== null && this.mentionList !== undefined) {
     output.writeFieldBegin('mentionList', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.mentionList.length);
-    for (var iter46 in this.mentionList)
+    for (var iter54 in this.mentionList)
     {
-      if (this.mentionList.hasOwnProperty(iter46))
+      if (this.mentionList.hasOwnProperty(iter54))
       {
-        iter46 = this.mentionList[iter46];
-        iter46.write(output);
+        iter54 = this.mentionList[iter54];
+        iter54.write(output);
       }
     }
     output.writeListEnd();
@@ -4210,12 +4265,12 @@ EntityMentionSet.prototype.write = function(output) {
   if (this.linkingList !== null && this.linkingList !== undefined) {
     output.writeFieldBegin('linkingList', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRUCT, this.linkingList.length);
-    for (var iter47 in this.linkingList)
+    for (var iter55 in this.linkingList)
     {
-      if (this.linkingList.hasOwnProperty(iter47))
+      if (this.linkingList.hasOwnProperty(iter55))
       {
-        iter47 = this.linkingList[iter47];
-        iter47.write(output);
+        iter55 = this.linkingList[iter55];
+        iter55.write(output);
       }
     }
     output.writeListEnd();
@@ -10259,6 +10314,7 @@ SearchResultItem = function(args) {
   this.sentenceId = null;
   this.score = null;
   this.tokens = null;
+  this.entity = null;
   if (args) {
     if (args.communicationId !== undefined && args.communicationId !== null) {
       this.communicationId = args.communicationId;
@@ -10271,6 +10327,9 @@ SearchResultItem = function(args) {
     }
     if (args.tokens !== undefined && args.tokens !== null) {
       this.tokens = new TokenRefSequence(args.tokens);
+    }
+    if (args.entity !== undefined && args.entity !== null) {
+      this.entity = new Entity(args.entity);
     }
   }
 };
@@ -10318,6 +10377,14 @@ SearchResultItem.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 5:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.entity = new Entity();
+        this.entity.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -10347,6 +10414,11 @@ SearchResultItem.prototype.write = function(output) {
   if (this.tokens !== null && this.tokens !== undefined) {
     output.writeFieldBegin('tokens', Thrift.Type.STRUCT, 4);
     this.tokens.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.entity !== null && this.entity !== undefined) {
+    output.writeFieldBegin('entity', Thrift.Type.STRUCT, 5);
+    this.entity.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -11758,7 +11830,8 @@ SearchServiceClient.prototype.recv_getCorpora = function() {
 
 AnnotationTaskType = {
   'TRANSLATION' : 1,
-  'NER' : 2
+  'NER' : 2,
+  'TOPICID' : 3
 };
 AnnotationUnitType = {
   'COMMUNICATION' : 1,
@@ -16206,6 +16279,801 @@ Section.prototype.write = function(output) {
   return;
 };
 
+;//
+// Autogenerated by Thrift Compiler (0.10.0)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+
+
+SummarySourceType = {
+  'DOCUMENT' : 0,
+  'TOKENIZATION' : 1,
+  'ENTITY' : 2
+};
+SummarizationRequest = function(args) {
+  this.queryTerms = null;
+  this.maximumTokens = null;
+  this.maximumCharacters = null;
+  this.sourceType = null;
+  this.sourceIds = null;
+  this.sourceCommunication = null;
+  if (args) {
+    if (args.queryTerms !== undefined && args.queryTerms !== null) {
+      this.queryTerms = Thrift.copyList(args.queryTerms, [null]);
+    }
+    if (args.maximumTokens !== undefined && args.maximumTokens !== null) {
+      this.maximumTokens = args.maximumTokens;
+    }
+    if (args.maximumCharacters !== undefined && args.maximumCharacters !== null) {
+      this.maximumCharacters = args.maximumCharacters;
+    }
+    if (args.sourceType !== undefined && args.sourceType !== null) {
+      this.sourceType = args.sourceType;
+    }
+    if (args.sourceIds !== undefined && args.sourceIds !== null) {
+      this.sourceIds = Thrift.copyList(args.sourceIds, [UUID]);
+    }
+    if (args.sourceCommunication !== undefined && args.sourceCommunication !== null) {
+      this.sourceCommunication = new Communication(args.sourceCommunication);
+    }
+  }
+};
+SummarizationRequest.prototype = {};
+SummarizationRequest.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.LIST) {
+        var _size0 = 0;
+        var _rtmp34;
+        this.queryTerms = [];
+        var _etype3 = 0;
+        _rtmp34 = input.readListBegin();
+        _etype3 = _rtmp34.etype;
+        _size0 = _rtmp34.size;
+        for (var _i5 = 0; _i5 < _size0; ++_i5)
+        {
+          var elem6 = null;
+          elem6 = input.readString().value;
+          this.queryTerms.push(elem6);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.maximumTokens = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.I32) {
+        this.maximumCharacters = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.I32) {
+        this.sourceType = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.LIST) {
+        var _size7 = 0;
+        var _rtmp311;
+        this.sourceIds = [];
+        var _etype10 = 0;
+        _rtmp311 = input.readListBegin();
+        _etype10 = _rtmp311.etype;
+        _size7 = _rtmp311.size;
+        for (var _i12 = 0; _i12 < _size7; ++_i12)
+        {
+          var elem13 = null;
+          elem13 = new UUID();
+          elem13.read(input);
+          this.sourceIds.push(elem13);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.sourceCommunication = new Communication();
+        this.sourceCommunication.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummarizationRequest.prototype.write = function(output) {
+  output.writeStructBegin('SummarizationRequest');
+  if (this.queryTerms !== null && this.queryTerms !== undefined) {
+    output.writeFieldBegin('queryTerms', Thrift.Type.LIST, 1);
+    output.writeListBegin(Thrift.Type.STRING, this.queryTerms.length);
+    for (var iter14 in this.queryTerms)
+    {
+      if (this.queryTerms.hasOwnProperty(iter14))
+      {
+        iter14 = this.queryTerms[iter14];
+        output.writeString(iter14);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.maximumTokens !== null && this.maximumTokens !== undefined) {
+    output.writeFieldBegin('maximumTokens', Thrift.Type.I32, 2);
+    output.writeI32(this.maximumTokens);
+    output.writeFieldEnd();
+  }
+  if (this.maximumCharacters !== null && this.maximumCharacters !== undefined) {
+    output.writeFieldBegin('maximumCharacters', Thrift.Type.I32, 3);
+    output.writeI32(this.maximumCharacters);
+    output.writeFieldEnd();
+  }
+  if (this.sourceType !== null && this.sourceType !== undefined) {
+    output.writeFieldBegin('sourceType', Thrift.Type.I32, 4);
+    output.writeI32(this.sourceType);
+    output.writeFieldEnd();
+  }
+  if (this.sourceIds !== null && this.sourceIds !== undefined) {
+    output.writeFieldBegin('sourceIds', Thrift.Type.LIST, 5);
+    output.writeListBegin(Thrift.Type.STRUCT, this.sourceIds.length);
+    for (var iter15 in this.sourceIds)
+    {
+      if (this.sourceIds.hasOwnProperty(iter15))
+      {
+        iter15 = this.sourceIds[iter15];
+        iter15.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.sourceCommunication !== null && this.sourceCommunication !== undefined) {
+    output.writeFieldBegin('sourceCommunication', Thrift.Type.STRUCT, 6);
+    this.sourceCommunication.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Summary = function(args) {
+  this.summaryCommunication = null;
+  this.concepts = null;
+  if (args) {
+    if (args.summaryCommunication !== undefined && args.summaryCommunication !== null) {
+      this.summaryCommunication = new Communication(args.summaryCommunication);
+    }
+    if (args.concepts !== undefined && args.concepts !== null) {
+      this.concepts = Thrift.copyList(args.concepts, [null]);
+    }
+  }
+};
+Summary.prototype = {};
+Summary.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.summaryCommunication = new Communication();
+        this.summaryCommunication.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.LIST) {
+        var _size16 = 0;
+        var _rtmp320;
+        this.concepts = [];
+        var _etype19 = 0;
+        _rtmp320 = input.readListBegin();
+        _etype19 = _rtmp320.etype;
+        _size16 = _rtmp320.size;
+        for (var _i21 = 0; _i21 < _size16; ++_i21)
+        {
+          var elem22 = null;
+          elem22 = new SummaryConcept();
+          elem22.read(input);
+          this.concepts.push(elem22);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Summary.prototype.write = function(output) {
+  output.writeStructBegin('Summary');
+  if (this.summaryCommunication !== null && this.summaryCommunication !== undefined) {
+    output.writeFieldBegin('summaryCommunication', Thrift.Type.STRUCT, 1);
+    this.summaryCommunication.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.concepts !== null && this.concepts !== undefined) {
+    output.writeFieldBegin('concepts', Thrift.Type.LIST, 2);
+    output.writeListBegin(Thrift.Type.STRUCT, this.concepts.length);
+    for (var iter23 in this.concepts)
+    {
+      if (this.concepts.hasOwnProperty(iter23))
+      {
+        iter23 = this.concepts[iter23];
+        iter23.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+SummaryConcept = function(args) {
+  this.tokens = null;
+  this.concept = null;
+  this.confidence = 1;
+  this.utility = 1;
+  if (args) {
+    if (args.tokens !== undefined && args.tokens !== null) {
+      this.tokens = new TokenRefSequence(args.tokens);
+    }
+    if (args.concept !== undefined && args.concept !== null) {
+      this.concept = args.concept;
+    }
+    if (args.confidence !== undefined && args.confidence !== null) {
+      this.confidence = args.confidence;
+    }
+    if (args.utility !== undefined && args.utility !== null) {
+      this.utility = args.utility;
+    }
+  }
+};
+SummaryConcept.prototype = {};
+SummaryConcept.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.tokens = new TokenRefSequence();
+        this.tokens.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.concept = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.DOUBLE) {
+        this.confidence = input.readDouble().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.DOUBLE) {
+        this.utility = input.readDouble().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummaryConcept.prototype.write = function(output) {
+  output.writeStructBegin('SummaryConcept');
+  if (this.tokens !== null && this.tokens !== undefined) {
+    output.writeFieldBegin('tokens', Thrift.Type.STRUCT, 1);
+    this.tokens.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.concept !== null && this.concept !== undefined) {
+    output.writeFieldBegin('concept', Thrift.Type.STRING, 2);
+    output.writeString(this.concept);
+    output.writeFieldEnd();
+  }
+  if (this.confidence !== null && this.confidence !== undefined) {
+    output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 3);
+    output.writeDouble(this.confidence);
+    output.writeFieldEnd();
+  }
+  if (this.utility !== null && this.utility !== undefined) {
+    output.writeFieldBegin('utility', Thrift.Type.DOUBLE, 4);
+    output.writeDouble(this.utility);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+SummarizationCapability = function(args) {
+  this.type = null;
+  this.lang = null;
+  if (args) {
+    if (args.type !== undefined && args.type !== null) {
+      this.type = args.type;
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field type is unset!');
+    }
+    if (args.lang !== undefined && args.lang !== null) {
+      this.lang = args.lang;
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field lang is unset!');
+    }
+  }
+};
+SummarizationCapability.prototype = {};
+SummarizationCapability.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.type = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.lang = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummarizationCapability.prototype.write = function(output) {
+  output.writeStructBegin('SummarizationCapability');
+  if (this.type !== null && this.type !== undefined) {
+    output.writeFieldBegin('type', Thrift.Type.I32, 1);
+    output.writeI32(this.type);
+    output.writeFieldEnd();
+  }
+  if (this.lang !== null && this.lang !== undefined) {
+    output.writeFieldBegin('lang', Thrift.Type.STRING, 2);
+    output.writeString(this.lang);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+;//
+// Autogenerated by Thrift Compiler (0.10.0)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+
+
+//HELPER FUNCTIONS AND STRUCTURES
+
+SummarizationService_summarize_args = function(args) {
+  this.query = null;
+  if (args) {
+    if (args.query !== undefined && args.query !== null) {
+      this.query = new SummarizationRequest(args.query);
+    }
+  }
+};
+SummarizationService_summarize_args.prototype = {};
+SummarizationService_summarize_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.query = new SummarizationRequest();
+        this.query.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummarizationService_summarize_args.prototype.write = function(output) {
+  output.writeStructBegin('SummarizationService_summarize_args');
+  if (this.query !== null && this.query !== undefined) {
+    output.writeFieldBegin('query', Thrift.Type.STRUCT, 1);
+    this.query.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+SummarizationService_summarize_result = function(args) {
+  this.success = null;
+  this.ex = null;
+  if (args instanceof ServicesException) {
+    this.ex = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new Summary(args.success);
+    }
+    if (args.ex !== undefined && args.ex !== null) {
+      this.ex = args.ex;
+    }
+  }
+};
+SummarizationService_summarize_result.prototype = {};
+SummarizationService_summarize_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new Summary();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex = new ServicesException();
+        this.ex.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummarizationService_summarize_result.prototype.write = function(output) {
+  output.writeStructBegin('SummarizationService_summarize_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.ex !== null && this.ex !== undefined) {
+    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
+    this.ex.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+SummarizationService_getCapabilities_args = function(args) {
+};
+SummarizationService_getCapabilities_args.prototype = {};
+SummarizationService_getCapabilities_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummarizationService_getCapabilities_args.prototype.write = function(output) {
+  output.writeStructBegin('SummarizationService_getCapabilities_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+SummarizationService_getCapabilities_result = function(args) {
+  this.success = null;
+  this.ex = null;
+  if (args instanceof ServicesException) {
+    this.ex = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [SummarizationCapability]);
+    }
+    if (args.ex !== undefined && args.ex !== null) {
+      this.ex = args.ex;
+    }
+  }
+};
+SummarizationService_getCapabilities_result.prototype = {};
+SummarizationService_getCapabilities_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size24 = 0;
+        var _rtmp328;
+        this.success = [];
+        var _etype27 = 0;
+        _rtmp328 = input.readListBegin();
+        _etype27 = _rtmp328.etype;
+        _size24 = _rtmp328.size;
+        for (var _i29 = 0; _i29 < _size24; ++_i29)
+        {
+          var elem30 = null;
+          elem30 = new SummarizationCapability();
+          elem30.read(input);
+          this.success.push(elem30);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex = new ServicesException();
+        this.ex.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+SummarizationService_getCapabilities_result.prototype.write = function(output) {
+  output.writeStructBegin('SummarizationService_getCapabilities_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter31 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter31))
+      {
+        iter31 = this.success[iter31];
+        iter31.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.ex !== null && this.ex !== undefined) {
+    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
+    this.ex.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+SummarizationServiceClient = function(input, output) {
+    this.input = input;
+    this.output = (!output) ? input : output;
+    this.seqid = 0;
+};
+Thrift.inherits(SummarizationServiceClient, ServiceClient);
+SummarizationServiceClient.prototype.summarize = function(query, callback) {
+  if (callback === undefined) {
+    this.send_summarize(query);
+    return this.recv_summarize();
+  } else {
+    var postData = this.send_summarize(query, true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_summarize);
+  }
+};
+
+SummarizationServiceClient.prototype.send_summarize = function(query, callback) {
+  this.output.writeMessageBegin('summarize', Thrift.MessageType.CALL, this.seqid);
+  var args = new SummarizationService_summarize_args();
+  args.query = query;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  return this.output.getTransport().flush(callback);
+};
+
+SummarizationServiceClient.prototype.recv_summarize = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new SummarizationService_summarize_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.ex) {
+    throw result.ex;
+  }
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'summarize failed: unknown result';
+};
+SummarizationServiceClient.prototype.getCapabilities = function(callback) {
+  if (callback === undefined) {
+    this.send_getCapabilities();
+    return this.recv_getCapabilities();
+  } else {
+    var postData = this.send_getCapabilities(true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_getCapabilities);
+  }
+};
+
+SummarizationServiceClient.prototype.send_getCapabilities = function(callback) {
+  this.output.writeMessageBegin('getCapabilities', Thrift.MessageType.CALL, this.seqid);
+  var args = new SummarizationService_getCapabilities_args();
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  return this.output.getTransport().flush(callback);
+};
+
+SummarizationServiceClient.prototype.recv_getCapabilities = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new SummarizationService_getCapabilities_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.ex) {
+    throw result.ex;
+  }
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'getCapabilities failed: unknown result';
+};
 ;//
 // Autogenerated by Thrift Compiler (0.10.0)
 //

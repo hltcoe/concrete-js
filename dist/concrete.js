@@ -13033,7 +13033,6 @@ MentionArgument = function(args) {
   this.entityMentionId = null;
   this.situationMentionId = null;
   this.tokens = null;
-  this.constituent = null;
   this.confidence = null;
   this.propertyList = null;
   if (args) {
@@ -13048,9 +13047,6 @@ MentionArgument = function(args) {
     }
     if (args.tokens !== undefined && args.tokens !== null) {
       this.tokens = new TokenRefSequence(args.tokens);
-    }
-    if (args.constituent !== undefined && args.constituent !== null) {
-      this.constituent = new ConstituentRef(args.constituent);
     }
     if (args.confidence !== undefined && args.confidence !== null) {
       this.confidence = args.confidence;
@@ -13101,14 +13097,6 @@ MentionArgument.prototype.read = function(input) {
       if (ftype == Thrift.Type.STRUCT) {
         this.tokens = new TokenRefSequence();
         this.tokens.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 7:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.constituent = new ConstituentRef();
-        this.constituent.read(input);
       } else {
         input.skip(ftype);
       }
@@ -13172,11 +13160,6 @@ MentionArgument.prototype.write = function(output) {
     this.tokens.write(output);
     output.writeFieldEnd();
   }
-  if (this.constituent !== null && this.constituent !== undefined) {
-    output.writeFieldBegin('constituent', Thrift.Type.STRUCT, 7);
-    this.constituent.write(output);
-    output.writeFieldEnd();
-  }
   if (this.confidence !== null && this.confidence !== undefined) {
     output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 5);
     output.writeDouble(this.confidence);
@@ -13210,7 +13193,6 @@ SituationMention = function(args) {
   this.intensity = null;
   this.polarity = null;
   this.tokens = null;
-  this.constituent = null;
   this.confidence = null;
   if (args) {
     if (args.uuid !== undefined && args.uuid !== null) {
@@ -13240,9 +13222,6 @@ SituationMention = function(args) {
     }
     if (args.tokens !== undefined && args.tokens !== null) {
       this.tokens = new TokenRefSequence(args.tokens);
-    }
-    if (args.constituent !== undefined && args.constituent !== null) {
-      this.constituent = new ConstituentRef(args.constituent);
     }
     if (args.confidence !== undefined && args.confidence !== null) {
       this.confidence = args.confidence;
@@ -13335,14 +13314,6 @@ SituationMention.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 151:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.constituent = new ConstituentRef();
-        this.constituent.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
       case 200:
       if (ftype == Thrift.Type.DOUBLE) {
         this.confidence = input.readDouble().value;
@@ -13408,11 +13379,6 @@ SituationMention.prototype.write = function(output) {
   if (this.tokens !== null && this.tokens !== undefined) {
     output.writeFieldBegin('tokens', Thrift.Type.STRUCT, 150);
     this.tokens.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.constituent !== null && this.constituent !== undefined) {
-    output.writeFieldBegin('constituent', Thrift.Type.STRUCT, 151);
-    this.constituent.write(output);
     output.writeFieldEnd();
   }
   if (this.confidence !== null && this.confidence !== undefined) {
@@ -13902,34 +13868,40 @@ TokenizationKind = {
   'TOKEN_LIST' : 1,
   'TOKEN_LATTICE' : 2
 };
-Token = function(args) {
-  this.tokenIndex = null;
-  this.text = null;
-  this.textSpan = null;
-  this.rawTextSpan = null;
-  this.audioSpan = null;
+Constituent = function(args) {
+  this.id = null;
+  this.tag = null;
+  this.childList = null;
+  this.headChildIndex = -1;
+  this.start = null;
+  this.ending = null;
   if (args) {
-    if (args.tokenIndex !== undefined && args.tokenIndex !== null) {
-      this.tokenIndex = args.tokenIndex;
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
     } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field tokenIndex is unset!');
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field id is unset!');
     }
-    if (args.text !== undefined && args.text !== null) {
-      this.text = args.text;
+    if (args.tag !== undefined && args.tag !== null) {
+      this.tag = args.tag;
     }
-    if (args.textSpan !== undefined && args.textSpan !== null) {
-      this.textSpan = new TextSpan(args.textSpan);
+    if (args.childList !== undefined && args.childList !== null) {
+      this.childList = Thrift.copyList(args.childList, [null]);
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field childList is unset!');
     }
-    if (args.rawTextSpan !== undefined && args.rawTextSpan !== null) {
-      this.rawTextSpan = new TextSpan(args.rawTextSpan);
+    if (args.headChildIndex !== undefined && args.headChildIndex !== null) {
+      this.headChildIndex = args.headChildIndex;
     }
-    if (args.audioSpan !== undefined && args.audioSpan !== null) {
-      this.audioSpan = new AudioSpan(args.audioSpan);
+    if (args.start !== undefined && args.start !== null) {
+      this.start = args.start;
+    }
+    if (args.ending !== undefined && args.ending !== null) {
+      this.ending = args.ending;
     }
   }
 };
-Token.prototype = {};
-Token.prototype.read = function(input) {
+Constituent.prototype = {};
+Constituent.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -13944,38 +13916,55 @@ Token.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.I32) {
-        this.tokenIndex = input.readI32().value;
+        this.id = input.readI32().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.text = input.readString().value;
+        this.tag = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.textSpan = new TextSpan();
-        this.textSpan.read(input);
+      if (ftype == Thrift.Type.LIST) {
+        var _size0 = 0;
+        var _rtmp34;
+        this.childList = [];
+        var _etype3 = 0;
+        _rtmp34 = input.readListBegin();
+        _etype3 = _rtmp34.etype;
+        _size0 = _rtmp34.size;
+        for (var _i5 = 0; _i5 < _size0; ++_i5)
+        {
+          var elem6 = null;
+          elem6 = input.readI32().value;
+          this.childList.push(elem6);
+        }
+        input.readListEnd();
       } else {
         input.skip(ftype);
       }
       break;
       case 4:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.rawTextSpan = new TextSpan();
-        this.rawTextSpan.read(input);
+      if (ftype == Thrift.Type.I32) {
+        this.headChildIndex = input.readI32().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 5:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.audioSpan = new AudioSpan();
-        this.audioSpan.read(input);
+      if (ftype == Thrift.Type.I32) {
+        this.start = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.I32) {
+        this.ending = input.readI32().value;
       } else {
         input.skip(ftype);
       }
@@ -13989,31 +13978,158 @@ Token.prototype.read = function(input) {
   return;
 };
 
-Token.prototype.write = function(output) {
-  output.writeStructBegin('Token');
-  if (this.tokenIndex !== null && this.tokenIndex !== undefined) {
-    output.writeFieldBegin('tokenIndex', Thrift.Type.I32, 1);
-    output.writeI32(this.tokenIndex);
+Constituent.prototype.write = function(output) {
+  output.writeStructBegin('Constituent');
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.I32, 1);
+    output.writeI32(this.id);
     output.writeFieldEnd();
   }
-  if (this.text !== null && this.text !== undefined) {
-    output.writeFieldBegin('text', Thrift.Type.STRING, 2);
-    output.writeString(this.text);
+  if (this.tag !== null && this.tag !== undefined) {
+    output.writeFieldBegin('tag', Thrift.Type.STRING, 2);
+    output.writeString(this.tag);
     output.writeFieldEnd();
   }
-  if (this.textSpan !== null && this.textSpan !== undefined) {
-    output.writeFieldBegin('textSpan', Thrift.Type.STRUCT, 3);
-    this.textSpan.write(output);
+  if (this.childList !== null && this.childList !== undefined) {
+    output.writeFieldBegin('childList', Thrift.Type.LIST, 3);
+    output.writeListBegin(Thrift.Type.I32, this.childList.length);
+    for (var iter7 in this.childList)
+    {
+      if (this.childList.hasOwnProperty(iter7))
+      {
+        iter7 = this.childList[iter7];
+        output.writeI32(iter7);
+      }
+    }
+    output.writeListEnd();
     output.writeFieldEnd();
   }
-  if (this.rawTextSpan !== null && this.rawTextSpan !== undefined) {
-    output.writeFieldBegin('rawTextSpan', Thrift.Type.STRUCT, 4);
-    this.rawTextSpan.write(output);
+  if (this.headChildIndex !== null && this.headChildIndex !== undefined) {
+    output.writeFieldBegin('headChildIndex', Thrift.Type.I32, 4);
+    output.writeI32(this.headChildIndex);
     output.writeFieldEnd();
   }
-  if (this.audioSpan !== null && this.audioSpan !== undefined) {
-    output.writeFieldBegin('audioSpan', Thrift.Type.STRUCT, 5);
-    this.audioSpan.write(output);
+  if (this.start !== null && this.start !== undefined) {
+    output.writeFieldBegin('start', Thrift.Type.I32, 5);
+    output.writeI32(this.start);
+    output.writeFieldEnd();
+  }
+  if (this.ending !== null && this.ending !== undefined) {
+    output.writeFieldBegin('ending', Thrift.Type.I32, 6);
+    output.writeI32(this.ending);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Parse = function(args) {
+  this.uuid = null;
+  this.metadata = null;
+  this.constituentList = null;
+  if (args) {
+    if (args.uuid !== undefined && args.uuid !== null) {
+      this.uuid = new UUID(args.uuid);
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+    }
+    if (args.metadata !== undefined && args.metadata !== null) {
+      this.metadata = new AnnotationMetadata(args.metadata);
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
+    }
+    if (args.constituentList !== undefined && args.constituentList !== null) {
+      this.constituentList = Thrift.copyList(args.constituentList, [Constituent]);
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field constituentList is unset!');
+    }
+  }
+};
+Parse.prototype = {};
+Parse.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.uuid = new UUID();
+        this.uuid.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.metadata = new AnnotationMetadata();
+        this.metadata.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.LIST) {
+        var _size8 = 0;
+        var _rtmp312;
+        this.constituentList = [];
+        var _etype11 = 0;
+        _rtmp312 = input.readListBegin();
+        _etype11 = _rtmp312.etype;
+        _size8 = _rtmp312.size;
+        for (var _i13 = 0; _i13 < _size8; ++_i13)
+        {
+          var elem14 = null;
+          elem14 = new Constituent();
+          elem14.read(input);
+          this.constituentList.push(elem14);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Parse.prototype.write = function(output) {
+  output.writeStructBegin('Parse');
+  if (this.uuid !== null && this.uuid !== undefined) {
+    output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
+    this.uuid.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.metadata !== null && this.metadata !== undefined) {
+    output.writeFieldBegin('metadata', Thrift.Type.STRUCT, 2);
+    this.metadata.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.constituentList !== null && this.constituentList !== undefined) {
+    output.writeFieldBegin('constituentList', Thrift.Type.LIST, 3);
+    output.writeListBegin(Thrift.Type.STRUCT, this.constituentList.length);
+    for (var iter15 in this.constituentList)
+    {
+      if (this.constituentList.hasOwnProperty(iter15))
+      {
+        iter15 = this.constituentList[iter15];
+        iter15.write(output);
+      }
+    }
+    output.writeListEnd();
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -14085,453 +14201,6 @@ ConstituentRef.prototype.write = function(output) {
   if (this.constituentIndex !== null && this.constituentIndex !== undefined) {
     output.writeFieldBegin('constituentIndex', Thrift.Type.I32, 2);
     output.writeI32(this.constituentIndex);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-TokenRefSequence = function(args) {
-  this.tokenIndexList = null;
-  this.anchorTokenIndex = -1;
-  this.tokenizationId = null;
-  this.textSpan = null;
-  this.rawTextSpan = null;
-  this.audioSpan = null;
-  if (args) {
-    if (args.tokenIndexList !== undefined && args.tokenIndexList !== null) {
-      this.tokenIndexList = Thrift.copyList(args.tokenIndexList, [null]);
-    } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field tokenIndexList is unset!');
-    }
-    if (args.anchorTokenIndex !== undefined && args.anchorTokenIndex !== null) {
-      this.anchorTokenIndex = args.anchorTokenIndex;
-    }
-    if (args.tokenizationId !== undefined && args.tokenizationId !== null) {
-      this.tokenizationId = new UUID(args.tokenizationId);
-    } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field tokenizationId is unset!');
-    }
-    if (args.textSpan !== undefined && args.textSpan !== null) {
-      this.textSpan = new TextSpan(args.textSpan);
-    }
-    if (args.rawTextSpan !== undefined && args.rawTextSpan !== null) {
-      this.rawTextSpan = new TextSpan(args.rawTextSpan);
-    }
-    if (args.audioSpan !== undefined && args.audioSpan !== null) {
-      this.audioSpan = new AudioSpan(args.audioSpan);
-    }
-  }
-};
-TokenRefSequence.prototype = {};
-TokenRefSequence.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.LIST) {
-        var _size0 = 0;
-        var _rtmp34;
-        this.tokenIndexList = [];
-        var _etype3 = 0;
-        _rtmp34 = input.readListBegin();
-        _etype3 = _rtmp34.etype;
-        _size0 = _rtmp34.size;
-        for (var _i5 = 0; _i5 < _size0; ++_i5)
-        {
-          var elem6 = null;
-          elem6 = input.readI32().value;
-          this.tokenIndexList.push(elem6);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.I32) {
-        this.anchorTokenIndex = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 3:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.tokenizationId = new UUID();
-        this.tokenizationId.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 4:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.textSpan = new TextSpan();
-        this.textSpan.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 5:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.rawTextSpan = new TextSpan();
-        this.rawTextSpan.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 6:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.audioSpan = new AudioSpan();
-        this.audioSpan.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-TokenRefSequence.prototype.write = function(output) {
-  output.writeStructBegin('TokenRefSequence');
-  if (this.tokenIndexList !== null && this.tokenIndexList !== undefined) {
-    output.writeFieldBegin('tokenIndexList', Thrift.Type.LIST, 1);
-    output.writeListBegin(Thrift.Type.I32, this.tokenIndexList.length);
-    for (var iter7 in this.tokenIndexList)
-    {
-      if (this.tokenIndexList.hasOwnProperty(iter7))
-      {
-        iter7 = this.tokenIndexList[iter7];
-        output.writeI32(iter7);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  if (this.anchorTokenIndex !== null && this.anchorTokenIndex !== undefined) {
-    output.writeFieldBegin('anchorTokenIndex', Thrift.Type.I32, 2);
-    output.writeI32(this.anchorTokenIndex);
-    output.writeFieldEnd();
-  }
-  if (this.tokenizationId !== null && this.tokenizationId !== undefined) {
-    output.writeFieldBegin('tokenizationId', Thrift.Type.STRUCT, 3);
-    this.tokenizationId.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.textSpan !== null && this.textSpan !== undefined) {
-    output.writeFieldBegin('textSpan', Thrift.Type.STRUCT, 4);
-    this.textSpan.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.rawTextSpan !== null && this.rawTextSpan !== undefined) {
-    output.writeFieldBegin('rawTextSpan', Thrift.Type.STRUCT, 5);
-    this.rawTextSpan.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.audioSpan !== null && this.audioSpan !== undefined) {
-    output.writeFieldBegin('audioSpan', Thrift.Type.STRUCT, 6);
-    this.audioSpan.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-TaggedToken = function(args) {
-  this.tokenIndex = null;
-  this.tag = null;
-  this.confidence = null;
-  this.tagList = null;
-  this.confidenceList = null;
-  if (args) {
-    if (args.tokenIndex !== undefined && args.tokenIndex !== null) {
-      this.tokenIndex = args.tokenIndex;
-    }
-    if (args.tag !== undefined && args.tag !== null) {
-      this.tag = args.tag;
-    }
-    if (args.confidence !== undefined && args.confidence !== null) {
-      this.confidence = args.confidence;
-    }
-    if (args.tagList !== undefined && args.tagList !== null) {
-      this.tagList = Thrift.copyList(args.tagList, [null]);
-    }
-    if (args.confidenceList !== undefined && args.confidenceList !== null) {
-      this.confidenceList = Thrift.copyList(args.confidenceList, [null]);
-    }
-  }
-};
-TaggedToken.prototype = {};
-TaggedToken.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.tokenIndex = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.tag = input.readString().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 3:
-      if (ftype == Thrift.Type.DOUBLE) {
-        this.confidence = input.readDouble().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 4:
-      if (ftype == Thrift.Type.LIST) {
-        var _size8 = 0;
-        var _rtmp312;
-        this.tagList = [];
-        var _etype11 = 0;
-        _rtmp312 = input.readListBegin();
-        _etype11 = _rtmp312.etype;
-        _size8 = _rtmp312.size;
-        for (var _i13 = 0; _i13 < _size8; ++_i13)
-        {
-          var elem14 = null;
-          elem14 = input.readString().value;
-          this.tagList.push(elem14);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 5:
-      if (ftype == Thrift.Type.LIST) {
-        var _size15 = 0;
-        var _rtmp319;
-        this.confidenceList = [];
-        var _etype18 = 0;
-        _rtmp319 = input.readListBegin();
-        _etype18 = _rtmp319.etype;
-        _size15 = _rtmp319.size;
-        for (var _i20 = 0; _i20 < _size15; ++_i20)
-        {
-          var elem21 = null;
-          elem21 = input.readDouble().value;
-          this.confidenceList.push(elem21);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-TaggedToken.prototype.write = function(output) {
-  output.writeStructBegin('TaggedToken');
-  if (this.tokenIndex !== null && this.tokenIndex !== undefined) {
-    output.writeFieldBegin('tokenIndex', Thrift.Type.I32, 1);
-    output.writeI32(this.tokenIndex);
-    output.writeFieldEnd();
-  }
-  if (this.tag !== null && this.tag !== undefined) {
-    output.writeFieldBegin('tag', Thrift.Type.STRING, 2);
-    output.writeString(this.tag);
-    output.writeFieldEnd();
-  }
-  if (this.confidence !== null && this.confidence !== undefined) {
-    output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 3);
-    output.writeDouble(this.confidence);
-    output.writeFieldEnd();
-  }
-  if (this.tagList !== null && this.tagList !== undefined) {
-    output.writeFieldBegin('tagList', Thrift.Type.LIST, 4);
-    output.writeListBegin(Thrift.Type.STRING, this.tagList.length);
-    for (var iter22 in this.tagList)
-    {
-      if (this.tagList.hasOwnProperty(iter22))
-      {
-        iter22 = this.tagList[iter22];
-        output.writeString(iter22);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  if (this.confidenceList !== null && this.confidenceList !== undefined) {
-    output.writeFieldBegin('confidenceList', Thrift.Type.LIST, 5);
-    output.writeListBegin(Thrift.Type.DOUBLE, this.confidenceList.length);
-    for (var iter23 in this.confidenceList)
-    {
-      if (this.confidenceList.hasOwnProperty(iter23))
-      {
-        iter23 = this.confidenceList[iter23];
-        output.writeDouble(iter23);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-TokenTagging = function(args) {
-  this.uuid = null;
-  this.metadata = null;
-  this.taggedTokenList = null;
-  this.taggingType = null;
-  if (args) {
-    if (args.uuid !== undefined && args.uuid !== null) {
-      this.uuid = new UUID(args.uuid);
-    } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
-    }
-    if (args.metadata !== undefined && args.metadata !== null) {
-      this.metadata = new AnnotationMetadata(args.metadata);
-    } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
-    }
-    if (args.taggedTokenList !== undefined && args.taggedTokenList !== null) {
-      this.taggedTokenList = Thrift.copyList(args.taggedTokenList, [TaggedToken]);
-    } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field taggedTokenList is unset!');
-    }
-    if (args.taggingType !== undefined && args.taggingType !== null) {
-      this.taggingType = args.taggingType;
-    }
-  }
-};
-TokenTagging.prototype = {};
-TokenTagging.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.uuid = new UUID();
-        this.uuid.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.metadata = new AnnotationMetadata();
-        this.metadata.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 3:
-      if (ftype == Thrift.Type.LIST) {
-        var _size24 = 0;
-        var _rtmp328;
-        this.taggedTokenList = [];
-        var _etype27 = 0;
-        _rtmp328 = input.readListBegin();
-        _etype27 = _rtmp328.etype;
-        _size24 = _rtmp328.size;
-        for (var _i29 = 0; _i29 < _size24; ++_i29)
-        {
-          var elem30 = null;
-          elem30 = new TaggedToken();
-          elem30.read(input);
-          this.taggedTokenList.push(elem30);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 4:
-      if (ftype == Thrift.Type.STRING) {
-        this.taggingType = input.readString().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-TokenTagging.prototype.write = function(output) {
-  output.writeStructBegin('TokenTagging');
-  if (this.uuid !== null && this.uuid !== undefined) {
-    output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
-    this.uuid.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.metadata !== null && this.metadata !== undefined) {
-    output.writeFieldBegin('metadata', Thrift.Type.STRUCT, 2);
-    this.metadata.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.taggedTokenList !== null && this.taggedTokenList !== undefined) {
-    output.writeFieldBegin('taggedTokenList', Thrift.Type.LIST, 3);
-    output.writeListBegin(Thrift.Type.STRUCT, this.taggedTokenList.length);
-    for (var iter31 in this.taggedTokenList)
-    {
-      if (this.taggedTokenList.hasOwnProperty(iter31))
-      {
-        iter31 = this.taggedTokenList[iter31];
-        iter31.write(output);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  if (this.taggingType !== null && this.taggingType !== undefined) {
-    output.writeFieldBegin('taggingType', Thrift.Type.STRING, 4);
-    output.writeString(this.taggingType);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -14787,19 +14456,19 @@ DependencyParse.prototype.read = function(input) {
       break;
       case 3:
       if (ftype == Thrift.Type.LIST) {
-        var _size32 = 0;
-        var _rtmp336;
+        var _size16 = 0;
+        var _rtmp320;
         this.dependencyList = [];
-        var _etype35 = 0;
-        _rtmp336 = input.readListBegin();
-        _etype35 = _rtmp336.etype;
-        _size32 = _rtmp336.size;
-        for (var _i37 = 0; _i37 < _size32; ++_i37)
+        var _etype19 = 0;
+        _rtmp320 = input.readListBegin();
+        _etype19 = _rtmp320.etype;
+        _size16 = _rtmp320.size;
+        for (var _i21 = 0; _i21 < _size16; ++_i21)
         {
-          var elem38 = null;
-          elem38 = new Dependency();
-          elem38.read(input);
-          this.dependencyList.push(elem38);
+          var elem22 = null;
+          elem22 = new Dependency();
+          elem22.read(input);
+          this.dependencyList.push(elem22);
         }
         input.readListEnd();
       } else {
@@ -14838,12 +14507,12 @@ DependencyParse.prototype.write = function(output) {
   if (this.dependencyList !== null && this.dependencyList !== undefined) {
     output.writeFieldBegin('dependencyList', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.dependencyList.length);
-    for (var iter39 in this.dependencyList)
+    for (var iter23 in this.dependencyList)
     {
-      if (this.dependencyList.hasOwnProperty(iter39))
+      if (this.dependencyList.hasOwnProperty(iter23))
       {
-        iter39 = this.dependencyList[iter39];
-        iter39.write(output);
+        iter23 = this.dependencyList[iter23];
+        iter23.write(output);
       }
     }
     output.writeListEnd();
@@ -14859,40 +14528,34 @@ DependencyParse.prototype.write = function(output) {
   return;
 };
 
-Constituent = function(args) {
-  this.id = null;
-  this.tag = null;
-  this.childList = null;
-  this.headChildIndex = -1;
-  this.start = null;
-  this.ending = null;
+Token = function(args) {
+  this.tokenIndex = null;
+  this.text = null;
+  this.textSpan = null;
+  this.rawTextSpan = null;
+  this.audioSpan = null;
   if (args) {
-    if (args.id !== undefined && args.id !== null) {
-      this.id = args.id;
+    if (args.tokenIndex !== undefined && args.tokenIndex !== null) {
+      this.tokenIndex = args.tokenIndex;
     } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field id is unset!');
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field tokenIndex is unset!');
     }
-    if (args.tag !== undefined && args.tag !== null) {
-      this.tag = args.tag;
+    if (args.text !== undefined && args.text !== null) {
+      this.text = args.text;
     }
-    if (args.childList !== undefined && args.childList !== null) {
-      this.childList = Thrift.copyList(args.childList, [null]);
-    } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field childList is unset!');
+    if (args.textSpan !== undefined && args.textSpan !== null) {
+      this.textSpan = new TextSpan(args.textSpan);
     }
-    if (args.headChildIndex !== undefined && args.headChildIndex !== null) {
-      this.headChildIndex = args.headChildIndex;
+    if (args.rawTextSpan !== undefined && args.rawTextSpan !== null) {
+      this.rawTextSpan = new TextSpan(args.rawTextSpan);
     }
-    if (args.start !== undefined && args.start !== null) {
-      this.start = args.start;
-    }
-    if (args.ending !== undefined && args.ending !== null) {
-      this.ending = args.ending;
+    if (args.audioSpan !== undefined && args.audioSpan !== null) {
+      this.audioSpan = new AudioSpan(args.audioSpan);
     }
   }
 };
-Constituent.prototype = {};
-Constituent.prototype.read = function(input) {
+Token.prototype = {};
+Token.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -14907,55 +14570,38 @@ Constituent.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.I32) {
-        this.id = input.readI32().value;
+        this.tokenIndex = input.readI32().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.tag = input.readString().value;
+        this.text = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.LIST) {
-        var _size40 = 0;
-        var _rtmp344;
-        this.childList = [];
-        var _etype43 = 0;
-        _rtmp344 = input.readListBegin();
-        _etype43 = _rtmp344.etype;
-        _size40 = _rtmp344.size;
-        for (var _i45 = 0; _i45 < _size40; ++_i45)
-        {
-          var elem46 = null;
-          elem46 = input.readI32().value;
-          this.childList.push(elem46);
-        }
-        input.readListEnd();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.textSpan = new TextSpan();
+        this.textSpan.read(input);
       } else {
         input.skip(ftype);
       }
       break;
       case 4:
-      if (ftype == Thrift.Type.I32) {
-        this.headChildIndex = input.readI32().value;
+      if (ftype == Thrift.Type.STRUCT) {
+        this.rawTextSpan = new TextSpan();
+        this.rawTextSpan.read(input);
       } else {
         input.skip(ftype);
       }
       break;
       case 5:
-      if (ftype == Thrift.Type.I32) {
-        this.start = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 6:
-      if (ftype == Thrift.Type.I32) {
-        this.ending = input.readI32().value;
+      if (ftype == Thrift.Type.STRUCT) {
+        this.audioSpan = new AudioSpan();
+        this.audioSpan.read(input);
       } else {
         input.skip(ftype);
       }
@@ -14969,45 +14615,31 @@ Constituent.prototype.read = function(input) {
   return;
 };
 
-Constituent.prototype.write = function(output) {
-  output.writeStructBegin('Constituent');
-  if (this.id !== null && this.id !== undefined) {
-    output.writeFieldBegin('id', Thrift.Type.I32, 1);
-    output.writeI32(this.id);
+Token.prototype.write = function(output) {
+  output.writeStructBegin('Token');
+  if (this.tokenIndex !== null && this.tokenIndex !== undefined) {
+    output.writeFieldBegin('tokenIndex', Thrift.Type.I32, 1);
+    output.writeI32(this.tokenIndex);
     output.writeFieldEnd();
   }
-  if (this.tag !== null && this.tag !== undefined) {
-    output.writeFieldBegin('tag', Thrift.Type.STRING, 2);
-    output.writeString(this.tag);
+  if (this.text !== null && this.text !== undefined) {
+    output.writeFieldBegin('text', Thrift.Type.STRING, 2);
+    output.writeString(this.text);
     output.writeFieldEnd();
   }
-  if (this.childList !== null && this.childList !== undefined) {
-    output.writeFieldBegin('childList', Thrift.Type.LIST, 3);
-    output.writeListBegin(Thrift.Type.I32, this.childList.length);
-    for (var iter47 in this.childList)
-    {
-      if (this.childList.hasOwnProperty(iter47))
-      {
-        iter47 = this.childList[iter47];
-        output.writeI32(iter47);
-      }
-    }
-    output.writeListEnd();
+  if (this.textSpan !== null && this.textSpan !== undefined) {
+    output.writeFieldBegin('textSpan', Thrift.Type.STRUCT, 3);
+    this.textSpan.write(output);
     output.writeFieldEnd();
   }
-  if (this.headChildIndex !== null && this.headChildIndex !== undefined) {
-    output.writeFieldBegin('headChildIndex', Thrift.Type.I32, 4);
-    output.writeI32(this.headChildIndex);
+  if (this.rawTextSpan !== null && this.rawTextSpan !== undefined) {
+    output.writeFieldBegin('rawTextSpan', Thrift.Type.STRUCT, 4);
+    this.rawTextSpan.write(output);
     output.writeFieldEnd();
   }
-  if (this.start !== null && this.start !== undefined) {
-    output.writeFieldBegin('start', Thrift.Type.I32, 5);
-    output.writeI32(this.start);
-    output.writeFieldEnd();
-  }
-  if (this.ending !== null && this.ending !== undefined) {
-    output.writeFieldBegin('ending', Thrift.Type.I32, 6);
-    output.writeI32(this.ending);
+  if (this.audioSpan !== null && this.audioSpan !== undefined) {
+    output.writeFieldBegin('audioSpan', Thrift.Type.STRUCT, 5);
+    this.audioSpan.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -15015,10 +14647,385 @@ Constituent.prototype.write = function(output) {
   return;
 };
 
-Parse = function(args) {
+TokenRefSequence = function(args) {
+  this.tokenIndexList = null;
+  this.anchorTokenIndex = -1;
+  this.tokenizationId = null;
+  this.textSpan = null;
+  this.rawTextSpan = null;
+  this.audioSpan = null;
+  this.dependencies = null;
+  this.constituent = null;
+  if (args) {
+    if (args.tokenIndexList !== undefined && args.tokenIndexList !== null) {
+      this.tokenIndexList = Thrift.copyList(args.tokenIndexList, [null]);
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field tokenIndexList is unset!');
+    }
+    if (args.anchorTokenIndex !== undefined && args.anchorTokenIndex !== null) {
+      this.anchorTokenIndex = args.anchorTokenIndex;
+    }
+    if (args.tokenizationId !== undefined && args.tokenizationId !== null) {
+      this.tokenizationId = new UUID(args.tokenizationId);
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field tokenizationId is unset!');
+    }
+    if (args.textSpan !== undefined && args.textSpan !== null) {
+      this.textSpan = new TextSpan(args.textSpan);
+    }
+    if (args.rawTextSpan !== undefined && args.rawTextSpan !== null) {
+      this.rawTextSpan = new TextSpan(args.rawTextSpan);
+    }
+    if (args.audioSpan !== undefined && args.audioSpan !== null) {
+      this.audioSpan = new AudioSpan(args.audioSpan);
+    }
+    if (args.dependencies !== undefined && args.dependencies !== null) {
+      this.dependencies = Thrift.copyList(args.dependencies, [Dependency]);
+    }
+    if (args.constituent !== undefined && args.constituent !== null) {
+      this.constituent = new ConstituentRef(args.constituent);
+    }
+  }
+};
+TokenRefSequence.prototype = {};
+TokenRefSequence.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.LIST) {
+        var _size24 = 0;
+        var _rtmp328;
+        this.tokenIndexList = [];
+        var _etype27 = 0;
+        _rtmp328 = input.readListBegin();
+        _etype27 = _rtmp328.etype;
+        _size24 = _rtmp328.size;
+        for (var _i29 = 0; _i29 < _size24; ++_i29)
+        {
+          var elem30 = null;
+          elem30 = input.readI32().value;
+          this.tokenIndexList.push(elem30);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.anchorTokenIndex = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.tokenizationId = new UUID();
+        this.tokenizationId.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.textSpan = new TextSpan();
+        this.textSpan.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.rawTextSpan = new TextSpan();
+        this.rawTextSpan.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.audioSpan = new AudioSpan();
+        this.audioSpan.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.LIST) {
+        var _size31 = 0;
+        var _rtmp335;
+        this.dependencies = [];
+        var _etype34 = 0;
+        _rtmp335 = input.readListBegin();
+        _etype34 = _rtmp335.etype;
+        _size31 = _rtmp335.size;
+        for (var _i36 = 0; _i36 < _size31; ++_i36)
+        {
+          var elem37 = null;
+          elem37 = new Dependency();
+          elem37.read(input);
+          this.dependencies.push(elem37);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 8:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.constituent = new ConstituentRef();
+        this.constituent.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TokenRefSequence.prototype.write = function(output) {
+  output.writeStructBegin('TokenRefSequence');
+  if (this.tokenIndexList !== null && this.tokenIndexList !== undefined) {
+    output.writeFieldBegin('tokenIndexList', Thrift.Type.LIST, 1);
+    output.writeListBegin(Thrift.Type.I32, this.tokenIndexList.length);
+    for (var iter38 in this.tokenIndexList)
+    {
+      if (this.tokenIndexList.hasOwnProperty(iter38))
+      {
+        iter38 = this.tokenIndexList[iter38];
+        output.writeI32(iter38);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.anchorTokenIndex !== null && this.anchorTokenIndex !== undefined) {
+    output.writeFieldBegin('anchorTokenIndex', Thrift.Type.I32, 2);
+    output.writeI32(this.anchorTokenIndex);
+    output.writeFieldEnd();
+  }
+  if (this.tokenizationId !== null && this.tokenizationId !== undefined) {
+    output.writeFieldBegin('tokenizationId', Thrift.Type.STRUCT, 3);
+    this.tokenizationId.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.textSpan !== null && this.textSpan !== undefined) {
+    output.writeFieldBegin('textSpan', Thrift.Type.STRUCT, 4);
+    this.textSpan.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.rawTextSpan !== null && this.rawTextSpan !== undefined) {
+    output.writeFieldBegin('rawTextSpan', Thrift.Type.STRUCT, 5);
+    this.rawTextSpan.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.audioSpan !== null && this.audioSpan !== undefined) {
+    output.writeFieldBegin('audioSpan', Thrift.Type.STRUCT, 6);
+    this.audioSpan.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.dependencies !== null && this.dependencies !== undefined) {
+    output.writeFieldBegin('dependencies', Thrift.Type.LIST, 7);
+    output.writeListBegin(Thrift.Type.STRUCT, this.dependencies.length);
+    for (var iter39 in this.dependencies)
+    {
+      if (this.dependencies.hasOwnProperty(iter39))
+      {
+        iter39 = this.dependencies[iter39];
+        iter39.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.constituent !== null && this.constituent !== undefined) {
+    output.writeFieldBegin('constituent', Thrift.Type.STRUCT, 8);
+    this.constituent.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TaggedToken = function(args) {
+  this.tokenIndex = null;
+  this.tag = null;
+  this.confidence = null;
+  this.tagList = null;
+  this.confidenceList = null;
+  if (args) {
+    if (args.tokenIndex !== undefined && args.tokenIndex !== null) {
+      this.tokenIndex = args.tokenIndex;
+    }
+    if (args.tag !== undefined && args.tag !== null) {
+      this.tag = args.tag;
+    }
+    if (args.confidence !== undefined && args.confidence !== null) {
+      this.confidence = args.confidence;
+    }
+    if (args.tagList !== undefined && args.tagList !== null) {
+      this.tagList = Thrift.copyList(args.tagList, [null]);
+    }
+    if (args.confidenceList !== undefined && args.confidenceList !== null) {
+      this.confidenceList = Thrift.copyList(args.confidenceList, [null]);
+    }
+  }
+};
+TaggedToken.prototype = {};
+TaggedToken.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.tokenIndex = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.tag = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.DOUBLE) {
+        this.confidence = input.readDouble().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.LIST) {
+        var _size40 = 0;
+        var _rtmp344;
+        this.tagList = [];
+        var _etype43 = 0;
+        _rtmp344 = input.readListBegin();
+        _etype43 = _rtmp344.etype;
+        _size40 = _rtmp344.size;
+        for (var _i45 = 0; _i45 < _size40; ++_i45)
+        {
+          var elem46 = null;
+          elem46 = input.readString().value;
+          this.tagList.push(elem46);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.LIST) {
+        var _size47 = 0;
+        var _rtmp351;
+        this.confidenceList = [];
+        var _etype50 = 0;
+        _rtmp351 = input.readListBegin();
+        _etype50 = _rtmp351.etype;
+        _size47 = _rtmp351.size;
+        for (var _i52 = 0; _i52 < _size47; ++_i52)
+        {
+          var elem53 = null;
+          elem53 = input.readDouble().value;
+          this.confidenceList.push(elem53);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TaggedToken.prototype.write = function(output) {
+  output.writeStructBegin('TaggedToken');
+  if (this.tokenIndex !== null && this.tokenIndex !== undefined) {
+    output.writeFieldBegin('tokenIndex', Thrift.Type.I32, 1);
+    output.writeI32(this.tokenIndex);
+    output.writeFieldEnd();
+  }
+  if (this.tag !== null && this.tag !== undefined) {
+    output.writeFieldBegin('tag', Thrift.Type.STRING, 2);
+    output.writeString(this.tag);
+    output.writeFieldEnd();
+  }
+  if (this.confidence !== null && this.confidence !== undefined) {
+    output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 3);
+    output.writeDouble(this.confidence);
+    output.writeFieldEnd();
+  }
+  if (this.tagList !== null && this.tagList !== undefined) {
+    output.writeFieldBegin('tagList', Thrift.Type.LIST, 4);
+    output.writeListBegin(Thrift.Type.STRING, this.tagList.length);
+    for (var iter54 in this.tagList)
+    {
+      if (this.tagList.hasOwnProperty(iter54))
+      {
+        iter54 = this.tagList[iter54];
+        output.writeString(iter54);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.confidenceList !== null && this.confidenceList !== undefined) {
+    output.writeFieldBegin('confidenceList', Thrift.Type.LIST, 5);
+    output.writeListBegin(Thrift.Type.DOUBLE, this.confidenceList.length);
+    for (var iter55 in this.confidenceList)
+    {
+      if (this.confidenceList.hasOwnProperty(iter55))
+      {
+        iter55 = this.confidenceList[iter55];
+        output.writeDouble(iter55);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TokenTagging = function(args) {
   this.uuid = null;
   this.metadata = null;
-  this.constituentList = null;
+  this.taggedTokenList = null;
+  this.taggingType = null;
   if (args) {
     if (args.uuid !== undefined && args.uuid !== null) {
       this.uuid = new UUID(args.uuid);
@@ -15030,15 +15037,18 @@ Parse = function(args) {
     } else {
       throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
     }
-    if (args.constituentList !== undefined && args.constituentList !== null) {
-      this.constituentList = Thrift.copyList(args.constituentList, [Constituent]);
+    if (args.taggedTokenList !== undefined && args.taggedTokenList !== null) {
+      this.taggedTokenList = Thrift.copyList(args.taggedTokenList, [TaggedToken]);
     } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field constituentList is unset!');
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field taggedTokenList is unset!');
+    }
+    if (args.taggingType !== undefined && args.taggingType !== null) {
+      this.taggingType = args.taggingType;
     }
   }
 };
-Parse.prototype = {};
-Parse.prototype.read = function(input) {
+TokenTagging.prototype = {};
+TokenTagging.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -15069,21 +15079,28 @@ Parse.prototype.read = function(input) {
       break;
       case 3:
       if (ftype == Thrift.Type.LIST) {
-        var _size48 = 0;
-        var _rtmp352;
-        this.constituentList = [];
-        var _etype51 = 0;
-        _rtmp352 = input.readListBegin();
-        _etype51 = _rtmp352.etype;
-        _size48 = _rtmp352.size;
-        for (var _i53 = 0; _i53 < _size48; ++_i53)
+        var _size56 = 0;
+        var _rtmp360;
+        this.taggedTokenList = [];
+        var _etype59 = 0;
+        _rtmp360 = input.readListBegin();
+        _etype59 = _rtmp360.etype;
+        _size56 = _rtmp360.size;
+        for (var _i61 = 0; _i61 < _size56; ++_i61)
         {
-          var elem54 = null;
-          elem54 = new Constituent();
-          elem54.read(input);
-          this.constituentList.push(elem54);
+          var elem62 = null;
+          elem62 = new TaggedToken();
+          elem62.read(input);
+          this.taggedTokenList.push(elem62);
         }
         input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.taggingType = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -15097,8 +15114,8 @@ Parse.prototype.read = function(input) {
   return;
 };
 
-Parse.prototype.write = function(output) {
-  output.writeStructBegin('Parse');
+TokenTagging.prototype.write = function(output) {
+  output.writeStructBegin('TokenTagging');
   if (this.uuid !== null && this.uuid !== undefined) {
     output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
     this.uuid.write(output);
@@ -15109,18 +15126,23 @@ Parse.prototype.write = function(output) {
     this.metadata.write(output);
     output.writeFieldEnd();
   }
-  if (this.constituentList !== null && this.constituentList !== undefined) {
-    output.writeFieldBegin('constituentList', Thrift.Type.LIST, 3);
-    output.writeListBegin(Thrift.Type.STRUCT, this.constituentList.length);
-    for (var iter55 in this.constituentList)
+  if (this.taggedTokenList !== null && this.taggedTokenList !== undefined) {
+    output.writeFieldBegin('taggedTokenList', Thrift.Type.LIST, 3);
+    output.writeListBegin(Thrift.Type.STRUCT, this.taggedTokenList.length);
+    for (var iter63 in this.taggedTokenList)
     {
-      if (this.constituentList.hasOwnProperty(iter55))
+      if (this.taggedTokenList.hasOwnProperty(iter63))
       {
-        iter55 = this.constituentList[iter55];
-        iter55.write(output);
+        iter63 = this.taggedTokenList[iter63];
+        iter63.write(output);
       }
     }
     output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.taggingType !== null && this.taggingType !== undefined) {
+    output.writeFieldBegin('taggingType', Thrift.Type.STRING, 4);
+    output.writeString(this.taggingType);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -15165,19 +15187,19 @@ LatticePath.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.LIST) {
-        var _size56 = 0;
-        var _rtmp360;
+        var _size64 = 0;
+        var _rtmp368;
         this.tokenList = [];
-        var _etype59 = 0;
-        _rtmp360 = input.readListBegin();
-        _etype59 = _rtmp360.etype;
-        _size56 = _rtmp360.size;
-        for (var _i61 = 0; _i61 < _size56; ++_i61)
+        var _etype67 = 0;
+        _rtmp368 = input.readListBegin();
+        _etype67 = _rtmp368.etype;
+        _size64 = _rtmp368.size;
+        for (var _i69 = 0; _i69 < _size64; ++_i69)
         {
-          var elem62 = null;
-          elem62 = new Token();
-          elem62.read(input);
-          this.tokenList.push(elem62);
+          var elem70 = null;
+          elem70 = new Token();
+          elem70.read(input);
+          this.tokenList.push(elem70);
         }
         input.readListEnd();
       } else {
@@ -15203,12 +15225,12 @@ LatticePath.prototype.write = function(output) {
   if (this.tokenList !== null && this.tokenList !== undefined) {
     output.writeFieldBegin('tokenList', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.tokenList.length);
-    for (var iter63 in this.tokenList)
+    for (var iter71 in this.tokenList)
     {
-      if (this.tokenList.hasOwnProperty(iter63))
+      if (this.tokenList.hasOwnProperty(iter71))
       {
-        iter63 = this.tokenList[iter63];
-        iter63.write(output);
+        iter71 = this.tokenList[iter71];
+        iter71.write(output);
       }
     }
     output.writeListEnd();
@@ -15370,19 +15392,19 @@ TokenLattice.prototype.read = function(input) {
       break;
       case 3:
       if (ftype == Thrift.Type.LIST) {
-        var _size64 = 0;
-        var _rtmp368;
+        var _size72 = 0;
+        var _rtmp376;
         this.arcList = [];
-        var _etype67 = 0;
-        _rtmp368 = input.readListBegin();
-        _etype67 = _rtmp368.etype;
-        _size64 = _rtmp368.size;
-        for (var _i69 = 0; _i69 < _size64; ++_i69)
+        var _etype75 = 0;
+        _rtmp376 = input.readListBegin();
+        _etype75 = _rtmp376.etype;
+        _size72 = _rtmp376.size;
+        for (var _i77 = 0; _i77 < _size72; ++_i77)
         {
-          var elem70 = null;
-          elem70 = new Arc();
-          elem70.read(input);
-          this.arcList.push(elem70);
+          var elem78 = null;
+          elem78 = new Arc();
+          elem78.read(input);
+          this.arcList.push(elem78);
         }
         input.readListEnd();
       } else {
@@ -15421,12 +15443,12 @@ TokenLattice.prototype.write = function(output) {
   if (this.arcList !== null && this.arcList !== undefined) {
     output.writeFieldBegin('arcList', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.arcList.length);
-    for (var iter71 in this.arcList)
+    for (var iter79 in this.arcList)
     {
-      if (this.arcList.hasOwnProperty(iter71))
+      if (this.arcList.hasOwnProperty(iter79))
       {
-        iter71 = this.arcList[iter71];
-        iter71.write(output);
+        iter79 = this.arcList[iter79];
+        iter79.write(output);
       }
     }
     output.writeListEnd();
@@ -15468,19 +15490,19 @@ TokenList.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.LIST) {
-        var _size72 = 0;
-        var _rtmp376;
+        var _size80 = 0;
+        var _rtmp384;
         this.tokenList = [];
-        var _etype75 = 0;
-        _rtmp376 = input.readListBegin();
-        _etype75 = _rtmp376.etype;
-        _size72 = _rtmp376.size;
-        for (var _i77 = 0; _i77 < _size72; ++_i77)
+        var _etype83 = 0;
+        _rtmp384 = input.readListBegin();
+        _etype83 = _rtmp384.etype;
+        _size80 = _rtmp384.size;
+        for (var _i85 = 0; _i85 < _size80; ++_i85)
         {
-          var elem78 = null;
-          elem78 = new Token();
-          elem78.read(input);
-          this.tokenList.push(elem78);
+          var elem86 = null;
+          elem86 = new Token();
+          elem86.read(input);
+          this.tokenList.push(elem86);
         }
         input.readListEnd();
       } else {
@@ -15504,12 +15526,12 @@ TokenList.prototype.write = function(output) {
   if (this.tokenList !== null && this.tokenList !== undefined) {
     output.writeFieldBegin('tokenList', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.tokenList.length);
-    for (var iter79 in this.tokenList)
+    for (var iter87 in this.tokenList)
     {
-      if (this.tokenList.hasOwnProperty(iter79))
+      if (this.tokenList.hasOwnProperty(iter87))
       {
-        iter79 = this.tokenList[iter79];
-        iter79.write(output);
+        iter87 = this.tokenList[iter87];
+        iter87.write(output);
       }
     }
     output.writeListEnd();
@@ -15725,19 +15747,19 @@ Tokenization.prototype.read = function(input) {
       break;
       case 6:
       if (ftype == Thrift.Type.LIST) {
-        var _size80 = 0;
-        var _rtmp384;
+        var _size88 = 0;
+        var _rtmp392;
         this.tokenTaggingList = [];
-        var _etype83 = 0;
-        _rtmp384 = input.readListBegin();
-        _etype83 = _rtmp384.etype;
-        _size80 = _rtmp384.size;
-        for (var _i85 = 0; _i85 < _size80; ++_i85)
+        var _etype91 = 0;
+        _rtmp392 = input.readListBegin();
+        _etype91 = _rtmp392.etype;
+        _size88 = _rtmp392.size;
+        for (var _i93 = 0; _i93 < _size88; ++_i93)
         {
-          var elem86 = null;
-          elem86 = new TokenTagging();
-          elem86.read(input);
-          this.tokenTaggingList.push(elem86);
+          var elem94 = null;
+          elem94 = new TokenTagging();
+          elem94.read(input);
+          this.tokenTaggingList.push(elem94);
         }
         input.readListEnd();
       } else {
@@ -15746,19 +15768,19 @@ Tokenization.prototype.read = function(input) {
       break;
       case 7:
       if (ftype == Thrift.Type.LIST) {
-        var _size87 = 0;
-        var _rtmp391;
+        var _size95 = 0;
+        var _rtmp399;
         this.parseList = [];
-        var _etype90 = 0;
-        _rtmp391 = input.readListBegin();
-        _etype90 = _rtmp391.etype;
-        _size87 = _rtmp391.size;
-        for (var _i92 = 0; _i92 < _size87; ++_i92)
+        var _etype98 = 0;
+        _rtmp399 = input.readListBegin();
+        _etype98 = _rtmp399.etype;
+        _size95 = _rtmp399.size;
+        for (var _i100 = 0; _i100 < _size95; ++_i100)
         {
-          var elem93 = null;
-          elem93 = new Parse();
-          elem93.read(input);
-          this.parseList.push(elem93);
+          var elem101 = null;
+          elem101 = new Parse();
+          elem101.read(input);
+          this.parseList.push(elem101);
         }
         input.readListEnd();
       } else {
@@ -15767,19 +15789,19 @@ Tokenization.prototype.read = function(input) {
       break;
       case 8:
       if (ftype == Thrift.Type.LIST) {
-        var _size94 = 0;
-        var _rtmp398;
+        var _size102 = 0;
+        var _rtmp3106;
         this.dependencyParseList = [];
-        var _etype97 = 0;
-        _rtmp398 = input.readListBegin();
-        _etype97 = _rtmp398.etype;
-        _size94 = _rtmp398.size;
-        for (var _i99 = 0; _i99 < _size94; ++_i99)
+        var _etype105 = 0;
+        _rtmp3106 = input.readListBegin();
+        _etype105 = _rtmp3106.etype;
+        _size102 = _rtmp3106.size;
+        for (var _i107 = 0; _i107 < _size102; ++_i107)
         {
-          var elem100 = null;
-          elem100 = new DependencyParse();
-          elem100.read(input);
-          this.dependencyParseList.push(elem100);
+          var elem108 = null;
+          elem108 = new DependencyParse();
+          elem108.read(input);
+          this.dependencyParseList.push(elem108);
         }
         input.readListEnd();
       } else {
@@ -15788,19 +15810,19 @@ Tokenization.prototype.read = function(input) {
       break;
       case 9:
       if (ftype == Thrift.Type.LIST) {
-        var _size101 = 0;
-        var _rtmp3105;
+        var _size109 = 0;
+        var _rtmp3113;
         this.spanLinkList = [];
-        var _etype104 = 0;
-        _rtmp3105 = input.readListBegin();
-        _etype104 = _rtmp3105.etype;
-        _size101 = _rtmp3105.size;
-        for (var _i106 = 0; _i106 < _size101; ++_i106)
+        var _etype112 = 0;
+        _rtmp3113 = input.readListBegin();
+        _etype112 = _rtmp3113.etype;
+        _size109 = _rtmp3113.size;
+        for (var _i114 = 0; _i114 < _size109; ++_i114)
         {
-          var elem107 = null;
-          elem107 = new SpanLink();
-          elem107.read(input);
-          this.spanLinkList.push(elem107);
+          var elem115 = null;
+          elem115 = new SpanLink();
+          elem115.read(input);
+          this.spanLinkList.push(elem115);
         }
         input.readListEnd();
       } else {
@@ -15846,12 +15868,12 @@ Tokenization.prototype.write = function(output) {
   if (this.tokenTaggingList !== null && this.tokenTaggingList !== undefined) {
     output.writeFieldBegin('tokenTaggingList', Thrift.Type.LIST, 6);
     output.writeListBegin(Thrift.Type.STRUCT, this.tokenTaggingList.length);
-    for (var iter108 in this.tokenTaggingList)
+    for (var iter116 in this.tokenTaggingList)
     {
-      if (this.tokenTaggingList.hasOwnProperty(iter108))
+      if (this.tokenTaggingList.hasOwnProperty(iter116))
       {
-        iter108 = this.tokenTaggingList[iter108];
-        iter108.write(output);
+        iter116 = this.tokenTaggingList[iter116];
+        iter116.write(output);
       }
     }
     output.writeListEnd();
@@ -15860,12 +15882,12 @@ Tokenization.prototype.write = function(output) {
   if (this.parseList !== null && this.parseList !== undefined) {
     output.writeFieldBegin('parseList', Thrift.Type.LIST, 7);
     output.writeListBegin(Thrift.Type.STRUCT, this.parseList.length);
-    for (var iter109 in this.parseList)
+    for (var iter117 in this.parseList)
     {
-      if (this.parseList.hasOwnProperty(iter109))
+      if (this.parseList.hasOwnProperty(iter117))
       {
-        iter109 = this.parseList[iter109];
-        iter109.write(output);
+        iter117 = this.parseList[iter117];
+        iter117.write(output);
       }
     }
     output.writeListEnd();
@@ -15874,12 +15896,12 @@ Tokenization.prototype.write = function(output) {
   if (this.dependencyParseList !== null && this.dependencyParseList !== undefined) {
     output.writeFieldBegin('dependencyParseList', Thrift.Type.LIST, 8);
     output.writeListBegin(Thrift.Type.STRUCT, this.dependencyParseList.length);
-    for (var iter110 in this.dependencyParseList)
+    for (var iter118 in this.dependencyParseList)
     {
-      if (this.dependencyParseList.hasOwnProperty(iter110))
+      if (this.dependencyParseList.hasOwnProperty(iter118))
       {
-        iter110 = this.dependencyParseList[iter110];
-        iter110.write(output);
+        iter118 = this.dependencyParseList[iter118];
+        iter118.write(output);
       }
     }
     output.writeListEnd();
@@ -15888,12 +15910,12 @@ Tokenization.prototype.write = function(output) {
   if (this.spanLinkList !== null && this.spanLinkList !== undefined) {
     output.writeFieldBegin('spanLinkList', Thrift.Type.LIST, 9);
     output.writeListBegin(Thrift.Type.STRUCT, this.spanLinkList.length);
-    for (var iter111 in this.spanLinkList)
+    for (var iter119 in this.spanLinkList)
     {
-      if (this.spanLinkList.hasOwnProperty(iter111))
+      if (this.spanLinkList.hasOwnProperty(iter119))
       {
-        iter111 = this.spanLinkList[iter111];
-        iter111.write(output);
+        iter119 = this.spanLinkList[iter119];
+        iter119.write(output);
       }
     }
     output.writeListEnd();
@@ -16093,19 +16115,19 @@ Section.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.LIST) {
-        var _size112 = 0;
-        var _rtmp3116;
+        var _size120 = 0;
+        var _rtmp3124;
         this.sentenceList = [];
-        var _etype115 = 0;
-        _rtmp3116 = input.readListBegin();
-        _etype115 = _rtmp3116.etype;
-        _size112 = _rtmp3116.size;
-        for (var _i117 = 0; _i117 < _size112; ++_i117)
+        var _etype123 = 0;
+        _rtmp3124 = input.readListBegin();
+        _etype123 = _rtmp3124.etype;
+        _size120 = _rtmp3124.size;
+        for (var _i125 = 0; _i125 < _size120; ++_i125)
         {
-          var elem118 = null;
-          elem118 = new Sentence();
-          elem118.read(input);
-          this.sentenceList.push(elem118);
+          var elem126 = null;
+          elem126 = new Sentence();
+          elem126.read(input);
+          this.sentenceList.push(elem126);
         }
         input.readListEnd();
       } else {
@@ -16152,18 +16174,18 @@ Section.prototype.read = function(input) {
       break;
       case 7:
       if (ftype == Thrift.Type.LIST) {
-        var _size119 = 0;
-        var _rtmp3123;
+        var _size127 = 0;
+        var _rtmp3131;
         this.numberList = [];
-        var _etype122 = 0;
-        _rtmp3123 = input.readListBegin();
-        _etype122 = _rtmp3123.etype;
-        _size119 = _rtmp3123.size;
-        for (var _i124 = 0; _i124 < _size119; ++_i124)
+        var _etype130 = 0;
+        _rtmp3131 = input.readListBegin();
+        _etype130 = _rtmp3131.etype;
+        _size127 = _rtmp3131.size;
+        for (var _i132 = 0; _i132 < _size127; ++_i132)
         {
-          var elem125 = null;
-          elem125 = input.readI32().value;
-          this.numberList.push(elem125);
+          var elem133 = null;
+          elem133 = input.readI32().value;
+          this.numberList.push(elem133);
         }
         input.readListEnd();
       } else {
@@ -16172,19 +16194,19 @@ Section.prototype.read = function(input) {
       break;
       case 8:
       if (ftype == Thrift.Type.LIST) {
-        var _size126 = 0;
-        var _rtmp3130;
+        var _size134 = 0;
+        var _rtmp3138;
         this.lidList = [];
-        var _etype129 = 0;
-        _rtmp3130 = input.readListBegin();
-        _etype129 = _rtmp3130.etype;
-        _size126 = _rtmp3130.size;
-        for (var _i131 = 0; _i131 < _size126; ++_i131)
+        var _etype137 = 0;
+        _rtmp3138 = input.readListBegin();
+        _etype137 = _rtmp3138.etype;
+        _size134 = _rtmp3138.size;
+        for (var _i139 = 0; _i139 < _size134; ++_i139)
         {
-          var elem132 = null;
-          elem132 = new LanguageIdentification();
-          elem132.read(input);
-          this.lidList.push(elem132);
+          var elem140 = null;
+          elem140 = new LanguageIdentification();
+          elem140.read(input);
+          this.lidList.push(elem140);
         }
         input.readListEnd();
       } else {
@@ -16210,12 +16232,12 @@ Section.prototype.write = function(output) {
   if (this.sentenceList !== null && this.sentenceList !== undefined) {
     output.writeFieldBegin('sentenceList', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.sentenceList.length);
-    for (var iter133 in this.sentenceList)
+    for (var iter141 in this.sentenceList)
     {
-      if (this.sentenceList.hasOwnProperty(iter133))
+      if (this.sentenceList.hasOwnProperty(iter141))
       {
-        iter133 = this.sentenceList[iter133];
-        iter133.write(output);
+        iter141 = this.sentenceList[iter141];
+        iter141.write(output);
       }
     }
     output.writeListEnd();
@@ -16249,12 +16271,12 @@ Section.prototype.write = function(output) {
   if (this.numberList !== null && this.numberList !== undefined) {
     output.writeFieldBegin('numberList', Thrift.Type.LIST, 7);
     output.writeListBegin(Thrift.Type.I32, this.numberList.length);
-    for (var iter134 in this.numberList)
+    for (var iter142 in this.numberList)
     {
-      if (this.numberList.hasOwnProperty(iter134))
+      if (this.numberList.hasOwnProperty(iter142))
       {
-        iter134 = this.numberList[iter134];
-        output.writeI32(iter134);
+        iter142 = this.numberList[iter142];
+        output.writeI32(iter142);
       }
     }
     output.writeListEnd();
@@ -16263,12 +16285,12 @@ Section.prototype.write = function(output) {
   if (this.lidList !== null && this.lidList !== undefined) {
     output.writeFieldBegin('lidList', Thrift.Type.LIST, 8);
     output.writeListBegin(Thrift.Type.STRUCT, this.lidList.length);
-    for (var iter135 in this.lidList)
+    for (var iter143 in this.lidList)
     {
-      if (this.lidList.hasOwnProperty(iter135))
+      if (this.lidList.hasOwnProperty(iter143))
       {
-        iter135 = this.lidList[iter135];
-        iter135.write(output);
+        iter143 = this.lidList[iter143];
+        iter143.write(output);
       }
     }
     output.writeListEnd();
@@ -16467,96 +16489,6 @@ SummarizationRequest.prototype.write = function(output) {
   return;
 };
 
-Summary = function(args) {
-  this.summaryCommunication = null;
-  this.concepts = null;
-  if (args) {
-    if (args.summaryCommunication !== undefined && args.summaryCommunication !== null) {
-      this.summaryCommunication = new Communication(args.summaryCommunication);
-    }
-    if (args.concepts !== undefined && args.concepts !== null) {
-      this.concepts = Thrift.copyList(args.concepts, [null]);
-    }
-  }
-};
-Summary.prototype = {};
-Summary.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.summaryCommunication = new Communication();
-        this.summaryCommunication.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.LIST) {
-        var _size16 = 0;
-        var _rtmp320;
-        this.concepts = [];
-        var _etype19 = 0;
-        _rtmp320 = input.readListBegin();
-        _etype19 = _rtmp320.etype;
-        _size16 = _rtmp320.size;
-        for (var _i21 = 0; _i21 < _size16; ++_i21)
-        {
-          var elem22 = null;
-          elem22 = new SummaryConcept();
-          elem22.read(input);
-          this.concepts.push(elem22);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Summary.prototype.write = function(output) {
-  output.writeStructBegin('Summary');
-  if (this.summaryCommunication !== null && this.summaryCommunication !== undefined) {
-    output.writeFieldBegin('summaryCommunication', Thrift.Type.STRUCT, 1);
-    this.summaryCommunication.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.concepts !== null && this.concepts !== undefined) {
-    output.writeFieldBegin('concepts', Thrift.Type.LIST, 2);
-    output.writeListBegin(Thrift.Type.STRUCT, this.concepts.length);
-    for (var iter23 in this.concepts)
-    {
-      if (this.concepts.hasOwnProperty(iter23))
-      {
-        iter23 = this.concepts[iter23];
-        iter23.write(output);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
 SummaryConcept = function(args) {
   this.tokens = null;
   this.concept = null;
@@ -16649,6 +16581,96 @@ SummaryConcept.prototype.write = function(output) {
   if (this.utility !== null && this.utility !== undefined) {
     output.writeFieldBegin('utility', Thrift.Type.DOUBLE, 4);
     output.writeDouble(this.utility);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Summary = function(args) {
+  this.summaryCommunication = null;
+  this.concepts = null;
+  if (args) {
+    if (args.summaryCommunication !== undefined && args.summaryCommunication !== null) {
+      this.summaryCommunication = new Communication(args.summaryCommunication);
+    }
+    if (args.concepts !== undefined && args.concepts !== null) {
+      this.concepts = Thrift.copyList(args.concepts, [SummaryConcept]);
+    }
+  }
+};
+Summary.prototype = {};
+Summary.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.summaryCommunication = new Communication();
+        this.summaryCommunication.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.LIST) {
+        var _size16 = 0;
+        var _rtmp320;
+        this.concepts = [];
+        var _etype19 = 0;
+        _rtmp320 = input.readListBegin();
+        _etype19 = _rtmp320.etype;
+        _size16 = _rtmp320.size;
+        for (var _i21 = 0; _i21 < _size16; ++_i21)
+        {
+          var elem22 = null;
+          elem22 = new SummaryConcept();
+          elem22.read(input);
+          this.concepts.push(elem22);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Summary.prototype.write = function(output) {
+  output.writeStructBegin('Summary');
+  if (this.summaryCommunication !== null && this.summaryCommunication !== undefined) {
+    output.writeFieldBegin('summaryCommunication', Thrift.Type.STRUCT, 1);
+    this.summaryCommunication.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.concepts !== null && this.concepts !== undefined) {
+    output.writeFieldBegin('concepts', Thrift.Type.LIST, 2);
+    output.writeListBegin(Thrift.Type.STRUCT, this.concepts.length);
+    for (var iter23 in this.concepts)
+    {
+      if (this.concepts.hasOwnProperty(iter23))
+      {
+        iter23 = this.concepts[iter23];
+        iter23.write(output);
+      }
+    }
+    output.writeListEnd();
     output.writeFieldEnd();
   }
   output.writeFieldStop();

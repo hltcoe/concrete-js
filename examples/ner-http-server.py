@@ -131,15 +131,19 @@ class MultipleCommunicationContainerFetchHandler(object):
 
     def getCommunicationCount(self):
         logging.info('Received getCommunicationCount()')
-        # TODO: What's the proper behavior for this function given that there are multiple CommunicationContainers?
-        communicationCount = len(self.communication_containers[-1])
+        communicationCount = len(self._get_merged_communication_ids())
         logging.info('- Communication Count: %d' % communicationCount)
         return communicationCount
 
     def getCommunicationIDs(self, offset, count):
         logging.info('Received getCommunicationIDs() call')
-        # TODO: What's the proper behavior for this function given that there are multiple CommunicationContainers?
-        return list(self.communication_containers[-1].keys())[offset:][:count]
+        return self._get_merged_communication_ids()[offset:][:count]
+
+    def _get_merged_communication_ids(self):
+        combined_ids = set()
+        for communication_container in self.communication_containers:
+            combined_ids.update(communication_container.keys())
+        return list(combined_ids)
 
 
 @bottle.post('/fetch_http_endpoint/')

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="examples.css"/>
 
   <script src="jquery-1.11.1.js"></script>
+  <script src="jquery.timeago.js"></script>
   <script src="bootstrap-3.2.0/js/bootstrap.js"></script>
 
   <script src="thrift.js"></script>
@@ -162,6 +163,9 @@
       var protocol = new Thrift.TJSONProtocol(transport);
       var storeClient = new StoreCommunicationServiceClient(protocol);
       storeClient.store(COMM);
+
+      $('#save_notification').show();
+      $('#last_saved_timestamp').timeago('update', new Date().toISOString());
     }
   }
 
@@ -233,6 +237,9 @@
     }
 
     $('#save_button').click(saveTokenTaggedCommunication);
+
+    $('#last_saved_timestamp').attr('datetime', new Date().toISOString())
+                              .timeago();
   });
   </script>
 </head>
@@ -248,6 +255,11 @@
     <div id="error_message_div" class="alert alert-danger" style="display: none; margin-top: 1em;">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span id="error_message_text"></span>
+    </div>
+
+    <div id="save_notification" style="display: none;">
+      Last saved
+      <time id="last_saved_timestamp" class="timeago" datetime=""></time>
     </div>
 
     <div style="padding-top: 1em;">

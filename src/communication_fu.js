@@ -116,6 +116,35 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
 
 
 /**
+ * Return the Entity (or null) that has the specified Entity ID
+ *
+ * @param {String} entityId
+ * @returns {Entity|null}
+ */
+Communication.prototype.getEntityWithEntityId = function(entityId) {
+  if (!entityId) {
+    console.error("ERROR: getEntityWithEntityId() was not passed a valid entityId");
+    return null;
+  }
+
+  if (this.entitySetList) {
+    for (var entitySetIndex in this.entitySetList) {
+      var entityList = this.entitySetList[entitySetIndex].entityList;
+      for (var entityIndex in entityList) {
+        var entity = entityList[entityIndex];
+        if (entity.id === entityId) {
+          return entity;
+        }
+      }
+    }
+  }
+  // TODO: Error handling if no matching entityId could be found
+  console.error("ERROR: No Entity found for entityId " + entityId);
+  return null;
+};
+
+
+/**
  * Return the first Sentence in a Communication if it exists, or null
  *
  * @returns {Sentence|null}

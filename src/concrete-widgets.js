@@ -104,7 +104,8 @@ concrete.widget = (function() {
     var opts = $.extend({}, widget.createSectionDiv.defaultOptions, options);
 
     var sectionDiv = $('<div>')
-        .addClass('section section_' + section.uuid.uuidString)
+        .addClass('section section_' + section.uuid.uuidString +
+                  ' section_kind_' + concrete.util.selectorSafeString(section.kind))
         .data('section', section);
     if (opts.sectionDivClass) {
       sectionDiv.addClass(opts.sectionDivClass);

@@ -13,7 +13,15 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['gen-js/Service.js', 'gen-js/*.js', 'src/*.js'],
+        src: [
+          // Services is used by other files in gen-js/
+          'gen-js/Service.js',
+          'gen-js/*.js',
+
+          // concrete.util is used by other files in src/
+          'src/util.js',
+          'src/*.js'
+        ],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },

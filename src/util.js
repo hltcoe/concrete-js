@@ -97,5 +97,25 @@ concrete.util = (function() {
   };
 
 
+  /**
+   * Takes a string, returns a version of the string that replaces
+   * any of the CSS selector metacharacters:
+   *   !"#$%&'()*+,./:;<=>?@[\]^`{|}~
+   * with an underscore.  Per the jQuery documentation, these
+   * metacharacters in CSS selector names if they are escaped with '\\',
+   * but replacing them with underscores seems less likely to cause
+   * strange behavior.
+   *
+   * Useful for handling Entity IDs that are prefixed with a colon,
+   * e.g. ':Entity_ENG_EDL_0088070'.
+   *
+   * @param {String} s
+   * @returns {String}
+   */
+  util.selectorSafeString = function(s) {
+    return s.replace(/[!"#$%&'()*+,./:;<=>?@[\]^`{|}~]/g, '_');
+  };
+
+
   return util;
 })();

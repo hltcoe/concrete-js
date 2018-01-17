@@ -1,9 +1,17 @@
+image: docker:latest
+
+services:
+- docker:dind
+
 stages:
-  - test
+- test
+
+before_script:
+- docker info
 
 test_suite:
   stage: test
   script:
-    - docker build -t hltcoe/concrete-js .
+  - docker build -t hltcoe/concrete-js .
   tags:
-    - shell
+  - shell

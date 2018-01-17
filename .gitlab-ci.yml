@@ -14,4 +14,4 @@ test_suite:
   script:
   - docker build -t hltcoe/concrete-js .
   tags:
-  - shell
+  - docker

@@ -1,8 +1,18 @@
 // Karma configuration
 // Generated on Tue Feb 07 2017 18:16:00 GMT-0500 (EST)
 
+const isDocker = require('is-docker')();
+
 module.exports = function(config) {
   config.set({
+    customLaunchers: {
+      ChromeCustom: {
+        base: 'ChromeHeadless',
+        // We must disable the Chrome sandbox when running Chrome inside Docker (Chrome's sandbox needs
+        // more permissions than Docker allows by default)
+        flags: isDocker ? ['--no-sandbox'] : []
+      }
+    },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -64,7 +74,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 //    browsers: ['PhantomJS', 'Chrome', 'Safari'],
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeCustom'],
 
 
     // Continuous Integration mode

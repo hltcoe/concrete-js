@@ -1,24 +1,17 @@
-# Image automatically built from GitHub repo:
-#   https://github.com/charman/docker-node-phantomjs
-image: charman/docker-node-phantomjs
+image: docker:latest
 
-cache:
-  paths:
-  - node_modules/
+services:
+- docker:dind
 
 stages:
-  - test
+- test
 
-test_app:
+before_script:
+- docker info
+
+test_suite:
   stage: test
   script:
-    # Force git to use https to work around JHU firewall settings,
-    # as recommended here:
-    #   https://github.com/npm/npm/issues/5257
-    - 'git config --global url."https://github.com/".insteadOf git@github.com:'
-    - 'git config --global url."https://".insteadOf git://'
-    - npm install
-    - node_modules/grunt/bin/grunt jshint
-    - node_modules/karma/bin/karma start karma.conf.js --single-run
+  - docker build -t hltcoe/concrete-js .
   tags:
   - docker

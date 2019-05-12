@@ -48,6 +48,12 @@ In your HTML file, you should include the scripts in this order:
     <script src="thrift.js"></script>
     <script src="concrete.js"></script>
 
+If you want to access the JavaScript libraries from a CDN, use:
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://hltcoe.github.io/concrete-js/thrift.js"></script>
+    <script src="https://hltcoe.github.io/concrete-js/concrete.js"></script>
+
 
 Fetching Communications with JavaScript
 ---------------------------------------

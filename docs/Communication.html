@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
     <title>Communication - Documentation</title>
-
+    
+    
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
@@ -11,6 +13,7 @@
     <![endif]-->
     <link type="text/css" rel="stylesheet" href="styles/prettify.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -21,8 +24,9 @@
 
 <label for="nav-trigger" class="overlay"></label>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="TokenTagging.html#.create">create</a></li><li data-type='method'><a href="TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li></ul><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a><ul class='methods'><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntitiesInCommunication">addAllEntitiesInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntityMentionsInCommunication">addAllEntityMentionsInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMention">addEntityMention</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMentionSet">addEntityMentionSet</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.communicationWidget">communicationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenClickCallbacks">enableTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenSelectCallbacks">enableTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getEntityMentionElements">getEntityMentionElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getManualTokenization">getManualTokenization</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getSentenceElements">getSentenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenClickCallbacks">getTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElements">getTokenElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithIndex">getTokenElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithMatchingTag">getTokenElementsWithMatchingTag</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenizationElements">getTokenizationElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenPaddingElementsWithIndex">getTokenPaddingElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceElements">getTokenRefSequenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenSelectCallbacks">getTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.manualTokenizationWidget">manualTokenizationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sectionWidget">sectionWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sentenceWidget">sentenceWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.tokenizationWidget">tokenizationWidget</a></li></ul></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.generateUUIDString">generateUUIDString</a></li><li data-type='method'><a href="concrete.util.html#.getURLParameter">getURLParameter</a></li></ul></li><li><a href="concrete.widget.html">widget</a><ul class='methods'><li data-type='method'><a href="concrete.widget.html#.createCommunicationDiv">createCommunicationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSectionDiv">createSectionDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSentenceDiv">createSentenceDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createTokenizationDiv">createTokenizationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.getSelectedTokenRefSequences">getSelectedTokenRefSequences</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokenObject">getTokenRefSequenceForTokenObject</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li></ul></li></ul>
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="TokenTagging.html#.create">create</a></li><li data-type='method'><a href="TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li></ul><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a><ul class='methods'><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntitiesInCommunication">addAllEntitiesInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntityMentionsInCommunication">addAllEntityMentionsInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMention">addEntityMention</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMentionSet">addEntityMentionSet</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.communicationWidget">communicationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenClickCallbacks">enableTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenSelectCallbacks">enableTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getEntityMentionElements">getEntityMentionElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getManualTokenization">getManualTokenization</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getSentenceElements">getSentenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenClickCallbacks">getTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElements">getTokenElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithIndex">getTokenElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithMatchingTag">getTokenElementsWithMatchingTag</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenizationElements">getTokenizationElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenPaddingElementsWithIndex">getTokenPaddingElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceElements">getTokenRefSequenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenSelectCallbacks">getTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.manualTokenizationWidget">manualTokenizationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sectionWidget">sectionWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sentenceWidget">sentenceWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.tokenizationWidget">tokenizationWidget</a></li></ul></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.generateUUIDString">generateUUIDString</a></li><li data-type='method'><a href="concrete.util.html#.getURLParameter">getURLParameter</a></li></ul></li><li><a href="concrete.widget.html">widget</a><ul class='methods'><li data-type='method'><a href="concrete.widget.html#.createCommunicationDiv">createCommunicationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSectionDiv">createSectionDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSentenceDiv">createSentenceDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createTokenizationDiv">createTokenizationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.getSelectedTokenRefSequences">getSelectedTokenRefSequences</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokenObject">getTokenRefSequenceForTokenObject</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -49,9 +53,10 @@
 </header>
 
 <article>
-    <div class="container-overview">
     
+        <div class="container-overview">
         
+            
 
     
     <h2>Constructor</h2>
@@ -132,13 +137,19 @@
 
 
 
+
+
+
+        
+        </div>
     
-    </div>
 
     
 
     
 
+    
+    
     
 
      
@@ -215,6 +226,9 @@
 <li>to each concrete.Tokenization, a tokenization.sentence reference to the enclosing Sentence</li>
 </ul>
 </div>
+
+
+
 
 
 
@@ -371,6 +385,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -392,6 +408,7 @@
 </dl>
 
     
+
 
 
         
@@ -525,6 +542,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -546,6 +565,7 @@
 </dl>
 
     
+
 
 
         
@@ -679,6 +699,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -700,6 +722,7 @@
 </dl>
 
     
+
 
 
         
@@ -833,6 +856,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -854,6 +879,7 @@
 </dl>
 
     
+
 
 
         
@@ -938,6 +964,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -959,6 +987,7 @@
 </dl>
 
     
+
 
 
         
@@ -1043,6 +1072,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1064,6 +1095,7 @@
 </dl>
 
     
+
 
 
         
@@ -1148,6 +1180,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1166,6 +1200,7 @@
 </dl>
 
     
+
 
 
         
@@ -1250,6 +1285,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1268,6 +1305,7 @@
 </dl>
 
     
+
 
 
         
@@ -1401,6 +1439,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1422,6 +1462,7 @@
 </dl>
 
     
+
 
 
         
@@ -1555,6 +1596,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1576,6 +1619,7 @@
 </dl>
 
     
+
 
 
         
@@ -1660,6 +1704,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1678,6 +1724,7 @@
 </dl>
 
     
+
 
 
         
@@ -1811,6 +1858,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1832,6 +1881,7 @@
 </dl>
 
     
+
 
 
         
@@ -1965,6 +2015,8 @@
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -1987,6 +2039,7 @@
 </dl>
 
     
+
 
 
         
@@ -2049,7 +2102,7 @@
     <p>Initialize Communication from a TJSONProtocol object created from a Communication.</p>
 <p>Thrift's TJSONProtocol is used to serialize objects to JSON.  The objects look
 something like this:</p>
-<pre class="prettyprint source"><code>{
+<pre><code>{
   &quot;1&quot;:{&quot;str&quot;:&quot;tests/testdata/serif_dog-bites-man.xml&quot;},
   &quot;2&quot;:{&quot;rec&quot;:{&quot;1&quot;:{&quot;str&quot;:&quot;a90d397a-560f-44a0-baae-c82a34e4be09&quot;}}},
   &quot;3&quot;:{&quot;str&quot;:&quot;CommunicationType.OTHER&quot;},
@@ -2128,6 +2181,8 @@ something like this:</p>
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -2152,6 +2207,7 @@ something like this:</p>
 </dl>
 
     
+
 
 
         
@@ -2285,6 +2341,8 @@ something like this:</p>
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -2309,6 +2367,7 @@ something like this:</p>
 </dl>
 
     
+
 
 
         
@@ -2393,6 +2452,8 @@ something like this:</p>
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -2411,6 +2472,7 @@ something like this:</p>
 </dl>
 
     
+
 
 
         
@@ -2495,6 +2557,8 @@ something like this:</p>
 
 
 
+
+
 <h5>Returns:</h5>
 
         
@@ -2515,6 +2579,7 @@ something like this:</p>
     
 
 
+
         
     
 
@@ -2528,15 +2593,21 @@ something like this:</p>
 
 
 
+    
+    
 </div>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.1</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
 <script src="scripts/linenumber.js"></script>
+
+
+
 </body>
 </html>

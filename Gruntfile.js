@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     },
     shell: {
 	DownloadThriftJS: {
-            command: 'cd dist; curl -O https://raw.githubusercontent.com/apache/thrift/0.10.0/lib/js/src/thrift.js'
+            command: 'cd dist; curl https://raw.githubusercontent.com/apache/thrift/0.12.0/lib/js/src/thrift.js --output thrift-0.12.0.js'
 	},
 	ThriftGen: {
             // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete/thrift'

@@ -2,7 +2,7 @@ concrete-js for Node.js
 =======================
 
 *This README describes the Node.js version of **concrete-js**.
-For the standard jQuery version, see `README.md`.*
+For the standard jQuery version, see `README-js.md`.*
 
 **concrete-js** is a Node.js library for working with
 [Concrete](https://github.com/hltcoe/concrete), a set of NLP data

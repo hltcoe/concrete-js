@@ -3,6 +3,9 @@
 concrete-js
 ===========
 
+*This README describes the standard jQuery version of **concrete-js**.
+For the Node.js version, see `README-nodejs.md`.*
+
 **concrete-js** is a JavaScript library for working with
 [Concrete](https://github.com/hltcoe/concrete), a set of NLP data
 types defined by a [Thrift](https://thrift.apache.org) schema.  Thrift

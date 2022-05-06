@@ -30,14 +30,14 @@ The **concrete-js** library contains:
 - Utility code for working with Concrete objects
 
 API documentation for **concrete-js** is available at:
-http://hltcoe.github.io/concrete-nodejs/
+http://hltcoe.github.io/concrete-js/
 
 
 Including concrete-js in your project
 -------------------------------------
 
 ```
-npm install @hltcoe/concrete
+npm install @ccmaymay/concrete
 ```
 
 ```javascript

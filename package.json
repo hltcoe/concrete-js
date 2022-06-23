@@ -1,6 +1,6 @@
 {
   "name": "@ccmaymay/concrete",
-  "version": "4.15.0",
+  "version": "4.15.1",
   "description": "Unofficial Node.js library for working with Concrete, a data serialization format for NLP",
   "main": "concrete.js",
   "repository": {

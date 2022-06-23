@@ -22,16 +22,16 @@ module.exports = function(grunt) {
           'src/util.js',
           'src/*.js'
         ],
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: 'dist/concrete.js'
       }
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+        banner: '/*! concrete <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
       dist: {
         files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+          'dist/concrete.min.js': ['<%= concat.dist.dest %>']
         }
       }
     },

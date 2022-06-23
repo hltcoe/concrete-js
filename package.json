@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/ccmaymay/concrete-js/issues"
   },
-  "homepage": "https://github.com/ccmaymay/concrete-js#readme",
+  "homepage": "https://github.com/ccmaymay/concrete-js/blob/main/README-nodejs.md",
   "dependencies": {
     "grunt-contrib-copy": "^1.0.0",
     "thrift": "^0.15.0"

@@ -36,8 +36,7 @@
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-safari-launcher": "^1.0.0",
-    "karma-spec-reporter": "^0.0.32",
-    "npm-packlist": "^5.1.0"
+    "karma-spec-reporter": "^0.0.32"
   },
   "scripts": {
     "test": "karma start --single-run --browsers ChromeCustom --reporters spec"

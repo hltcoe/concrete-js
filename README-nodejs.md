@@ -123,3 +123,23 @@ grunt
 * combine the Thrift-generated JavaScript code with the hand-written utility function JavaScript code in a single directory
 * run [JSHint](http://www.jshint.com) on the combined JavaScript code to check for problems
 * minify the combined code
+
+
+Testing concrete-js
+-------------------
+
+There are no tests of the Node.js version of concrete-js just yet,
+sorry!
+
+
+Publishing concrete-js
+----------------------
+
+After building concrete-js using the steps described previously, the
+package files will be located in the `dist_nodejs` subdirectory.  To
+publish the package to the npm registry, run `npm publish` from that
+directory:
+
+```
+cd dist_nodejs && npm publish
+```

@@ -108,7 +108,7 @@ module.exports = function(grunt) {
     },
     jsdoc: {
       docs: {
-        src: ['src/*.js', 'README.md'],
+        src: ['src/*.js', 'README-js.md'],
         options: {
           access: 'all',
           configure: 'jsdoc.conf.json',

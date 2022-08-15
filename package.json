@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/ccmaymay/concrete-js/blob/main/README-nodejs.md",
   "dependencies": {
-    "thrift": "^0.15.0"
+    "thrift": "^0.16.0"
   },
   "devDependencies": {
     "docdash": "^1.1.0",

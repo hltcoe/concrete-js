@@ -1,6 +1,6 @@
-![Travis CI build status](https://travis-ci.org/hltcoe/concrete-js.svg?branch=master)
-
 # concrete-js
+
+[![Build status](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml)
 
 **concrete-js** is a Node.js/JavaScript library for working with
 [Concrete](https://github.com/hltcoe/concrete), a set of NLP data

@@ -59,19 +59,19 @@ module.exports = function(grunt) {
             dest: 'dist_nodejs/',
           },
           {
-            src: 'README-nodejs.md',
-            dest: 'dist_nodejs/README.md'
+            src: 'README.md',
+            dest: 'dist_nodejs/'
           }
         ]
       },
       readme: {
-        src: 'README-js.md',
-        dest: 'dist/README.md'
+        src: 'README.md',
+        dest: 'dist/'
       },
     },
     shell: {
 	DownloadThriftJS: {
-            command: 'cd dist; curl https://raw.githubusercontent.com/apache/thrift/0.12.0/lib/js/src/thrift.js --output thrift.js'
+            command: 'curl https://raw.githubusercontent.com/apache/thrift/0.12.0/lib/js/src/thrift.js --output dist/thrift.js'
 	},
 	ThriftGen: {
             // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete/thrift'
@@ -152,7 +152,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('test', ['shell:ThriftGen', 'jshint:dist']);
-  grunt.registerTask('default', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'copy:readme', 'jsdoc:docs']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
+  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'copy:readme', 'jsdoc:docs', 'download']);
   grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'jshint:dist_nodejs', 'copy:dist_nodejs', 'jsdoc:docs_nodejs']);
+  grunt.registerTask('default', ['nodejs', 'js']);
 };

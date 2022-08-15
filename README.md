@@ -198,7 +198,7 @@ Requirements for building **concrete-js**:
 
 * A clone of
   [the Concrete schema repository](https://github.com/hltcoe/concrete)
-  in your home directory (at `~/concrete`)
+  at `../concrete`
 * [Thrift](https://thrift.apache.org)
 * [Node.js](http://nodejs.org)
   (a JavaScript backend runtime and packaging tool)
@@ -226,7 +226,7 @@ of the library:
    * generate documentation in `docs_nodejs`
 2. Build JavaScript + jQuery library
    * call the Thrift compiler to generate JavaScript + jQuery code for the Thrift schema under `~/concrete`
-   * run [JSHint](http://www.jshint.com) on the code to check for problems
+   * run JSHint on the code to check for problems
    * combine the Thrift-generated code with the hand-written utility code in `dist`
    * minify the combined code to reduce download size
    * generate documentation in `docs`

@@ -136,6 +136,13 @@ module.exports = function (grunt) {
           destination: 'docs',
         },
       },
+      "docs/js-jquery": {
+        src: ['src/*.js', 'README-js-jquery.md'],
+        options: {
+          configure: 'jsdoc.conf.json',
+          destination: 'docs/js-jquery',
+        },
+      },
     },
   });
 
@@ -146,7 +153,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('docs', ['jsdoc:docs', 'copy:docs']);
+  grunt.registerTask('docs', ['jsdoc:docs', 'jsdoc:docs/js-jquery', 'copy:docs']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
   grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'download']);
   grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'jshint:dist_nodejs', 'copy:dist_nodejs']);

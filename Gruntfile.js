@@ -64,10 +64,6 @@ module.exports = function (grunt) {
           }
         ]
       },
-      readme: {
-        src: 'README.md',
-        dest: 'dist/'
-      },
     },
     shell: {
       DownloadThriftJS: {
@@ -124,7 +120,7 @@ module.exports = function (grunt) {
     },
     jsdoc: {
       docs: {
-        src: ['src/*.js', 'dist/README.md'],
+        src: ['src/*.js', 'README.md'],
         options: {
           access: 'all',
           configure: 'jsdoc.conf.json',
@@ -133,7 +129,7 @@ module.exports = function (grunt) {
         },
       },
       docs_nodejs: {
-        src: ['src_nodejs/*.js', 'dist_nodejs/README.md'],
+        src: ['src_nodejs/*.js', 'README.md'],
         options: {
           access: 'all',
           configure: 'jsdoc.conf.json',
@@ -153,7 +149,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', ['shell:ThriftGen', 'jshint:dist']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
-  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'copy:readme', 'jsdoc:docs', 'download']);
+  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'jsdoc:docs', 'download']);
   grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'jshint:dist_nodejs', 'copy:dist_nodejs', 'jsdoc:docs_nodejs']);
   grunt.registerTask('default', ['nodejs', 'js']);
 };

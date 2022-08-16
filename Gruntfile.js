@@ -132,11 +132,8 @@ module.exports = function (grunt) {
       docs: {
         src: ['src_nodejs/*.js', 'README.md'],
         options: {
-          access: 'all',
           configure: 'jsdoc.conf.json',
           destination: 'docs',
-          encoding: 'utf8',
-          template: 'node_modules/docdash',
         },
       },
     },

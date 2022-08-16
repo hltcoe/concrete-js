@@ -1,5 +1,10 @@
 {
   "plugins": ["plugins/markdown"],
+  "opts": {
+    "access": "all",
+    "encoding": "utf8",
+    "template": "node_modules/docdash"
+  },
   "templates": {
     "cleverLinks": true,
     "default": {

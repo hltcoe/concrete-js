@@ -207,7 +207,7 @@ First, install the Node.js packages required for building
 **concrete-js**:
 
 ```
-npm install
+npm ci
 ```
 
 Then build **concrete-js**:

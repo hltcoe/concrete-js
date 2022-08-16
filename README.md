@@ -3,7 +3,7 @@
 [![Build status](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml)
 
 **concrete-js** is a Node.js/JavaScript library for working with
-[Concrete](https://github.com/hltcoe/concrete), a set of NLP data
+[Concrete](https://hltcoe.github.io/concrete), a set of NLP data
 types defined by a [Thrift](https://thrift.apache.org) schema.  Thrift
 makes it easy to use a shared set of data structures across multiple
 programming languages.
@@ -11,7 +11,7 @@ programming languages.
 **concrete-js** is designed for visualization and annotation.  While
 it is *technically* possible to implement NLP algorithms in
 JavaScript, consider using
-[concrete-python](https://github.com/hltcoe/concrete-python) or
+[concrete-python](https://concrete-python.readthedocs.io/en/stable/) or
 [concrete-java](https://github.com/hltcoe/concrete-java)
 instead.
 

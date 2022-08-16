@@ -64,6 +64,22 @@
 types defined by a <a href="https://thrift.apache.org">Thrift</a> schema.  Thrift
 makes it easy to use a shared set of data structures across multiple
 programming languages.</p>
+<p>This document is
+<a href="http://hltcoe.github.io/concrete-js/">available online alongside an API reference</a>.</p>
+<h3>Use cases</h3>
+<p>The <strong>concrete-js</strong> library is designed for visualization and
+annotation.  While it is possible to implement NLP algorithms in
+JavaScript, consider using
+<a href="https://concrete-python.readthedocs.io/en/stable/">concrete-python</a> or
+<a href="https://github.com/hltcoe/concrete-java">concrete-java</a>
+instead.</p>
+<p>In general, you should use <strong>concrete-js</strong> when you have a Concrete
+<em>Communication</em> object that was created by another tool, and need a
+user interface
+that visually represents data in the <em>Communication</em>.  You may also
+need the user or annotator to interactively modify Concrete data
+structures and then save their modifications.</p>
+<h3>Node.js / JavaScript+jQuery</h3>
 <p>There are two supported distributions of <strong>concrete-js</strong>: a Node.js
 distribution and a JavaScript + jQuery distribution.  These two
 distributions provide similar functionality but are designed to
@@ -80,31 +96,18 @@ They also provide utility functions for working with Concrete objects.
 The JavaScript + jQuery distribution additionally provides
 visualization code that maps Concrete data structures to DOM elements
 using <a href="http://jquery.com">jQuery</a>.</p>
-<p>See <a href="http://hltcoe.github.io/concrete-js/">the API documentation</a> for a
-detailed description of the <strong>concrete-js</strong> library's contents.</p>
-<h3>Use cases</h3>
-<p>The <strong>concrete-js</strong> library is designed for visualization and
-annotation.  While it is possible to implement NLP algorithms in
-JavaScript, consider using
-<a href="https://concrete-python.readthedocs.io/en/stable/">concrete-python</a> or
-<a href="https://github.com/hltcoe/concrete-java">concrete-java</a>
-instead.</p>
-<p>In general, you should use <strong>concrete-js</strong> when you have a Concrete
-<em>Communication</em> object that was created by another tool, and need a
-user interface
-that visually represents data in the <em>Communication</em>.  You may also
-need the user or annotator to interactively modify Concrete data
-structures and then save their modifications.</p>
-<h2>Node.js distribution</h2>
-<p>The Node.js distribution of concrete-js is published as
+<p>The rest of this document describes the Node.js distribution of
+<strong>concrete-js</strong>.  For documentation of the
+JavaScript + jQuery distribution, go to
+<a href="http://hltcoe.github.io/concrete-js/js-jquery/">the JavaScript + jQuery <strong>concrete-js</strong> documentation page</a>.</p>
+<h2>Installation</h2>
+<p>The Node.js distribution of <strong>concrete-js</strong> is published as
 <code>@ccmaymay/concrete</code>.</p>
-<h3>Including concrete-js in your project</h3>
-<p>To use concrete-js in your Node.js project, use <code>npm install</code> to add it to
+<p>To use <strong>concrete-js</strong> in your Node.js project, use <code>npm install</code> to add it to
 your dependencies:</p>
 <pre class="prettyprint source"><code>npm install @ccmaymay/concrete
 </code></pre>
-<p>Then, to define a function that retrieves the first ten Communications
-from a Concrete Fetch service (for example):</p>
+<h2>Usage: Fetching Communications</h2>
 <pre class="prettyprint source lang-javascript"><code>import thrift from &quot;thrift&quot;;
 import concrete from &quot;@ccmaymay/concrete&quot;;
 
@@ -159,62 +162,6 @@ async headCommunications(fetchClient, maxNumCommunications = 10) {
   return result.communications;
 }
 </code></pre>
-<h2>JavaScript + jQuery distribution</h2>
-<p>The JavaScript + jQuery <strong>concrete-js</strong> distribution contains the
-serialization, deserialization, networking, and utility code available
-in the Node.js library as well as additional visualization code that
-maps Concrete data structures to DOM elements using
-<a href="http://jquery.com">jQuery</a>.</p>
-<h3>Including concrete-js in your project</h3>
-<p>In order to use <strong>concrete-js</strong>, you will need jQuery version 1.9 or
-later, and the files <code>dist/thrift.js</code> and <code>dist/concrete.js</code>.  You
-do not need any of the files in the <code>src/</code> directory.  Those files
-are concatenated together to create <code>dist/concrete.js</code>.</p>
-<p>In your HTML file, you should include the scripts in this order:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;your/copy/of/jquery.js&quot;>&lt;/script>
-&lt;script src=&quot;thrift.js&quot;>&lt;/script>
-&lt;script src=&quot;concrete.js&quot;>&lt;/script>
-</code></pre>
-<p>If you want to access the JavaScript libraries from a CDN, use:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://code.jquery.com/jquery-3.4.1.min.js&quot;>&lt;/script>
-&lt;script src=&quot;https://hltcoe.github.io/concrete-js/thrift.js&quot;>&lt;/script>
-&lt;script src=&quot;https://hltcoe.github.io/concrete-js/concrete.js&quot;>&lt;/script>
-</code></pre>
-<h3>Fetching Communications with JavaScript</h3>
-<p>There are two primary ways to load Concrete Communications into
-JavaScript - Thrift RPC (Remote Procedure Calls) and HTTP GET requests
-for JSON serialized Communications.  The JavaScript version of Thrift
-only supports the <em>TJSONProtocol</em> serialization protocol.</p>
-<p>The <code>Communication</code> class in <strong>concrete-js</strong> has been extended with
-some helper functions for working with TJSONProtocol.  Here is an
-example of how to retrieve a JSON-serialized Communication with a GET
-request using jQuery:</p>
-<pre class="prettyprint source lang-javascript"><code>// When the page has loaded...
-$(document).ready(function() {
-  // ...make an HTTP GET request to retrieve a JSON-serialized Communication...
-  $.getJSON('dog-bites-man.concrete.json', function(commJSONData) {
-    // ...and call this (unnamed) callback function with the JSON data.
-
-    // Create an empty Concrete Communication object
-    var commOne = new Communication();
-
-    // Load JSON-serialized Communication data into Communication object
-    commOne.initFromTJSONProtocolObject(commJSONData);
-</code></pre>
-<p>The <code>examples/index.html</code> file uses this technique to retrieve a
-Communication.</p>
-<p><strong>concrete-js</strong> provides functions that serialize and deserialize
-Communication objects using TJSONProtocol:</p>
-<pre class="prettyprint source lang-javascript"><code>var comm = new Communication();
-var comm_as_json_object = comm.toTJSONProtocolObject();
-var comm_as_json_string = comm.toTJSONProtocolString();
-
-var comm2 = new Communication();
-comm2.initFromTJSONProtocolObject(comm_as_json_object);
-
-var comm3 = new Communication();
-comm3.initFromTJSONProtocolString(comm_as_json_string);
-</code></pre>
 <h2>Development</h2>
 <h3>Building</h3>
 <p>You do not need to build <strong>concrete-js</strong> in order to use
@@ -261,7 +208,7 @@ of the library and then regenerate the documentation:</p>
 <li>Generate documentation in <code>docs</code></li>
 </ol>
 <h3>Testing</h3>
-<p>Code linting will be performed automatically when concrete-js is built.</p>
+<p>Code linting will be performed automatically when <strong>concrete-js</strong> is built.</p>
 <p>There are no further tests for the Node.js library yet! 😱</p>
 <p>To run tests for the JavaScript + jQuery library, do:</p>
 <pre class="prettyprint source"><code>npm test

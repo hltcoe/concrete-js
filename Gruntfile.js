@@ -135,6 +135,7 @@ module.exports = function (grunt) {
           access: 'all',
           configure: 'jsdoc.conf.json',
           destination: 'docs',
+          encoding: 'utf8',
           template: 'node_modules/docdash',
         },
       },

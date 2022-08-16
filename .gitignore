@@ -4,4 +4,3 @@ gen-nodejs/
 node_modules/
 package-lock.json
 dist_nodejs
-docs_nodejs

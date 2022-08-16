@@ -217,20 +217,19 @@ npx grunt
 ```
 
 This command will build both the JavaScript + jQuery and the Node.js version
-of the library:
+of the library and then regenerate the documentation:
 
 1. Build Node.js library
    * call the Thrift compiler to generate Node.js code for the Thrift schema under `~/concrete`
    * run [JSHint](http://www.jshint.com) on the code to check for problems
    * combine the Thrift-generated code with the hand-written utility code in `dist_nodejs`
-   * generate documentation in `docs_nodejs`
 2. Build JavaScript + jQuery library
    * call the Thrift compiler to generate JavaScript + jQuery code for the Thrift schema under `~/concrete`
    * run JSHint on the code to check for problems
    * combine the Thrift-generated code with the hand-written utility code in `dist`
    * minify the combined code to reduce download size
-   * generate documentation in `docs`
    * download a supported version of `thrift.js` to `dist/thrift.js`
+3. Generate documentation in `docs`
 
 
 ## Testing concrete-js

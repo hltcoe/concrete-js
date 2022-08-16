@@ -234,12 +234,14 @@ of the library and then regenerate the documentation:
 
 ## Testing concrete-js
 
-There are no tests for the Node.js library yet! 😱
+Code linting will be performed automatically when concrete-js is built.
+
+There are no further tests for the Node.js library yet! 😱
 
 To run tests for the JavaScript + jQuery library, do:
 
 ```
-npx grunt test
+npm test
 ```
 
 

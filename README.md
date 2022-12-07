@@ -58,13 +58,13 @@ JavaScript + jQuery distribution, go to
 ## Installation
 
 The Node.js distribution of **concrete-js** is published as
-`@ccmaymay/concrete`.
+`@hltcoe/concrete`.
 
 To use **concrete-js** in your Node.js project, use `npm install` to add it to
 your dependencies:
 
 ```
-npm install @ccmaymay/concrete
+npm install @hltcoe/concrete
 ```
 
 
@@ -72,7 +72,7 @@ npm install @ccmaymay/concrete
 
 ```javascript
 import thrift from "thrift";
-import concrete from "@ccmaymay/concrete";
+import concrete from "@hltcoe/concrete";
 
 /**
  * Creates and returns a Fetch client for an HTTP Fetch service.
@@ -191,12 +191,12 @@ npm test
 
 ### Publishing to NPM
 
-After building the Node.js `@ccmaymay/concrete` library using the steps
+After building the Node.js `@hltcoe/concrete` library using the steps
 described previously, the package files will be located in the
 `dist_nodejs` subdirectory.  To publish the package to the npm
 registry, go to `dist_nodejs` and run `npm publish`:
 
 ```
 cd dist_nodejs
-npm publish
+npm publish --access public
 ```

@@ -217,9 +217,13 @@ of the library and then regenerate the documentation:</p>
 <p>After building the Node.js <code>@hltcoe/concrete</code> library using the steps
 described previously, the package files will be located in the
 <code>dist_nodejs</code> subdirectory.  To publish the package to the npm
-registry, go to <code>dist_nodejs</code> and run <code>npm publish</code>:</p>
-<pre class="prettyprint source"><code>cd dist_nodejs
-npm publish --access public
+registry, run <code>npm publish</code> from <code>dist_nodejs</code>:</p>
+<pre class="prettyprint source"><code>cd dist_nodejs && npm publish --access public
+</code></pre>
+<p>So, to perform a totally fresh publish, you might do something like the
+following.  Note that this will cause you to lose any changes not
+committed to git!</p>
+<pre class="prettyprint source"><code>git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish --access public
 </code></pre></article>
     </section>
 

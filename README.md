@@ -194,9 +194,16 @@ npm test
 After building the Node.js `@hltcoe/concrete` library using the steps
 described previously, the package files will be located in the
 `dist_nodejs` subdirectory.  To publish the package to the npm
-registry, go to `dist_nodejs` and run `npm publish`:
+registry, run `npm publish` from `dist_nodejs`:
 
 ```
-cd dist_nodejs
-npm publish --access public
+cd dist_nodejs && npm publish --access public
+```
+
+So, to perform a totally fresh publish, you might do something like the
+following.  Note that this will cause you to lose any changes not
+committed to git!
+
+```
+git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish --access public
 ```

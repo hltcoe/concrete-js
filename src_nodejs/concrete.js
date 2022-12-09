@@ -16,6 +16,9 @@ concrete.communication = require('./communication_types');
 
 concrete.context = require('./context_types');
 
+concrete.convert = require('./convert_types');
+concrete.convert.ConvertCommunicationService = require('./ConvertCommunicationService');
+
 concrete.email = require('./email_types');
 
 concrete.entities = require('./entities_types');

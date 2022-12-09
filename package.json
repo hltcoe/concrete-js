@@ -1,6 +1,6 @@
 {
   "name": "@hltcoe/concrete",
-  "version": "4.15.2",
+  "version": "4.16.0",
   "description": "Node.js library for working with Concrete, a data serialization format for NLP",
   "main": "concrete.js",
   "repository": {

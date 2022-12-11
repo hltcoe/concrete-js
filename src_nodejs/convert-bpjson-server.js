@@ -6,6 +6,8 @@ const {v4: uuidv4} = require("uuid");
 
 const concrete = require("./concrete");
 
+const PORT = 9000;
+
 function unNullifyList(list) {
   return list ? list : [];
 }
@@ -136,4 +138,5 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
   },
 });
 
-server.listen(9000);
+server.listen(PORT);
+console.log(`Listening on port ${PORT}...`);

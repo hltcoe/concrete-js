@@ -120,11 +120,19 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
   },
   fromConcrete: (original) => {
     console.log("--- fromConcrete() ---");
-    return JSON.stringify(convertConcreteToBPJson(original));
+    try {
+      return JSON.stringify(convertConcreteToBPJson(original));
+    } catch (ex) {
+      throw new concrete.services.ServicesException({message: String(ex)});
+    }
   },
   toConcrete: (original) => {
     console.log("--- toConcrete() ---");
-    return convertBPJsonToConcrete(JSON.parse(original));
+    try {
+      return convertBPJsonToConcrete(JSON.parse(original));
+    } catch (ex) {
+      throw new concrete.services.ServicesException({message: String(ex)});
+    }
   },
 });
 

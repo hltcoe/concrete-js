@@ -5,7 +5,7 @@
   "main": "concrete.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ccmaymay/concrete-js.git"
+    "url": "git+https://github.com/hltcoe/concrete-js.git"
   },
   "keywords": [
     "NLP",
@@ -14,9 +14,9 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/ccmaymay/concrete-js/issues"
+    "url": "https://github.com/hltcoe/concrete-js/issues"
   },
-  "homepage": "https://github.com/ccmaymay/concrete-js/blob/main/README-nodejs.md",
+  "homepage": "https://github.com/hltcoe/concrete-js/blob/main/README-nodejs.md",
   "dependencies": {
     "thrift": "^0.16.0"
   },

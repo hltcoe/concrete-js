@@ -4353,6 +4353,7 @@ EntitySet.prototype.write = function(output) {
 
 EntityMention = function(args) {
   this.uuid = null;
+  this.id = null;
   this.tokens = null;
   this.entityType = null;
   this.phraseType = null;
@@ -4364,6 +4365,9 @@ EntityMention = function(args) {
       this.uuid = new UUID(args.uuid);
     } else {
       throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+    }
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
     }
     if (args.tokens !== undefined && args.tokens !== null) {
       this.tokens = new TokenRefSequence(args.tokens);
@@ -4402,6 +4406,13 @@ EntityMention.prototype.read = function(input) {
       if (ftype == Thrift.Type.STRUCT) {
         this.uuid = new UUID();
         this.uuid.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 8:
+      if (ftype == Thrift.Type.STRING) {
+        this.id = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -4472,6 +4483,11 @@ EntityMention.prototype.write = function(output) {
   if (this.uuid !== null && this.uuid !== undefined) {
     output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
     this.uuid.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.STRING, 8);
+    output.writeString(this.id);
     output.writeFieldEnd();
   }
   if (this.tokens !== null && this.tokens !== undefined) {
@@ -12627,6 +12643,7 @@ TimeML.prototype.write = function(output) {
 
 Situation = function(args) {
   this.uuid = null;
+  this.id = null;
   this.situationType = null;
   this.situationKind = null;
   this.argumentList = null;
@@ -12641,6 +12658,9 @@ Situation = function(args) {
       this.uuid = new UUID(args.uuid);
     } else {
       throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+    }
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
     }
     if (args.situationType !== undefined && args.situationType !== null) {
       this.situationType = args.situationType;
@@ -12688,6 +12708,13 @@ Situation.prototype.read = function(input) {
       if (ftype == Thrift.Type.STRUCT) {
         this.uuid = new UUID();
         this.uuid.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.id = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -12797,6 +12824,11 @@ Situation.prototype.write = function(output) {
   if (this.uuid !== null && this.uuid !== undefined) {
     output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
     this.uuid.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.STRING, 6);
+    output.writeString(this.id);
     output.writeFieldEnd();
   }
   if (this.situationType !== null && this.situationType !== undefined) {
@@ -13153,6 +13185,7 @@ MentionArgument.prototype.write = function(output) {
 
 SituationMention = function(args) {
   this.uuid = null;
+  this.id = null;
   this.text = null;
   this.situationType = null;
   this.situationKind = null;
@@ -13166,6 +13199,9 @@ SituationMention = function(args) {
       this.uuid = new UUID(args.uuid);
     } else {
       throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+    }
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
     }
     if (args.text !== undefined && args.text !== null) {
       this.text = args.text;
@@ -13210,6 +13246,13 @@ SituationMention.prototype.read = function(input) {
       if (ftype == Thrift.Type.STRUCT) {
         this.uuid = new UUID();
         this.uuid.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.id = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -13294,6 +13337,11 @@ SituationMention.prototype.write = function(output) {
   if (this.uuid !== null && this.uuid !== undefined) {
     output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
     this.uuid.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.STRING, 5);
+    output.writeString(this.id);
     output.writeFieldEnd();
   }
   if (this.text !== null && this.text !== undefined) {

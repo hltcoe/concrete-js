@@ -23,6 +23,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
     "docdash": "^1.1.0",
     "grunt": "^1.0.4",
     "grunt-contrib-concat": "^1.0.1",
@@ -38,9 +39,10 @@
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-safari-launcher": "^1.0.0",
-    "karma-spec-reporter": "^0.0.32"
+    "karma-spec-reporter": "^0.0.32",
+    "mocha": "^10.2.0"
   },
   "scripts": {
-    "test": "karma start --single-run --browsers ChromeCustom --reporters spec"
+    "test": "mocha test_nodejs && karma start --single-run --browsers ChromeCustom --reporters spec"
   }
 }

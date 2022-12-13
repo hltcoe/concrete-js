@@ -119,6 +119,7 @@ module.exports = function (grunt) {
           'Gruntfile.js',
           'gen-nodejs/*.js',
           'src_nodejs/**/*.js',
+          'test_nodejs/**/*.js',
         ],
         options: {
           extract: 'auto',

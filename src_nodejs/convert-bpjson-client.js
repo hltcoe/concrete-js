@@ -28,6 +28,45 @@ client.alive()
   })
   .then(() => client.fromConcrete(new concrete.communication.Communication({
     id: "comm-0",
+    entityMentionSetList: [new concrete.entities.EntityMentionSet({
+      uuid: new concrete.uuid.UUID({uuidString: "a-b-c-m"}),
+      metadata: new concrete.metadata.AnnotationMetadata({
+        kBest: 1,
+        timestamp: 1,
+        tool: "stub",
+      }),
+      mentionList: [
+        new concrete.entities.EntityMention({
+          uuid: new concrete.uuid.UUID({uuidString: "a-b-c-o"}),
+          tokens: new concrete.structure.TokenRefSequence({
+            tokenIndexList: [0],
+            tokenizationId: new concrete.uuid.UUID({uuidString: "a-b-c-j"}),
+          }),
+        }),
+        new concrete.entities.EntityMention({
+          uuid: new concrete.uuid.UUID({uuidString: "a-b-c-p"}),
+          tokens: new concrete.structure.TokenRefSequence({
+            tokenIndexList: [0, 1],
+            tokenizationId: new concrete.uuid.UUID({uuidString: "a-b-c-l"}),
+          }),
+        }),
+      ],
+    })],
+    entitySetList: [new concrete.entities.EntitySet({
+      uuid: new concrete.uuid.UUID({uuidString: "a-b-c-n"}),
+      metadata: new concrete.metadata.AnnotationMetadata({
+        kBest: 1,
+        timestamp: 1,
+        tool: "stub",
+      }),
+      entityList: [new concrete.entities.Entity({
+        mentionIdList: [
+          new concrete.uuid.UUID({uuidString: "a-b-c-o"}),
+          new concrete.uuid.UUID({uuidString: "a-b-c-p"}),
+        ],
+        uuid: new concrete.uuid.UUID({uuidString: "a-b-c-q"}),
+      })],
+    })],
     metadata: new concrete.metadata.AnnotationMetadata({
       kBest: 1,
       timestamp: 1,
@@ -125,19 +164,40 @@ client.alive()
     console.dir(JSON.parse(response), {depth: null});
   })
   .then(() => client.toConcrete(JSON.stringify({
+    "annotation-sets": {
+      "basic-events": {
+        events: {},
+        "granular-templates": {},
+        "span-sets": {
+          "ss-1": {
+            spans: [
+              {
+                end: 5,
+                "end-token": 0,
+                start: 0,
+                "start-token": 0,
+                string: "Hello",
+                "string-tok": ["Hello"],
+              },
+              {
+                end: 13,
+                "end-token": 3,
+                start: 7,
+                "start-token": 2,
+                string: "world!",
+                "string-tok": ["world", "!"],
+              },
+            ],
+            ssid: "ss-1",
+          },
+        },
+      },
+    },
     char2tok: [
-      [0],
-      [0],
-      [0],
-      [0],
-      [0],
+      [0], [0], [0], [0], [0],
       [1],
       [],
-      [2],
-      [2],
-      [2],
-      [2],
-      [2],
+      [2], [2], [2], [2], [2],
       [3],
     ],
     "doc-id": "doc-0",

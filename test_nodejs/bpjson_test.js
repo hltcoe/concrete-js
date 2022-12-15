@@ -3,7 +3,7 @@ const expect = require("chai").expect;
 const bpjson = require("../dist_nodejs/bpjson");
 
 describe("convertBPJsonToConcrete", function() {
-  it("is invertible", function() {
+  it("is invertible when annotated", function() {
       const corpusEntry = {
         "annotation-sets": {
           "basic-events": {
@@ -27,7 +27,17 @@ describe("convertBPJsonToConcrete", function() {
                 "state-of-affairs": false,
               },
             },
-            "granular-templates": {},
+            "granular-templates": {
+              "template-1": {
+                "outcome": [{"event-id": "event-1"}, {"event-id": "event-2"}],
+                "over-time": "true",
+                "settlement-status-event-or-SoA": [{"event-id": "event-2"}, {ssid: "ss-3"}],
+                "template-anchor": "ss-2",
+                "template-id": "template-1",
+                "template-type": "Displacementplate",
+                "total-displaced-count": [{ssid: "ss-2"}, {ssid: "ss-1"}],
+              },
+            },
             "span-sets": {
               "ss-1": {
                 spans: [
@@ -109,5 +119,38 @@ describe("convertBPJsonToConcrete", function() {
           bpjson.convertBPJsonToConcrete(corpusEntry)
         )
       ).to.eql(corpusEntry);
+  });
+  it("is invertible when unannotated", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 5, "start": 0, "structural-element": "Headline"},
+        {"end": 6, "start": 5, "structural-element": "Headline"},
+        {"end": 13, "start": 7, "structural-element": "Sentence"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )
+    ).to.eql(corpusEntry);
   });
 });

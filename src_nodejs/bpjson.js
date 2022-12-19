@@ -1,5 +1,5 @@
 const {concat, groupBy, last, range, sortBy, sortedUniqBy, times} = require("lodash");
-const {v4: uuidv4} = require("uuid");
+const {generateUUID} = require("./util");
 
 const concrete = require("./concrete");
 
@@ -9,10 +9,6 @@ function unNullifyList(list) {
 
 function unNullifyDict(dict) {
   return dict ? dict : {};
-}
-
-function generateUUID() {
-  return new concrete.uuid.UUID({uuidString: uuidv4()});
 }
 
 function generateAnnotationMetadata() {
@@ -37,33 +33,33 @@ function listToScalar(list, listName="List") {
   }
 }
 
-function argumentsToSlot(role, arguments, entitiesByUUID, eventSituationsByUUID) {
-  if (! arguments.every((argument) => argument.role === role)) {
+function argumentsToSlot(role, args, entitiesByUUID, eventSituationsByUUID) {
+  if (! args.every((argument) => argument.role === role)) {
     throw new Error(`Specified arguments do not all have role ${role}`);
   }
-  if (arguments.some((argument) => argument.entityId && argument.situationId)) {
+  if (args.some((argument) => argument.entityId && argument.situationId)) {
     throw new Error("Some arguments have both entity and situation fills");
   }
-  if (arguments.length > 1 || arguments.some((argument) => argument.entityId || argument.situationId)) {
-    if (arguments.some((argument) => !argument.entityId && !argument.situationId)) {
+  if (args.length > 1 || args.some((argument) => argument.entityId || argument.situationId)) {
+    if (args.some((argument) => !argument.entityId && !argument.situationId)) {
       throw new Error("Multiple arguments for role but not all have an entity or situation fill");
     }
-    return arguments.map((argument) => (
+    return args.map((argument) => (
       argument.entityId ?
       {ssid: entitiesByUUID[argument.entityId.uuidString].id} :
       {"event-id": eventSituationsByUUID[argument.situationId.uuidString].id}
     ));
   } else {
-    const argument = listToScalar(arguments, "Scalar arguments");
+    const argument = listToScalar(args, "Scalar arguments");
     const property = listToScalar(argument.propertyList, "Scalar argument property");
     return property.value;
   }
 }
 
 function templateToArguments(template, entitiesById, eventSituationsById) {
-  const arguments = [];
+  const args = [];
   if (template["template-anchor"]) {
-    arguments.push(new concrete.situations.Argument({
+    args.push(new concrete.situations.Argument({
       role: "template-anchor",
       entityId: entitiesById[template["template-anchor"]].uuid,
     }));
@@ -73,23 +69,23 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
     .forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((slotFill) =>
-          arguments.push(new concrete.situations.Argument(
+          args.push(new concrete.situations.Argument(
             slotFill.ssid ?
             {role: key, entityId: entitiesById[slotFill.ssid].uuid} :
             {role: key, situationId: eventSituationsById[slotFill["event-id"]].uuid}
           ))
         );
       } else {
-        arguments.push(new concrete.situations.Argument({
+        args.push(new concrete.situations.Argument({
           role: key,
           propertyList: [new concrete.situations.Property({
             value: String(value),
             metadata: generateAnnotationMetadata(),
           })],
-        }))
+        }));
       }
     });
-  return arguments;
+  return args;
 }
 
 function convertConcreteToBPJson(communication) {
@@ -265,9 +261,9 @@ function convertConcreteToBPJson(communication) {
         unNullifyList(situation.argumentList)
           .filter((argument) => argument.role !== "template-anchor"),
         "role"
-      )).forEach(([role, arguments]) => (
+      )).forEach(([role, args]) => (
         granularTemplates[situationId][role] = argumentsToSlot(
-          role, arguments, entitiesByUUID, eventSituationsByUUID
+          role, args, entitiesByUUID, eventSituationsByUUID
         )
       ));
     });
@@ -376,7 +372,7 @@ function convertBPJsonToConcrete(corpusEntry) {
     entitySet.entityList.forEach((entity) => (entitiesById[entity.id] = entity));
   }
 
-  if (basicEvents["events"] || basicEvents["granular-templates"]) {
+  if (basicEvents.events || basicEvents["granular-templates"]) {
     const situationSet = new concrete.situations.SituationSet({
       situationList: [],
       metadata: generateAnnotationMetadata(),
@@ -384,7 +380,7 @@ function convertBPJsonToConcrete(corpusEntry) {
     });
     communicationParams.situationSetList = [situationSet];
 
-    Object.values(unNullifyDict(basicEvents["events"])).forEach((event) =>
+    Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
       situationSet.situationList.push(new concrete.situations.Situation({
         argumentList: concat(
           event.agents.map((ssid) => new concrete.situations.Argument({
@@ -398,7 +394,7 @@ function convertBPJsonToConcrete(corpusEntry) {
           event.patients.map((ssid) => new concrete.situations.Argument({
             entityId: entitiesById[ssid].uuid,
             role: "patient",
-          })),
+          }))
         ),
         id: event.eventid,
         situationKind: event["event-type"],
@@ -411,7 +407,7 @@ function convertBPJsonToConcrete(corpusEntry) {
       eventSituationsById[situation.id] = situation
     ));
 
-    Object.values(unNullifyDict(basicEvents["events"])).forEach((event) =>
+    Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
       eventSituationsById[event.eventid].argumentList.push(...(
         event["ref-events"].map((eventid) => new concrete.situations.Argument({
           situationId: eventSituationsById[eventid].uuid,

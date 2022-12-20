@@ -50,8 +50,8 @@ function argumentsToSlot(role, args, entitiesByUUID, eventSituationsByUUID) {
       {"event-id": eventSituationsByUUID[argument.situationId.uuidString].id}
     ));
   } else {
-    const argument = listToScalar(args, "Scalar arguments");
-    const property = listToScalar(argument.propertyList, "Scalar argument property");
+    const argument = listToScalar(args, "Scalar argument list");
+    const property = listToScalar(argument.propertyList, "Scalar argument property list");
     return property.value;
   }
 }
@@ -226,7 +226,7 @@ function convertConcreteToBPJson(communication) {
           unNullifyList(situation.argumentList)
             .filter((argument) => argument.role === "anchor")
             .map((argument) => entitiesByUUID[argument.entityId.uuidString].id),
-          "Event anchor arguments"
+          "Event anchor argument list"
         ),
         "eventid": situationId,
         "event-type": situation.situationKind,
@@ -252,7 +252,7 @@ function convertConcreteToBPJson(communication) {
           unNullifyList(situation.argumentList)
             .filter((argument) => argument.role === "template-anchor")
             .map((argument) => entitiesByUUID[argument.entityId.uuidString].id),
-          "Template anchor arguments"
+          "Template anchor argument list"
         ),
         "template-id": situationId,
         "template-type": situation.situationKind,
@@ -354,7 +354,7 @@ function convertBPJsonToConcrete(corpusEntry) {
             spanTokenData.map(({sentence}) => sentence.tokenization.uuid),
             "uuidString"
           );
-          const tokenizationId = listToScalar(tokenizationUUIDs, "Tokenizations used by span");
+          const tokenizationId = listToScalar(tokenizationUUIDs, "Tokenization list used by span");
           const tokenIndexList = spanTokenData.map(({token}) => token.tokenIndex);
           return new concrete.entities.EntityMention({
             tokens: new concrete.structure.TokenRefSequence({tokenizationId, tokenIndexList}),

@@ -1,10 +1,30 @@
 {
-  "name": "concrete",
-  "version": "4.15.0",
+  "name": "@hltcoe/concrete",
+  "version": "4.15.2",
+  "description": "Node.js library for working with Concrete, a data serialization format for NLP",
+  "main": "concrete.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hltcoe/concrete-js.git"
+  },
+  "keywords": [
+    "NLP",
+    "HLT"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/hltcoe/concrete-js/issues"
+  },
+  "homepage": "https://github.com/hltcoe/concrete-js/blob/main/README-nodejs.md",
+  "dependencies": {
+    "thrift": "^0.16.0"
+  },
   "devDependencies": {
     "docdash": "^1.1.0",
     "grunt": "^1.0.4",
     "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-uglify": "^4.0.1",
     "grunt-jsdoc": "^2.3.1",

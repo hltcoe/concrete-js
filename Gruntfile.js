@@ -3,7 +3,7 @@
 // Node Setup -   nodejs.org
 // Grunt Setup -  npm install  //reads the ./package.json and installs project dependencies
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   'use strict';
 
   grunt.initConfig({
@@ -22,58 +22,125 @@ module.exports = function(grunt) {
           'src/util.js',
           'src/*.js'
         ],
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: 'dist/concrete.js'
       }
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+        banner: '/*! concrete <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
       dist: {
         files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+          'dist/concrete.min.js': ['<%= concat.dist.dest %>']
         }
       }
+    },
+    copy: {
+      dist_nodejs: {
+        files: [
+          {
+            expand: true,
+            cwd: 'gen-nodejs',
+            src: '*.js',
+            dest: 'dist_nodejs/'
+          },
+          {
+            expand: true,
+            cwd: 'src_nodejs',
+            src: '**/*.js',
+            dest: 'dist_nodejs/'
+          },
+          {
+            src: 'LICENSE',
+            dest: 'dist_nodejs/'
+          },
+          {
+            src: 'package.json',
+            dest: 'dist_nodejs/',
+          },
+          {
+            src: 'README.md',
+            dest: 'dist_nodejs/'
+          }
+        ]
+      },
+      docs: {
+        files: [
+          {
+            expand: true,
+            cwd: 'dist',
+            src: '*.js',
+            dest: 'docs/'
+          }
+        ]
+      },
     },
     shell: {
-	DownloadThriftJS: {
-            command: 'cd dist; curl https://raw.githubusercontent.com/apache/thrift/0.12.0/lib/js/src/thrift.js --output thrift.js'
-	},
-	ThriftGen: {
-            // TODO: Don't hardcode location of 'concrete-thrift' repo to '${HOME}/concrete/thrift'
-            command: 'for P in `find ${HOME}/concrete/thrift -name "*.thrift"`; do thrift --gen js:jquery $P; done'
-	}
-    },
-    qunit: {
-    },
-    jshint: {
-      files: [
-        'examples/*.html',
-        'Gruntfile.js',
-        'gen-js/*.js',
-        'src/**/*.js',
-        'test/unit/*.js',
-        'test/integration/*.js'
-      ],
-      options: {
-        extract: 'auto',
-        // options here to override JSHint defaults
-        globals: {
-          jQuery: true,
-          console: true,
-          module: true,
-          document: true
-        }
+      DownloadThriftJS: {
+        command: 'curl https://raw.githubusercontent.com/apache/thrift/0.16.0/lib/js/src/thrift.js --output dist/thrift.js'
+      },
+      ThriftGen: {
+        // TODO: Don't hardcode location of 'concrete' repo
+        command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:jquery {} \\;'
+      },
+      ThriftGen_nodejs: {
+        // TODO: Don't hardcode location of 'concrete' repo
+        command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:node,es6 {} \\;'
       }
     },
-    jsdoc: {
+    qunit: {
       dist: {
-        src: ['src/*.js', 'README.md'],
+      }
+    },
+    jshint: {
+      dist: {
+        src: [
+          'examples/*.html',
+          'Gruntfile.js',
+          'gen-js/*.js',
+          'src/**/*.js',
+          'test/unit/*.js',
+          'test/integration/*.js'
+        ],
         options: {
-          access: 'all',
+          extract: 'auto',
+          // options here to override JSHint defaults
+          globals: {
+            jQuery: true,
+            console: true,
+            module: true,
+            document: true
+          }
+        }
+      },
+      dist_nodejs: {
+        src: [
+          'examples/*.html',
+          'Gruntfile.js',
+          'gen-nodejs/*.js',
+          'src_nodejs/**/*.js',
+        ],
+        options: {
+          extract: 'auto',
+          // options here to override JSHint defaults
+          node: 'true',
+          esversion: 6
+        }
+      },
+    },
+    jsdoc: {
+      docs: {
+        src: ['src_nodejs/*.js', 'README.md'],
+        options: {
           configure: 'jsdoc.conf.json',
           destination: 'docs',
-          template: 'node_modules/docdash',
+        },
+      },
+      "docs/js-jquery": {
+        src: ['src/*.js', 'README-js-jquery.md'],
+        options: {
+          configure: 'jsdoc.conf.json',
+          destination: 'docs/js-jquery',
         },
       },
     },
@@ -82,10 +149,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('test', ['shell:ThriftGen', 'jshint']);
-  grunt.registerTask('default', ['shell:ThriftGen', 'jshint', 'concat', 'uglify', 'jsdoc']);
+  grunt.registerTask('docs', ['jsdoc:docs', 'jsdoc:docs/js-jquery', 'copy:docs']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
+  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'download']);
+  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'jshint:dist_nodejs', 'copy:dist_nodejs']);
+  grunt.registerTask('default', ['nodejs', 'js', 'docs']);
 };

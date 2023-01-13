@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>util.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="TokenTagging.html#.create">create</a></li><li data-type='method'><a href="TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li></ul><h3>Externals</h3><ul><li><a href="external-_jQuery.fn_.html">jQuery.fn</a><ul class='methods'><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntitiesInCommunication">addAllEntitiesInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addAllEntityMentionsInCommunication">addAllEntityMentionsInCommunication</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMention">addEntityMention</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.addEntityMentionSet">addEntityMentionSet</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.communicationWidget">communicationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenClickCallbacks">enableTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.enableTokenSelectCallbacks">enableTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getEntityMentionElements">getEntityMentionElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getManualTokenization">getManualTokenization</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getSentenceElements">getSentenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenClickCallbacks">getTokenClickCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElements">getTokenElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithIndex">getTokenElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenElementsWithMatchingTag">getTokenElementsWithMatchingTag</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenizationElements">getTokenizationElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenPaddingElementsWithIndex">getTokenPaddingElementsWithIndex</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceElements">getTokenRefSequenceElements</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.getTokenSelectCallbacks">getTokenSelectCallbacks</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.manualTokenizationWidget">manualTokenizationWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sectionWidget">sectionWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.sentenceWidget">sentenceWidget</a></li><li data-type='method'><a href="external-_jQuery.fn_.html#.tokenizationWidget">tokenizationWidget</a></li></ul></li><li><a href="external-jQuery_Object.html">jQuery_Object</a></li></ul><h3>Namespaces</h3><ul><li><a href="concrete.html">concrete</a></li><li></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.generateUUIDString">generateUUIDString</a></li><li data-type='method'><a href="concrete.util.html#.getURLParameter">getURLParameter</a></li></ul></li><li><a href="concrete.widget.html">widget</a><ul class='methods'><li data-type='method'><a href="concrete.widget.html#.createCommunicationDiv">createCommunicationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSectionDiv">createSectionDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createSentenceDiv">createSentenceDiv</a></li><li data-type='method'><a href="concrete.widget.html#.createTokenizationDiv">createTokenizationDiv</a></li><li data-type='method'><a href="concrete.widget.html#.getSelectedTokenRefSequences">getSelectedTokenRefSequences</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokenObject">getTokenRefSequenceForTokenObject</a></li><li data-type='method'><a href="concrete.widget.html#.getTokenRefSequenceForTokensMatchingSelector">getTokenRefSequenceForTokensMatchingSelector</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">util.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace concrete
+ */
+var concrete = concrete || {};
+
+/**
+ * @namespace concrete.util
+ */
+concrete.util = (function() {
+  var util = {};
+
+  /**
+   * Generate a Concrete UUID
+   *
+   * @returns {UUID}
+   *
+   * @function concrete.util.generateUUID
+   * @memberof concrete.util
+   */
+  util.generateUUID = function() {
+    var uuid = new UUID();
+    uuid.uuidString = util.generateUUIDString();
+    return uuid;
+  };
+
+  /**
+   * Generate a UUID string
+   * Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
+   *    https://github.com/LiosK/UUID.js
+   *
+   * @returns {String}
+   *
+   * @function concrete.util.generateUUIDString
+   * @memberof concrete.util
+   */
+  util.generateUUIDString = function() {
+    /**
+     * Returns an unsigned x-bit random integer.
+     * @param {int} x A positive integer ranging from 0 to 53, inclusive.
+     * @returns {int} An unsigned x-bit random integer (0 &lt;= f(x) &lt; 2^x).
+     */
+    function rand(x) {  // _getRandomInt
+      if (x &lt;   0) return NaN;
+      if (x &lt;= 30) return (0 | Math.random() * (1 &lt;&lt;      x));
+      if (x &lt;= 53) return (0 | Math.random() * (1 &lt;&lt;     30)) +
+        (0 | Math.random() * (1 &lt;&lt; x - 30)) * (1 &lt;&lt; 30);
+      return NaN;
+    }
+
+    /**
+     * Converts an integer to a zero-filled hexadecimal string.
+     * @param {int} num
+     * @param {int} length
+     * @returns {string}
+     */
+    function hex(num, length) { // _hexAligner
+      var str = num.toString(16), i = length - str.length, z = "0";
+      for (; i > 0; i >>>= 1, z += z) { if (i &amp; 1) { str = z + str; } }
+      return str;
+    }
+
+    return  hex(rand(32), 8) +    // time_low
+      "-" +
+      hex(rand(16), 4) +          // time_mid
+      "-" +
+      hex(0x4000 | rand(12), 4) + // time_hi_and_version
+      "-" +
+      hex(0x8000 | rand(14), 4) + // clock_seq_hi_and_reserved clock_seq_low
+      "-" +
+      hex(rand(48), 12);        // node
+  };
+
+  /** Retrieve HTTP GET parameters by name
+   *
+   * Adapted from:
+   *   http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
+   *
+   * @param {String} sParam - Name of HTTP GET parameter to retrieve
+   * @returns {String}
+   *
+   * @function concrete.util.getURLParameter
+   * @memberof concrete.util
+   */
+  util.getURLParameter = function(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&amp;'),
+        sParameterName,
+        i;
+
+    for (i = 0; i &lt; sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+    }
+  };
+
+
+  /**
+   * Takes a string, returns a version of the string that replaces
+   * any of the CSS selector metacharacters:
+   *   !"#$%&amp;'()*+,./:;&lt;=>?@[\]^`{|}~
+   * with an underscore.  Per the jQuery documentation, these
+   * metacharacters in CSS selector names if they are escaped with '\\',
+   * but replacing them with underscores seems less likely to cause
+   * strange behavior.
+   *
+   * Useful for handling Entity IDs that are prefixed with a colon,
+   * e.g. ':Entity_ENG_EDL_0088070'.
+   *
+   * @param {String} s
+   * @returns {String}
+   */
+  util.selectorSafeString = function(s) {
+    return s.replace(/[!"#$%&amp;'()*+,./:;&lt;=>?@[\]^`{|}~]/g, '_');
+  };
+
+
+  return util;
+})();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.9</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

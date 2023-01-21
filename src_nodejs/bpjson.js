@@ -107,12 +107,19 @@ function convertConcreteToBPJson(communication) {
     char2tok,
     "doc-id": communication.id,
     "entry-id": communication.id,
-    "segment-sections": unNullifyList(communication.sectionList).flatMap((section) =>
-      unNullifyList(section.sentenceList).map((sentence) => ({
-        end: sentence.textSpan.ending,
-        start: sentence.textSpan.start,
+    "segment-sections": concat(
+      unNullifyList(communication.sectionList).flatMap((section) =>
+        unNullifyList(section.sentenceList).map((sentence) => ({
+          end: sentence.textSpan.ending,
+          start: sentence.textSpan.start,
+          "structural-element": "sentence",
+        }))
+      ),
+      unNullifyList(communication.sectionList).map((section) => ({
+        end: section.textSpan.ending,
+        start: section.textSpan.start,
         "structural-element": section.kind,
-      }))
+      })),
     ),
     "segment-text": communication.text,
     "segment-text-tok": tok2char.map((tokenTextIndices) =>
@@ -272,47 +279,217 @@ function convertConcreteToBPJson(communication) {
   return corpusEntry;
 }
 
+function normalizeSectionKind(kind) {
+  return kind.toLowerCase();
+}
+
+function sectionKindOrder(kind) {
+  const normalizedKind = normalizeSectionKind(kind);
+  const orderedKinds = ["section", "*", "ignore", "sentence"];
+  const kindIndex = orderedKinds.indexOf(normalizedKind);
+  return kindIndex >= 0 ? kindIndex : orderedKinds.indexOf("*");
+}
+
+function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
+  const rootSectionNode = {start: 0, ending: text.length, kind: "unknown", children: []};
+  segmentSections
+    .map((segmentSection) => ({
+      start: segmentSection.start,
+      ending: segmentSection.end,
+      kind: segmentSection["structural-element"],
+      children: [],
+    }))
+    .forEach((sectionData) => {
+      let node = rootSectionNode;
+      while (node) {
+        if (node.children.length > 0) {
+          const parentCandidate = node.children.find(
+            (c) => c.start <= sectionData.start && sectionData.ending <= c.ending
+          );
+          if (parentCandidate) {
+            // parentCandidate span contains sectionData span
+            if (parentCandidate.start === sectionData.start && parentCandidate.ending === sectionData.ending) {
+              // parentCandidate and sectionData represent same span
+              if (normalizeSectionKind(parentCandidate.kind) !== normalizeSectionKind(sectionData.kind)) {
+                // parentCandidate, sectionData have different kinds, so insert sectionData below parentCandidate
+                [parentCandidate.children, sectionData.children] = [[sectionData], parentCandidate.children];
+                if (sectionKindOrder(sectionData.kind) < sectionKindOrder(parentCandidate.kind)) {
+                  // sectionData kind should appear earlier in hierarchy, swap with parentCandidate kind
+                  [parentCandidate.kind, sectionData.kind] = [sectionData.kind, parentCandidate.kind];
+                }
+              }
+              break;
+            } else {
+              // parentCandidate span strictly contains sectionData span
+              node = parentCandidate;
+            }
+          } else if (sectionData.ending <= node.children[0].start) {
+            // sectionData fits before first child
+            node.children.unshift(sectionData);
+          } else if (last(node.children).ending <= sectionData.start) {
+            // sectionData fits after last child
+            node.children.push(sectionData);
+          } else {
+            const nextSiblingIndex = range(1, node.children.length).find((i) =>
+              node.children[i - 1].ending <= sectionData.start && sectionData.ending <= node.children[i].start);
+            if (nextSiblingIndex >= 0) {
+              // sectionData span fits between nextSibling span and previous span, if any
+              node.children.splice(nextSiblingIndex, 0, sectionData);
+            } else {
+              const firstChildIndex = range(node.children.length).find((i) =>
+                (i === 0 || node.children[i - 1].ending <= sectionData.start) &&
+                sectionData.start <= node.children[i].start);
+              const lastChildIndex = range(node.children.length).find((i) =>
+                node.children[i].ending <= sectionData.ending &&
+                (i + 1 === node.children.length || sectionData.ending <= node.children[i + 1].start));
+              if (firstChildIndex >= 0 && lastChildIndex >= 0) {
+                // sectionData span contains firstChild span through lastChild span
+                sectionData.children = node.children.slice(firstChildIndex, lastChildIndex + 1);
+                node.children.splice(firstChildIndex, lastChildIndex + 1 - firstChildIndex, sectionData);
+              } else {
+                // sectionData span overlaps other span non-hierarchically
+                throw new Error("Sections overlap non-hierarchically");
+              }
+            }
+          }
+        } else {
+          // Node has no children
+          node.children.push(sectionData);
+        }
+      }
+      if (!node) {
+        throw new Error(`Failed to add section [${sectionData.start}, ${sectionData.ending}) to hierarchy`);
+      }
+    });
+
+  // loop over nodes recursively, looking for sentences
+  const sentenceSearchStack = [rootSectionNode];
+  while (sentenceSearchStack.length > 0) {
+    const node = sentenceSearchStack.pop();
+    if (normalizeSectionKind(node.kind) === "sentence") {
+      node.isSentence = true;
+    } else {
+      if (node.children.length === 0) {
+        node.children.push({
+          children: [],
+          kind: "sentence",
+          start: node.start,
+          ending: node.ending,
+        });
+      }
+      sentenceSearchStack.push(...node.children);
+    }
+  }
+  // loop again, building a full depth-first search sequence
+  const helperStack = [rootSectionNode];
+  const sectionSearchStack = [];
+  while (helperStack.length > 0) {
+    const node = helperStack.pop();
+    sectionSearchStack.push(node);
+    helperStack.push(...node.children);
+  }
+  // loop bottom-up, finding sections and recursively filling in gaps
+  const flatSectionNodes = [];
+  while (sectionSearchStack.length > 0) {
+    const node = sectionSearchStack.pop();
+    // flat sections will consist of nodes that directly contain at least one sentence in the original data
+    // (if a node contains only other sections, we will represent it by its child sections)
+    if (node.children.some((child) => child.isSentence)) {
+      // node contains at least one sentence
+      if (node.children.every((child) => child.isSentence)) {
+        // node contains sentences only
+        flatSectionNodes.push(node);
+      } else {
+        // node contains sentences as well as non-sentences (sections)
+        // iterate over children, creating a section node for each non-empty sequence of consecutive sentence nodes
+        // (updating node.children in-place)
+        for (let groupStartIndex = 0; groupStartIndex < node.children.length; groupStartIndex++) {
+          let groupEndIndex = groupStartIndex;
+          while (groupEndIndex < node.children.length && node.children[groupEndIndex].isSentence) {
+            groupEndIndex++;
+          }
+          if (groupEndIndex > groupStartIndex) {
+            const groupSectionNode = {
+              children: node.children.slice(groupStartIndex, groupEndIndex),
+              kind: "unknown",
+              start: node.children[groupStartIndex].start,
+              ending: node.children[groupEndIndex - 1].ending,
+            };
+            node.children.splice(groupStartIndex, groupEndIndex - groupStartIndex, groupSectionNode);
+            flatSectionNodes.push(groupSectionNode);
+          }
+        }
+      }
+    }
+  }
+
+  const sections = sortBy(flatSectionNodes, ["start"]).map((section) =>
+    new concrete.structure.Section({
+      kind: section.kind,
+      sentenceList: section.children.map((sentence) =>
+        new concrete.structure.Sentence({
+          textSpan: new concrete.spans.TextSpan({
+            start: sentence.start,
+            ending: sentence.ending,
+          }),
+          tokenization: new concrete.structure.Tokenization({
+            kind: concrete.structure.TokenizationKind.TOKEN_LIST,
+            metadata: generateAnnotationMetadata(),
+            tokenList: new concrete.structure.TokenList({tokenList: []}),
+            uuid: generateUUID(),
+          }),
+          uuid: generateUUID(),
+        })),
+      textSpan: new concrete.spans.TextSpan({
+        start: section.start,
+        ending: section.ending,
+      }),
+      uuid: generateUUID(),
+    }));
+
+  const textIndexSentenceMap = Object.fromEntries(sections.flatMap((section) =>
+    section.sentenceList.flatMap((sent) =>
+      range(sent.textSpan.start, sent.textSpan.ending).map((textIndex) =>
+        [textIndex, sent]))));
+  tok2char
+    .forEach(function (indices) {
+      const start = indices[0];
+      const ending = last(indices) + 1;
+      const startSentence = textIndexSentenceMap[start];
+      const lastSentence = textIndexSentenceMap[ending - 1];
+      if (startSentence && lastSentence) {
+        if (startSentence.textSpan.start === lastSentence.textSpan.start
+            && startSentence.textSpan.ending === lastSentence.textSpan.ending) {
+          const token = new concrete.structure.Token({
+            text: indices.map((i) => text[i]).join(""),
+            tokenIndex: startSentence.tokenization.tokenList.tokenList.length,
+            textSpan: new concrete.spans.TextSpan({start, ending}),
+          });
+          if (token.text.length !== token.textSpan.ending - token.textSpan.start) {
+            throw new Error("Token text length does not match token indices");
+          }
+          startSentence.tokenization.tokenList.tokenList.push(token);
+        } else {
+          console.warn(
+            `Ignoring token [${start}, ${ending}) that spans multiple sentences`
+          );
+        }
+      } else if (startSentence || lastSentence) {
+        console.warn(
+          `Ignoring token [${start}, ${ending}) that crosses a sentence boundary`
+        );
+      }
+    })
+
+  return sections;
+}
+
 function convertBPJsonToConcrete(corpusEntry) {
   const communicationParams = {
     id: corpusEntry["entry-id"],
     metadata: generateAnnotationMetadata(),
-    sectionList: Object.entries(groupBy(
-      sortBy(corpusEntry["segment-sections"], ["start", "end"]),
-      "structural-element"
-    )).map(([kind, sectionGroup]) => new concrete.structure.Section({
-      kind,
-      sentenceList: sectionGroup.map((section) => new concrete.structure.Sentence({
-        textSpan: new concrete.spans.TextSpan({
-          ending: section.end,
-          start: section.start,
-        }),
-        tokenization: new concrete.structure.Tokenization({
-          kind: concrete.structure.TokenizationKind.TOKEN_LIST,
-          metadata: generateAnnotationMetadata(),
-          tokenList: new concrete.structure.TokenList({
-            tokenList: sortedUniqBy(sortBy(
-              range(section.start, section.end).flatMap((textIndex) => corpusEntry.char2tok[textIndex])
-            ))
-              .map((globalTokenIndex) => corpusEntry.tok2char[globalTokenIndex])
-              .map((tokenTextIndices, tokenIndex) => new concrete.structure.Token({
-                text: tokenTextIndices.map((textIndex) => corpusEntry["segment-text"][textIndex]).join(""),
-                textSpan: new concrete.spans.TextSpan({
-                  ending: last(tokenTextIndices) + 1,
-                  start: tokenTextIndices[0],
-                }),
-                tokenIndex,
-              })),
-          }),
-          uuid: generateUUID(),
-        }),
-        uuid: generateUUID(),
-      })),
-      textSpan: new concrete.spans.TextSpan({
-        ending: last(sectionGroup).end,
-        start: sectionGroup[0].start,
-      }),
-      uuid: generateUUID(),
-    })),
+    sectionList: convertBPJsonSectionsToConcrete(
+      corpusEntry["segment-sections"], corpusEntry.tok2char, corpusEntry["segment-text"]),
     text: corpusEntry["segment-text"],
     type: corpusEntry["segment-type"],
     uuid: generateUUID(),

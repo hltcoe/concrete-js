@@ -86,7 +86,10 @@ module.exports = function (grunt) {
       ThriftGen_nodejs: {
         // TODO: Don't hardcode location of 'concrete' repo
         command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:node,es6 {} \\;'
-      }
+      },
+      VersionGen_nodejs: {
+        command: 'genversion --semi src_nodejs/generated_version.js'
+      },
     },
     qunit: {
       dist: {
@@ -156,7 +159,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('docs', ['jsdoc:docs', 'jsdoc:docs/js-jquery', 'copy:docs']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
-  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'download']);
-  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'jshint:dist_nodejs', 'copy:dist_nodejs']);
+  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:src', 'concat:dist', 'uglify:dist', 'download']);
+  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'shell:VersionGen_nodejs', 'jshint:src_nodejs', 'copy:dist_nodejs']);
   grunt.registerTask('default', ['nodejs', 'js', 'docs']);
 };

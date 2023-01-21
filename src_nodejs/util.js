@@ -1,5 +1,6 @@
 const {v4: uuidv4} = require("uuid");
 const concrete = require("./concrete");
+const version = require("./generated_version");
 
 const util = module.exports = {};
 
@@ -66,4 +67,4 @@ util.deserializeThrift = function(data, thriftModel) {
   return thriftModel.read(tProtocol);
 };
 
-util.getVersion = () => process.env.npm_package_version;
+util.getVersion = () => version;

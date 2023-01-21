@@ -119,7 +119,7 @@ function convertConcreteToBPJson(communication) {
         end: section.textSpan.ending,
         start: section.textSpan.start,
         "structural-element": section.kind,
-      })),
+      }))
     ),
     "segment-text": communication.text,
     "segment-text-tok": tok2char.map((tokenTextIndices) =>
@@ -299,7 +299,7 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
       kind: segmentSection["structural-element"],
       children: [],
     }))
-    .forEach((sectionData) => {
+    .forEach(function (sectionData) {
       let node = rootSectionNode;
       while (node) {
         if (node.children.length > 0) {
@@ -458,8 +458,8 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
       const startSentence = textIndexSentenceMap[start];
       const lastSentence = textIndexSentenceMap[ending - 1];
       if (startSentence && lastSentence) {
-        if (startSentence.textSpan.start === lastSentence.textSpan.start
-            && startSentence.textSpan.ending === lastSentence.textSpan.ending) {
+        if (startSentence.textSpan.start === lastSentence.textSpan.start &&
+            startSentence.textSpan.ending === lastSentence.textSpan.ending) {
           const token = new concrete.structure.Token({
             text: indices.map((i) => text[i]).join(""),
             tokenIndex: startSentence.tokenization.tokenList.tokenList.length,
@@ -479,7 +479,7 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
           `Ignoring token [${start}, ${ending}) that crosses a sentence boundary`
         );
       }
-    })
+    });
 
   return sections;
 }

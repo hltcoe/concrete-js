@@ -1,4 +1,5 @@
 const {v4: uuidv4} = require("uuid");
+const {TBufferedTransport, TFramedTransport, TCompactProtocol} = require("thrift");
 const concrete = require("./concrete");
 const version = require("./generated_version");
 
@@ -44,27 +45,29 @@ util.getURLParameter = function(sParam) {
 
 /**
  * Serializes native data of given model into Thrift.
- * Thanks: https://httgp.com/deserializing-thrift-data-in-node-js/
  * @param obj Thrift object to serialize.
  * @param thriftModel Thrift model class.
  */
 util.serializeThrift = function(obj) {
-  const buffer = Buffer.from(JSON.stringify(obj));
-  const tTransport = new TFramedTransport(buffer);
-  const tProtocol = new TCompactProtocol(tTransport);
-  return obj.write(tProtocol);
+  const bufs = [];
+  const transport = new TBufferedTransport(undefined, (buf) => bufs.push(buf));
+  const protocol = new TCompactProtocol(transport);
+  obj.write(protocol);
+  protocol.flush();
+  return Buffer.concat(bufs);
 };
 
 /**
  * Deserializes Thrift data with given model.
- * Thanks: https://httgp.com/deserializing-thrift-data-in-node-js/
  * @param data Thrift-serialized data.
  * @param thriftModel Thrift model class.
  */
 util.deserializeThrift = function(data, thriftModel) {
-  const tTransport = new TFramedTransport(data);
-  const tProtocol = new TCompactProtocol(tTransport);
-  return thriftModel.read(tProtocol);
+  const transport = new TFramedTransport(data);
+  const protocol = new TCompactProtocol(transport);
+  const obj = new thriftModel();
+  obj.read(protocol);
+  return obj;
 };
 
 util.getVersion = () => version;

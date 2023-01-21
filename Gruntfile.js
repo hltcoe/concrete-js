@@ -96,7 +96,7 @@ module.exports = function (grunt) {
       }
     },
     jshint: {
-      dist: {
+      src: {
         src: [
           'examples/*.html',
           'Gruntfile.js',
@@ -113,10 +113,11 @@ module.exports = function (grunt) {
             console: true,
             module: true,
             document: true
-          }
+          },
+          "-W083": true,
         }
       },
-      dist_nodejs: {
+      src_nodejs: {
         src: [
           'examples/*.html',
           'Gruntfile.js',
@@ -128,7 +129,8 @@ module.exports = function (grunt) {
           extract: 'auto',
           // options here to override JSHint defaults
           node: 'true',
-          esversion: 6
+          esversion: 6,
+          "-W083": true,
         }
       },
     },

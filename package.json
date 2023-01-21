@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/hltcoe/concrete-js/blob/main/README-nodejs.md",
   "dependencies": {
+    "jsesc": "^3.0.2",
     "lodash": "^4.17.21",
     "thrift": "^0.16.0",
     "uuid": "^9.0.0",

@@ -59,7 +59,7 @@ if (argv.inputPath.endsWith(".concrete") && !argv.outputPath.endsWith(".concrete
       deserializeThrift(inputData, concrete.communication.Communication)
     ))
     .then((outputData) => writeFile(argv.outputPath, outputData))
-    .catch((ex) => console.error(`Service error: ${ex.message}`))
+    .catch((ex) => console.error(`Error: ${ex.message}`))
     .finally(() => connection.end());
 } else if (!argv.inputPath.endsWith(".concrete") && argv.outputPath.endsWith(".concrete")) {
   client.about()
@@ -67,7 +67,7 @@ if (argv.inputPath.endsWith(".concrete") && !argv.outputPath.endsWith(".concrete
     .then(() => readFile(argv.inputPath))
     .then((inputData) => client.toConcrete(inputData))
     .then((outputObj) => writeFile(argv.outputPath, serializeThrift(outputObj)))
-    .catch((ex) => console.error(`Service error: ${ex.message}`))
+    .catch((ex) => console.error(`SError: ${ex.message}`))
     .finally(() => connection.end());
 } else {
   console.error("Exactly one of inputPath and outputPath must end in a .concrete extension.");

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const jsesc = require('jsesc');
 const thrift = require("thrift");
 const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
@@ -31,7 +32,9 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
   },
   fromConcrete: (original) => {
     try {
-      return JSON.stringify(bpjson.convertConcreteToBPJson(original));
+      return jsesc(
+        bpjson.convertConcreteToBPJson(original),
+        {json: true, compact: false, indent: ' ', indentLevel: 2});
     } catch (ex) {
       console.error(ex);
       throw new concrete.services.ServicesException({

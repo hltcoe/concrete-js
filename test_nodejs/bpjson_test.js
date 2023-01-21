@@ -161,7 +161,7 @@ describe("convertBPJsonToConcrete", function() {
     ).to.eql(corpusEntry);
   });
 
-  it("has sections added to fill gaps", function() {
+  it("adds sections to fill gaps", function() {
     const corpusEntry = {
       char2tok: [
         [0], [0], [0], [0], [0],
@@ -204,7 +204,7 @@ describe("convertBPJsonToConcrete", function() {
     ]);
   });
 
-  it("has a root section added if there are no others", function() {
+  it("adds a root section if there are no others", function() {
     const corpusEntry = {
       char2tok: [
         [0], [0], [0], [0], [0],
@@ -324,5 +324,184 @@ describe("convertBPJsonToConcrete", function() {
       {"end": 6, "start": 5, "structural-element": "unknown"},
       {"end": 13, "start": 7, "structural-element": "dateline"},
     ]);
+  });
+
+  it("ignores tokens not in any section", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 5, "start": 0, "structural-element": "sentence"},
+        {"end": 6, "start": 5, "structural-element": "sentence"},
+        {"end": 13, "start": 12, "structural-element": "sentence"},
+        {"end": 6, "start": 0, "structural-element": "headline"},
+        {"end": 13, "start": 12, "structural-element": "byline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )
+    ).to.eql({
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [], [], [], [], [],
+        [2],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 5, "start": 0, "structural-element": "sentence"},
+        {"end": 6, "start": 5, "structural-element": "sentence"},
+        {"end": 13, "start": 12, "structural-element": "sentence"},
+        {"end": 6, "start": 0, "structural-element": "headline"},
+        {"end": 13, "start": 12, "structural-element": "byline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [12],
+      ],
+    });
+  });
+
+  it("ignores tokens crossing sentence boundaries", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 8, "start": 0, "structural-element": "sentence"},
+        {"end": 13, "start": 12, "structural-element": "sentence"},
+        {"end": 8, "start": 0, "structural-element": "headline"},
+        {"end": 13, "start": 12, "structural-element": "byline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )
+    ).to.eql({
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [], [], [], [], [],
+        [2],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 8, "start": 0, "structural-element": "sentence"},
+        {"end": 13, "start": 12, "structural-element": "sentence"},
+        {"end": 8, "start": 0, "structural-element": "headline"},
+        {"end": 13, "start": 12, "structural-element": "byline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [12],
+      ],
+    });
+  });
+
+  it("ignores tokens spanning multiple sentences", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 8, "start": 0, "structural-element": "sentence"},
+        {"end": 13, "start": 8, "structural-element": "sentence"},
+        {"end": 8, "start": 0, "structural-element": "headline"},
+        {"end": 13, "start": 8, "structural-element": "byline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )
+    ).to.eql({
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [], [], [], [], [],
+        [2],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {"end": 8, "start": 0, "structural-element": "sentence"},
+        {"end": 13, "start": 8, "structural-element": "sentence"},
+        {"end": 8, "start": 0, "structural-element": "headline"},
+        {"end": 13, "start": 8, "structural-element": "byline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [12],
+      ],
+    });
   });
 });

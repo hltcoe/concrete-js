@@ -33,8 +33,7 @@ FROM charman/docker-node-chrome-thrift:latest
 ###
 
 
-# Install Concrete Thrift files to $HOME
-WORKDIR /root
+WORKDIR /opt/concrete
 RUN git clone https://github.com/hltcoe/concrete
 
 

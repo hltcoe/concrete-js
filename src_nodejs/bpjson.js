@@ -78,7 +78,7 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
       } else {
         args.push(new concrete.situations.Argument({
           role: key,
-          propertyList: [new concrete.situations.Property({
+          propertyList: [new concrete.property.Property({
             value: String(value),
             metadata: generateAnnotationMetadata(),
           })],

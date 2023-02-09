@@ -37,6 +37,8 @@ concrete.metadata = require('./metadata_types');
 
 concrete.nitf = require('./nitf_types');
 
+concrete.property = require('./property_types');
+
 concrete.results = require('./results_types');
 concrete.results.ResultsServerService = require('./ResultsServerService');
 

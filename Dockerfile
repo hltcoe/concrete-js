@@ -42,7 +42,7 @@ ADD . /opt/concrete-js
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 RUN git config --global url."https://".insteadOf git://
 
-RUN npm install
+RUN npm ci
 RUN npx grunt shell:DownloadThriftJS
 RUN npx grunt
 RUN npm run test

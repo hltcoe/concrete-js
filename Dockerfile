@@ -33,26 +33,16 @@ FROM charman/docker-node-chrome-thrift:latest
 ###
 
 
-# Install Concrete Thrift files to $HOME
-WORKDIR /root
-RUN git clone https://github.com/hltcoe/concrete
-
+RUN git clone https://github.com/hltcoe/concrete /opt/concrete
 
 WORKDIR /opt/concrete-js
-RUN mkdir dist
-
-COPY Gruntfile.js /opt/concrete-js/
-COPY jsdoc.conf.json /opt/concrete-js/
-COPY karma.conf.js /opt/concrete-js/
-COPY package.json /opt/concrete-js/
-COPY src /opt/concrete-js/src/
-COPY test /opt/concrete-js/test/
+ADD . /opt/concrete-js
 
 # Force git to use https to work around JHU firewall settings,
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 RUN git config --global url."https://".insteadOf git://
 
 RUN npm install
-RUN node_modules/grunt/bin/grunt shell:DownloadThriftJS
-RUN node_modules/grunt/bin/grunt
-RUN node_modules/karma/bin/karma start karma.conf.js --single-run --browsers ChromeCustom --reporters spec
+RUN npx grunt shell:DownloadThriftJS
+RUN npx grunt
+RUN npm run test

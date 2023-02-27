@@ -19,6 +19,7 @@ test_suite:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - docker build -t $IMAGE_TAG .
+    - docker run --rm $IMAGE_TAG npm run test
     - docker push $IMAGE_TAG
   tags:
   - docker

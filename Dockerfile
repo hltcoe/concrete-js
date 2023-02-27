@@ -12,4 +12,3 @@ RUN git config --global url."https://".insteadOf git://
 RUN npm ci
 RUN npx grunt shell:DownloadThriftJS
 RUN npx grunt
-RUN npm run test

@@ -22,7 +22,8 @@ build_base_image:
     - docker build -t $IMAGE_TAG -f Dockerfile.base .
     - docker push $IMAGE_TAG
   when: manual
-  tags: docker
+  tags:
+  - docker
 
 test_suite:
   stage: test

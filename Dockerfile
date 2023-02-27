@@ -1,4 +1,4 @@
-FROM gitlab.hltcoe.jhu.edu:4567/research/concrete-js/base
+FROM ccmaymay/concrete-js-base
 
 
 # To minimize Docker build time, the steps for installing Chrome and

@@ -1,3 +1,5 @@
+# Dockerfile for ccmaymay/concrete-js-base on Docker Hub
+
 FROM node:16
 
 # OPTIONAL: Install dumb-init (Very handy for easier signal handling of SIGINT/SIGTERM/SIGKILL etc.)

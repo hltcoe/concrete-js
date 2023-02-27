@@ -12,13 +12,12 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt-get update && apt install -y ./google-chrome-stable_current_amd64.deb
 
-RUN apt-get install -y libboost-dev
+RUN apt-get install -y bison flex libboost-dev
 
-# Install Thrift
+# Install Thrift with patched js server code generation
+RUN git clone -b THRIFT-5674-stable https://github.com/ccmaymay/thrift.git /opt/thrift
 WORKDIR /opt/thrift
-RUN wget http://archive.apache.org/dist/thrift/0.17.0/thrift-0.17.0.tar.gz && \
-    tar xvfz thrift-0.17.0.tar.gz
-WORKDIR /opt/thrift/thrift-0.17.0
-RUN ./configure --with-js --with-nodejs --without-c_glib --without-cpp --without-python --without-py3 --without-kotlin && \
+RUN ./bootstrap.sh && \
+    ./configure --without-c_glib --without-cpp --without-python --without-py3 && \
     make && \
     make install

@@ -86,14 +86,17 @@ module.exports = function (grunt) {
       ThriftGen_nodejs: {
         // TODO: Don't hardcode location of 'concrete' repo
         command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:node,es6 {} \\;'
-      }
+      },
+      VersionGen_nodejs: {
+        command: 'genversion --semi src_nodejs/generated_version.js'
+      },
     },
     qunit: {
       dist: {
       }
     },
     jshint: {
-      dist: {
+      src: {
         src: [
           'examples/*.html',
           'Gruntfile.js',
@@ -110,21 +113,24 @@ module.exports = function (grunt) {
             console: true,
             module: true,
             document: true
-          }
+          },
+          "-W083": true,
         }
       },
-      dist_nodejs: {
+      src_nodejs: {
         src: [
           'examples/*.html',
           'Gruntfile.js',
           'gen-nodejs/*.js',
           'src_nodejs/**/*.js',
+          'test_nodejs/**/*.js',
         ],
         options: {
           extract: 'auto',
           // options here to override JSHint defaults
           node: 'true',
-          esversion: 6
+          esversion: 6,
+          "-W083": true,
         }
       },
     },
@@ -155,7 +161,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('docs', ['jsdoc:docs', 'jsdoc:docs/js-jquery', 'copy:docs']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
-  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:dist', 'concat:dist', 'uglify:dist', 'download']);
-  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'jshint:dist_nodejs', 'copy:dist_nodejs']);
+  grunt.registerTask('js', ['shell:ThriftGen', 'jshint:src', 'concat:dist', 'uglify:dist', 'download']);
+  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'shell:VersionGen_nodejs', 'jshint:src_nodejs', 'copy:dist_nodejs']);
   grunt.registerTask('default', ['nodejs', 'js', 'docs']);
 };

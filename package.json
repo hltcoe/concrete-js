@@ -1,6 +1,6 @@
 {
   "name": "@hltcoe/concrete",
-  "version": "4.15.2",
+  "version": "4.17.0",
   "description": "Node.js library for working with Concrete, a data serialization format for NLP",
   "main": "concrete.js",
   "repository": {
@@ -18,10 +18,16 @@
   },
   "homepage": "https://github.com/hltcoe/concrete-js/blob/main/README-nodejs.md",
   "dependencies": {
-    "thrift": "^0.16.0"
+    "jsesc": "^3.0.2",
+    "lodash": "^4.17.21",
+    "thrift": "^0.16.0",
+    "uuid": "^9.0.0",
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
     "docdash": "^1.1.0",
+    "genversion": "^3.1.1",
     "grunt": "^1.0.4",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
@@ -36,9 +42,14 @@
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-safari-launcher": "^1.0.0",
-    "karma-spec-reporter": "^0.0.32"
+    "karma-spec-reporter": "^0.0.32",
+    "mocha": "^10.2.0"
   },
   "scripts": {
-    "test": "karma start --single-run --browsers ChromeCustom --reporters spec"
+    "test": "mocha test_nodejs && karma start --single-run --browsers ChromeCustom --reporters spec"
+  },
+  "bin": {
+    "concrete-convert-bpjson-server": "./convert-bpjson-server.js",
+    "concrete-convert-client": "./convert-client.js"
   }
 }

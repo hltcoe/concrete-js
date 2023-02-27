@@ -3,3 +3,4 @@ gen-js/
 gen-nodejs/
 node_modules/
 dist_nodejs/
+src_nodejs/generated_version.js

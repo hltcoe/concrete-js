@@ -16,6 +16,9 @@ concrete.communication = require('./communication_types');
 
 concrete.context = require('./context_types');
 
+concrete.convert = require('./convert_types');
+concrete.convert.ConvertCommunicationService = require('./ConvertCommunicationService');
+
 concrete.email = require('./email_types');
 
 concrete.entities = require('./entities_types');
@@ -33,6 +36,8 @@ concrete.linking = require('./linking_types');
 concrete.metadata = require('./metadata_types');
 
 concrete.nitf = require('./nitf_types');
+
+concrete.property = require('./property_types');
 
 concrete.results = require('./results_types');
 concrete.results.ResultsServerService = require('./ResultsServerService');

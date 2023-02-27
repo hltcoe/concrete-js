@@ -1,118 +1,73 @@
-/**
- * @namespace concrete
- */
-const concrete = module.exports = {};
-concrete.uuid = require('./uuid_types');
-const UUID = concrete.uuid.UUID;
+const {v4: uuidv4} = require("uuid");
+const {TBufferedTransport, TFramedTransport, TCompactProtocol} = require("thrift");
+const concrete = require("./concrete");
+const version = require("./generated_version");
+
+const util = module.exports = {};
 
 /**
- * @namespace concrete.util
+ * Generate a Concrete UUID
+ *
+ * @returns {UUID}
+ *
+ * @function concrete.util.generateUUID
+ * @memberof concrete.util
  */
-const util = concrete.util = {};
+util.generateUUID = function() {
+  return new concrete.uuid.UUID({uuidString: uuidv4()});
+};
 
-  /**
-   * Generate a Concrete UUID
-   *
-   * @returns {UUID}
-   *
-   * @function concrete.util.generateUUID
-   * @memberof concrete.util
-   */
-  util.generateUUID = function() {
-    var uuid = new UUID();
-    uuid.uuidString = util.generateUUIDString();
-    return uuid;
-  };
+/** Retrieve HTTP GET parameters by name
+ *
+ * Adapted from:
+ *   http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
+ *
+ * @param {String} sParam - Name of HTTP GET parameter to retrieve
+ * @returns {String}
+ *
+ * @function concrete.util.getURLParameter
+ * @memberof concrete.util
+ */
+util.getURLParameter = function(sParam) {
+  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
 
-  /**
-   * Generate a UUID string
-   * Code based on the uuid.core.js script from MIT licensed project 'UUID.js':
-   *    https://github.com/LiosK/UUID.js
-   *
-   * @returns {String}
-   *
-   * @function concrete.util.generateUUIDString
-   * @memberof concrete.util
-   */
-  util.generateUUIDString = function() {
-    /**
-     * Returns an unsigned x-bit random integer.
-     * @param {int} x A positive integer ranging from 0 to 53, inclusive.
-     * @returns {int} An unsigned x-bit random integer (0 <= f(x) < 2^x).
-     */
-    function rand(x) {  // _getRandomInt
-      if (x <   0) return NaN;
-      if (x <= 30) return (0 | Math.random() * (1 <<      x));
-      if (x <= 53) return (0 | Math.random() * (1 <<     30)) +
-        (0 | Math.random() * (1 << x - 30)) * (1 << 30);
-      return NaN;
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1] === undefined ? true : sParameterName[1];
     }
+  }
+};
 
-    /**
-     * Converts an integer to a zero-filled hexadecimal string.
-     * @param {int} num
-     * @param {int} length
-     * @returns {string}
-     */
-    function hex(num, length) { // _hexAligner
-      var str = num.toString(16), i = length - str.length, z = "0";
-      for (; i > 0; i >>>= 1, z += z) { if (i & 1) { str = z + str; } }
-      return str;
-    }
+/**
+ * Serializes native data of given model into Thrift.
+ * @param obj Thrift object to serialize.
+ * @param thriftModel Thrift model class.
+ */
+util.serializeThrift = function(obj) {
+  const bufs = [];
+  const transport = new TBufferedTransport(undefined, (buf) => bufs.push(buf));
+  const protocol = new TCompactProtocol(transport);
+  obj.write(protocol);
+  protocol.flush();
+  return Buffer.concat(bufs);
+};
 
-    return  hex(rand(32), 8) +    // time_low
-      "-" +
-      hex(rand(16), 4) +          // time_mid
-      "-" +
-      hex(0x4000 | rand(12), 4) + // time_hi_and_version
-      "-" +
-      hex(0x8000 | rand(14), 4) + // clock_seq_hi_and_reserved clock_seq_low
-      "-" +
-      hex(rand(48), 12);        // node
-  };
+/**
+ * Deserializes Thrift data with given model.
+ * @param data Thrift-serialized data.
+ * @param thriftModel Thrift model class.
+ */
+util.deserializeThrift = function(data, thriftModel) {
+  const transport = new TFramedTransport(data);
+  const protocol = new TCompactProtocol(transport);
+  const obj = new thriftModel();
+  obj.read(protocol);
+  return obj;
+};
 
-  /** Retrieve HTTP GET parameters by name
-   *
-   * Adapted from:
-   *   http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
-   *
-   * @param {String} sParam - Name of HTTP GET parameter to retrieve
-   * @returns {String}
-   *
-   * @function concrete.util.getURLParameter
-   * @memberof concrete.util
-   */
-  util.getURLParameter = function(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-      sParameterName = sURLVariables[i].split('=');
-
-      if (sParameterName[0] === sParam) {
-        return sParameterName[1] === undefined ? true : sParameterName[1];
-      }
-    }
-  };
-
-
-  /**
-   * Takes a string, returns a version of the string that replaces
-   * any of the CSS selector metacharacters:
-   *   !"#$%&'()*+,./:;<=>?@[\]^`{|}~
-   * with an underscore.  Per the jQuery documentation, these
-   * metacharacters in CSS selector names if they are escaped with '\\',
-   * but replacing them with underscores seems less likely to cause
-   * strange behavior.
-   *
-   * Useful for handling Entity IDs that are prefixed with a colon,
-   * e.g. ':Entity_ENG_EDL_0088070'.
-   *
-   * @param {String} s
-   * @returns {String}
-   */
-  util.selectorSafeString = function(s) {
-    return s.replace(/[!"#$%&'()*+,./:;<=>?@[\]^`{|}~]/g, '_');
-  };
+util.getVersion = () => version;

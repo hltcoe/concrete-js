@@ -1,4 +1,4 @@
-FROM charman/docker-node-chrome-thrift:latest
+FROM gitlab.hltcoe.jhu.edu:4567/research/concrete-js/base
 
 
 # To minimize Docker build time, the steps for installing Chrome and

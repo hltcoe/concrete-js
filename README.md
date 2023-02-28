@@ -180,13 +180,15 @@ of the library and then regenerate the documentation:
 
 Code linting will be performed automatically when **concrete-js** is built.
 
-There are no further tests for the Node.js library yet! 😱
-
-To run tests for the JavaScript + jQuery library, do:
+To run tests for both libraries, do:
 
 ```
 npm test
 ```
+
+Or to run the tests for just the Node.js library or just the
+JavaScript + jQuery library, do `npm run test_nodejs` or
+`npm run test_js`, respectively.
 
 
 ### Publishing to NPM
@@ -197,13 +199,13 @@ described previously, the package files will be located in the
 registry, run `npm publish` from `dist_nodejs`:
 
 ```
-cd dist_nodejs && npm publish --access public
+cd dist_nodejs && npm publish
 ```
 
-So, to perform a totally fresh publish, you might do something like the
-following.  Note that this will cause you to lose any changes not
+So, to perform a publish from a clean state, you might do something like
+the following.  Note that this will cause you to lose any changes not
 committed to git!
 
 ```
-git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish --access public
+git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish
 ```

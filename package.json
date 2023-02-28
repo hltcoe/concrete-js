@@ -46,7 +46,9 @@
     "mocha": "^10.2.0"
   },
   "scripts": {
-    "test": "mocha test_nodejs && karma start --single-run --browsers ChromeCustom --reporters spec"
+    "test_js": "karma start --single-run --browsers ChromeCustom --reporters spec",
+    "test_nodejs": "mocha test_nodejs",
+    "test": "npm run test_js && npm run test_nodejs"
   },
   "bin": {
     "concrete-convert-bpjson-server": "./convert-bpjson-server.js",

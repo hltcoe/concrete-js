@@ -1,8 +1,9 @@
 # concrete-js
 
-[![Build status](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml)
+[![Build status](https://github.com/hltcoe/concrete-js/actions/workflows/docker-build.yml/badge.svg)](https://github.com/hltcoe/concrete-js/actions/workflows/docker-build.yml)
 
-**concrete-js** is a Node.js/JavaScript library for working with
+[**concrete-js**](https://github.com/hltcoe/concrete-js)
+is a Node.js/JavaScript library for working with
 [Concrete](https://hltcoe.github.io/concrete), a set of NLP data
 types defined by a [Thrift](https://thrift.apache.org) schema.  Thrift
 makes it easy to use a shared set of data structures across multiple
@@ -128,6 +129,9 @@ async headCommunications(fetchClient, maxNumCommunications = 10) {
 
 
 ## Development
+
+The **concrete-js** source code can be accessed from
+[GitHub](https://github.com/hltcoe/concrete-js).
 
 ### Building
 

@@ -58,8 +58,9 @@
 
     <section class="readme usertext">
         <article><h1>concrete-js</h1>
-<p><a href="https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml"><img src="https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml/badge.svg" alt="Build status"></a></p>
-<p><strong>concrete-js</strong> is a Node.js/JavaScript library for working with
+<p><a href="https://github.com/hltcoe/concrete-js/actions/workflows/docker-build.yml"><img src="https://github.com/hltcoe/concrete-js/actions/workflows/docker-build.yml/badge.svg" alt="Build status"></a></p>
+<p><a href="https://github.com/hltcoe/concrete-js"><strong>concrete-js</strong></a>
+is a Node.js/JavaScript library for working with
 <a href="https://hltcoe.github.io/concrete">Concrete</a>, a set of NLP data
 types defined by a <a href="https://thrift.apache.org">Thrift</a> schema.  Thrift
 makes it easy to use a shared set of data structures across multiple
@@ -163,6 +164,8 @@ async headCommunications(fetchClient, maxNumCommunications = 10) {
 }
 </code></pre>
 <h2>Development</h2>
+<p>The <strong>concrete-js</strong> source code can be accessed from
+<a href="https://github.com/hltcoe/concrete-js">GitHub</a>.</p>
 <h3>Building</h3>
 <p>You do not need to build <strong>concrete-js</strong> in order to use
 <strong>concrete-js</strong>:  The Node.js package is available on the npm registry,
@@ -209,21 +212,23 @@ of the library and then regenerate the documentation:</p>
 </ol>
 <h3>Testing</h3>
 <p>Code linting will be performed automatically when <strong>concrete-js</strong> is built.</p>
-<p>There are no further tests for the Node.js library yet! 😱</p>
-<p>To run tests for the JavaScript + jQuery library, do:</p>
+<p>To run tests for both libraries, do:</p>
 <pre class="prettyprint source"><code>npm test
 </code></pre>
+<p>Or to run the tests for just the Node.js library or just the
+JavaScript + jQuery library, do <code>npm run test_nodejs</code> or
+<code>npm run test_js</code>, respectively.</p>
 <h3>Publishing to NPM</h3>
 <p>After building the Node.js <code>@hltcoe/concrete</code> library using the steps
 described previously, the package files will be located in the
 <code>dist_nodejs</code> subdirectory.  To publish the package to the npm
 registry, run <code>npm publish</code> from <code>dist_nodejs</code>:</p>
-<pre class="prettyprint source"><code>cd dist_nodejs && npm publish --access public
+<pre class="prettyprint source"><code>cd dist_nodejs && npm publish
 </code></pre>
-<p>So, to perform a totally fresh publish, you might do something like the
-following.  Note that this will cause you to lose any changes not
+<p>So, to perform a publish from a clean state, you might do something like
+the following.  Note that this will cause you to lose any changes not
 committed to git!</p>
-<pre class="prettyprint source"><code>git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish --access public
+<pre class="prettyprint source"><code>git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish
 </code></pre></article>
     </section>
 

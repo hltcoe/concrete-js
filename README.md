@@ -59,7 +59,7 @@ JavaScript + jQuery distribution, go to
 ## Installation
 
 The Node.js distribution of **concrete-js** is published as
-`@hltcoe/concrete`.
+[@hltcoe/concrete](https://www.npmjs.com/package/@hltcoe/concrete).
 
 To use **concrete-js** in your Node.js project, use `npm install` to add it to
 your dependencies:
@@ -135,12 +135,16 @@ The **concrete-js** source code can be accessed from
 
 ### Building
 
-You do not need to build **concrete-js** in order to use
-**concrete-js**:  The Node.js package is available on the npm registry,
-and a working copy of the JavaScript + jQuery library is included in
-this repository in the `dist/` directory.  The **concrete-js** library
+You do not need to build **concrete-js** yourself in order to use it.
+The Node.js package is available on the npm registry as
+[@hltcoe/concrete](https://www.npmjs.com/package/@hltcoe/concrete),
+and a working copy of the JavaScript + jQuery library is available in
+the `dist/` directory in the **concrete-js** repository or here:
+[readable version](https://hltcoe.github.io/concrete-js/concrete.js),
+[minified version](https://hltcoe.github.io/concrete-js/concrete.min.js).
+The **concrete-js** library
 only needs to be (re)built when the Thrift schema files for Concrete
-have been updated or when the code in `src/` is modified.
+have been updated or when the code in `src/` or `src_nodejs/` is modified.
 
 Requirements for building **concrete-js**:
 

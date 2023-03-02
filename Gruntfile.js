@@ -74,6 +74,9 @@ module.exports = function (grunt) {
           }
         ]
       },
+      options: {
+        mode: true,
+      },
     },
     shell: {
       DownloadThriftJS: {

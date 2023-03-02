@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/hltcoe/concrete-js/blob/main/README-nodejs.md",
   "dependencies": {
+    "adm-zip": "^0.5.10",
     "jsesc": "^3.0.2",
     "lodash": "^4.17.21",
     "thrift": "^0.16.0",
@@ -52,6 +53,7 @@
   },
   "bin": {
     "concrete-convert-bpjson-server": "./convert-bpjson-server.js",
+    "concrete-convert-bpjson-client": "./convert-bpjson-client.js",
     "concrete-convert-client": "./convert-client.js"
   }
 }

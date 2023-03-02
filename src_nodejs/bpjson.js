@@ -1,7 +1,17 @@
-const {concat, groupBy, last, range, sortBy, sortedUniqBy, times} = require("lodash");
+const {concat, groupBy, last, range, sortBy, sortedUniqBy, startCase, times} = require("lodash");
 const {generateUUID} = require("./util");
 
 const concrete = require("./concrete");
+
+const BPJSON_SECTION_KINDS = [
+  "Byline",
+  "Dateline",
+  "Headline",
+  "Ignore",
+  "Section_Header",
+  "Sentence",
+  "Story-Lead",
+];
 
 function unNullifyList(list) {
   return list ? list : [];
@@ -9,6 +19,37 @@ function unNullifyList(list) {
 
 function unNullifyDict(dict) {
   return dict ? dict : {};
+}
+
+function listToScalar(list, listName="List") {
+  if (list.length === 0) {
+    throw new Error(`${listName} is empty`);
+  } else if (list.length > 1) {
+    throw new Error(`${listName} has more than one element`);
+  } else {
+    return list[0];
+  }
+}
+
+function normalizeSectionKind(kind) {
+  return kind.toLowerCase();
+}
+
+function denormalizeSectionKind(kind) {
+  // startCase, but preserve - and _ separators
+  return normalizeSectionKind(kind).split("-").map((substr) =>
+    substr.split("_").map(startCase).join("_")
+  ).join("-");
+}
+
+function equivalentSectionKindOrder(kind) {
+  // return desired order of section kinds in tree when section spans are equivalent
+  // (lower order <=> earlier in tree)
+  const normalizedKind = normalizeSectionKind(kind);
+  // temp_sentence_wrapper is a special section kind we use internally and do not expose to caller
+  const orderedKinds = ["section", "section_header", "story-lead", "*", "ignore", "temp_sentence_wrapper", "sentence"];
+  const kindIndex = orderedKinds.indexOf(normalizedKind);
+  return kindIndex >= 0 ? kindIndex : orderedKinds.indexOf("*");
 }
 
 function generateAnnotationMetadata() {
@@ -21,16 +62,6 @@ function generateAnnotationMetadata() {
 
 function getTokens(tokenization) {
   return tokenization.tokenList ? tokenization.tokenList.tokenList : [];
-}
-
-function listToScalar(list, listName="List") {
-  if (list.length === 0) {
-    throw new Error(`${listName} is empty`);
-  } else if (list.length > 1) {
-    throw new Error(`${listName} has more than one element`);
-  } else {
-    return list[0];
-  }
 }
 
 function argumentsToSlot(role, args, entitiesByUUID, eventSituationsByUUID) {
@@ -108,18 +139,22 @@ function convertConcreteToBPJson(communication) {
     "doc-id": communication.id,
     "entry-id": communication.id,
     "segment-sections": concat(
-      unNullifyList(communication.sectionList).flatMap((section) =>
-        unNullifyList(section.sentenceList).map((sentence) => ({
-          end: sentence.textSpan.ending,
-          start: sentence.textSpan.start,
-          "structural-element": "sentence",
-        }))
+      unNullifyList(communication.sectionList)
+        .filter((section) => normalizeSectionKind(section.kind) != "ignore")
+        .flatMap((section) =>
+          unNullifyList(section.sentenceList).map((sentence) => ({
+            end: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+            "structural-element": "Sentence",
+          }))
       ),
-      unNullifyList(communication.sectionList).map((section) => ({
-        end: section.textSpan.ending,
-        start: section.textSpan.start,
-        "structural-element": section.kind,
-      }))
+      unNullifyList(communication.sectionList)
+        .filter((section) => BPJSON_SECTION_KINDS.includes(denormalizeSectionKind(section.kind)))
+        .map((section) => ({
+          end: section.textSpan.ending,
+          start: section.textSpan.start,
+          "structural-element": denormalizeSectionKind(section.kind),
+        }))
     ),
     "segment-text": communication.text,
     "segment-text-tok": tok2char.map((tokenTextIndices) =>
@@ -279,19 +314,8 @@ function convertConcreteToBPJson(communication) {
   return corpusEntry;
 }
 
-function normalizeSectionKind(kind) {
-  return kind.toLowerCase();
-}
-
-function sectionKindOrder(kind) {
-  const normalizedKind = normalizeSectionKind(kind);
-  const orderedKinds = ["section", "*", "ignore", "sentence"];
-  const kindIndex = orderedKinds.indexOf(normalizedKind);
-  return kindIndex >= 0 ? kindIndex : orderedKinds.indexOf("*");
-}
-
 function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
-  const rootSectionNode = {start: 0, ending: text.length, kind: "unknown", children: []};
+  const rootSectionNode = {start: 0, ending: text.length, kind: "Unknown", children: []};
   segmentSections
     .map((segmentSection) => ({
       start: segmentSection.start,
@@ -313,7 +337,7 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
               if (normalizeSectionKind(parentCandidate.kind) !== normalizeSectionKind(sectionData.kind)) {
                 // parentCandidate, sectionData have different kinds, so insert sectionData below parentCandidate
                 [parentCandidate.children, sectionData.children] = [[sectionData], parentCandidate.children];
-                if (sectionKindOrder(sectionData.kind) < sectionKindOrder(parentCandidate.kind)) {
+                if (equivalentSectionKindOrder(sectionData.kind) < equivalentSectionKindOrder(parentCandidate.kind)) {
                   // sectionData kind should appear earlier in hierarchy, swap with parentCandidate kind
                   [parentCandidate.kind, sectionData.kind] = [sectionData.kind, parentCandidate.kind];
                 }
@@ -367,7 +391,12 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
   while (sentenceSearchStack.length > 0) {
     const node = sentenceSearchStack.pop();
     if (normalizeSectionKind(node.kind) === "sentence") {
-      node.isSentence = true;
+      if (node.children.length === 0) {
+        node.isSentence = true;
+      } else {
+        node.kind = "temp_sentence_wrapper";  // used only to simplify handling of sections below sentences
+        sentenceSearchStack.push(...node.children);
+      }
     } else {
       if (node.children.length === 0) {
         node.children.push({
@@ -411,7 +440,7 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
           if (groupEndIndex > groupStartIndex) {
             const groupSectionNode = {
               children: node.children.slice(groupStartIndex, groupEndIndex),
-              kind: "unknown",
+              kind: "Unknown",
               start: node.children[groupStartIndex].start,
               ending: node.children[groupEndIndex - 1].ending,
             };

@@ -2,7 +2,7 @@ const expect = require("chai").expect;
 
 const bpjson = require("../dist_nodejs/bpjson");
 
-describe("convertBPJsonToConcrete", function() {
+describe("converting bpjson -> concrete -> bpjson", function() {
   it("is invertible when annotated", function() {
     const corpusEntry = {
       "annotation-sets": {
@@ -99,12 +99,12 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "sentence"},
-        {"end": 5, "start": 0, "structural-element": "Headline"},
-        {"end": 6, "start": 5, "structural-element": "Headline"},
-        {"end": 13, "start": 7, "structural-element": "dateline"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 5, start: 0, "structural-element": "Headline"},
+        {end: 6, start: 5, "structural-element": "Headline"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -136,12 +136,12 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "sentence"},
-        {"end": 5, "start": 0, "structural-element": "Headline"},
-        {"end": 6, "start": 5, "structural-element": "Headline"},
-        {"end": 13, "start": 7, "structural-element": "dateline"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 5, start: 0, "structural-element": "Headline"},
+        {end: 6, start: 5, "structural-element": "Headline"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -161,7 +161,7 @@ describe("convertBPJsonToConcrete", function() {
     ).to.eql(corpusEntry);
   });
 
-  it("adds sections to fill gaps", function() {
+  it("does not add sections to fill gaps", function() {
     const corpusEntry = {
       char2tok: [
         [0], [0], [0], [0], [0],
@@ -173,11 +173,11 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "sentence"},
-        {"end": 5, "start": 0, "structural-element": "Headline"},
-        {"end": 6, "start": 5, "structural-element": "Headline"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 5, start: 0, "structural-element": "Headline"},
+        {end: 6, start: 5, "structural-element": "Headline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -195,16 +195,15 @@ describe("convertBPJsonToConcrete", function() {
         bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
-      {"end": 5, "start": 0, "structural-element": "sentence"},
-      {"end": 6, "start": 5, "structural-element": "sentence"},
-      {"end": 13, "start": 7, "structural-element": "sentence"},
-      {"end": 5, "start": 0, "structural-element": "Headline"},
-      {"end": 6, "start": 5, "structural-element": "Headline"},
-      {"end": 13, "start": 7, "structural-element": "unknown"},
+      {end: 5, start: 0, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
+      {end: 5, start: 0, "structural-element": "Headline"},
+      {end: 6, start: 5, "structural-element": "Headline"},
     ]);
   });
 
-  it("adds a root section if there are no others", function() {
+  it("does not add a root section if there are no others", function() {
     const corpusEntry = {
       char2tok: [
         [0], [0], [0], [0], [0],
@@ -216,9 +215,9 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "sentence"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -236,14 +235,13 @@ describe("convertBPJsonToConcrete", function() {
         bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
-      {"end": 5, "start": 0, "structural-element": "sentence"},
-      {"end": 6, "start": 5, "structural-element": "sentence"},
-      {"end": 13, "start": 7, "structural-element": "sentence"},
-      {"end": 13, "start": 0, "structural-element": "unknown"},
+      {end: 5, start: 0, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
     ]);
   });
 
-  it("groups sentences with no section", function() {
+  it("does not add sections over bare sentence groups", function() {
     const corpusEntry = {
       char2tok: [
         [0], [0], [0], [0], [0],
@@ -255,10 +253,10 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "dateline"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -276,15 +274,14 @@ describe("convertBPJsonToConcrete", function() {
         bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
-      {"end": 5, "start": 0, "structural-element": "sentence"},
-      {"end": 6, "start": 5, "structural-element": "sentence"},
-      {"end": 13, "start": 7, "structural-element": "sentence"},
-      {"end": 6, "start": 0, "structural-element": "unknown"},
-      {"end": 13, "start": 7, "structural-element": "dateline"},
+      {end: 5, start: 0, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Dateline"},
     ]);
   });
 
-  it("groups sentences with no section by kind", function() {
+  it("does not add sentences under ignore sections", function() {
     const corpusEntry = {
       char2tok: [
         [0], [0], [0], [0], [0],
@@ -296,10 +293,10 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "headline"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "sentence"},
-        {"end": 13, "start": 7, "structural-element": "dateline"},
+        {end: 5, start: 0, "structural-element": "Ignore"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -317,12 +314,51 @@ describe("convertBPJsonToConcrete", function() {
         bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
-      {"end": 5, "start": 0, "structural-element": "sentence"},
-      {"end": 6, "start": 5, "structural-element": "sentence"},
-      {"end": 13, "start": 7, "structural-element": "sentence"},
-      {"end": 5, "start": 0, "structural-element": "headline"},
-      {"end": 6, "start": 5, "structural-element": "unknown"},
-      {"end": 13, "start": 7, "structural-element": "dateline"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
+      {end: 5, start: 0, "structural-element": "Ignore"},
+      {end: 13, start: 7, "structural-element": "Dateline"},
+    ]);
+  });
+
+  it("adds sentences under non-ignore sections", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Headline"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )["segment-sections"]
+    ).to.eql([
+      {end: 5, start: 0, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
+      {end: 5, start: 0, "structural-element": "Headline"},
+      {end: 13, start: 7, "structural-element": "Dateline"},
     ]);
   });
 
@@ -338,11 +374,11 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 12, "structural-element": "sentence"},
-        {"end": 6, "start": 0, "structural-element": "headline"},
-        {"end": 13, "start": 12, "structural-element": "byline"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 12, "structural-element": "Sentence"},
+        {end: 6, start: 0, "structural-element": "Headline"},
+        {end: 13, start: 12, "structural-element": "Byline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -370,11 +406,11 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 5, "start": 0, "structural-element": "sentence"},
-        {"end": 6, "start": 5, "structural-element": "sentence"},
-        {"end": 13, "start": 12, "structural-element": "sentence"},
-        {"end": 6, "start": 0, "structural-element": "headline"},
-        {"end": 13, "start": 12, "structural-element": "byline"},
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 12, "structural-element": "Sentence"},
+        {end: 6, start: 0, "structural-element": "Headline"},
+        {end: 13, start: 12, "structural-element": "Byline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "!"],
@@ -399,10 +435,10 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 8, "start": 0, "structural-element": "sentence"},
-        {"end": 13, "start": 12, "structural-element": "sentence"},
-        {"end": 8, "start": 0, "structural-element": "headline"},
-        {"end": 13, "start": 12, "structural-element": "byline"},
+        {end: 8, start: 0, "structural-element": "Sentence"},
+        {end: 13, start: 12, "structural-element": "Sentence"},
+        {end: 8, start: 0, "structural-element": "Headline"},
+        {end: 13, start: 12, "structural-element": "Byline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -430,10 +466,10 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 8, "start": 0, "structural-element": "sentence"},
-        {"end": 13, "start": 12, "structural-element": "sentence"},
-        {"end": 8, "start": 0, "structural-element": "headline"},
-        {"end": 13, "start": 12, "structural-element": "byline"},
+        {end: 8, start: 0, "structural-element": "Sentence"},
+        {end: 13, start: 12, "structural-element": "Sentence"},
+        {end: 8, start: 0, "structural-element": "Headline"},
+        {end: 13, start: 12, "structural-element": "Byline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "!"],
@@ -458,10 +494,10 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 8, "start": 0, "structural-element": "sentence"},
-        {"end": 13, "start": 8, "structural-element": "sentence"},
-        {"end": 8, "start": 0, "structural-element": "headline"},
-        {"end": 13, "start": 8, "structural-element": "byline"},
+        {end: 8, start: 0, "structural-element": "Sentence"},
+        {end: 13, start: 8, "structural-element": "Sentence"},
+        {end: 8, start: 0, "structural-element": "Headline"},
+        {end: 13, start: 8, "structural-element": "Byline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "world", "!"],
@@ -489,10 +525,10 @@ describe("convertBPJsonToConcrete", function() {
       "doc-id": "doc-0",
       "entry-id": "doc-0",
       "segment-sections": [
-        {"end": 8, "start": 0, "structural-element": "sentence"},
-        {"end": 13, "start": 8, "structural-element": "sentence"},
-        {"end": 8, "start": 0, "structural-element": "headline"},
-        {"end": 13, "start": 8, "structural-element": "byline"},
+        {end: 8, start: 0, "structural-element": "Sentence"},
+        {end: 13, start: 8, "structural-element": "Sentence"},
+        {end: 8, start: 0, "structural-element": "Headline"},
+        {end: 13, start: 8, "structural-element": "Byline"},
       ],
       "segment-text": "Hello, world!",
       "segment-text-tok": ["Hello", ",", "!"],
@@ -503,5 +539,377 @@ describe("convertBPJsonToConcrete", function() {
         [12],
       ],
     });
+  });
+
+  it("corrects miscased section kinds", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "SentencE"},
+        {end: 6, start: 5, "structural-element": "sentence"},
+        {end: 13, start: 7, "structural-element": "SENTENCE"},
+        {end: 5, start: 0, "structural-element": "section_header"},
+        {end: 6, start: 5, "structural-element": "STORY-LEAD"},
+        {end: 13, start: 7, "structural-element": "dATELINE"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )["segment-sections"]
+    ).to.eql([
+      {end: 5, start: 0, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
+      {end: 5, start: 0, "structural-element": "Section_Header"},
+      {end: 6, start: 5, "structural-element": "Story-Lead"},
+      {end: 13, start: 7, "structural-element": "Dateline"},
+    ]);
+  });
+
+  it("filters sections with invalid kinds (but not their sentences)", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 5, start: 0, "structural-element": "Section_Body"},
+        {end: 6, start: 5, "structural-element": "Story-Lead"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertConcreteToBPJson(
+        bpjson.convertBPJsonToConcrete(corpusEntry)
+      )["segment-sections"]
+    ).to.eql([
+      {end: 5, start: 0, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Sentence"},
+      {end: 13, start: 7, "structural-element": "Sentence"},
+      {end: 6, start: 5, "structural-element": "Story-Lead"},
+      {end: 13, start: 7, "structural-element": "Dateline"},
+    ]);
+  });
+});
+
+describe("converting bpjson -> concrete", function() {
+  it("adds sections to fill gaps", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 5, start: 0, "structural-element": "Headline"},
+        {end: 6, start: 5, "structural-element": "Headline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertBPJsonToConcrete(corpusEntry)
+        .sectionList
+        .map((section) => ({
+          ending: section.textSpan.ending,
+          start: section.textSpan.start,
+          kind: section.kind,
+          sentences: section.sentenceList.map((sentence) => ({
+            ending: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+          })),
+        }))
+    ).to.eql([
+      {ending: 5, start: 0, kind: "Headline", "sentences": [{ending: 5, start: 0}]},
+      {ending: 6, start: 5, kind: "Headline", "sentences": [{ending: 6, start: 5}]},
+      {ending: 13, start: 7, kind: "Unknown", "sentences": [{ending: 13, start: 7}]},
+    ]);
+  });
+
+  it("adds a root section if there are no others", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertBPJsonToConcrete(corpusEntry)
+        .sectionList
+        .map((section) => ({
+          ending: section.textSpan.ending,
+          start: section.textSpan.start,
+          kind: section.kind,
+          sentences: section.sentenceList.map((sentence) => ({
+            ending: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+          })),
+        }))
+    ).to.eql([
+      {ending: 13, start: 0, kind: "Unknown", sentences: [
+        {ending: 5, start: 0},
+        {ending: 6, start: 5},
+        {ending: 13, start: 7},
+      ]},
+    ]);
+  });
+
+  it("adds sections over bare sentence groups", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertBPJsonToConcrete(corpusEntry)
+        .sectionList
+        .map((section) => ({
+          ending: section.textSpan.ending,
+          start: section.textSpan.start,
+          kind: section.kind,
+          sentences: section.sentenceList.map((sentence) => ({
+            ending: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+          })),
+        }))
+    ).to.eql([
+      {ending: 6, start: 0, kind: "Unknown", "sentences": [{ending: 5, start: 0}, {ending: 6, start: 5}]},
+      {ending: 13, start: 7, kind: "Dateline", "sentences": [{ending: 13, start: 7}]},
+    ]);
+  });
+
+  it("adds sentences under ignore sections", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Ignore"},
+        {end: 6, start: 5, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertBPJsonToConcrete(corpusEntry)
+        .sectionList
+        .map((section) => ({
+          ending: section.textSpan.ending,
+          start: section.textSpan.start,
+          kind: section.kind,
+          sentences: section.sentenceList.map((sentence) => ({
+            ending: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+          })),
+        }))
+    ).to.eql([
+      {ending: 5, start: 0, kind: "Ignore", "sentences": [{ending: 5, start: 0}]},
+      {ending: 6, start: 5, kind: "Unknown", "sentences": [{ending: 6, start: 5}]},
+      {ending: 13, start: 7, kind: "Dateline", "sentences": [{ending: 13, start: 7}]},
+    ]);
+  });
+
+  it("does not group non-adjacent bare sentences", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 5, start: 0, "structural-element": "Sentence"},
+        {end: 6, start: 5, "structural-element": "Dateline"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertBPJsonToConcrete(corpusEntry)
+        .sectionList
+        .map((section) => ({
+          ending: section.textSpan.ending,
+          start: section.textSpan.start,
+          kind: section.kind,
+          sentences: section.sentenceList.map((sentence) => ({
+            ending: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+          })),
+        }))
+    ).to.eql([
+      {ending: 5, start: 0, kind: "Unknown", "sentences": [{ending: 5, start: 0}]},
+      {ending: 6, start: 5, kind: "Dateline", "sentences": [{ending: 6, start: 5}]},
+      {ending: 13, start: 7, kind: "Unknown", "sentences": [{ending: 13, start: 7}]},
+    ]);
+  });
+
+  it("accommodates sections below sentences", function() {
+    const corpusEntry = {
+      char2tok: [
+        [0], [0], [0], [0], [0],
+        [1],
+        [],
+        [2], [2], [2], [2], [2],
+        [3],
+      ],
+      "doc-id": "doc-0",
+      "entry-id": "doc-0",
+      "segment-sections": [
+        {end: 6, start: 0, "structural-element": "Sentence"},
+        {end: 13, start: 7, "structural-element": "Sentence"},
+        {end: 5, start: 0, "structural-element": "Headline"},
+        {end: 6, start: 5, "structural-element": "Byline"},
+        {end: 13, start: 7, "structural-element": "Dateline"},
+      ],
+      "segment-text": "Hello, world!",
+      "segment-text-tok": ["Hello", ",", "world", "!"],
+      "segment-type": "type-0",
+      tok2char: [
+        [0, 1, 2, 3, 4],
+        [5],
+        [7, 8, 9, 10, 11],
+        [12],
+      ],
+    };
+    
+    expect(
+      bpjson.convertBPJsonToConcrete(corpusEntry)
+        .sectionList
+        .map((section) => ({
+          ending: section.textSpan.ending,
+          start: section.textSpan.start,
+          kind: section.kind,
+          sentences: section.sentenceList.map((sentence) => ({
+            ending: sentence.textSpan.ending,
+            start: sentence.textSpan.start,
+          })),
+        }))
+    ).to.eql([
+      {ending: 5, start: 0, kind: "Headline", "sentences": [{ending: 5, start: 0}]},
+      {ending: 6, start: 5, kind: "Byline", "sentences": [{ending: 6, start: 5}]},
+      {ending: 13, start: 7, kind: "Dateline", "sentences": [{ending: 13, start: 7}]},
+    ]);
   });
 });

@@ -52,6 +52,16 @@ function equivalentSectionKindOrder(kind) {
   return kindIndex >= 0 ? kindIndex : orderedKinds.indexOf("*");
 }
 
+function computeTokenSpanFromTextSpan(tok2char, textSpan) {
+  const startTokenIndex = tok2char.findIndex((textIndices) => textIndices[0] === textSpan[0]);
+  const lastTokenIndex = tok2char.findIndex((textIndices) => last(textIndices) === textSpan[1]);
+  if (startTokenIndex >= 0 && lastTokenIndex >= 0) {
+    return [startTokenIndex, lastTokenIndex];
+  } else {
+    throw new Error(`Could not find token spans matching text span ${textSpan}`);
+  }
+}
+
 function generateAnnotationMetadata() {
   return new concrete.metadata.AnnotationMetadata({
     kBest: 1,
@@ -289,13 +299,14 @@ function convertConcreteToBPJson(communication) {
         situationId: situation.id ? situation.id : `template-${situationIndex}`
       }));
     templateSituationDataList.forEach(({situation, situationId}) => {
+      const templateAnchorIds = unNullifyList(situation.argumentList)
+        .filter((argument) => argument.role === "template-anchor")
+        .map((argument) => entitiesByUUID[argument.entityId.uuidString].id);
+      if (templateAnchorIds.length > 1) {
+        throw new Error(`Found multiple template anchors for situation ${situationId}`);
+      }
       granularTemplates[situationId] = {
-        "template-anchor": listToScalar(
-          unNullifyList(situation.argumentList)
-            .filter((argument) => argument.role === "template-anchor")
-            .map((argument) => entitiesByUUID[argument.entityId.uuidString].id),
-          "Template anchor argument list"
-        ),
+        "template-anchor": templateAnchorIds.length ? templateAnchorIds[0] : "",
         "template-id": situationId,
         "template-type": situation.situationKind,
       };
@@ -552,7 +563,12 @@ function convertBPJsonToConcrete(corpusEntry) {
 
     Object.values(unNullifyDict(basicEvents["span-sets"])).forEach((spanSet) => {
       const mentions = spanSet.spans
-        .map((span) => range(span["start-token"], span["end-token"] + 1)
+        .map((span) =>
+          span["start-token"] !== undefined && span["end-token"] !== undefined ?
+            [span["start-token"], span["end-token"]] :
+            computeTokenSpanFromTextSpan(corpusEntry.tok2char, [span.start, span.end - 1])
+        )
+        .map(([startTokenIndex, lastTokenIndex]) => range(startTokenIndex, lastTokenIndex + 1)
           .map((globalTokenIndex) => flatTokenData[globalTokenIndex])
         )
         .map((spanTokenData) => {
@@ -560,7 +576,7 @@ function convertBPJsonToConcrete(corpusEntry) {
             spanTokenData.map(({sentence}) => sentence.tokenization.uuid),
             "uuidString"
           );
-          const tokenizationId = listToScalar(tokenizationUUIDs, "Tokenization list used by span");
+          const tokenizationId = listToScalar(tokenizationUUIDs, "list of tokenizations referenced by span");
           const tokenIndexList = spanTokenData.map(({token}) => token.tokenIndex);
           return new concrete.entities.EntityMention({
             tokens: new concrete.structure.TokenRefSequence({tokenizationId, tokenIndexList}),

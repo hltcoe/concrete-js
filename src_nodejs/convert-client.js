@@ -8,69 +8,96 @@ const {hideBin} = require('yargs/helpers');
 const concrete = require("./concrete");
 const {serializeThrift, deserializeThrift} = require("./util");
 
+
 const argv = yargs(hideBin(process.argv))
-  .command('$0 <inputPath> <outputPath>',
+  .command('$0 <host> <port>',
     `\
-Send file contents to a Concrete Convert service. 
+Send file contents to a Concrete ConvertCommunicationService and write converted contents to a file.
 
 Can convert from a Concrete Communication to another format or vice versa. \
-What the other format is depends on the implementation of the service you're connecting to. \
+What the "other" format is depends on the implementation of the convert service. \
+Use the --about flag to get information about the specified service's implementation.
+
 The direction of conversion (from Concrete or to Concrete) is inferred from the provided filenames. \
-exactly one file must have a .concrete extension and that file will be interpreted as the \
+Exactly one file must have a .concrete extension and that file will be interpreted as the \
 Concrete Communication. \
 `
   )
-  .positional('inputPath', {
+  .positional('host', {
     type: 'string',
-    description: 'Path to input Concrete Communication or non-Concrete file',
+    description: 'ConvertCommunicationService host to connect to',
   })
-  .positional('outputPath', {
-    type: 'string',
-    description: 'Path to output non-Concrete or Concrete Communication file',
-  })
-  .option('host', {
-    type: 'string',
-    default: 'localhost',
-    description: 'Convert service host to connect to',
-  })
-  .option('port', {
+  .positional('port', {
     type: 'number',
-    default: 9000,
-    description: 'Convert service port to connect to',
+    description: 'ConvertCommunicationService port to connect to',
+  })
+  .option('about', {
+    type: 'boolean',
+    description: "Don't convert, just print service information to the console.",
+  })
+  .option('input', {
+    type: 'string',
+    default: '/dev/stdin',
+    description: 'Path to input Concrete Communication or non-Concrete file',
+    alias: 'i',
+  })
+  .option('output', {
+    type: 'string',
+    default: '/dev/stdout',
+    description: 'Path to output non-Concrete or Concrete Communication file',
+    alias: 'o',
   })
   .help()
   .alias('help', 'h')
   .parse();
 
-console.log(`Connecting to ${argv.host}:${argv.port}`);
-const connection = thrift.createConnection(argv.host, argv.port, {
-  transport: thrift.TBufferedTransport,
-  protocol: thrift.TBinaryProtocol,
-});
-connection.on("error", (ex) => console.error(`Connection error: ${ex.message}`));
+function connect(host, port) {
+  console.log(`Connecting to ${host}:${port} ...`);
+  const connection = thrift.createConnection(host, port, {
+    transport: thrift.TBufferedTransport,
+    protocol: thrift.TBinaryProtocol,
+  });
+  connection.on("error", (ex) => console.error(`Connection error: ${ex.message}`));
+  const client = thrift.createClient(concrete.convert.ConvertCommunicationService, connection);
+  return {connection, client};
+}
 
-const client = thrift.createClient(concrete.convert.ConvertCommunicationService, connection);
-
-if (argv.inputPath.endsWith(".concrete") && !argv.outputPath.endsWith(".concrete")) {
+if (argv.about) {
+  const {connection, client} = connect(argv.host, argv.port);
   client.about()
-    .then((info) => console.log(`Connected to "${info.name}" version "${info.version}"`))
-    .then(() => readFile(argv.inputPath))
-    .then((inputData) => client.fromConcrete(
-      deserializeThrift(inputData, concrete.communication.Communication)
-    ))
-    .then((outputData) => writeFile(argv.outputPath, outputData))
+    .then((info) => {
+      console.log('Connected to service');
+      console.log(`Name: ${info.name}`);
+      console.log(`Version: ${info.version}`);
+      console.log(`Description: ${info.description}`);
+    })
     .catch((ex) => console.error(`Error: ${ex.message}`))
     .finally(() => connection.end());
-} else if (!argv.inputPath.endsWith(".concrete") && argv.outputPath.endsWith(".concrete")) {
-  client.about()
-    .then((info) => console.log(`Connected to "${info.name}" version "${info.version}"`))
-    .then(() => readFile(argv.inputPath))
-    .then((inputData) => client.toConcrete(inputData))
-    .then((outputObj) => writeFile(argv.outputPath, serializeThrift(outputObj)))
-    .catch((ex) => console.error(`SError: ${ex.message}`))
-    .finally(() => connection.end());
 } else {
-  console.error("Exactly one of inputPath and outputPath must end in a .concrete extension.");
-  console.error(`inputPath: ${argv.inputPath}`);
-  console.error(`outputPath: ${argv.outputPath}`);
+  if (argv.input.endsWith(".concrete") && !argv.output.endsWith(".concrete")) {
+    const {connection, client} = connect(argv.host, argv.port);
+    client.about()
+      .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
+      .then(() => readFile(argv.input))
+      .then((inputData) => client.fromConcrete(
+        deserializeThrift(inputData, concrete.communication.Communication)
+      ))
+      .then((outputData) => writeFile(argv.output, outputData))
+      .catch((ex) => console.error(`Error: ${ex.message}`))
+      .finally(() => connection.end());
+  } else if (!argv.input.endsWith(".concrete") && argv.output.endsWith(".concrete")) {
+    const {connection, client} = connect(argv.host, argv.port);
+    client.about()
+      .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
+      .then(() => readFile(argv.input))
+      .then((inputData) => client.toConcrete(inputData))
+      .then((outputObj) => writeFile(argv.output, serializeThrift(outputObj)))
+      .catch((ex) => console.error(`Error: ${ex.message}`))
+      .finally(() => connection.end());
+  } else {
+    console.error("Either the input path or the output path must end in .concrete");
+    console.error(`input: ${argv.input}`);
+    console.error(`output: ${argv.output}`);
+    process.exit(1);
+  }
 }

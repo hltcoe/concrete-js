@@ -103,7 +103,7 @@ JavaScript + jQuery distribution, go to
 <a href="http://hltcoe.github.io/concrete-js/js-jquery/">the JavaScript + jQuery <strong>concrete-js</strong> documentation page</a>.</p>
 <h2>Installation</h2>
 <p>The Node.js distribution of <strong>concrete-js</strong> is published as
-<code>@hltcoe/concrete</code>.</p>
+<a href="https://www.npmjs.com/package/@hltcoe/concrete">@hltcoe/concrete</a>.</p>
 <p>To use <strong>concrete-js</strong> in your Node.js project, use <code>npm install</code> to add it to
 your dependencies:</p>
 <pre class="prettyprint source"><code>npm install @hltcoe/concrete
@@ -167,12 +167,16 @@ async headCommunications(fetchClient, maxNumCommunications = 10) {
 <p>The <strong>concrete-js</strong> source code can be accessed from
 <a href="https://github.com/hltcoe/concrete-js">GitHub</a>.</p>
 <h3>Building</h3>
-<p>You do not need to build <strong>concrete-js</strong> in order to use
-<strong>concrete-js</strong>:  The Node.js package is available on the npm registry,
-and a working copy of the JavaScript + jQuery library is included in
-this repository in the <code>dist/</code> directory.  The <strong>concrete-js</strong> library
+<p>You do not need to build <strong>concrete-js</strong> yourself in order to use it.
+The Node.js package is available on the npm registry as
+<a href="https://www.npmjs.com/package/@hltcoe/concrete">@hltcoe/concrete</a>,
+and a working copy of the JavaScript + jQuery library is available in
+the <code>dist/</code> directory in the <strong>concrete-js</strong> repository or here:
+<a href="https://hltcoe.github.io/concrete-js/concrete.js">readable version</a>,
+<a href="https://hltcoe.github.io/concrete-js/concrete.min.js">minified version</a>.
+The <strong>concrete-js</strong> library
 only needs to be (re)built when the Thrift schema files for Concrete
-have been updated or when the code in <code>src/</code> is modified.</p>
+have been updated or when the code in <code>src/</code> or <code>src_nodejs/</code> is modified.</p>
 <p>Requirements for building <strong>concrete-js</strong>:</p>
 <ul>
 <li>A clone of

@@ -34,7 +34,7 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
     try {
       return jsesc(
         bpjson.convertConcreteToBPJson(original),
-        {json: true, compact: false, indent: ' ', indentLevel: 2});
+        {json: true, compact: false, indent: '  '});
     } catch (ex) {
       console.error(ex);
       throw new concrete.services.ServicesException({

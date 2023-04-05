@@ -51,7 +51,7 @@ module.exports = function (grunt) {
             dest: 'dist_nodejs/'
           },
           {
-            src: 'LICENSE',
+            src: 'LICENSE.txt',
             dest: 'dist_nodejs/'
           },
           {
@@ -73,6 +73,9 @@ module.exports = function (grunt) {
             dest: 'docs/'
           }
         ]
+      },
+      options: {
+        mode: true,
       },
     },
     shell: {

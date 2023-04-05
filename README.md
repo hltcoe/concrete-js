@@ -1,8 +1,9 @@
 # concrete-js
 
-[![Build status](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/hltcoe/concrete-js/actions/workflows/node.js.yml)
+[![Build status](https://github.com/hltcoe/concrete-js/actions/workflows/docker-build.yml/badge.svg)](https://github.com/hltcoe/concrete-js/actions/workflows/docker-build.yml)
 
-**concrete-js** is a Node.js/JavaScript library for working with
+[**concrete-js**](https://github.com/hltcoe/concrete-js)
+is a Node.js/JavaScript library for working with
 [Concrete](https://hltcoe.github.io/concrete), a set of NLP data
 types defined by a [Thrift](https://thrift.apache.org) schema.  Thrift
 makes it easy to use a shared set of data structures across multiple
@@ -58,7 +59,7 @@ JavaScript + jQuery distribution, go to
 ## Installation
 
 The Node.js distribution of **concrete-js** is published as
-`@hltcoe/concrete`.
+[@hltcoe/concrete](https://www.npmjs.com/package/@hltcoe/concrete).
 
 To use **concrete-js** in your Node.js project, use `npm install` to add it to
 your dependencies:
@@ -129,14 +130,21 @@ async headCommunications(fetchClient, maxNumCommunications = 10) {
 
 ## Development
 
+The **concrete-js** source code can be accessed from
+[GitHub](https://github.com/hltcoe/concrete-js).
+
 ### Building
 
-You do not need to build **concrete-js** in order to use
-**concrete-js**:  The Node.js package is available on the npm registry,
-and a working copy of the JavaScript + jQuery library is included in
-this repository in the `dist/` directory.  The **concrete-js** library
+You do not need to build **concrete-js** yourself in order to use it.
+The Node.js package is available on the npm registry as
+[@hltcoe/concrete](https://www.npmjs.com/package/@hltcoe/concrete),
+and a working copy of the JavaScript + jQuery library is available in
+the `dist/` directory in the **concrete-js** repository or here:
+[readable version](https://hltcoe.github.io/concrete-js/concrete.js),
+[minified version](https://hltcoe.github.io/concrete-js/concrete.min.js).
+The **concrete-js** library
 only needs to be (re)built when the Thrift schema files for Concrete
-have been updated or when the code in `src/` is modified.
+have been updated or when the code in `src/` or `src_nodejs/` is modified.
 
 Requirements for building **concrete-js**:
 

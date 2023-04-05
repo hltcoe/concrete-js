@@ -16,7 +16,7 @@ Send file contents to a Concrete Convert service.
 Can convert from a Concrete Communication to another format or vice versa. \
 What the other format is depends on the implementation of the service you're connecting to. \
 The direction of conversion (from Concrete or to Concrete) is inferred from the provided filenames. \
-exactly one file must have a .concrete extension and that file will be interpreted as the \
+exactly one file must have a .comm or .concrete extension and that file will be interpreted as the \
 Concrete Communication. \
 `
   )
@@ -42,6 +42,10 @@ Concrete Communication. \
   .alias('help', 'h')
   .parse();
 
+function isConcretePath(path) {
+  return path.endsWith('.comm') || path.endsWith('.concrete');
+}
+
 console.log(`Connecting to ${argv.host}:${argv.port}`);
 const connection = thrift.createConnection(argv.host, argv.port, {
   transport: thrift.TBufferedTransport,
@@ -51,7 +55,7 @@ connection.on("error", (ex) => console.error(`Connection error: ${ex.message}`))
 
 const client = thrift.createClient(concrete.convert.ConvertCommunicationService, connection);
 
-if (argv.inputPath.endsWith(".concrete") && !argv.outputPath.endsWith(".concrete")) {
+if (isConcretePath(argv.inputPath) && !isConcretePath(argv.outputPath)) {
   client.about()
     .then((info) => console.log(`Connected to "${info.name}" version "${info.version}"`))
     .then(() => readFile(argv.inputPath))
@@ -61,7 +65,7 @@ if (argv.inputPath.endsWith(".concrete") && !argv.outputPath.endsWith(".concrete
     .then((outputData) => writeFile(argv.outputPath, outputData))
     .catch((ex) => console.error(`Error: ${ex.message}`))
     .finally(() => connection.end());
-} else if (!argv.inputPath.endsWith(".concrete") && argv.outputPath.endsWith(".concrete")) {
+} else if (!isConcretePath(argv.inputPath) && isConcretePath(argv.outputPath)) {
   client.about()
     .then((info) => console.log(`Connected to "${info.name}" version "${info.version}"`))
     .then(() => readFile(argv.inputPath))

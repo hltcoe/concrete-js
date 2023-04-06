@@ -222,16 +222,20 @@ of the library and then regenerate the documentation:</p>
 <p>Or to run the tests for just the Node.js library or just the
 JavaScript + jQuery library, do <code>npm run test_nodejs</code> or
 <code>npm run test_js</code>, respectively.</p>
-<h3>Publishing to NPM</h3>
-<p>After building the Node.js <code>@hltcoe/concrete</code> library using the steps
-described previously, the package files will be located in the
-<code>dist_nodejs</code> subdirectory.  To publish the package to the npm
-registry, run <code>npm publish</code> from <code>dist_nodejs</code>:</p>
-<pre class="prettyprint source"><code>cd dist_nodejs && npm publish
+<h3>Updating the library version</h3>
+<p>To update the concrete library version, use <code>npm version</code>.  For example,
+to increment the &quot;patch&quot; component of the version (the <code>3</code> in <code>4.17.3</code>):</p>
+<pre class="prettyprint source"><code>npm version patch
 </code></pre>
-<p>So, to perform a publish from a clean state, you might do something like
-the following.  Note that this will cause you to lose any changes not
-committed to git!</p>
+<p>See <code>npm help version</code> for more information.</p>
+<h3>Publishing to NPM</h3>
+<p>After updating the <code>@hltcoe/concrete</code> library version and building the
+library following the procedures described previously, the built Node.js
+package will be located in <code>dist_nodejs</code>.  To publish the package to the
+npm registry, you must do so <strong>from the <code>dist_nodejs</code> subdirectory.</strong></p>
+<p>Specifically, to perform a publish from a clean state, you might run a
+series of commands like the following, starting from this directory.
+Note that this will cause you to lose any changes not committed to git!</p>
 <pre class="prettyprint source"><code>git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish
 </code></pre></article>
     </section>

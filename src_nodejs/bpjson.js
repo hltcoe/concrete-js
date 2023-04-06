@@ -13,6 +13,8 @@ const BPJSON_SECTION_KINDS = [
   "Story-Lead",
 ];
 
+const DEFAULT_TEMPLATE_SITUATION_TYPE = "EVENT_TEMPLATE";
+
 function unNullifyList(list) {
   return list ? list : [];
 }
@@ -82,7 +84,7 @@ function normalizeArgumentRole(role) {
   return role.toLowerCase();
 }
 
-function argumentsToSlot(role, args, entitiesByUUID, eventSituationsByUUID) {
+function argumentsToSlot(role, args, entityIdsByUUID, eventSituationIdsByUUID) {
   if (! args.every((argument) => normalizeArgumentRole(argument.role) === normalizeArgumentRole(role))) {
     throw new Error(`Specified arguments do not all have role ${role}`);
   }
@@ -95,8 +97,8 @@ function argumentsToSlot(role, args, entitiesByUUID, eventSituationsByUUID) {
     }
     return args.map((argument) => (
       argument.entityId ?
-      {ssid: entitiesByUUID[argument.entityId.uuidString].id} :
-      {"event-id": eventSituationsByUUID[argument.situationId.uuidString].id}
+      {ssid: entityIdsByUUID[argument.entityId.uuidString]} :
+      {"event-id": eventSituationIdsByUUID[argument.situationId.uuidString]}
     ));
   } else {
     const argument = listToScalar(args, "Scalar argument list");
@@ -137,7 +139,7 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
   return args;
 }
 
-function convertConcreteToBPJson(communication) {
+function convertConcreteToBPJson(communication, templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE) {
   const tok2char = unNullifyList(communication.sectionList).flatMap((section) =>
     unNullifyList(section.sentenceList).flatMap((sentence) =>
       getTokens(sentence.tokenization).map((token) =>
@@ -195,7 +197,7 @@ function convertConcreteToBPJson(communication) {
     })
   );
 
-  const entitiesByUUID = {};
+  const entityIdsByUUID = {};
   const entityMentionsByUUID = {};
   if (communication.entitySetList && communication.entityMentionSetList) {
     const spanSets = {};
@@ -216,8 +218,8 @@ function convertConcreteToBPJson(communication) {
         entity,
         entityId: entity.id ? entity.id : `ss-${entityIndex}`
       }));
-    entityDataList.forEach(({entity}) => (
-      entitiesByUUID[entity.uuid.uuidString] = entity
+    entityDataList.forEach(({entity, entityId}) => (
+      entityIdsByUUID[entity.uuid.uuidString] = entityId
     ));
     entityDataList.forEach(({entity, entityId}) => (
       spanSets[entityId] = {
@@ -273,36 +275,36 @@ function convertConcreteToBPJson(communication) {
         situation,
         situationId: situation.id ? situation.id : `event-${situationIndex}`
       }));
-    const eventSituationsByUUID = {};
-    eventSituationDataList.forEach(({situation}) => (
-      eventSituationsByUUID[situation.uuid.uuidString] = situation
+    const eventSituationIdsByUUID = {};
+    eventSituationDataList.forEach(({situation, situationId}) => (
+      eventSituationIdsByUUID[situation.uuid.uuidString] = situationId
     ));
     eventSituationDataList.forEach(({situation, situationId}) => (
       events[situationId] = {
         agents: unNullifyList(situation.argumentList)
           .filter((argument) => argument.role === "agent")
-          .map((argument) => entitiesByUUID[argument.entityId.uuidString].id),
+          .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
         anchors: listToScalar(
           unNullifyList(situation.argumentList)
             .filter((argument) => argument.role === "anchor")
-            .map((argument) => entitiesByUUID[argument.entityId.uuidString].id),
+            .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
           "Event anchor argument list"
         ),
         "eventid": situationId,
         "event-type": situation.situationKind,
         patients: unNullifyList(situation.argumentList)
           .filter((argument) => argument.role === "patient")
-          .map((argument) => entitiesByUUID[argument.entityId.uuidString].id),
+          .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
         "ref-events": unNullifyList(situation.argumentList)
           .filter((argument) => argument.role === "ref-event")
-          .map((argument) => eventSituationsByUUID[argument.situationId.uuidString].id),
+          .map((argument) => eventSituationIdsByUUID[argument.situationId.uuidString]),
         "state-of-affairs": false,
       }
     ));
 
     const templateSituationDataList = situationSet.situationList
       .filter((situation) =>
-        normalizeSituationType(situation.situationType) === normalizeSituationType("EVENT_TEMPLATE")
+        normalizeSituationType(situation.situationType) === normalizeSituationType(templateSituationType)
       )
       .map((situation, situationIndex) => ({
         situation,
@@ -311,7 +313,7 @@ function convertConcreteToBPJson(communication) {
     templateSituationDataList.forEach(({situation, situationId}) => {
       const templateAnchorIds = unNullifyList(situation.argumentList)
         .filter((argument) => argument.role === "template-anchor")
-        .map((argument) => entitiesByUUID[argument.entityId.uuidString].id);
+        .map((argument) => entityIdsByUUID[argument.entityId.uuidString].id);
       if (templateAnchorIds.length > 1) {
         throw new Error(`Found multiple template anchors for situation ${situationId}`);
       }
@@ -326,7 +328,7 @@ function convertConcreteToBPJson(communication) {
         "role"
       )).forEach(([role, args]) => (
         granularTemplates[situationId][role] = argumentsToSlot(
-          role, args, entitiesByUUID, eventSituationsByUUID
+          role, args, entityIdsByUUID, eventSituationIdsByUUID
         )
       ));
     });
@@ -534,7 +536,7 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
   return sections;
 }
 
-function convertBPJsonToConcrete(corpusEntry) {
+function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE) {
   const communicationParams = {
     id: corpusEntry["entry-id"],
     metadata: generateAnnotationMetadata(),
@@ -653,7 +655,7 @@ function convertBPJsonToConcrete(corpusEntry) {
         argumentList: templateToArguments(template, entitiesById, eventSituationsById),
         id: template["template-id"],
         situationKind: template["template-type"],
-        situationType: "EVENT_TEMPLATE",
+        situationType: templateSituationType,
         uuid: generateUUID(),
       }))
     );
@@ -662,4 +664,4 @@ function convertBPJsonToConcrete(corpusEntry) {
   return new concrete.communication.Communication(communicationParams);
 }
 
-module.exports = {convertConcreteToBPJson, convertBPJsonToConcrete};
+module.exports = {convertConcreteToBPJson, convertBPJsonToConcrete, DEFAULT_TEMPLATE_SITUATION_TYPE};

@@ -313,7 +313,7 @@ function convertConcreteToBPJson(communication, templateSituationType=DEFAULT_TE
     templateSituationDataList.forEach(({situation, situationId}) => {
       const templateAnchorIds = unNullifyList(situation.argumentList)
         .filter((argument) => argument.role === "template-anchor")
-        .map((argument) => entityIdsByUUID[argument.entityId.uuidString].id);
+        .map((argument) => entityIdsByUUID[argument.entityId.uuidString]);
       if (templateAnchorIds.length > 1) {
         throw new Error(`Found multiple template anchors for situation ${situationId}`);
       }

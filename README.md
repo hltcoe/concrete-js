@@ -199,20 +199,27 @@ JavaScript + jQuery library, do `npm run test_nodejs` or
 `npm run test_js`, respectively.
 
 
+### Updating the library version
+
+To update the concrete library version, use `npm version`.  For example,
+to increment the "patch" component of the version (the `3` in `4.17.3`):
+
+```
+npm version patch
+```
+
+See `npm help version` for more information.
+
 ### Publishing to NPM
 
-After building the Node.js `@hltcoe/concrete` library using the steps
-described previously, the package files will be located in the
-`dist_nodejs` subdirectory.  To publish the package to the npm
-registry, run `npm publish` from `dist_nodejs`:
+After updating the `@hltcoe/concrete` library version and building the
+library following the procedures described previously, the built Node.js
+package will be located in `dist_nodejs`.  To publish the package to the
+npm registry, you must do so **from the `dist_nodejs` subdirectory.**
 
-```
-cd dist_nodejs && npm publish
-```
-
-So, to perform a publish from a clean state, you might do something like
-the following.  Note that this will cause you to lose any changes not
-committed to git!
+Specifically, to perform a publish from a clean state, you might run a
+series of commands like the following, starting from this directory.
+Note that this will cause you to lose any changes not committed to git!
 
 ```
 git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish

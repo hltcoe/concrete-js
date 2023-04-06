@@ -15,6 +15,11 @@ const argv = yargs(hideBin(process.argv))
     default: 9000,
     description: 'TCP port to listen on',
   })
+  .option('template-situation-type', {
+    type: 'string',
+    default: bpjson.DEFAULT_TEMPLATE_SITUATION_TYPE,
+    description: 'Situation type to output and expect in the input for BP JSON templates',
+  })
   .help()
   .alias('help', 'h')
   .parse();
@@ -23,7 +28,7 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
   about: () => {
     return new concrete.services.ServiceInfo({
       name: "BP-JSON Entry Convert Service",
-      description: "Converts between an individual BETTER BP-JSON v10 corpus entry and a Concrete Communication",
+      description: `Converts between an individual BETTER BP-JSON v10 corpus entry and a Concrete Communication.  Uses ${argv.templateSituationType} as the situation type for BP JSON templates`,
       version: getVersion(),
     });
   },
@@ -33,7 +38,7 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
   fromConcrete: (original) => {
     try {
       return jsesc(
-        bpjson.convertConcreteToBPJson(original),
+        bpjson.convertConcreteToBPJson(original, argv.templateSituationType),
         {json: true, compact: false, indent: '  '});
     } catch (ex) {
       console.error(ex);
@@ -48,7 +53,7 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
       if (corpusEntry.entries) {
         throw new Error("Expected BP-JSON corpus entry but received BP-JSON corpus");
       }
-      return bpjson.convertBPJsonToConcrete(corpusEntry);
+      return bpjson.convertBPJsonToConcrete(corpusEntry, argv.templateSituationType);
     } catch (ex) {
       console.error(ex);
       throw new concrete.services.ServicesException({

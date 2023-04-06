@@ -74,8 +74,16 @@ function getTokens(tokenization) {
   return tokenization.tokenList ? tokenization.tokenList.tokenList : [];
 }
 
+function normalizeSituationType(type) {
+  return type.toUpperCase();
+}
+
+function normalizeArgumentRole(role) {
+  return role.toLowerCase();
+}
+
 function argumentsToSlot(role, args, entitiesByUUID, eventSituationsByUUID) {
-  if (! args.every((argument) => argument.role === role)) {
+  if (! args.every((argument) => normalizeArgumentRole(argument.role) === normalizeArgumentRole(role))) {
     throw new Error(`Specified arguments do not all have role ${role}`);
   }
   if (args.some((argument) => argument.entityId && argument.situationId)) {
@@ -260,7 +268,7 @@ function convertConcreteToBPJson(communication) {
       "Communication.situationSetList");
 
     const eventSituationDataList = situationSet.situationList
-      .filter((situation) => situation.situationType === "EVENT")
+      .filter((situation) => normalizeSituationType(situation.situationType) === normalizeSituationType("EVENT"))
       .map((situation, situationIndex) => ({
         situation,
         situationId: situation.id ? situation.id : `event-${situationIndex}`
@@ -293,7 +301,9 @@ function convertConcreteToBPJson(communication) {
     ));
 
     const templateSituationDataList = situationSet.situationList
-      .filter((situation) => situation.situationType === "EVENT_TEMPLATE")
+      .filter((situation) =>
+        normalizeSituationType(situation.situationType) === normalizeSituationType("EVENT_TEMPLATE")
+      )
       .map((situation, situationIndex) => ({
         situation,
         situationId: situation.id ? situation.id : `template-${situationIndex}`

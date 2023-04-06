@@ -19,7 +19,7 @@ What the "other" format is depends on the implementation of the convert service.
 Use the --about flag to get information about the specified service's implementation.
 
 The direction of conversion (from Concrete or to Concrete) is inferred from the provided filenames. \
-Exactly one file must have a .concrete extension and that file will be interpreted as the \
+Exactly one file must have a .concrete or .comm extension and that file will be interpreted as the \
 Concrete Communication. \
 `
   )
@@ -51,6 +51,10 @@ Concrete Communication. \
   .alias('help', 'h')
   .parse();
 
+function isConcretePath(path) {
+  return path.endsWith('.concrete') || path.endsWith('.comm');
+}
+
 function connect(host, port) {
   console.log(`Connecting to ${host}:${port} ...`);
   const connection = thrift.createConnection(host, port, {
@@ -74,7 +78,7 @@ if (argv.about) {
     .catch((ex) => console.error(`Error: ${ex.message}`))
     .finally(() => connection.end());
 } else {
-  if (argv.input.endsWith(".concrete") && !argv.output.endsWith(".concrete")) {
+  if (isConcretePath(argv.input) && !isConcretePath(argv.output)) {
     const {connection, client} = connect(argv.host, argv.port);
     client.about()
       .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
@@ -85,7 +89,7 @@ if (argv.about) {
       .then((outputData) => writeFile(argv.output, outputData))
       .catch((ex) => console.error(`Error: ${ex.message}`))
       .finally(() => connection.end());
-  } else if (!argv.input.endsWith(".concrete") && argv.output.endsWith(".concrete")) {
+  } else if (!isConcretePath(argv.input) && isConcretePath(argv.output)) {
     const {connection, client} = connect(argv.host, argv.port);
     client.about()
       .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
@@ -95,7 +99,7 @@ if (argv.about) {
       .catch((ex) => console.error(`Error: ${ex.message}`))
       .finally(() => connection.end());
   } else {
-    console.error("Either the input path or the output path must end in .concrete");
+    console.error("Either the input path or the output path must end in .concrete or .comm");
     console.error(`input: ${argv.input}`);
     console.error(`output: ${argv.output}`);
     process.exit(1);

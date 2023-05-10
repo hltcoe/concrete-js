@@ -1,5 +1,5 @@
 const {v4: uuidv4} = require("uuid");
-const {TBufferedTransport, TFramedTransport, TCompactProtocol} = require("thrift");
+const {TBufferedTransport, TCompactProtocol} = require("thrift");
 const concrete = require("./concrete");
 const version = require("./generated_version");
 
@@ -63,10 +63,8 @@ util.serializeThrift = function(obj) {
  * @param thriftModel Thrift model class.
  */
 util.deserializeThrift = function(data, thriftModel) {
-  const transport = new TFramedTransport(data);
-  const protocol = new TCompactProtocol(transport);
   const obj = new thriftModel();
-  obj.read(protocol);
+  TBufferedTransport.receiver((reader) => obj.read(new TCompactProtocol(reader)))(data);
   return obj;
 };
 

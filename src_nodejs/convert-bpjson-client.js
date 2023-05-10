@@ -89,8 +89,11 @@ if (argv.about) {
     client.about()
       .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
       .then(() =>
-        new AdmZip(argv.input).getEntries().map((zipEntry) =>
-          deserializeThrift(zipEntry.getData(), concrete.communication.Communication)))
+        new AdmZip(argv.input).getEntries()
+          .filter((zipEntry) =>
+            !zipEntry.isDirectory && (zipEntry.name.endsWith(".concrete") || zipEntry.name.endsWith(".comm")))
+          .map((zipEntry) =>
+            deserializeThrift(zipEntry.getData(), concrete.communication.Communication)))
       .then((inputCommunicationList) =>
         Promise.all(inputCommunicationList.map((inputCommunication) =>
           client.fromConcrete(inputCommunication))))

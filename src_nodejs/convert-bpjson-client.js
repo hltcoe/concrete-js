@@ -82,7 +82,6 @@ if (argv.about) {
       console.log(`Version: ${info.version}`);
       console.log(`Description: ${info.description}`);
     })
-    .catch((ex) => console.error(`Error: ${ex.message}`))
     .finally(() => connection.end());
 } else {
   if (argv.input.endsWith(".zip") && !argv.output.endsWith(".zip")) {
@@ -101,7 +100,6 @@ if (argv.about) {
           jsesc(
             createCorpus(path.basename(argv.input), outputDataList.map(JSON.parse)),
             {json: true, compact: false, indent: '  '})))
-      .catch((ex) => console.error(`Error: ${ex.message}`))
       .finally(() => connection.end());
   } else if (!argv.input.endsWith(".zip") && argv.output.endsWith(".zip")) {
     const {connection, client} = connect(argv.host, argv.port);
@@ -119,7 +117,6 @@ if (argv.about) {
           zip.addFile(`${outputCommunication.id}.concrete`, serializeThrift(outputCommunication)));
         zip.writeZip(argv.output);
       })
-      .catch((ex) => console.error(`Error: ${ex.message}`))
       .finally(() => connection.end());
   } else {
     console.error("Either the input path or the output path must end in .zip");

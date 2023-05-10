@@ -75,7 +75,6 @@ if (argv.about) {
       console.log(`Version: ${info.version}`);
       console.log(`Description: ${info.description}`);
     })
-    .catch((ex) => console.error(`Error: ${ex.message}`))
     .finally(() => connection.end());
 } else {
   if (isConcretePath(argv.input) && !isConcretePath(argv.output)) {
@@ -87,7 +86,6 @@ if (argv.about) {
         deserializeThrift(inputData, concrete.communication.Communication)
       ))
       .then((outputData) => writeFile(argv.output, outputData))
-      .catch((ex) => console.error(`Error: ${ex.message}`))
       .finally(() => connection.end());
   } else if (!isConcretePath(argv.input) && isConcretePath(argv.output)) {
     const {connection, client} = connect(argv.host, argv.port);
@@ -96,7 +94,6 @@ if (argv.about) {
       .then(() => readFile(argv.input))
       .then((inputData) => client.toConcrete(inputData))
       .then((outputObj) => writeFile(argv.output, serializeThrift(outputObj)))
-      .catch((ex) => console.error(`Error: ${ex.message}`))
       .finally(() => connection.end());
   } else {
     console.error("Either the input path or the output path must end in .concrete or .comm");

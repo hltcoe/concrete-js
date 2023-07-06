@@ -1,5 +1,8 @@
 const {v4: uuidv4} = require("uuid");
-const {TBufferedTransport, TCompactProtocol} = require("thrift");
+const {
+  TBufferedTransport, TCompactProtocol, TJSONProtocol,
+  createXHRConnection, createXHRClient,
+} = require("thrift");
 const concrete = require("./concrete");
 const version = require("./generated_version");
 
@@ -81,13 +84,13 @@ util.createXHRClientFromURL = function(url, serviceModel, onError = undefined) {
   const urlObj = new URL(url);
 
   const options = {
-    transport: thrift.TBufferedTransport,
-    protocol: thrift.TJSONProtocol,
+    transport: TBufferedTransport,
+    protocol: TJSONProtocol,
     path: urlObj.pathname,
     https: urlObj.protocol.toLowerCase() === "https:",
   };
 
-  const connection = thrift.createXHRConnection(
+  const connection = createXHRConnection(
     urlObj.hostname,
     urlObj.port ? urlObj.port : (options.https ? "443" : "80"),
     options
@@ -96,7 +99,7 @@ util.createXHRClientFromURL = function(url, serviceModel, onError = undefined) {
     connection.on("error", onError);
   }
 
-  return thrift.createXHRClient(
+  return createXHRClient(
     serviceModel,
     connection
   );

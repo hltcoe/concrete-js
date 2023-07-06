@@ -47,8 +47,7 @@ Communication.prototype.addInternalReferences = function() {
  */
 Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
   if (!uuid || !uuid.uuidString) {
-    console.error("ERROR: getEntityForEntityMentionUUID() was not passed a valid UUID");
-    return null;
+    throw new Error("getEntityForEntityMentionUUID() was not passed a valid UUID");
   }
 
   if (this.entitySetList) {
@@ -64,9 +63,7 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
       }
     }
   }
-  // TODO: Error handling if no matching UUID could be found
-  console.error("ERROR: No Entity found for EntityMention with UUID " + uuid.uuidString);
-  return null;
+  return undefined;
 };
 
 
@@ -84,7 +81,7 @@ Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
       }
     }
   }
-  return null;
+  return undefined;
 };
 
 
@@ -96,8 +93,7 @@ Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
  */
 Communication.prototype.getEntityMentionWithUUID = function(uuid) {
   if (!uuid || !uuid.uuidString) {
-    console.error("ERROR: getEntityMentionWithUUID() was not passed a valid UUID");
-    return null;
+    throw new Error("getEntityMentionWithUUID() was not passed a valid UUID");
   }
 
   if (this.entityMentionSetList) {
@@ -112,9 +108,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
       }
     }
   }
-  // TODO: Error handling if no matching UUID could be found
-  console.error("ERROR: No EntityMention found with UUID " + uuid.uuidString);
-  return null;
+  return undefined;
 };
 
 
@@ -126,8 +120,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
  */
 Communication.prototype.getEntityWithEntityId = function(entityId) {
   if (!entityId) {
-    console.error("ERROR: getEntityWithEntityId() was not passed a valid entityId");
-    return null;
+    throw new Error("getEntityWithEntityId() was not passed a valid entityId");
   }
 
   if (this.entitySetList) {
@@ -141,9 +134,7 @@ Communication.prototype.getEntityWithEntityId = function(entityId) {
       }
     }
   }
-  // TODO: Error handling if no matching entityId could be found
-  console.error("ERROR: No Entity found for entityId " + entityId);
-  return null;
+  return undefined;
 };
 
 
@@ -161,7 +152,7 @@ Communication.prototype.getFirstSentence = function() {
       }
     }
   }
-  return null;
+  return undefined;
 };
 
 
@@ -172,12 +163,7 @@ Communication.prototype.getFirstSentence = function() {
  */
 Communication.prototype.getFirstTokenization = function() {
   var firstSentence = this.getFirstSentence();
-  if (firstSentence) {
-    return firstSentence.tokenization;
-  }
-  else {
-    return null;
-  }
+  return firstSentence ? firstSentence.tokenization : undefined;
 };
 
 
@@ -189,8 +175,7 @@ Communication.prototype.getFirstTokenization = function() {
  */
 Communication.prototype.getSentenceWithUUID = function(uuid) {
   if (!uuid || !uuid.uuidString) {
-    console.error("ERROR: getSentenceWithUUID() was not passed a valid UUID");
-    return null;
+    throw new Error("getSentenceWithUUID() was not passed a valid UUID");
   }
 
   if (this.sectionList) {
@@ -206,9 +191,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
       }
     }
   }
-  // TODO: Error handling if no matching UUID could be found
-  console.error("ERROR: No Sentence found with UUID " + uuid.uuidString);
-  return null;
+  return undefined;
 };
 
 
@@ -220,8 +203,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
  */
 Communication.prototype.getSituationMentionWithUUID = function(uuid) {
   if (!uuid || !uuid.uuidString) {
-    console.error("ERROR: getSituationMentionWithUUID() was not passed a valid UUID");
-    return null;
+    throw new Error("getSituationMentionWithUUID() was not passed a valid UUID");
   }
 
   if (this.situationMentionSetList) {
@@ -235,9 +217,7 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
       }
     }
   }
-  // TODO: Error handling if no matching UUID could be found
-  console.error("ERROR: No SituationMention found with UUID " + uuid.uuidString);
-  return null;
+  return undefined;
 };
 
 
@@ -312,8 +292,7 @@ Communication.prototype.getTokenizationsAsList = function() {
  */
 Communication.prototype.getTokenizationWithUUID = function(uuid) {
   if (!uuid || !uuid.uuidString) {
-    console.error("ERROR: getTokenizationWithUUID() was not passed a valid UUID");
-    return null;
+    throw new Error("getTokenizationWithUUID() was not passed a valid UUID");
   }
 
   if (this.sectionList) {
@@ -329,9 +308,7 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
       }
     }
   }
-  // TODO: Error handling if no matching UUID could be found
-  console.error("ERROR: No Tokenization found with UUID " + uuid.uuidString);
-  return null;
+  return undefined;
 };
 
 

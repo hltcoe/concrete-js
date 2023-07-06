@@ -68,3 +68,4 @@ concrete.structure.Tokenization = require('./tokenization_fu');
 concrete.structure.TokenTagging = require('./tokentagging_fu');
 
 concrete.util = require('./util');
+concrete.util.bpjson = require('./bpjson');

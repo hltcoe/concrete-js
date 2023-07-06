@@ -212,7 +212,7 @@ See `npm help version` for more information.
 
 ### Publishing to NPM
 
-After updating the `@hltcoe/concrete` library version and building the
+**After** updating the `@hltcoe/concrete` library version and building the
 library following the procedures described previously, the built Node.js
 package will be located in `dist_nodejs`.  To publish the package to the
 npm registry, you must do so **from the `dist_nodejs` subdirectory.**

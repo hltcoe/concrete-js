@@ -91,6 +91,7 @@ util.getURLParameter = function(sParam) {
  * Serializes native data of given model into Thrift.
  * @param obj Thrift object to serialize.
  * @param thriftModel Thrift model class.
+ * @returns {Buffer} Buffer representing Thrift object using compact protocol. 
  */
 util.serializeThrift = function(obj) {
   const bufs = [];
@@ -103,13 +104,46 @@ util.serializeThrift = function(obj) {
 
 /**
  * Deserializes Thrift data with given model.
- * @param data Thrift-serialized data.
+ * @param data Thrift-serialized data using compact protocol.
  * @param thriftModel Thrift model class.
+ * @returns Thrift object read from data
  */
 util.deserializeThrift = function(data, thriftModel) {
   const obj = new thriftModel();
   TBufferedTransport.receiver((reader) => obj.read(new TCompactProtocol(reader)))(data);
   return obj;
+};
+
+/**
+ * Connect to specified Concrete service endpoint.
+ * @param {String} url URL of service to connect to
+ * @param serviceModel Thrift service class
+ * @param onError Optional connection error callback taking one parameter, the error object
+ * @returns Thrift client connected to specified service endpoint
+ */
+util.createXHRClientFromURL = function(url, serviceModel, onError = undefined) {
+  const urlObj = new URL(url);
+
+  const options = {
+    transport: thrift.TBufferedTransport,
+    protocol: thrift.TJSONProtocol,
+    path: urlObj.pathname,
+    https: urlObj.protocol.toLowerCase() === "https:",
+  };
+
+  const connection = thrift.createXHRConnection(
+    urlObj.hostname,
+    urlObj.port ? urlObj.port : (options.https ? "443" : "80"),
+    options
+  );
+  if (onError) {
+    connection.on("error", onError);
+  }
+
+  return thrift.createXHRClient(
+    serviceModel,
+    connection
+  );
 };
 
 util.getVersion = () => version;

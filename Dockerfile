@@ -1,4 +1,4 @@
-FROM ccmaymay/concrete-js-base
+FROM ccmaymay/concrete-js-base:thrift-5674
 
 RUN git clone https://github.com/hltcoe/concrete /opt/concrete
 

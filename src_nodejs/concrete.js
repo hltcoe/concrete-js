@@ -6,6 +6,7 @@ concrete.access.StoreCommunicationService = require('./StoreCommunicationService
 
 concrete.annotate = require('./annotate_types');
 concrete.annotate.AnnotateCommunicationService = require('./AnnotateCommunicationService');
+concrete.annotate.AnnotateCommunicationBatchService = require('./AnnotateCommunicationBatchService');
 concrete.annotate.AnnotateWithContextService = require('./AnnotateWithContextService');
 
 concrete.audio = require('./audio_types');

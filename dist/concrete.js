@@ -1084,6 +1084,348 @@ if (typeof Int64 === 'undefined' && typeof require === 'function') {
 
 //HELPER FUNCTIONS AND STRUCTURES
 
+AnnotateCommunicationBatchService_annotate_args = function(args) {
+  this.originals = null;
+  if (args) {
+    if (args.originals !== undefined && args.originals !== null) {
+      this.originals = Thrift.copyList(args.originals, [Communication]);
+    }
+  }
+};
+AnnotateCommunicationBatchService_annotate_args.prototype = {};
+AnnotateCommunicationBatchService_annotate_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.LIST) {
+        this.originals = [];
+        var _rtmp31 = input.readListBegin();
+        var _size0 = _rtmp31.size || 0;
+        for (var _i2 = 0; _i2 < _size0; ++_i2) {
+          var elem3 = null;
+          elem3 = new Communication();
+          elem3.read(input);
+          this.originals.push(elem3);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_annotate_args.prototype.write = function(output) {
+  output.writeStructBegin('AnnotateCommunicationBatchService_annotate_args');
+  if (this.originals !== null && this.originals !== undefined) {
+    output.writeFieldBegin('originals', Thrift.Type.LIST, 1);
+    output.writeListBegin(Thrift.Type.STRUCT, this.originals.length);
+    for (var iter4 in this.originals) {
+      if (this.originals.hasOwnProperty(iter4)) {
+        iter4 = this.originals[iter4];
+        iter4.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_annotate_result = function(args) {
+  this.success = null;
+  this.ex = null;
+  if (args instanceof ServicesException) {
+    this.ex = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Communication]);
+    }
+    if (args.ex !== undefined && args.ex !== null) {
+      this.ex = args.ex;
+    }
+  }
+};
+AnnotateCommunicationBatchService_annotate_result.prototype = {};
+AnnotateCommunicationBatchService_annotate_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        this.success = [];
+        var _rtmp36 = input.readListBegin();
+        var _size5 = _rtmp36.size || 0;
+        for (var _i7 = 0; _i7 < _size5; ++_i7) {
+          var elem8 = null;
+          elem8 = new Communication();
+          elem8.read(input);
+          this.success.push(elem8);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex = new ServicesException();
+        this.ex.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_annotate_result.prototype.write = function(output) {
+  output.writeStructBegin('AnnotateCommunicationBatchService_annotate_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter9 in this.success) {
+      if (this.success.hasOwnProperty(iter9)) {
+        iter9 = this.success[iter9];
+        iter9.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.ex !== null && this.ex !== undefined) {
+    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
+    this.ex.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_getMetadata_args = function(args) {
+};
+AnnotateCommunicationBatchService_getMetadata_args.prototype = {};
+AnnotateCommunicationBatchService_getMetadata_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_getMetadata_args.prototype.write = function(output) {
+  output.writeStructBegin('AnnotateCommunicationBatchService_getMetadata_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_getMetadata_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new AnnotationMetadata(args.success);
+    }
+  }
+};
+AnnotateCommunicationBatchService_getMetadata_result.prototype = {};
+AnnotateCommunicationBatchService_getMetadata_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new AnnotationMetadata();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchService_getMetadata_result.prototype.write = function(output) {
+  output.writeStructBegin('AnnotateCommunicationBatchService_getMetadata_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+AnnotateCommunicationBatchServiceClient = function(input, output) {
+  this.input = input;
+  this.output = (!output) ? input : output;
+  this.seqid = 0;
+};
+Thrift.inherits(AnnotateCommunicationBatchServiceClient, ServiceClient);
+
+AnnotateCommunicationBatchServiceClient.prototype.annotate = function(originals, callback) {
+  if (callback === undefined) {
+    this.send_annotate(originals);
+    return this.recv_annotate();
+  } else {
+    var postData = this.send_annotate(originals, true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_annotate);
+  }
+};
+
+AnnotateCommunicationBatchServiceClient.prototype.send_annotate = function(originals, callback) {
+  var params = {
+    originals: originals
+  };
+  var args = new AnnotateCommunicationBatchService_annotate_args(params);
+  try {
+    this.output.writeMessageBegin('annotate', Thrift.MessageType.CALL, this.seqid);
+    args.write(this.output);
+    this.output.writeMessageEnd();
+    return this.output.getTransport().flush(callback);
+  }
+  catch (e) {
+    if (typeof this.output.getTransport().reset === 'function') {
+      this.output.getTransport().reset();
+    }
+    throw e;
+  }
+};
+
+AnnotateCommunicationBatchServiceClient.prototype.recv_annotate = function() {
+  var ret = this.input.readMessageBegin();
+  var mtype = ret.mtype;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new AnnotateCommunicationBatchService_annotate_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.ex) {
+    throw result.ex;
+  }
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'annotate failed: unknown result';
+};
+
+AnnotateCommunicationBatchServiceClient.prototype.getMetadata = function(callback) {
+  if (callback === undefined) {
+    this.send_getMetadata();
+    return this.recv_getMetadata();
+  } else {
+    var postData = this.send_getMetadata(true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_getMetadata);
+  }
+};
+
+AnnotateCommunicationBatchServiceClient.prototype.send_getMetadata = function(callback) {
+  var args = new AnnotateCommunicationBatchService_getMetadata_args();
+  try {
+    this.output.writeMessageBegin('getMetadata', Thrift.MessageType.CALL, this.seqid);
+    args.write(this.output);
+    this.output.writeMessageEnd();
+    return this.output.getTransport().flush(callback);
+  }
+  catch (e) {
+    if (typeof this.output.getTransport().reset === 'function') {
+      this.output.getTransport().reset();
+    }
+    throw e;
+  }
+};
+
+AnnotateCommunicationBatchServiceClient.prototype.recv_getMetadata = function() {
+  var ret = this.input.readMessageBegin();
+  var mtype = ret.mtype;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new AnnotateCommunicationBatchService_getMetadata_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'getMetadata failed: unknown result';
+};
+;//
+// Autogenerated by Thrift Compiler (0.18.0)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+if (typeof Int64 === 'undefined' && typeof require === 'function') {
+  var Int64 = require('node-int64');
+}
+
+
+//HELPER FUNCTIONS AND STRUCTURES
+
 AnnotateCommunicationService_annotate_args = function(args) {
   this.original = null;
   if (args) {

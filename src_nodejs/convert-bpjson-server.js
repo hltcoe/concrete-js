@@ -20,6 +20,16 @@ const argv = yargs(hideBin(process.argv))
     default: bpjson.DEFAULT_TEMPLATE_SITUATION_TYPE,
     description: 'Situation type to output and expect in the input for BP JSON templates',
   })
+  .option('entity-set-tool', {
+    type: 'string',
+    default: null,
+    description: 'Annotation tool to filter input Concrete entity sets by',
+  })
+  .option('situation-set-tool', {
+    type: 'string',
+    default: null,
+    description: 'Annotation tool to filter input Concrete situation sets by',
+  })
   .help()
   .alias('help', 'h')
   .parse();
@@ -38,7 +48,11 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
   fromConcrete: (original) => {
     try {
       return jsesc(
-        bpjson.convertConcreteToBPJson(original, argv.templateSituationType),
+        bpjson.convertConcreteToBPJson(
+          original,
+          argv.templateSituationType,
+          argv.entitySetTool,
+          argv.situationSetTool),
         {json: true, compact: false, indent: '  '});
     } catch (ex) {
       console.error(ex);

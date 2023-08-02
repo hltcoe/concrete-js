@@ -179,7 +179,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line18">line 18</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -219,12 +219,77 @@
 
 
 <div class="description usertext">
-    <p>Adds internal references between data structures contained in Communication</p>
-<p>Specifically, adds:</p>
+    <p>Adds internal references between data structures contained in Communication.</p>
+<p>Based on add_references_to_communication in concrete-python.  Adds the following properties
+to concrete data types in a communication:</p>
 <ul>
-<li>to each concrete.Section, a section.communication reference to the enclosing Communication</li>
-<li>to each concrete.Sentence, a sentence.section reference to the enclosing Section</li>
-<li>to each concrete.Tokenization, a tokenization.sentence reference to the enclosing Sentence</li>
+<li>to each concrete.Argument:
+<ul>
+<li>entity: reference to Entity liked by entityId, or null</li>
+<li>situation: reference to Situation liked by situationId, or null</li>
+</ul>
+</li>
+<li>to each concrete.EntityMention:
+<ul>
+<li>childMentionList: list of child EntityMentions corresponding to childMentionIdList</li>
+<li>parentMention: reference to parent EntityMention, or null</li>
+<li>entityMentionSet: reference to enclosing EntityMentionSet</li>
+</ul>
+</li>
+<li>to each concrete.Entity:
+<ul>
+<li>mentionList: list of EntityMentions corresponding to mentionIdList</li>
+<li>entitySet: reference to enclosing EntitySet</li>
+</ul>
+</li>
+<li>to each concrete.Communication:
+<ul>
+<li>entityForUUID: map from entity UUID strings to entities</li>
+<li>entityMentionForUUID: map from entity mention UUID strings to entity mentions</li>
+<li>sectionForUUID: map from section UUID strings to sections</li>
+<li>sentenceForUUID: map from sentence UUID strings to sentences</li>
+<li>situationForUUID: map from situation UUID strings to situations</li>
+<li>situationMentionForUUID: map from situation mention UUID strings to situation mentions</li>
+<li>tokenizationForUUID: map from tokenization UUID strings to tokenizations</li>
+</ul>
+</li>
+<li>to each concrete.MentionArgument:
+<ul>
+<li>entityMention: reference to EntityMention liked by entityMentionId, or null</li>
+<li>situationMention: reference to SituationMention liked by situationMentionId, or null</li>
+</ul>
+</li>
+<li>to each concrete.Section:
+<ul>
+<li>communication: reference to the enclosing Communication</li>
+</ul>
+</li>
+<li>to each concrete.Sentence:
+<ul>
+<li>section: reference to the enclosing Section</li>
+</ul>
+</li>
+<li>to each concrete.SituationMention:
+<ul>
+<li>situationMentionSet: reference to enclosing SituationMentionSet</li>
+</ul>
+</li>
+<li>to each concrete.Situation:
+<ul>
+<li>mentionList: list of EntityMentions corresponding to mentionIdList</li>
+<li>situationSet: reference to enclosing SituationSet</li>
+</ul>
+</li>
+<li>to each concrete.Tokenization:
+<ul>
+<li>sentence: reference to the enclosing Sentence</li>
+</ul>
+</li>
+<li>to each concrete.TokenRefSequence:
+<ul>
+<li>tokenization: reference to the Tokenization corresponding to tokenizationId</li>
+</ul>
+</li>
 </ul>
 </div>
 
@@ -272,7 +337,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line48">line 48</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line160">line 160</a>
     </li></ul></dd>
     
 
@@ -429,7 +494,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line76">line 76</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -586,7 +651,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line94">line 94</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -743,7 +808,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line121">line 121</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -900,7 +965,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line146">line 146</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -1008,7 +1073,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line164">line 164</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line276">line 276</a>
     </li></ul></dd>
     
 
@@ -1116,7 +1181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line229">line 229</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -1221,7 +1286,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line247">line 247</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line359">line 359</a>
     </li></ul></dd>
     
 
@@ -1326,7 +1391,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line176">line 176</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line288">line 288</a>
     </li></ul></dd>
     
 
@@ -1483,7 +1548,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line204">line 204</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line316">line 316</a>
     </li></ul></dd>
     
 
@@ -1640,7 +1705,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line269">line 269</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line381">line 381</a>
     </li></ul></dd>
     
 
@@ -1745,7 +1810,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line293">line 293</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line405">line 405</a>
     </li></ul></dd>
     
 
@@ -1902,7 +1967,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line321">line 321</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line433">line 433</a>
     </li></ul></dd>
     
 
@@ -2060,7 +2125,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line350">line 350</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line462">line 462</a>
     </li></ul></dd>
     
 
@@ -2229,7 +2294,7 @@ something like this:</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line366">line 366</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line478">line 478</a>
     </li></ul></dd>
     
 
@@ -2389,7 +2454,7 @@ something like this:</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line391">line 391</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line503">line 503</a>
     </li></ul></dd>
     
 
@@ -2494,7 +2559,7 @@ something like this:</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line401">line 401</a>
+        <a href="communication_fu.js.html">communication_fu.js</a>, <a href="communication_fu.js.html#line513">line 513</a>
     </li></ul></dd>
     
 

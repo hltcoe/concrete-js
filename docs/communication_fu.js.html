@@ -52,34 +52,146 @@ const thrift = require('thrift');
 const Thrift = thrift.Thrift;
 
 /**
- * Adds internal references between data structures contained in Communication
- *
- * Specifically, adds:
- *   - to each concrete.Section, a section.communication reference to the enclosing Communication
- *   - to each concrete.Sentence, a sentence.section reference to the enclosing Section
- *   - to each concrete.Tokenization, a tokenization.sentence reference to the enclosing Sentence
+ * Adds internal references between data structures contained in Communication.
+ * 
+ * Based on add_references_to_communication in concrete-python.  Adds the following properties
+ * to concrete data types in a communication:
+ *   - to each concrete.Argument:
+ *     - entity: reference to Entity liked by entityId, or null
+ *     - situation: reference to Situation liked by situationId, or null
+ *   - to each concrete.EntityMention:
+ *     - childMentionList: list of child EntityMentions corresponding to childMentionIdList
+ *     - parentMention: reference to parent EntityMention, or null
+ *     - entityMentionSet: reference to enclosing EntityMentionSet
+ *   - to each concrete.Entity:
+ *     - mentionList: list of EntityMentions corresponding to mentionIdList
+ *     - entitySet: reference to enclosing EntitySet
+ *   - to each concrete.Communication:
+ *     - entityForUUID: map from entity UUID strings to entities
+ *     - entityMentionForUUID: map from entity mention UUID strings to entity mentions
+ *     - sectionForUUID: map from section UUID strings to sections
+ *     - sentenceForUUID: map from sentence UUID strings to sentences
+ *     - situationForUUID: map from situation UUID strings to situations
+ *     - situationMentionForUUID: map from situation mention UUID strings to situation mentions
+ *     - tokenizationForUUID: map from tokenization UUID strings to tokenizations
+ *   - to each concrete.MentionArgument:
+ *     - entityMention: reference to EntityMention liked by entityMentionId, or null
+ *     - situationMention: reference to SituationMention liked by situationMentionId, or null
+ *   - to each concrete.Section:
+ *     - communication: reference to the enclosing Communication
+ *   - to each concrete.Sentence:
+ *     - section: reference to the enclosing Section
+  *   - to each concrete.SituationMention:
+ *     - situationMentionSet: reference to enclosing SituationMentionSet
+ *   - to each concrete.Situation:
+ *     - mentionList: list of EntityMentions corresponding to mentionIdList
+ *     - situationSet: reference to enclosing SituationSet
+ *   - to each concrete.Tokenization:
+ *     - sentence: reference to the enclosing Sentence
+ *   - to each concrete.TokenRefSequence:
+ *     - tokenization: reference to the Tokenization corresponding to tokenizationId
  */
 Communication.prototype.addInternalReferences = function() {
-  if (this.sectionList) {
-    for (var sectionIndex in this.sectionList) {
-      var section = this.sectionList[sectionIndex];
-      // We add both a 'comm' and 'communication' field to each section.  We
-      // originally only added 'comm', but 'communication' is arguably more
-      // consistent.  We keep both variable names to avoid breaking existing code.
-      section.comm = this;
-      section.communication = this;
+  this.entityForUUID = {};
+  this.entityMentionForUUID = {};
+  this.sectionForUUID = {};
+  this.sentenceForUUID = {};
+  this.situationForUUID = {};
+  this.situationMentionForUUID = {};
+  this.tokenizationForUUID = {};
 
-      if (section.sentenceList) {
-        for (var sentenceIndex in section.sentenceList) {
-          var sentence = section.sentenceList[sentenceIndex];
-          sentence.section = section;
-          if (sentence.tokenization) {
-            sentence.tokenization.sentence = sentence;
-          }
+  (this.sectionList ? this.sectionList : []).forEach((section) => {
+    this.sectionForUUID[section.uuid.uuidString] = section;
+    // We add both a 'comm' and 'communication' field to each section.  We
+    // originally only added 'comm', but 'communication' is arguably more
+    // consistent.  We keep both variable names to avoid breaking existing code.
+    section.comm = this;
+    section.communication = this;
+    if (section.sentenceList) {
+      section.sentenceList.forEach((sentence) => {
+        this.sentenceForUUID[sentence.uuid.uuidString] = sentence;
+        sentence.section = section;
+        if (sentence.tokenization) {
+          this.tokenizationForUUID[sentence.tokenization.uuid.uuidString] = sentence.tokenization;
+          sentence.tokenization.sentence = sentence;
         }
-      }
+      });
     }
-  }
+  });
+
+  (this.entityMentionSetList || []).forEach((entityMentionSet) => {
+    entityMentionSet.mentionList.forEach((entityMention) => {
+      this.entityMentionForUUID[entityMention.uuid.uuidString] = entityMention;
+      entityMention.tokens.tokenization = this.tokenizationForUUID[
+        entityMention.tokens.tokenizationId.uuidString
+      ] || null;
+      entityMention.childMentionList = [];
+      entityMention.parentMention = null;
+      entityMention.entityMentionSet = entityMentionSet;
+    });
+    entityMentionSet.mentionList.forEach((entityMention) => {
+      if (entityMention.childMentionIdList) {
+        entityMention.childMentionIdList.forEach((childMentionId) => {
+          const childMention = this.entityMentionForUUID[childMentionId.uuidString];
+          childMention.parentMention = entityMention;
+          entityMention.childMentionList.push(childMention);
+        });
+      }
+    });
+  });
+
+  (this.entitySetList || []).forEach((entitySet) => {
+    entitySet.entityList.forEach((entity) => {
+      this.entityForUUID[entity.uuid.uuidString] = entity;
+      entity.mentionList = entity.mentionIdList
+        .map((mentionId) => this.entityMentionForUUID[mentionId.uuidString]);
+      entity.entitySet = entitySet;
+    });
+  });
+
+  (this.situationMentionSetList || []).forEach((situationMentionSet) => {
+    situationMentionSet.mentionList.forEach((situationMention) => {
+      this.situationMentionForUUID[situationMention.uuid.uuidString] = situationMention;
+      (situationMention.argumentList || []).forEach((argument) => {
+        argument.entityMention = argument.entityMentionId ?
+          this.entityMentionForUUID[argument.entityMentionId.uuidString] :
+          null;
+        argument.situationMention = argument.situationMentionId ?
+          this.situationMentionForUUID[argument.situationMentionId.uuidString] :
+          null;
+        if (argument.tokens) {
+          argument.tokens.tokenization = this.tokenizationForUUID[
+            argument.tokens.tokenizationId.uuidString
+          ];
+        }
+      });
+      if (situationMention.tokens) {
+        situationMention.tokens.tokenization = this.tokenizationForUUID[
+          situationMention.tokens.tokenizationId.uuidString
+        ];
+      }
+      situationMention.situationMentionSet = situationMentionSet;
+    });
+  });
+
+  (this.situationSetList || []).forEach((situationSet) => {
+    situationSet.situationList.forEach((situation) => {
+      this.situationForUUID[situation.uuid.uuidString] = situation;
+      situation.mentionList = situation.mentionIdList ?
+        situation.mentionIdList
+          .map((mentionId) => this.situationMentionForUUID[mentionId.uuidString]) :
+        null;
+      (situation.argumentList || []).forEach((argument) => {
+        argument.entity = argument.entityId ?
+          this.entityForUUID[argument.entityId.uuidString] :
+          null;
+        argument.situation = argument.situationId ?
+          this.situationForUUID[argument.situationId.uuidString] :
+          null;
+      });
+      situation.situationSet = situationSet;
+    });
+  });
 };
 
 

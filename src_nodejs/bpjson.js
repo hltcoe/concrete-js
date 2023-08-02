@@ -139,7 +139,10 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
   return args;
 }
 
-function convertConcreteToBPJson(communication, templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE) {
+function convertConcreteToBPJson(communication,
+                                 templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE,
+                                 entitySetTool=null,
+                                 situationSetTool=null) {
   const tok2char = unNullifyList(communication.sectionList).flatMap((section) =>
     unNullifyList(section.sentenceList).flatMap((sentence) =>
       getTokens(sentence.tokenization).map((token) =>
@@ -203,16 +206,15 @@ function convertConcreteToBPJson(communication, templateSituationType=DEFAULT_TE
     const spanSets = {};
     corpusEntry["annotation-sets"] = {"basic-events": {"span-sets": spanSets}};
 
+    (communication.entityMentionSetList ? communication.entityMentionSetList : []).forEach((entityMentionSet) =>
+      entityMentionSet.mentionList.forEach((entityMention) => (
+        entityMentionsByUUID[entityMention.uuid.uuidString] = entityMention
+      ))
+    );
     const entitySet = listToScalar(
-      communication.entitySetList,
+      (communication.entitySetList ? communication.entitySetList : []).filter((entitySet) =>
+        entitySetTool === null || entitySet.metadata.tool === entitySetTool),
       "Communication.entitySetList");
-    const entityMentionSet = listToScalar(
-      communication.entityMentionSetList,
-      "Communication.entityMentionSetList");
-
-    entityMentionSet.mentionList.forEach((entityMention) => (
-      entityMentionsByUUID[entityMention.uuid.uuidString] = entityMention
-    ));
     const entityDataList = entitySet.entityList
       .map((entity, entityIndex) => ({
         entity,
@@ -266,7 +268,8 @@ function convertConcreteToBPJson(communication, templateSituationType=DEFAULT_TE
     corpusEntry["annotation-sets"]["basic-events"]["granular-templates"] = granularTemplates;
 
     const situationSet = listToScalar(
-      communication.situationSetList,
+      (communication.situationSetList ? communication.situationSetList : []).filter((situationSet) =>
+        situationSetTool === null || situationSet.metadata.tool === situationSetTool),
       "Communication.situationSetList");
 
     const eventSituationDataList = situationSet.situationList

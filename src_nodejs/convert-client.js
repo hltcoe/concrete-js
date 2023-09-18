@@ -5,8 +5,7 @@ const thrift = require("thrift");
 const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
-const concrete = require("./concrete");
-const {serializeThrift, deserializeThrift} = concrete.util;
+const concrete = require(".");
 
 
 const argv = yargs(hideBin(process.argv))
@@ -83,7 +82,7 @@ if (argv.about) {
       .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
       .then(() => readFile(argv.input))
       .then((inputData) => client.fromConcrete(
-        deserializeThrift(inputData, concrete.communication.Communication)
+        concrete.util.deserializeThrift(inputData, concrete.communication.Communication)
       ))
       .then((outputData) => writeFile(argv.output, outputData))
       .finally(() => connection.end());
@@ -93,7 +92,7 @@ if (argv.about) {
       .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
       .then(() => readFile(argv.input))
       .then((inputData) => client.toConcrete(inputData))
-      .then((outputObj) => writeFile(argv.output, serializeThrift(outputObj)))
+      .then((outputObj) => writeFile(argv.output, concrete.util.serializeThrift(outputObj)))
       .finally(() => connection.end());
   } else {
     console.error("Either the input path or the output path must end in .concrete or .comm");

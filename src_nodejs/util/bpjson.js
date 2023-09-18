@@ -1,7 +1,3 @@
-/**
- * @module @hltcoe/concrete/util/bpjson
- */
-
 const {concat, groupBy, last, range, sortBy, sortedUniqBy, startCase, times} = require("lodash");
 const {generateUUID} = require("./common");
 
@@ -16,8 +12,6 @@ const {
   Token, Tokenization, TokenizationKind, TokenList, TokenRefSequence,
 } = require("../structure_types");
 
-module.exports = {};
-
 const BPJSON_SECTION_KINDS = [
   "Byline",
   "Dateline",
@@ -28,10 +22,7 @@ const BPJSON_SECTION_KINDS = [
   "Story-Lead",
 ];
 
-/**
- * Default situation type used for BP JSON templates.
- */
-module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE = "EVENT_TEMPLATE";
+const DEFAULT_TEMPLATE_SITUATION_TYPE = "EVENT_TEMPLATE";
 
 function unNullifyList(list) {
   return list ? list : [];
@@ -155,212 +146,6 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
       }
     });
   return args;
-}
-
-/**
- * Convert a Concrete Communication to a BP-JSON corpus entry.
- */
-module.exports.convertConcreteToBPJson = function(
-  communication,
-  templateSituationType=module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE,
-  entitySetTool=null,
-  situationSetTool=null
-) {
-  const tok2char = unNullifyList(communication.sectionList).flatMap((section) =>
-    unNullifyList(section.sentenceList).flatMap((sentence) =>
-      getTokens(sentence.tokenization).map((token) =>
-        range(token.textSpan.start, token.textSpan.ending)
-      )
-    )
-  );
-  const char2tok = times(communication.text.length).map(() => []);
-  tok2char.forEach((tokenTextIndices, globalTokenIndex) =>
-    tokenTextIndices.forEach((textIndex) =>
-      char2tok[textIndex].push(globalTokenIndex)
-    )
-  );
-
-  const corpusEntry = {
-    char2tok,
-    "doc-id": communication.id,
-    "entry-id": communication.id,
-    "segment-sections": concat(
-      unNullifyList(communication.sectionList)
-        .filter((section) => normalizeSectionKind(section.kind) != "ignore")
-        .flatMap((section) =>
-          unNullifyList(section.sentenceList).map((sentence) => ({
-            end: sentence.textSpan.ending,
-            start: sentence.textSpan.start,
-            "structural-element": "Sentence",
-          }))
-      ),
-      unNullifyList(communication.sectionList)
-        .filter((section) => BPJSON_SECTION_KINDS.includes(denormalizeSectionKind(section.kind)))
-        .map((section) => ({
-          end: section.textSpan.ending,
-          start: section.textSpan.start,
-          "structural-element": denormalizeSectionKind(section.kind),
-        }))
-    ),
-    "segment-text": communication.text,
-    "segment-text-tok": tok2char.map((tokenTextIndices) =>
-      tokenTextIndices
-        .map((textIndex) => communication.text[textIndex])
-        .join("")),
-    "segment-type": communication.type,
-    tok2char,
-  };
-
-  const tokenizationDataByUUID = {};
-  let tokenizationTokenOffset = 0;
-  unNullifyList(communication.sectionList).forEach((section) =>
-    unNullifyList(section.sentenceList).forEach((sentence) => {
-      tokenizationDataByUUID[sentence.tokenization.uuid.uuidString] = {
-        tokenization: sentence.tokenization,
-        tokenOffset: tokenizationTokenOffset,
-      };
-      tokenizationTokenOffset += getTokens(sentence.tokenization).length;
-    })
-  );
-
-  const entityIdsByUUID = {};
-  const entityMentionsByUUID = {};
-  if (communication.entitySetList && communication.entityMentionSetList) {
-    const spanSets = {};
-    corpusEntry["annotation-sets"] = {"basic-events": {"span-sets": spanSets}};
-
-    (communication.entityMentionSetList ? communication.entityMentionSetList : []).forEach((entityMentionSet) =>
-      entityMentionSet.mentionList.forEach((entityMention) => (
-        entityMentionsByUUID[entityMention.uuid.uuidString] = entityMention
-      ))
-    );
-    const entitySet = listToScalar(
-      (communication.entitySetList ? communication.entitySetList : []).filter((entitySet) =>
-        entitySetTool === null || entitySet.metadata.tool === entitySetTool),
-      "Communication.entitySetList");
-    const entityDataList = entitySet.entityList
-      .map((entity, entityIndex) => ({
-        entity,
-        entityId: entity.id ? entity.id : `ss-${entityIndex}`
-      }));
-    entityDataList.forEach(({entity, entityId}) => (
-      entityIdsByUUID[entity.uuid.uuidString] = entityId
-    ));
-    entityDataList.forEach(({entity, entityId}) => (
-      spanSets[entityId] = {
-        ssid: entityId,
-        spans: entity.mentionIdList
-          .map((mentionUUID) => entityMentionsByUUID[mentionUUID.uuidString])
-          .map((entityMention) => ({
-            text: entityMention.text,
-            tokenizationData: tokenizationDataByUUID[entityMention.tokens.tokenizationId.uuidString],
-            tokenIndexList: entityMention.tokens.tokenIndexList,
-          }))
-          .map(({text, tokenizationData, tokenIndexList}) => ({
-            end: getTokens(tokenizationData.tokenization)[last(tokenIndexList)].textSpan.ending,
-            start: getTokens(tokenizationData.tokenization)[tokenIndexList[0]].textSpan.start,
-            text,
-            tokenizationData,
-            tokenIndexList,
-          }))
-          .map(({end, start, text, tokenizationData, tokenIndexList}) => ({
-            end,
-            "end-token": tokenizationData.tokenOffset + last(tokenIndexList),
-            start,
-            "start-token": tokenizationData.tokenOffset + tokenIndexList[0],
-            string: text ? text : communication.text.substring(start, end),
-            "string-tok": tokenIndexList
-              .map((tokenIndex) => getTokens(tokenizationData.tokenization)[tokenIndex])
-              .map((token) =>
-                token.text ?
-                  token.text :
-                  communication.text.substring(token.textSpan.start, token.textSpan.ending)
-              ),
-          }))
-      }
-    ));
-  }
-
-  if (communication.situationSetList) {
-    if (! corpusEntry["annotation-sets"]) {
-      corpusEntry["annotation-sets"] = {"basic-events": {}};
-    }
-    const events = {};
-    corpusEntry["annotation-sets"]["basic-events"].events = events;
-    const granularTemplates = {};
-    corpusEntry["annotation-sets"]["basic-events"]["granular-templates"] = granularTemplates;
-
-    const situationSet = listToScalar(
-      (communication.situationSetList ? communication.situationSetList : []).filter((situationSet) =>
-        situationSetTool === null || situationSet.metadata.tool === situationSetTool),
-      "Communication.situationSetList");
-
-    const eventSituationDataList = situationSet.situationList
-      .filter((situation) => normalizeSituationType(situation.situationType) === normalizeSituationType("EVENT"))
-      .map((situation, situationIndex) => ({
-        situation,
-        situationId: situation.id ? situation.id : `event-${situationIndex}`
-      }));
-    const eventSituationIdsByUUID = {};
-    eventSituationDataList.forEach(({situation, situationId}) => (
-      eventSituationIdsByUUID[situation.uuid.uuidString] = situationId
-    ));
-    eventSituationDataList.forEach(({situation, situationId}) => (
-      events[situationId] = {
-        agents: unNullifyList(situation.argumentList)
-          .filter((argument) => argument.role === "agent")
-          .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
-        anchors: listToScalar(
-          unNullifyList(situation.argumentList)
-            .filter((argument) => argument.role === "anchor")
-            .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
-          "Event anchor argument list"
-        ),
-        "eventid": situationId,
-        "event-type": situation.situationKind,
-        patients: unNullifyList(situation.argumentList)
-          .filter((argument) => argument.role === "patient")
-          .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
-        "ref-events": unNullifyList(situation.argumentList)
-          .filter((argument) => argument.role === "ref-event")
-          .map((argument) => eventSituationIdsByUUID[argument.situationId.uuidString]),
-        "state-of-affairs": false,
-      }
-    ));
-
-    const templateSituationDataList = situationSet.situationList
-      .filter((situation) =>
-        normalizeSituationType(situation.situationType) === normalizeSituationType(templateSituationType)
-      )
-      .map((situation, situationIndex) => ({
-        situation,
-        situationId: situation.id ? situation.id : `template-${situationIndex}`
-      }));
-    templateSituationDataList.forEach(({situation, situationId}) => {
-      const templateAnchorIds = unNullifyList(situation.argumentList)
-        .filter((argument) => argument.role === "template-anchor")
-        .map((argument) => entityIdsByUUID[argument.entityId.uuidString]);
-      if (templateAnchorIds.length > 1) {
-        throw new Error(`Found multiple template anchors for situation ${situationId}`);
-      }
-      granularTemplates[situationId] = {
-        "template-anchor": templateAnchorIds.length ? templateAnchorIds[0] : "",
-        "template-id": situationId,
-        "template-type": situation.situationKind,
-      };
-      Object.entries(groupBy(
-        unNullifyList(situation.argumentList)
-          .filter((argument) => argument.role !== "template-anchor"),
-        "role"
-      )).forEach(([role, args]) => (
-        granularTemplates[situationId][role] = argumentsToSlot(
-          role, args, entityIdsByUUID, eventSituationIdsByUUID
-        )
-      ));
-    });
-  }
-
-  return corpusEntry;
 }
 
 function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
@@ -562,136 +347,369 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
   return sections;
 }
 
+
 /**
- * Convert a BP-JSON corpus entry to a Concrete Communication.
+ * @namespace concrete.util.bpjson
  */
-module.exports.convertBPJsonToConcrete = function(
-  corpusEntry,
-  templateSituationType=module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE
-) {
-  const communicationParams = {
-    id: corpusEntry["entry-id"],
-    metadata: generateAnnotationMetadata(),
-    sectionList: convertBPJsonSectionsToConcrete(
-      corpusEntry["segment-sections"], corpusEntry.tok2char, corpusEntry["segment-text"]),
-    text: corpusEntry["segment-text"],
-    type: corpusEntry["segment-type"],
-    uuid: generateUUID(),
-  };
+module.exports = {
+  /**
+   * Default situation type used for BP JSON templates.
+   *
+   * @memberof concrete.util.bpjson
+   */
+  DEFAULT_TEMPLATE_SITUATION_TYPE,
 
-  const annotationSets = unNullifyDict(corpusEntry["annotation-sets"]);
-  const basicEvents = unNullifyDict(annotationSets["basic-events"]);
-
-  const entitiesById = {};
-  const eventSituationsById = {};
-
-  if (basicEvents["span-sets"]) {
-    const entityMentionSet = new EntityMentionSet({
-      mentionList: [],
-      metadata: generateAnnotationMetadata(),
-      uuid: generateUUID(),
-    });
-    communicationParams.entityMentionSetList = [entityMentionSet];
-    const entitySet = new EntitySet({
-      entityList: [],
-      metadata: generateAnnotationMetadata(),
-      uuid: generateUUID(),
-    });
-    communicationParams.entitySetList = [entitySet];
-
-    const flatTokenData = communicationParams.sectionList.flatMap((section) =>
-      section.sentenceList.flatMap((sentence) =>
-        sentence.tokenization.tokenList.tokenList.map((token) => ({token, sentence, section}))
+  /**
+   * Convert a Concrete Communication to a BP-JSON corpus entry.
+   *
+   * @memberof concrete.util.bpjson
+   * @param communication {Communication} - Communication to convert
+   * @param templateSituationType {string} - Concrete situation type representing BP JSON templates
+   * @param entitySetTool {string} - Metadata tool of EntitySet to use in conversion.
+   *                                 If not specified, there must be only one EntitySet.
+   * @param situationSetTool {string} - Metadata tool of SituationSet to use in conversion.
+   *                                    If not specified, there must be only one SituationSet.
+   * @returns {object} BP-JSON corpus entry
+   */
+  convertConcreteToBPJson: function(
+    communication,
+    templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE,
+    entitySetTool=null,
+    situationSetTool=null
+  ) {
+    const tok2char = unNullifyList(communication.sectionList).flatMap((section) =>
+      unNullifyList(section.sentenceList).flatMap((sentence) =>
+        getTokens(sentence.tokenization).map((token) =>
+          range(token.textSpan.start, token.textSpan.ending)
+        )
+      )
+    );
+    const char2tok = times(communication.text.length).map(() => []);
+    tok2char.forEach((tokenTextIndices, globalTokenIndex) =>
+      tokenTextIndices.forEach((textIndex) =>
+        char2tok[textIndex].push(globalTokenIndex)
       )
     );
 
-    Object.values(unNullifyDict(basicEvents["span-sets"])).forEach((spanSet) => {
-      const mentions = spanSet.spans
-        .map((span) =>
-          span["start-token"] !== undefined && span["end-token"] !== undefined ?
-            [span["start-token"], span["end-token"]] :
-            computeTokenSpanFromTextSpan(corpusEntry.tok2char, [span.start, span.end - 1])
-        )
-        .map(([startTokenIndex, lastTokenIndex]) => range(startTokenIndex, lastTokenIndex + 1)
-          .map((globalTokenIndex) => flatTokenData[globalTokenIndex])
-        )
-        .map((spanTokenData) => {
-          const tokenizationUUIDs = sortedUniqBy(
-            spanTokenData.map(({sentence}) => sentence.tokenization.uuid),
-            "uuidString"
-          );
-          const tokenizationId = listToScalar(tokenizationUUIDs, "list of tokenizations referenced by span");
-          const tokenIndexList = spanTokenData.map(({token}) => token.tokenIndex);
-          return new EntityMention({
-            tokens: new TokenRefSequence({tokenizationId, tokenIndexList}),
-            uuid: generateUUID(),
-          });
-        });
-      entitySet.entityList.push(new Entity({
-        id: spanSet.ssid,
-        mentionIdList: mentions.map((mention) => mention.uuid),
-        uuid: generateUUID(),
-      }));
-      mentions.forEach((mention) => entityMentionSet.mentionList.push(mention));
-    });
-
-    entitySet.entityList.forEach((entity) => (entitiesById[entity.id] = entity));
-  }
-
-  if (basicEvents.events || basicEvents["granular-templates"]) {
-    const situationSet = new SituationSet({
-      situationList: [],
-      metadata: generateAnnotationMetadata(),
-      uuid: generateUUID(),
-    });
-    communicationParams.situationSetList = [situationSet];
-
-    Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
-      situationSet.situationList.push(new Situation({
-        argumentList: concat(
-          event.agents.map((ssid) => new Argument({
-            entityId: entitiesById[ssid].uuid,
-            role: "agent",
-          })),
-          new Argument({
-            entityId: entitiesById[event.anchors].uuid,
-            role: "anchor",
-          }),
-          event.patients.map((ssid) => new Argument({
-            entityId: entitiesById[ssid].uuid,
-            role: "patient",
-          }))
+    const corpusEntry = {
+      char2tok,
+      "doc-id": communication.id,
+      "entry-id": communication.id,
+      "segment-sections": concat(
+        unNullifyList(communication.sectionList)
+          .filter((section) => normalizeSectionKind(section.kind) != "ignore")
+          .flatMap((section) =>
+            unNullifyList(section.sentenceList).map((sentence) => ({
+              end: sentence.textSpan.ending,
+              start: sentence.textSpan.start,
+              "structural-element": "Sentence",
+            }))
         ),
-        id: event.eventid,
-        situationKind: event["event-type"],
-        situationType: "EVENT",
-        uuid: generateUUID(),
-      }))
+        unNullifyList(communication.sectionList)
+          .filter((section) => BPJSON_SECTION_KINDS.includes(denormalizeSectionKind(section.kind)))
+          .map((section) => ({
+            end: section.textSpan.ending,
+            start: section.textSpan.start,
+            "structural-element": denormalizeSectionKind(section.kind),
+          }))
+      ),
+      "segment-text": communication.text,
+      "segment-text-tok": tok2char.map((tokenTextIndices) =>
+        tokenTextIndices
+          .map((textIndex) => communication.text[textIndex])
+          .join("")),
+      "segment-type": communication.type,
+      tok2char,
+    };
+
+    const tokenizationDataByUUID = {};
+    let tokenizationTokenOffset = 0;
+    unNullifyList(communication.sectionList).forEach((section) =>
+      unNullifyList(section.sentenceList).forEach((sentence) => {
+        tokenizationDataByUUID[sentence.tokenization.uuid.uuidString] = {
+          tokenization: sentence.tokenization,
+          tokenOffset: tokenizationTokenOffset,
+        };
+        tokenizationTokenOffset += getTokens(sentence.tokenization).length;
+      })
     );
 
-    situationSet.situationList.forEach((situation) => (
-      eventSituationsById[situation.id] = situation
-    ));
+    const entityIdsByUUID = {};
+    const entityMentionsByUUID = {};
+    if (communication.entitySetList && communication.entityMentionSetList) {
+      const spanSets = {};
+      corpusEntry["annotation-sets"] = {"basic-events": {"span-sets": spanSets}};
 
-    Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
-      eventSituationsById[event.eventid].argumentList.push(...(
-        event["ref-events"].map((eventid) => new Argument({
-          situationId: eventSituationsById[eventid].uuid,
-          role: "ref-event",
+      (communication.entityMentionSetList ? communication.entityMentionSetList : []).forEach((entityMentionSet) =>
+        entityMentionSet.mentionList.forEach((entityMention) => (
+          entityMentionsByUUID[entityMention.uuid.uuidString] = entityMention
+        ))
+      );
+      const entitySet = listToScalar(
+        (communication.entitySetList ? communication.entitySetList : []).filter((entitySet) =>
+          entitySetTool === null || entitySet.metadata.tool === entitySetTool),
+        "Communication.entitySetList");
+      const entityDataList = entitySet.entityList
+        .map((entity, entityIndex) => ({
+          entity,
+          entityId: entity.id ? entity.id : `ss-${entityIndex}`
+        }));
+      entityDataList.forEach(({entity, entityId}) => (
+        entityIdsByUUID[entity.uuid.uuidString] = entityId
+      ));
+      entityDataList.forEach(({entity, entityId}) => (
+        spanSets[entityId] = {
+          ssid: entityId,
+          spans: entity.mentionIdList
+            .map((mentionUUID) => entityMentionsByUUID[mentionUUID.uuidString])
+            .map((entityMention) => ({
+              text: entityMention.text,
+              tokenizationData: tokenizationDataByUUID[entityMention.tokens.tokenizationId.uuidString],
+              tokenIndexList: entityMention.tokens.tokenIndexList,
+            }))
+            .map(({text, tokenizationData, tokenIndexList}) => ({
+              end: getTokens(tokenizationData.tokenization)[last(tokenIndexList)].textSpan.ending,
+              start: getTokens(tokenizationData.tokenization)[tokenIndexList[0]].textSpan.start,
+              text,
+              tokenizationData,
+              tokenIndexList,
+            }))
+            .map(({end, start, text, tokenizationData, tokenIndexList}) => ({
+              end,
+              "end-token": tokenizationData.tokenOffset + last(tokenIndexList),
+              start,
+              "start-token": tokenizationData.tokenOffset + tokenIndexList[0],
+              string: text ? text : communication.text.substring(start, end),
+              "string-tok": tokenIndexList
+                .map((tokenIndex) => getTokens(tokenizationData.tokenization)[tokenIndex])
+                .map((token) =>
+                  token.text ?
+                    token.text :
+                    communication.text.substring(token.textSpan.start, token.textSpan.ending)
+                ),
+            }))
+        }
+      ));
+    }
+
+    if (communication.situationSetList) {
+      if (! corpusEntry["annotation-sets"]) {
+        corpusEntry["annotation-sets"] = {"basic-events": {}};
+      }
+      const events = {};
+      corpusEntry["annotation-sets"]["basic-events"].events = events;
+      const granularTemplates = {};
+      corpusEntry["annotation-sets"]["basic-events"]["granular-templates"] = granularTemplates;
+
+      const situationSet = listToScalar(
+        (communication.situationSetList ? communication.situationSetList : []).filter((situationSet) =>
+          situationSetTool === null || situationSet.metadata.tool === situationSetTool),
+        "Communication.situationSetList");
+
+      const eventSituationDataList = situationSet.situationList
+        .filter((situation) => normalizeSituationType(situation.situationType) === normalizeSituationType("EVENT"))
+        .map((situation, situationIndex) => ({
+          situation,
+          situationId: situation.id ? situation.id : `event-${situationIndex}`
+        }));
+      const eventSituationIdsByUUID = {};
+      eventSituationDataList.forEach(({situation, situationId}) => (
+        eventSituationIdsByUUID[situation.uuid.uuidString] = situationId
+      ));
+      eventSituationDataList.forEach(({situation, situationId}) => (
+        events[situationId] = {
+          agents: unNullifyList(situation.argumentList)
+            .filter((argument) => argument.role === "agent")
+            .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
+          anchors: listToScalar(
+            unNullifyList(situation.argumentList)
+              .filter((argument) => argument.role === "anchor")
+              .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
+            "Event anchor argument list"
+          ),
+          "eventid": situationId,
+          "event-type": situation.situationKind,
+          patients: unNullifyList(situation.argumentList)
+            .filter((argument) => argument.role === "patient")
+            .map((argument) => entityIdsByUUID[argument.entityId.uuidString]),
+          "ref-events": unNullifyList(situation.argumentList)
+            .filter((argument) => argument.role === "ref-event")
+            .map((argument) => eventSituationIdsByUUID[argument.situationId.uuidString]),
+          "state-of-affairs": false,
+        }
+      ));
+
+      const templateSituationDataList = situationSet.situationList
+        .filter((situation) =>
+          normalizeSituationType(situation.situationType) === normalizeSituationType(templateSituationType)
+        )
+        .map((situation, situationIndex) => ({
+          situation,
+          situationId: situation.id ? situation.id : `template-${situationIndex}`
+        }));
+      templateSituationDataList.forEach(({situation, situationId}) => {
+        const templateAnchorIds = unNullifyList(situation.argumentList)
+          .filter((argument) => argument.role === "template-anchor")
+          .map((argument) => entityIdsByUUID[argument.entityId.uuidString]);
+        if (templateAnchorIds.length > 1) {
+          throw new Error(`Found multiple template anchors for situation ${situationId}`);
+        }
+        granularTemplates[situationId] = {
+          "template-anchor": templateAnchorIds.length ? templateAnchorIds[0] : "",
+          "template-id": situationId,
+          "template-type": situation.situationKind,
+        };
+        Object.entries(groupBy(
+          unNullifyList(situation.argumentList)
+            .filter((argument) => argument.role !== "template-anchor"),
+          "role"
+        )).forEach(([role, args]) => (
+          granularTemplates[situationId][role] = argumentsToSlot(
+            role, args, entityIdsByUUID, eventSituationIdsByUUID
+          )
+        ));
+      });
+    }
+
+    return corpusEntry;
+  },
+
+  /**
+   * Convert a BP-JSON corpus entry to a Concrete Communication.
+   *
+   * @memberof concrete.util.bpjson
+   * @param corpusEntry {object} - BP-JSON corpus entry to convert
+   * @param templateSituationType {string} - Concrete situation type to use to represent BP JSON templates
+   * @returns {Communication}
+   */
+  convertBPJsonToConcrete: function(
+    corpusEntry,
+    templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE
+  ) {
+    const communicationParams = {
+      id: corpusEntry["entry-id"],
+      metadata: generateAnnotationMetadata(),
+      sectionList: convertBPJsonSectionsToConcrete(
+        corpusEntry["segment-sections"], corpusEntry.tok2char, corpusEntry["segment-text"]),
+      text: corpusEntry["segment-text"],
+      type: corpusEntry["segment-type"],
+      uuid: generateUUID(),
+    };
+
+    const annotationSets = unNullifyDict(corpusEntry["annotation-sets"]);
+    const basicEvents = unNullifyDict(annotationSets["basic-events"]);
+
+    const entitiesById = {};
+    const eventSituationsById = {};
+
+    if (basicEvents["span-sets"]) {
+      const entityMentionSet = new EntityMentionSet({
+        mentionList: [],
+        metadata: generateAnnotationMetadata(),
+        uuid: generateUUID(),
+      });
+      communicationParams.entityMentionSetList = [entityMentionSet];
+      const entitySet = new EntitySet({
+        entityList: [],
+        metadata: generateAnnotationMetadata(),
+        uuid: generateUUID(),
+      });
+      communicationParams.entitySetList = [entitySet];
+
+      const flatTokenData = communicationParams.sectionList.flatMap((section) =>
+        section.sentenceList.flatMap((sentence) =>
+          sentence.tokenization.tokenList.tokenList.map((token) => ({token, sentence, section}))
+        )
+      );
+
+      Object.values(unNullifyDict(basicEvents["span-sets"])).forEach((spanSet) => {
+        const mentions = spanSet.spans
+          .map((span) =>
+            span["start-token"] !== undefined && span["end-token"] !== undefined ?
+              [span["start-token"], span["end-token"]] :
+              computeTokenSpanFromTextSpan(corpusEntry.tok2char, [span.start, span.end - 1])
+          )
+          .map(([startTokenIndex, lastTokenIndex]) => range(startTokenIndex, lastTokenIndex + 1)
+            .map((globalTokenIndex) => flatTokenData[globalTokenIndex])
+          )
+          .map((spanTokenData) => {
+            const tokenizationUUIDs = sortedUniqBy(
+              spanTokenData.map(({sentence}) => sentence.tokenization.uuid),
+              "uuidString"
+            );
+            const tokenizationId = listToScalar(tokenizationUUIDs, "list of tokenizations referenced by span");
+            const tokenIndexList = spanTokenData.map(({token}) => token.tokenIndex);
+            return new EntityMention({
+              tokens: new TokenRefSequence({tokenizationId, tokenIndexList}),
+              uuid: generateUUID(),
+            });
+          });
+        entitySet.entityList.push(new Entity({
+          id: spanSet.ssid,
+          mentionIdList: mentions.map((mention) => mention.uuid),
+          uuid: generateUUID(),
+        }));
+        mentions.forEach((mention) => entityMentionSet.mentionList.push(mention));
+      });
+
+      entitySet.entityList.forEach((entity) => (entitiesById[entity.id] = entity));
+    }
+
+    if (basicEvents.events || basicEvents["granular-templates"]) {
+      const situationSet = new SituationSet({
+        situationList: [],
+        metadata: generateAnnotationMetadata(),
+        uuid: generateUUID(),
+      });
+      communicationParams.situationSetList = [situationSet];
+
+      Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
+        situationSet.situationList.push(new Situation({
+          argumentList: concat(
+            event.agents.map((ssid) => new Argument({
+              entityId: entitiesById[ssid].uuid,
+              role: "agent",
+            })),
+            new Argument({
+              entityId: entitiesById[event.anchors].uuid,
+              role: "anchor",
+            }),
+            event.patients.map((ssid) => new Argument({
+              entityId: entitiesById[ssid].uuid,
+              role: "patient",
+            }))
+          ),
+          id: event.eventid,
+          situationKind: event["event-type"],
+          situationType: "EVENT",
+          uuid: generateUUID(),
         }))
-      ))
-    );
+      );
 
-    Object.values(unNullifyDict(basicEvents["granular-templates"])).forEach((template) =>
-      situationSet.situationList.push(new Situation({
-        argumentList: templateToArguments(template, entitiesById, eventSituationsById),
-        id: template["template-id"],
-        situationKind: template["template-type"],
-        situationType: templateSituationType,
-        uuid: generateUUID(),
-      }))
-    );
-  }
+      situationSet.situationList.forEach((situation) => (
+        eventSituationsById[situation.id] = situation
+      ));
 
-  return new Communication(communicationParams);
-}
+      Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
+        eventSituationsById[event.eventid].argumentList.push(...(
+          event["ref-events"].map((eventid) => new Argument({
+            situationId: eventSituationsById[eventid].uuid,
+            role: "ref-event",
+          }))
+        ))
+      );
+
+      Object.values(unNullifyDict(basicEvents["granular-templates"])).forEach((template) =>
+        situationSet.situationList.push(new Situation({
+          argumentList: templateToArguments(template, entitiesById, eventSituationsById),
+          id: template["template-id"],
+          situationKind: template["template-type"],
+          situationType: templateSituationType,
+          uuid: generateUUID(),
+        }))
+      );
+    }
+
+    return new Communication(communicationParams);
+  },
+};

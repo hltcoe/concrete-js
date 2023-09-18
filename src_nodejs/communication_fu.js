@@ -1,7 +1,3 @@
-/**
- * @class Communication
- * @classdesc extensions to the Communication class
- */
 const {Communication} = require('./communication_types');
 const {Thrift} = require('thrift');
 
@@ -35,7 +31,7 @@ const {Thrift} = require('thrift');
  *     - communication: reference to the enclosing Communication
  *   - to each concrete.Sentence:
  *     - section: reference to the enclosing Section
-  *   - to each concrete.SituationMention:
+ *   - to each concrete.SituationMention:
  *     - situationMentionSet: reference to enclosing SituationMentionSet
  *   - to each concrete.Situation:
  *     - mentionList: list of EntityMentions corresponding to mentionIdList
@@ -44,6 +40,8 @@ const {Thrift} = require('thrift');
  *     - sentence: reference to the enclosing Sentence
  *   - to each concrete.TokenRefSequence:
  *     - tokenization: reference to the Tokenization corresponding to tokenizationId
+ *
+ * @function concrete.communication.Communication.prototype.addInternalReferences
  */
 Communication.prototype.addInternalReferences = function() {
   this.entityForUUID = {};
@@ -152,6 +150,7 @@ Communication.prototype.addInternalReferences = function() {
 /**
  * Return the Entity (or null) that has an EntityMention with the specified UUID
  *
+ * @function concrete.communication.Communication.prototype.getEntityForEntityMentionUUID
  * @param {UUID} uuid
  * @returns {Entity|null}
  */
@@ -180,6 +179,7 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 /**
  * Return the EntityMentionSet in the Communication with the specified toolname
  *
+ * @function concrete.communication.Communication.prototype.getEntityMentionSetWithToolname
  * @param {string} toolname
  * @returns {EntityMentionSet|null}
  */
@@ -198,6 +198,7 @@ Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
 /**
  * Return the EntityMention (or null) with the specified UUID
  *
+ * @function concrete.communication.Communication.prototype.getEntityMentionWithUUID
  * @param {UUID} uuid
  * @returns {EntityMention|null}
  */
@@ -225,6 +226,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
 /**
  * Return the Entity (or null) that has the specified Entity ID
  *
+ * @function concrete.communication.Communication.prototype.getEntityWithEntityId
  * @param {string} entityId
  * @returns {Entity|null}
  */
@@ -251,6 +253,7 @@ Communication.prototype.getEntityWithEntityId = function(entityId) {
 /**
  * Return the first Sentence in a Communication if it exists, or null
  *
+ * @function concrete.communication.Communication.prototype.getFirstSentence
  * @returns {Sentence|null}
  */
 Communication.prototype.getFirstSentence = function() {
@@ -269,6 +272,7 @@ Communication.prototype.getFirstSentence = function() {
 /**
  * Return the first Tokenization in a Communication if it exists, or null
  *
+ * @function concrete.communication.Communication.prototype.getFirstTokenization
  * @returns {Tokenization|null}
  */
 Communication.prototype.getFirstTokenization = function() {
@@ -280,6 +284,7 @@ Communication.prototype.getFirstTokenization = function() {
 /**
  * Return the Sentence (or null) with the specified UUID
  *
+ * @function concrete.communication.Communication.prototype.getSentenceWithUUID
  * @param {UUID} uuid
  * @returns {Sentence|null}
  */
@@ -308,6 +313,7 @@ Communication.prototype.getSentenceWithUUID = function(uuid) {
 /**
  * Return the SituationMention (or null) with the specified UUID
  *
+ * @function concrete.communication.Communication.prototype.getSituationMentionWithUUID
  * @param {UUID} uuid
  * @returns {SituationMention|null}
  */
@@ -334,6 +340,7 @@ Communication.prototype.getSituationMentionWithUUID = function(uuid) {
 /**
  * Return all Sections in a Communication as a (flat) list
  *
+ * @function concrete.communication.Communication.prototype.getSectionsAsList
  * @returns {List}
  */
 Communication.prototype.getSectionsAsList = function() {
@@ -352,6 +359,7 @@ Communication.prototype.getSectionsAsList = function() {
 /**
  * Return all Sentences in a Communication as a (flat) list
  *
+ * @function concrete.communication.Communication.prototype.getSentencesAsList
  * @returns {List}
  */
 Communication.prototype.getSentencesAsList = function() {
@@ -374,6 +382,7 @@ Communication.prototype.getSentencesAsList = function() {
 /**
  * Return all Tokenizations in a Communication as a (flat) list
  *
+ * @function concrete.communication.Communication.prototype.getTokenizationsAsList
  * @returns {List}
  */
 Communication.prototype.getTokenizationsAsList = function() {
@@ -397,6 +406,7 @@ Communication.prototype.getTokenizationsAsList = function() {
 /**
  * Return the Tokenization (or null) with the specified UUID
  *
+ * @function concrete.communication.Communication.prototype.getTokenizationWithUUID
  * @param {UUID} uuid
  * @returns {Tokenization|null}
  */
@@ -425,6 +435,7 @@ Communication.prototype.getTokenizationWithUUID = function(uuid) {
 /**
  * Get list of token text strings for the EntityMention specified by the UUID
  *
+ * @function concrete.communication.Communication.prototype.getTokensForEntityMentionID
  * @param {UUID} mentionId
  * @returns {Array} An array of token text strings
  */
@@ -454,6 +465,7 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
  *       ...
  *     }
  *
+ * @function concrete.communication.Communication.prototype.initFromTJSONProtocolObject
  * @param {object} commJSONObject - An object created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
@@ -470,6 +482,7 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
 /**
  * Initialize Communication from a TJSONProtocol string created from a Communication
  *
+ * @function concrete.communication.Communication.prototype.initFromTJSONProtocolString
  * @param {string} commJSONString - A JSON string created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
@@ -496,6 +509,7 @@ Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
 /**
  * Returns JSON object for Communication serialized using TJSONProtocol
  *
+ * @function concrete.communication.Communication.prototype.toTJSONProtocolObject
  * @returns {object}
  */
 Communication.prototype.toTJSONProtocolObject = function() {
@@ -506,6 +520,7 @@ Communication.prototype.toTJSONProtocolObject = function() {
 /**
  * Returns JSON string for Communication serialized using TJSONProtocol
  *
+ * @function concrete.communication.Communication.prototype.toTJSONProtocolString
  * @returns {string}
  */
 Communication.prototype.toTJSONProtocolString = function() {

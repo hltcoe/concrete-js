@@ -199,28 +199,50 @@ JavaScript + jQuery library, do `npm run test_nodejs` or
 `npm run test_js`, respectively.
 
 
-### Updating the library version
+### Publishing a new version to NPM
 
-To update the concrete library version, use `npm version`.  For example,
-to increment the "patch" component of the version (the `3` in `4.17.3`):
+Read this section carefully, as the publication process is complex.
 
-```
-npm version patch
-```
+Publishing a new version of `@hltcoe/concrete` involves the following
+steps:
 
-See `npm help version` for more information.
+1. Update the package version (automatically creates a new commit)
+2. Perform a clean build of the package with the new version
+3. Add changes to git and amend the commit created in step 1
+4. Tag the amended commit
+5. Push the built package in `dist_nodejs` to NPM
+6. Update the package version to a pre-release version (creates a commit)
+7. Push `main` and the new tag to GitHub and GitLab
 
-### Publishing to NPM
+These steps are **approximately** performed in the following code.
+Please **do not copy and paste** more than one line at a time:
 
-**After** updating the `@hltcoe/concrete` library version and building the
-library following the procedures described previously, the built Node.js
-package will be located in `dist_nodejs`.  To publish the package to the
-npm registry, you must do so **from the `dist_nodejs` subdirectory.**
+```bash
+# 0. Clean repository (you will lose any uncommitted changes!)
+git reset --hard && git clean -fdx && npm ci
 
-Specifically, to perform a publish from a clean state, you might run a
-series of commands like the following, starting from this directory.
-Note that this will cause you to lose any changes not committed to git!
+# 1. Update version (creates a new commit!)
+# This increments the "patch" part of the version ("x" in "1.0.x").
+# Change "patch" to "minor" or "major" if needed.
+# Run "npm version --help" for details.
+npm version --no-git-tag-version patch
 
-```
-git reset --hard && git clean -fdx && npm ci && npx grunt && cd dist_nodejs && npm publish
+# 2. Build
+npx grunt
+
+# 3. Amend commit
+git add docs && git commit -a --amend
+
+# 4. Tag (CHANGE the version number!)
+git tag -a v4.18.2
+
+# 5. Push to NPM
+pushd dist_nodejs && npm publish && popd
+
+# 6. Update version to pre-release (creates a new commit!)
+npm version --no-git-tag-version --preid=dev prepatch
+
+# 7. Push to github and gitlab (CHANGE the version number!)
+# These commands assume you have the appropriate git remotes
+git push github main v4.18.2 && git push gitlab main v4.18.2
 ```

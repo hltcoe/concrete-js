@@ -206,13 +206,14 @@ Read this section carefully, as the publication process is complex.
 Publishing a new version of `@hltcoe/concrete` involves the following
 steps:
 
-1. Update the package version (automatically creates a new commit)
+1. Update the package version
 2. Perform a clean build of the package with the new version
-3. Add changes to git and amend the commit created in step 1
-4. Tag the amended commit
+3. Add changes to git and commit
+4. Tag the commit
 5. Push the built package in `dist_nodejs` to NPM
-6. Update the package version to a pre-release version (creates a commit)
-7. Push `main` and the new tag to GitHub and GitLab
+6. Update the package version to a pre-release version
+7. Add changes to git and commit
+8. Push `main` and the new tag to GitHub and GitLab
 
 These steps are **approximately** performed in the following code.
 Please **do not copy and paste** more than one line at a time:
@@ -221,7 +222,7 @@ Please **do not copy and paste** more than one line at a time:
 # 0. Clean repository (you will lose any uncommitted changes!)
 git reset --hard && git clean -fdx && npm ci
 
-# 1. Update version (creates a new commit!)
+# 1. Update version
 # This increments the "patch" part of the version ("x" in "1.0.x").
 # Change "patch" to "minor" or "major" if needed.
 # Run "npm version --help" for details.
@@ -230,8 +231,8 @@ npm version --no-git-tag-version patch
 # 2. Build
 npx grunt
 
-# 3. Amend commit
-git add docs && git commit -a --amend
+# 3. Add changes & commit
+git add docs && git commit -a
 
 # 4. Tag (CHANGE the version number!)
 git tag -a v4.18.2
@@ -239,10 +240,13 @@ git tag -a v4.18.2
 # 5. Push to NPM
 pushd dist_nodejs && npm publish && popd
 
-# 6. Update version to pre-release (creates a new commit!)
+# 6. Update version to pre-release
 npm version --no-git-tag-version --preid=dev prepatch
 
-# 7. Push to github and gitlab (CHANGE the version number!)
+# 7. Add changes & commit
+git commit -a
+
+# 8. Push to github and gitlab (CHANGE the version number!)
 # These commands assume you have the appropriate git remotes
 git push github main v4.18.2 && git push gitlab main v4.18.2
 ```

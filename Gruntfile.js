@@ -6,6 +6,7 @@
 module.exports = function (grunt) {
   'use strict';
 
+  var thriftPaths = grunt.file.expand({filter: "isFile"}, ["../concrete/thrift/**/*.thrift"]);
   var pkg = grunt.file.readJSON('package.json');
   var docsIndexContent = [
     '<!DOCTYPE html>',
@@ -20,7 +21,7 @@ module.exports = function (grunt) {
     '    </p>',
     '  </body>',
     '</html>',
-].join('\n');
+  ].join('\n');
 
   grunt.initConfig({
     pkg: pkg,
@@ -100,11 +101,11 @@ module.exports = function (grunt) {
       },
       ThriftGen: {
         // TODO: Don't hardcode location of 'concrete' repo
-        command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:jquery {} \\;'
+        command: thriftPaths.map(function(path) {return 'thrift --gen js:jquery ' + path;}).join(' && '),
       },
       ThriftGen_nodejs: {
         // TODO: Don't hardcode location of 'concrete' repo
-        command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:node,es6,ts {} \\;'
+        command: thriftPaths.map(function(path) {return 'thrift --gen js:node,es6,ts ' + path;}).join(' && '),
       },
       VersionGen_nodejs: {
         command: 'genversion --semi src_nodejs/generated_version.js'

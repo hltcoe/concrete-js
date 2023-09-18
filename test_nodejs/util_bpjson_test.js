@@ -1,7 +1,6 @@
 const expect = require("chai").expect;
 
-const concrete = require("../dist_nodejs");
-const bpjson = concrete.util.bpjson;
+const bpjson = require("../dist_nodejs/util/bpjson");
 
 describe("converting bpjson -> concrete -> bpjson", function() {
   it("is invertible when annotated", function() {

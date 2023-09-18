@@ -30,6 +30,8 @@ const BPJSON_SECTION_KINDS = [
 
 /**
  * Default situation type used for BP JSON templates.
+ *
+ * @const {string}
  */
 module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE = "EVENT_TEMPLATE";
 
@@ -159,6 +161,14 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
 
 /**
  * Convert a Concrete Communication to a BP-JSON corpus entry.
+ *
+ * @param communication {Communication} - Communication to convert
+ * @param templateSituationType {string} - Concrete situation type representing BP JSON templates
+ * @param entitySetTool {string} - Metadata tool of EntitySet to use in conversion.
+ *                                 If not specified, there must be only one EntitySet.
+ * @param situationSetTool {string} - Metadata tool of SituationSet to use in conversion.
+ *                                    If not specified, there must be only one SituationSet.
+ * @returns {object} BP-JSON corpus entry
  */
 module.exports.convertConcreteToBPJson = function(
   communication,
@@ -564,6 +574,9 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
 
 /**
  * Convert a BP-JSON corpus entry to a Concrete Communication.
+ * @param corpusEntry {object} - BP-JSON corpus entry to convert
+ * @param templateSituationType {string} - Concrete situation type to use to represent BP JSON templates
+ * @returns {Communication}
  */
 module.exports.convertBPJsonToConcrete = function(
   corpusEntry,

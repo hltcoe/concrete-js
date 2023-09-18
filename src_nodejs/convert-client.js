@@ -5,8 +5,8 @@ const thrift = require("thrift");
 const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
-const concrete = require("./concrete");
-const {serializeThrift, deserializeThrift} = concrete.util;
+const concrete = require(".");
+const {serializeThrift, deserializeThrift} = require("./util");
 
 
 const argv = yargs(hideBin(process.argv))
@@ -62,7 +62,7 @@ function connect(host, port) {
     protocol: thrift.TBinaryProtocol,
   });
   connection.on("error", (ex) => console.error(`Connection error: ${ex.message}`));
-  const client = thrift.createClient(concrete.convert.ConvertCommunicationService, connection);
+  const client = thrift.createClient(concrete.ConvertCommunicationService, connection);
   return {connection, client};
 }
 
@@ -83,7 +83,7 @@ if (argv.about) {
       .then((info) => console.log(`Connected to ${info.name} version ${info.version}`))
       .then(() => readFile(argv.input))
       .then((inputData) => client.fromConcrete(
-        deserializeThrift(inputData, concrete.communication.Communication)
+        deserializeThrift(inputData, concrete.Communication)
       ))
       .then((outputData) => writeFile(argv.output, outputData))
       .finally(() => connection.end());

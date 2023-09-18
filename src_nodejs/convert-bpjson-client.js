@@ -8,8 +8,8 @@ const thrift = require("thrift");
 const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
-const concrete = require("./concrete");
-const {serializeThrift, deserializeThrift} = concrete.util;
+const concrete = require(".");
+const {serializeThrift, deserializeThrift} = require("./util");
 
 
 const argv = yargs(hideBin(process.argv))
@@ -60,7 +60,7 @@ function connect(host, port) {
     protocol: thrift.TBinaryProtocol,
   });
   connection.on("error", (ex) => console.error(`Connection error: ${ex.message}`));
-  const client = thrift.createClient(concrete.convert.ConvertCommunicationService, connection);
+  const client = thrift.createClient(concrete.ConvertCommunicationService, connection);
   return {connection, client};
 }
 
@@ -93,7 +93,7 @@ if (argv.about) {
           .filter((zipEntry) =>
             !zipEntry.isDirectory && (zipEntry.name.endsWith(".concrete") || zipEntry.name.endsWith(".comm")))
           .map((zipEntry) =>
-            deserializeThrift(zipEntry.getData(), concrete.communication.Communication)))
+            deserializeThrift(zipEntry.getData(), concrete.Communication)))
       .then((inputCommunicationList) =>
         Promise.all(inputCommunicationList.map((inputCommunication) =>
           client.fromConcrete(inputCommunication))))

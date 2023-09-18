@@ -10,5 +10,8 @@
     "default": {
       "includeDate": false
     }
+  },
+  "docdash": {
+    "static": true
   }
 }

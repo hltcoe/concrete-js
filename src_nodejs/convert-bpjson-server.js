@@ -5,9 +5,9 @@ const thrift = require("thrift");
 const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
-const concrete = require("./concrete");
-const {getVersion} = concrete.util;
-const bpjson = concrete.util.bpjson;
+const concrete = require(".");
+const {getVersion} = require("./util");
+const bpjson = require("./util/bpjson");
 
 const argv = yargs(hideBin(process.argv))
   .option('port', {
@@ -34,9 +34,9 @@ const argv = yargs(hideBin(process.argv))
   .alias('help', 'h')
   .parse();
 
-const server = thrift.createServer(concrete.convert.ConvertCommunicationService, {
+const server = thrift.createServer(concrete.ConvertCommunicationService, {
   about: () => {
-    return new concrete.services.ServiceInfo({
+    return new concrete.ServiceInfo({
       name: "BP-JSON Entry Convert Service",
       description: `Converts between an individual BETTER BP-JSON v10 corpus entry and a Concrete Communication.  Uses ${argv.templateSituationType} as the situation type for BP JSON templates`,
       version: getVersion(),
@@ -56,7 +56,7 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
         {json: true, compact: false, indent: '  '});
     } catch (ex) {
       console.error(ex);
-      throw new concrete.services.ServicesException({
+      throw new concrete.ServicesException({
         message: `${ex.message} (see server log for details)`
       });
     }
@@ -70,7 +70,7 @@ const server = thrift.createServer(concrete.convert.ConvertCommunicationService,
       return bpjson.convertBPJsonToConcrete(corpusEntry, argv.templateSituationType);
     } catch (ex) {
       console.error(ex);
-      throw new concrete.services.ServicesException({
+      throw new concrete.ServicesException({
         message: `${ex.message} (see server log for details)`
       });
     }

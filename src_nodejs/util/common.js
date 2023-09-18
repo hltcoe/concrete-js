@@ -15,7 +15,6 @@ module.exports = {};
 /**
  * Generate a Concrete UUID
  *
- * @function concrete.util.generateUUID
  * @returns {UUID}
  */
 module.exports.generateUUID = function() {
@@ -29,8 +28,6 @@ module.exports.generateUUID = function() {
  *
  * @param {string} sParam - Name of HTTP GET parameter to retrieve
  * @returns {string}
- *
- * @function concrete.util.getURLParameter
  */
 module.exports.getURLParameter = function(sParam) {
   var sPageURL = decodeURIComponent(window.location.search.substring(1)),

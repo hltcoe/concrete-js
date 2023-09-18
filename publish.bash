@@ -54,4 +54,3 @@ git commit -a
 # 8. Push to github and gitlab
 git push https://github.com/hltcoe/concrete-js.git main "v$VERSION" 
 git push https://gitlab.hltcoe.jhu.edu/research/concrete-js.git main "v$VERSION"
-```

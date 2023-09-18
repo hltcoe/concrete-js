@@ -6,8 +6,24 @@
 module.exports = function (grunt) {
   'use strict';
 
+  var pkg = grunt.file.readJSON('package.json');
+  var docsIndexContent = [
+    '<!DOCTYPE html>',
+    '<html>',
+    '  <head>',
+    '    <title>Redirecting to the latest concrete-js documentation ...</title>',
+    '    <meta http-equiv="Refresh" content="0; url=\'' + pkg.name + '/' + pkg.version + '\'" />',
+    '  </head>',
+    '  <body>',
+    '    <p>',
+    '      Redirecting to <a href="' + pkg.name + '/' + pkg.version + '">the latest concrete-js documentation</a> ...',
+    '    </p>',
+    '  </body>',
+    '</html>',
+].join('\n');
+
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: pkg,
     concat: {
       options: {
         separator: ';'
@@ -41,13 +57,13 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'gen-nodejs',
-            src: '*.js',
+            src: ['*.js', '*.ts'],
             dest: 'dist_nodejs/'
           },
           {
             expand: true,
             cwd: 'src_nodejs',
-            src: '**/*.js',
+            src: ['**/*.js', '**/*.ts'],
             dest: 'dist_nodejs/'
           },
           {
@@ -88,7 +104,7 @@ module.exports = function (grunt) {
       },
       ThriftGen_nodejs: {
         // TODO: Don't hardcode location of 'concrete' repo
-        command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:node,es6 {} \\;'
+        command: 'find ../concrete/thrift -name "*.thrift" -exec thrift --gen js:node,es6,ts {} \\;'
       },
       VersionGen_nodejs: {
         command: 'genversion --semi src_nodejs/generated_version.js'
@@ -119,27 +135,21 @@ module.exports = function (grunt) {
           },
           "-W083": true,
         }
-      },
-      src_nodejs: {
-        src: [
-          'examples/*.html',
-          'Gruntfile.js',
-          'gen-nodejs/*.js',
-          'src_nodejs/**/*.js',
-          'test_nodejs/**/*.js',
-        ],
-        options: {
-          extract: 'auto',
-          // options here to override JSHint defaults
-          node: 'true',
-          esversion: 6,
-          "-W083": true,
-        }
-      },
+      }
+    },
+    eslint: {
+      target: [
+        'gen-nodejs/**/*.js',
+        'gen-nodejs/**/*.ts',
+        'src_nodejs/**/*.js',
+        'src_nodejs/**/*.ts',
+        'test_nodejs/**/*.js',
+        'test_nodejs/**/*.ts'
+      ]
     },
     jsdoc: {
       docs: {
-        src: ['src_nodejs/*.js', 'README.md'],
+        src: ['src_nodejs/**/*.js', 'README.md', 'package.json'],
         options: {
           configure: 'jsdoc.conf.json',
           destination: 'docs',
@@ -161,10 +171,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-eslint');
 
-  grunt.registerTask('docs', ['jsdoc:docs', 'jsdoc:docs/js-jquery', 'copy:docs']);
+  grunt.registerTask('createDocsIndex', 'Creates documentation index', function() {
+    grunt.file.write('docs/index.html', docsIndexContent);
+  });
+  grunt.registerTask('docs', ['jsdoc:docs', 'jsdoc:docs/js-jquery', 'copy:docs', 'createDocsIndex']);
   grunt.registerTask('download', ['shell:DownloadThriftJS']);
   grunt.registerTask('js', ['shell:ThriftGen', 'jshint:src', 'concat:dist', 'uglify:dist', 'download']);
-  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'shell:VersionGen_nodejs', 'jshint:src_nodejs', 'copy:dist_nodejs']);
+  grunt.registerTask('nodejs', ['shell:ThriftGen_nodejs', 'shell:VersionGen_nodejs', 'eslint', 'copy:dist_nodejs']);
   grunt.registerTask('default', ['nodejs', 'js', 'docs']);
 };

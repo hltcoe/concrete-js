@@ -6,7 +6,7 @@ const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
 const concrete = require("./concrete");
-const {serializeThrift, deserializeThrift} = require("./util");
+const {serializeThrift, deserializeThrift} = concrete.util;
 
 
 const argv = yargs(hideBin(process.argv))

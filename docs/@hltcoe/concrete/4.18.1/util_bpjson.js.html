@@ -1,7 +1,66 @@
-const {concat, groupBy, last, range, sortBy, sortedUniqBy, startCase, times} = require("lodash");
-const {generateUUID} = require("./util");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>util/bpjson.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
 
-const concrete = require("./concrete");
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="TokenTagging.html#.create">create</a></li><li data-type='method'><a href="TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-@hltcoe_concrete_util.html">@hltcoe/concrete/util</a><ul class='methods'><li data-type='method'><a href="module-@hltcoe_concrete_util.html#.createXHRClientFromURL">createXHRClientFromURL</a></li><li data-type='method'><a href="module-@hltcoe_concrete_util.html#.deserializeThrift">deserializeThrift</a></li><li data-type='method'><a href="module-@hltcoe_concrete_util.html#.getVersion">getVersion</a></li><li data-type='method'><a href="module-@hltcoe_concrete_util.html#.serializeThrift">serializeThrift</a></li></ul></li><li><a href="module-@hltcoe_concrete_util_bpjson.html">@hltcoe/concrete/util/bpjson</a><ul class='methods'><li data-type='method'><a href="module-@hltcoe_concrete_util_bpjson.html#.convertBPJsonToConcrete">convertBPJsonToConcrete</a></li><li data-type='method'><a href="module-@hltcoe_concrete_util_bpjson.html#.convertConcreteToBPJson">convertConcreteToBPJson</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">util/bpjson.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module @hltcoe/concrete/util/bpjson
+ */
+
+const {concat, groupBy, last, range, sortBy, sortedUniqBy, startCase, times} = require("lodash");
+const {generateUUID} = require("./common");
+
+const {Communication} = require("../communication_types");
+const {AnnotationMetadata} = require("../metadata_types");
+const {Entity, EntitySet, EntityMention, EntityMentionSet} = require("../entities_types");
+const {Property} = require("../property_types");
+const {Argument, Situation, SituationSet} = require("../situations_types");
+const {TextSpan} = require("../spans_types");
+const {
+  Section, Sentence,
+  Token, Tokenization, TokenizationKind, TokenList, TokenRefSequence,
+} = require("../structure_types");
+
+module.exports = {};
 
 const BPJSON_SECTION_KINDS = [
   "Byline",
@@ -13,7 +72,10 @@ const BPJSON_SECTION_KINDS = [
   "Story-Lead",
 ];
 
-const DEFAULT_TEMPLATE_SITUATION_TYPE = "EVENT_TEMPLATE";
+/**
+ * Default situation type used for BP JSON templates.
+ */
+module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE = "EVENT_TEMPLATE";
 
 function unNullifyList(list) {
   return list ? list : [];
@@ -46,7 +108,7 @@ function denormalizeSectionKind(kind) {
 
 function equivalentSectionKindOrder(kind) {
   // return desired order of section kinds in tree when section spans are equivalent
-  // (lower order <=> earlier in tree)
+  // (lower order &lt;=> earlier in tree)
   const normalizedKind = normalizeSectionKind(kind);
   // temp_sentence_wrapper is a special section kind we use internally and do not expose to caller
   const orderedKinds = ["section", "section_header", "story-lead", "*", "ignore", "temp_sentence_wrapper", "sentence"];
@@ -57,7 +119,7 @@ function equivalentSectionKindOrder(kind) {
 function computeTokenSpanFromTextSpan(tok2char, textSpan) {
   const startTokenIndex = tok2char.findIndex((textIndices) => textIndices[0] === textSpan[0]);
   const lastTokenIndex = tok2char.findIndex((textIndices) => last(textIndices) === textSpan[1]);
-  if (startTokenIndex >= 0 && lastTokenIndex >= 0) {
+  if (startTokenIndex >= 0 &amp;&amp; lastTokenIndex >= 0) {
     return [startTokenIndex, lastTokenIndex];
   } else {
     throw new Error(`Could not find token spans matching text span ${textSpan}`);
@@ -65,7 +127,7 @@ function computeTokenSpanFromTextSpan(tok2char, textSpan) {
 }
 
 function generateAnnotationMetadata() {
-  return new concrete.metadata.AnnotationMetadata({
+  return new AnnotationMetadata({
     kBest: 1,
     timestamp: 1,
     tool: "stub",
@@ -88,11 +150,11 @@ function argumentsToSlot(role, args, entityIdsByUUID, eventSituationIdsByUUID) {
   if (! args.every((argument) => normalizeArgumentRole(argument.role) === normalizeArgumentRole(role))) {
     throw new Error(`Specified arguments do not all have role ${role}`);
   }
-  if (args.some((argument) => argument.entityId && argument.situationId)) {
+  if (args.some((argument) => argument.entityId &amp;&amp; argument.situationId)) {
     throw new Error("Some arguments have both entity and situation fills");
   }
   if (args.length > 1 || args.some((argument) => argument.entityId || argument.situationId)) {
-    if (args.some((argument) => !argument.entityId && !argument.situationId)) {
+    if (args.some((argument) => !argument.entityId &amp;&amp; !argument.situationId)) {
       throw new Error("Multiple arguments for role but not all have an entity or situation fill");
     }
     return args.map((argument) => (
@@ -110,7 +172,7 @@ function argumentsToSlot(role, args, entityIdsByUUID, eventSituationIdsByUUID) {
 function templateToArguments(template, entitiesById, eventSituationsById) {
   const args = [];
   if (template["template-anchor"]) {
-    args.push(new concrete.situations.Argument({
+    args.push(new Argument({
       role: "template-anchor",
       entityId: entitiesById[template["template-anchor"]].uuid,
     }));
@@ -120,16 +182,16 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
     .forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((slotFill) =>
-          args.push(new concrete.situations.Argument(
+          args.push(new Argument(
             slotFill.ssid ?
             {role: key, entityId: entitiesById[slotFill.ssid].uuid} :
             {role: key, situationId: eventSituationsById[slotFill["event-id"]].uuid}
           ))
         );
       } else {
-        args.push(new concrete.situations.Argument({
+        args.push(new Argument({
           role: key,
-          propertyList: [new concrete.property.Property({
+          propertyList: [new Property({
             value: String(value),
             metadata: generateAnnotationMetadata(),
           })],
@@ -139,10 +201,15 @@ function templateToArguments(template, entitiesById, eventSituationsById) {
   return args;
 }
 
-function convertConcreteToBPJson(communication,
-                                 templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE,
-                                 entitySetTool=null,
-                                 situationSetTool=null) {
+/**
+ * Convert a Concrete Communication to a BP-JSON corpus entry.
+ */
+module.exports.convertConcreteToBPJson = function(
+  communication,
+  templateSituationType=module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE,
+  entitySetTool=null,
+  situationSetTool=null
+) {
   const tok2char = unNullifyList(communication.sectionList).flatMap((section) =>
     unNullifyList(section.sentenceList).flatMap((sentence) =>
       getTokens(sentence.tokenization).map((token) =>
@@ -202,7 +269,7 @@ function convertConcreteToBPJson(communication,
 
   const entityIdsByUUID = {};
   const entityMentionsByUUID = {};
-  if (communication.entitySetList && communication.entityMentionSetList) {
+  if (communication.entitySetList &amp;&amp; communication.entityMentionSetList) {
     const spanSets = {};
     corpusEntry["annotation-sets"] = {"basic-events": {"span-sets": spanSets}};
 
@@ -354,16 +421,16 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
       while (node) {
         if (node.children.length > 0) {
           const parentCandidate = node.children.find(
-            (c) => c.start <= sectionData.start && sectionData.ending <= c.ending
+            (c) => c.start &lt;= sectionData.start &amp;&amp; sectionData.ending &lt;= c.ending
           );
           if (parentCandidate) {
             // parentCandidate span contains sectionData span
-            if (parentCandidate.start === sectionData.start && parentCandidate.ending === sectionData.ending) {
+            if (parentCandidate.start === sectionData.start &amp;&amp; parentCandidate.ending === sectionData.ending) {
               // parentCandidate and sectionData represent same span
               if (normalizeSectionKind(parentCandidate.kind) !== normalizeSectionKind(sectionData.kind)) {
                 // parentCandidate, sectionData have different kinds, so insert sectionData below parentCandidate
                 [parentCandidate.children, sectionData.children] = [[sectionData], parentCandidate.children];
-                if (equivalentSectionKindOrder(sectionData.kind) < equivalentSectionKindOrder(parentCandidate.kind)) {
+                if (equivalentSectionKindOrder(sectionData.kind) &lt; equivalentSectionKindOrder(parentCandidate.kind)) {
                   // sectionData kind should appear earlier in hierarchy, swap with parentCandidate kind
                   [parentCandidate.kind, sectionData.kind] = [sectionData.kind, parentCandidate.kind];
                 }
@@ -373,26 +440,26 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
               // parentCandidate span strictly contains sectionData span
               node = parentCandidate;
             }
-          } else if (sectionData.ending <= node.children[0].start) {
+          } else if (sectionData.ending &lt;= node.children[0].start) {
             // sectionData fits before first child
             node.children.unshift(sectionData);
-          } else if (last(node.children).ending <= sectionData.start) {
+          } else if (last(node.children).ending &lt;= sectionData.start) {
             // sectionData fits after last child
             node.children.push(sectionData);
           } else {
             const nextSiblingIndex = range(1, node.children.length).find((i) =>
-              node.children[i - 1].ending <= sectionData.start && sectionData.ending <= node.children[i].start);
+              node.children[i - 1].ending &lt;= sectionData.start &amp;&amp; sectionData.ending &lt;= node.children[i].start);
             if (nextSiblingIndex >= 0) {
               // sectionData span fits between nextSibling span and previous span, if any
               node.children.splice(nextSiblingIndex, 0, sectionData);
             } else {
               const firstChildIndex = range(node.children.length).find((i) =>
-                (i === 0 || node.children[i - 1].ending <= sectionData.start) &&
-                sectionData.start <= node.children[i].start);
+                (i === 0 || node.children[i - 1].ending &lt;= sectionData.start) &amp;&amp;
+                sectionData.start &lt;= node.children[i].start);
               const lastChildIndex = range(node.children.length).find((i) =>
-                node.children[i].ending <= sectionData.ending &&
-                (i + 1 === node.children.length || sectionData.ending <= node.children[i + 1].start));
-              if (firstChildIndex >= 0 && lastChildIndex >= 0) {
+                node.children[i].ending &lt;= sectionData.ending &amp;&amp;
+                (i + 1 === node.children.length || sectionData.ending &lt;= node.children[i + 1].start));
+              if (firstChildIndex >= 0 &amp;&amp; lastChildIndex >= 0) {
                 // sectionData span contains firstChild span through lastChild span
                 sectionData.children = node.children.slice(firstChildIndex, lastChildIndex + 1);
                 node.children.splice(firstChildIndex, lastChildIndex + 1 - firstChildIndex, sectionData);
@@ -458,9 +525,9 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
         // node contains sentences as well as non-sentences (sections)
         // iterate over children, creating a section node for each non-empty sequence of consecutive sentence nodes
         // (updating node.children in-place)
-        for (let groupStartIndex = 0; groupStartIndex < node.children.length; groupStartIndex++) {
+        for (let groupStartIndex = 0; groupStartIndex &lt; node.children.length; groupStartIndex++) {
           let groupEndIndex = groupStartIndex;
-          while (groupEndIndex < node.children.length && node.children[groupEndIndex].isSentence) {
+          while (groupEndIndex &lt; node.children.length &amp;&amp; node.children[groupEndIndex].isSentence) {
             groupEndIndex++;
           }
           if (groupEndIndex > groupStartIndex) {
@@ -479,23 +546,23 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
   }
 
   const sections = sortBy(flatSectionNodes, ["start"]).map((section) =>
-    new concrete.structure.Section({
+    new Section({
       kind: section.kind,
       sentenceList: section.children.map((sentence) =>
-        new concrete.structure.Sentence({
-          textSpan: new concrete.spans.TextSpan({
+        new Sentence({
+          textSpan: new TextSpan({
             start: sentence.start,
             ending: sentence.ending,
           }),
-          tokenization: new concrete.structure.Tokenization({
-            kind: concrete.structure.TokenizationKind.TOKEN_LIST,
+          tokenization: new Tokenization({
+            kind: TokenizationKind.TOKEN_LIST,
             metadata: generateAnnotationMetadata(),
-            tokenList: new concrete.structure.TokenList({tokenList: []}),
+            tokenList: new TokenList({tokenList: []}),
             uuid: generateUUID(),
           }),
           uuid: generateUUID(),
         })),
-      textSpan: new concrete.spans.TextSpan({
+      textSpan: new TextSpan({
         start: section.start,
         ending: section.ending,
       }),
@@ -512,13 +579,13 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
       const ending = last(indices) + 1;
       const startSentence = textIndexSentenceMap[start];
       const lastSentence = textIndexSentenceMap[ending - 1];
-      if (startSentence && lastSentence) {
-        if (startSentence.textSpan.start === lastSentence.textSpan.start &&
+      if (startSentence &amp;&amp; lastSentence) {
+        if (startSentence.textSpan.start === lastSentence.textSpan.start &amp;&amp;
             startSentence.textSpan.ending === lastSentence.textSpan.ending) {
-          const token = new concrete.structure.Token({
+          const token = new Token({
             text: indices.map((i) => text[i]).join(""),
             tokenIndex: startSentence.tokenization.tokenList.tokenList.length,
-            textSpan: new concrete.spans.TextSpan({start, ending}),
+            textSpan: new TextSpan({start, ending}),
           });
           if (token.text.length !== token.textSpan.ending - token.textSpan.start) {
             throw new Error("Token text length does not match token indices");
@@ -539,7 +606,13 @@ function convertBPJsonSectionsToConcrete(segmentSections, tok2char, text) {
   return sections;
 }
 
-function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMPLATE_SITUATION_TYPE) {
+/**
+ * Convert a BP-JSON corpus entry to a Concrete Communication.
+ */
+module.exports.convertBPJsonToConcrete = function(
+  corpusEntry,
+  templateSituationType=module.exports.DEFAULT_TEMPLATE_SITUATION_TYPE
+) {
   const communicationParams = {
     id: corpusEntry["entry-id"],
     metadata: generateAnnotationMetadata(),
@@ -557,13 +630,13 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
   const eventSituationsById = {};
 
   if (basicEvents["span-sets"]) {
-    const entityMentionSet = new concrete.entities.EntityMentionSet({
+    const entityMentionSet = new EntityMentionSet({
       mentionList: [],
       metadata: generateAnnotationMetadata(),
       uuid: generateUUID(),
     });
     communicationParams.entityMentionSetList = [entityMentionSet];
-    const entitySet = new concrete.entities.EntitySet({
+    const entitySet = new EntitySet({
       entityList: [],
       metadata: generateAnnotationMetadata(),
       uuid: generateUUID(),
@@ -579,7 +652,7 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
     Object.values(unNullifyDict(basicEvents["span-sets"])).forEach((spanSet) => {
       const mentions = spanSet.spans
         .map((span) =>
-          span["start-token"] !== undefined && span["end-token"] !== undefined ?
+          span["start-token"] !== undefined &amp;&amp; span["end-token"] !== undefined ?
             [span["start-token"], span["end-token"]] :
             computeTokenSpanFromTextSpan(corpusEntry.tok2char, [span.start, span.end - 1])
         )
@@ -593,12 +666,12 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
           );
           const tokenizationId = listToScalar(tokenizationUUIDs, "list of tokenizations referenced by span");
           const tokenIndexList = spanTokenData.map(({token}) => token.tokenIndex);
-          return new concrete.entities.EntityMention({
-            tokens: new concrete.structure.TokenRefSequence({tokenizationId, tokenIndexList}),
+          return new EntityMention({
+            tokens: new TokenRefSequence({tokenizationId, tokenIndexList}),
             uuid: generateUUID(),
           });
         });
-      entitySet.entityList.push(new concrete.entities.Entity({
+      entitySet.entityList.push(new Entity({
         id: spanSet.ssid,
         mentionIdList: mentions.map((mention) => mention.uuid),
         uuid: generateUUID(),
@@ -610,7 +683,7 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
   }
 
   if (basicEvents.events || basicEvents["granular-templates"]) {
-    const situationSet = new concrete.situations.SituationSet({
+    const situationSet = new SituationSet({
       situationList: [],
       metadata: generateAnnotationMetadata(),
       uuid: generateUUID(),
@@ -618,17 +691,17 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
     communicationParams.situationSetList = [situationSet];
 
     Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
-      situationSet.situationList.push(new concrete.situations.Situation({
+      situationSet.situationList.push(new Situation({
         argumentList: concat(
-          event.agents.map((ssid) => new concrete.situations.Argument({
+          event.agents.map((ssid) => new Argument({
             entityId: entitiesById[ssid].uuid,
             role: "agent",
           })),
-          new concrete.situations.Argument({
+          new Argument({
             entityId: entitiesById[event.anchors].uuid,
             role: "anchor",
           }),
-          event.patients.map((ssid) => new concrete.situations.Argument({
+          event.patients.map((ssid) => new Argument({
             entityId: entitiesById[ssid].uuid,
             role: "patient",
           }))
@@ -646,7 +719,7 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
 
     Object.values(unNullifyDict(basicEvents.events)).forEach((event) =>
       eventSituationsById[event.eventid].argumentList.push(...(
-        event["ref-events"].map((eventid) => new concrete.situations.Argument({
+        event["ref-events"].map((eventid) => new Argument({
           situationId: eventSituationsById[eventid].uuid,
           role: "ref-event",
         }))
@@ -654,7 +727,7 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
     );
 
     Object.values(unNullifyDict(basicEvents["granular-templates"])).forEach((template) =>
-      situationSet.situationList.push(new concrete.situations.Situation({
+      situationSet.situationList.push(new Situation({
         argumentList: templateToArguments(template, entitiesById, eventSituationsById),
         id: template["template-id"],
         situationKind: template["template-type"],
@@ -664,7 +737,30 @@ function convertBPJsonToConcrete(corpusEntry, templateSituationType=DEFAULT_TEMP
     );
   }
 
-  return new concrete.communication.Communication(communicationParams);
+  return new Communication(communicationParams);
 }
+</code></pre>
+        </article>
+    </section>
 
-module.exports = {convertConcreteToBPJson, convertBPJsonToConcrete, DEFAULT_TEMPLATE_SITUATION_TYPE};
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.9</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

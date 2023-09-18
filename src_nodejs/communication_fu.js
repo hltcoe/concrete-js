@@ -1,11 +1,9 @@
 /**
  * @class Communication
- * @classdesc concrete.js extensions to the Communication class
+ * @classdesc extensions to the Communication class
  */
-const Communication = module.exports = require('./communication_types').Communication; 
-
-const thrift = require('thrift');
-const Thrift = thrift.Thrift;
+const {Communication} = require('./communication_types');
+const {Thrift} = require('thrift');
 
 /**
  * Adds internal references between data structures contained in Communication.
@@ -182,7 +180,7 @@ Communication.prototype.getEntityForEntityMentionUUID = function(uuid) {
 /**
  * Return the EntityMentionSet in the Communication with the specified toolname
  *
- * @param {String} toolname
+ * @param {string} toolname
  * @returns {EntityMentionSet|null}
  */
 Communication.prototype.getEntityMentionSetWithToolname = function(toolname) {
@@ -227,7 +225,7 @@ Communication.prototype.getEntityMentionWithUUID = function(uuid) {
 /**
  * Return the Entity (or null) that has the specified Entity ID
  *
- * @param {String} entityId
+ * @param {string} entityId
  * @returns {Entity|null}
  */
 Communication.prototype.getEntityWithEntityId = function(entityId) {
@@ -456,7 +454,7 @@ Communication.prototype.getTokensForEntityMentionID = function(mentionId) {
  *       ...
  *     }
  *
- * @param {Object} commJSONObject - An object created from a Communication using TJSONProtocol
+ * @param {object} commJSONObject - An object created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
 Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
@@ -472,7 +470,7 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
 /**
  * Initialize Communication from a TJSONProtocol string created from a Communication
  *
- * @param {String} commJSONString - A JSON string created from a Communication using TJSONProtocol
+ * @param {string} commJSONString - A JSON string created from a Communication using TJSONProtocol
  * @returns {Communication} - This Communication
  */
 Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
@@ -498,7 +496,7 @@ Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
 /**
  * Returns JSON object for Communication serialized using TJSONProtocol
  *
- * @returns {Object}
+ * @returns {object}
  */
 Communication.prototype.toTJSONProtocolObject = function() {
   return JSON.parse(this.toTJSONProtocolString());
@@ -508,7 +506,7 @@ Communication.prototype.toTJSONProtocolObject = function() {
 /**
  * Returns JSON string for Communication serialized using TJSONProtocol
  *
- * @returns {String}
+ * @returns {string}
  */
 Communication.prototype.toTJSONProtocolString = function() {
   var transport = new Thrift.Transport();

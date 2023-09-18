@@ -1,6 +1,7 @@
 *~
 .*.swp
 .*.swo
+.DS_Store
 /gen-js/
 /gen-nodejs/
 /node_modules/

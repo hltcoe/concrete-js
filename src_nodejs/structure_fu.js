@@ -1,16 +1,45 @@
+const {Tokenization, TokenTagging, TaggedToken} = require('./structure_types');
+const {AnnotationMetadata} = require('./metadata_types');
+const {generateUUID} = require('./util');
+const {cloneDeep} = require("lodash");
+
+/**
+ * @class Tokenization
+ * @classdesc extensions to the Tokenization class
+ */
+
+/**
+ * Add a TokenTagging to this Tokenization
+ * @param {TokenTagging} tokenTagging
+ */
+Tokenization.prototype.addTokenTagging = function(tokenTagging) {
+  if (!this.tokenTaggingList) {
+    this.tokenTaggingList = [];
+  }
+  this.tokenTaggingList.push(tokenTagging);
+};
+
+/**
+ * Get all TokenTaggings with the specified taggingType
+ * @param {string} taggingType - A string specifying a TokenTagging.taggingType
+ * @returns {TokenTagging[]} A (possibly empty) array of TokenTagging objects
+ */
+Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
+  var tokenTaggings = [];
+
+  for (var tokenTaggingIndex in this.tokenTaggingList) {
+    if (this.tokenTaggingList[tokenTaggingIndex].taggingType === taggingType) {
+      tokenTaggings.push(this.tokenTaggingList[tokenTaggingIndex]);
+    }
+  }
+
+  return tokenTaggings;
+};
+
 /**
  * @class TokenTagging
- * @classdesc concrete.js extensions to the TokenTagging class
+ * @classdesc extensions to the TokenTagging class
  */
-const concrete = {};
-concrete.structure = require('./structure_types');
-const TokenTagging = module.exports = concrete.structure.TokenTagging;
-const TaggedToken = concrete.structure.TaggedToken;
-concrete.metadata = require('./metadata_types');
-const AnnotationMetadata = concrete.metadata.AnnotationMetadata;
-
-const jQuery = {extend: function(){throw new Error("not implemented");}};
-const $ = jQuery;
 
 /**
  * Create a valid TokenTagging with required fields AnnotationMetadata and UUID
@@ -19,8 +48,9 @@ const $ = jQuery;
  *
  *     tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
  *
- * @param {Object} options - Override default TokenTagging fields (except metadata)
- * @param {Object} metadataOptions - Override default tokenTagging.metadata fields
+ * @param {object} options - Override default TokenTagging fields (except metadata)
+ * @param {object} metadataOptions - Override default tokenTagging.metadata fields
+ * @returns {TokenTagging}
  */
 TokenTagging.create = function(options, metadataOptions) {
   var tokenTagging = new TokenTagging();
@@ -29,18 +59,18 @@ TokenTagging.create = function(options, metadataOptions) {
   tokenTagging.metadata.tool = 'concrete.js - TokenTagging.create()';
   tokenTagging.taggedTokenList = [];
   tokenTagging.taggingType = '';
-  tokenTagging.uuid = concrete.util.generateUUID();
+  tokenTagging.uuid = generateUUID();
 
-  tokenTagging = $.extend({}, tokenTagging, options);
-  tokenTagging.metadata = $.extend({}, tokenTagging.metadata, metadataOptions);
+  tokenTagging = Object.assign({}, tokenTagging, options);
+  tokenTagging.metadata = Object.assign({}, tokenTagging.metadata, metadataOptions);
   return tokenTagging;
 };
 
 /**
  * Get BIO value for TaggedToken at tokenIndex
  *
- * @param {Integer] tokenIndex
- * @returns {String|null} - 'B', 'I', 'O' or null
+ * @param {number] tokenIndex
+ * @returns {string|null} - 'B', 'I', 'O' or null
  */
 TokenTagging.prototype.bioGetBIOValue = function(tokenIndex) {
   var taggedToken = this.getTaggedTokenWithTokenIndex(tokenIndex);
@@ -56,8 +86,8 @@ TokenTagging.prototype.bioGetBIOValue = function(tokenIndex) {
 /**
  * Get tag value (stripped of BIO tag and separator) for TaggedToken at tokenIndex
  *
- * @param {Integer] tokenIndex
- * @returns {String|null} - 'B', 'I', 'O' or null
+ * @param {number} tokenIndex
+ * @returns {string|null} - 'B', 'I', 'O' or null
  *
  */
 TokenTagging.prototype.bioGetTagValue = function(tokenIndex) {
@@ -74,7 +104,7 @@ TokenTagging.prototype.bioGetTagValue = function(tokenIndex) {
  * If the separator character had not been set before this function was called,
  * the separator character will be set to '-'.
  *
- * @returns {String} - Separator character for BIO TokenTaggings
+ * @returns {string} - Separator character for BIO TokenTaggings
  */
 TokenTagging.prototype.bioGetTagSeparator = function() {
   if (this.bioTagSeparator === undefined) {
@@ -91,8 +121,8 @@ TokenTagging.prototype.bioGetTagSeparator = function() {
  * tag at tokenIndex is an 'I' tag, find the index of the 'B' tag for
  * this 'I' tag.
  *
- * @param {Number} tokenIndex -
- * @returns {Number} - Token index of "B" tag
+ * @param {number} tokenIndex - Token index of a "B" or "I" tag
+ * @returns {number} - Token index of "B" tag
  * @throws {TypeError} Thrown if the tag at TokenIndex is not a 'B' or
  *                     'I' tag.  Also thrown if the tag at TokenIndex
  *                     is a valid 'I' tag, but not part of a valid 'BI*'
@@ -118,9 +148,9 @@ TokenTagging.prototype.bioGetTokenIndexForB = function(tokenIndex) {
 /**
  * Set BIO TaggedToken tag
  *
- * @param {String} bioValue - Should be 'B', 'I' or 'O'
- * @param {String} tagText
- * @param {Number} tokenIndex
+ * @param {string} bioValue - Should be 'B', 'I' or 'O'
+ * @param {string} tagText
+ * @param {number} tokenIndex
  * @throws {TypeError} Thrown if bioValue is not 'B'|'I'|'O'.  Also thrown
  *                     if bioValue is 'I', but not part of a valid 'BI*'
  *                     multi-token tagging.
@@ -131,7 +161,6 @@ TokenTagging.prototype.bioSetTaggedTokenTag = function(bioValue, tagText, tokenI
                         "but instead it was '" + bioValue + "'");
   }
 
-  var bioTagText;
   if (bioValue === 'B') {
     this.setTaggedTokenTag(bioValue + this.bioGetTagSeparator() + tagText, tokenIndex);
   }
@@ -169,7 +198,7 @@ TokenTagging.prototype.bioSetTaggedTokenTag = function(bioValue, tagText, tokenI
  * For BIO TokenTaggings, sets separator character to be used between
  * B/I/O character and rest of tag
  *
- * @param {String} separator - String used as separator character
+ * @param {string} separator - String used as separator character
  */
 TokenTagging.prototype.bioSetTagSeparator = function(separator) {
   this.bioTagSeparator = separator;
@@ -184,7 +213,7 @@ TokenTagging.prototype.deepCopyTaggedTokenList = function() {
   var taggedTokenListCopy = [];
   for (var i = 0; i < this.taggedTokenList.length; i++) {
     var taggedToken = new TaggedToken();
-    taggedTokenListCopy.push(jQuery.extend(true, taggedToken, this.taggedTokenList[i]));
+    taggedTokenListCopy.push(Object.assign(true, taggedToken, cloneDeep(this.taggedTokenList[i])));
   }
   return taggedTokenListCopy;
 };
@@ -192,7 +221,7 @@ TokenTagging.prototype.deepCopyTaggedTokenList = function() {
 /**
  * Return the TaggedToken (or null) with the specified tokenIndex
  *
- * @param {Number} tokenIndex
+ * @param {number} tokenIndex
  * @returns {TaggedToken|null}
  */
 TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
@@ -208,7 +237,7 @@ TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
  * Set taggedTokenList to a list of TaggedTokens (one per token) with identical tags
  *
  * @param {Tokenization} tokenization - Used to determine # of TokenTags
- * @param {String} tagText - Value for each TaggedToken's "tag" field
+ * @param {string} tagText - Value for each TaggedToken's "tag" field
  */
 TokenTagging.prototype.setAllTaggedTokenTags = function(tokenization, tagText) {
   // Discard the contents of the existing taggedTokenList
@@ -227,8 +256,8 @@ TokenTagging.prototype.setAllTaggedTokenTags = function(tokenization, tagText) {
  * If a TaggedToken with the specified tokenIndex does not exist,
  * than it will be created.
  *
- * @param {String} tagText
- * @param {Number} tokenIndex
+ * @param {string} tagText
+ * @param {number} tokenIndex
  */
 TokenTagging.prototype.setTaggedTokenTag = function(tagText, tokenIndex) {
   var taggedToken = this.getTaggedTokenWithTokenIndex(tokenIndex);

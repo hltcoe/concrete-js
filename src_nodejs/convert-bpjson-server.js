@@ -6,8 +6,8 @@ const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
 const concrete = require("./concrete");
-const bpjson = require("./bpjson");
-const {getVersion} = require("./util");
+const {getVersion} = concrete.util;
+const bpjson = concrete.util.bpjson;
 
 const argv = yargs(hideBin(process.argv))
   .option('port', {

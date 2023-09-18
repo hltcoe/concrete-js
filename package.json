@@ -3,6 +3,7 @@
   "version": "4.18.1",
   "description": "Node.js library for working with Concrete, a data serialization format for NLP",
   "main": "concrete.js",
+  "types": "concrete.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hltcoe/concrete-js.git"
@@ -26,14 +27,18 @@
     "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "chai": "^4.3.7",
     "docdash": "^1.1.0",
+    "eslint": "^8.49.0",
     "genversion": "^3.1.1",
     "grunt": "^1.0.4",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-uglify": "^4.0.1",
+    "grunt-eslint": "^24.3.0",
     "grunt-jsdoc": "^2.3.1",
     "grunt-shell": "^3.0.1",
     "is-docker": "^1.1.0",
@@ -44,7 +49,8 @@
     "karma-jasmine-jquery": "^0.1.1",
     "karma-safari-launcher": "^1.0.0",
     "karma-spec-reporter": "^0.0.32",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "test_js": "karma start --single-run --browsers ChromeCustom --reporters spec",

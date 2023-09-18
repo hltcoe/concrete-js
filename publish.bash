@@ -38,7 +38,7 @@ git add docs
 git commit -am "$VERSION"
 
 # 4. Tag
-git tag -am "$VERSION" "v$VERSION"
+git tag -am "$VERSION" "$VERSION"
 
 # 5. Push to NPM
 pushd dist_nodejs
@@ -46,11 +46,11 @@ npm publish
 popd
 
 # 6. Update version to pre-release
-$NPM_VERSION_CMD --preid=dev prepatch
+PRE_VERSION=`$NPM_VERSION_CMD --preid=dev prepatch`
 
 # 7. Add changes & commit
-git commit -a
+git commit -am "$PRE_VERSION"
 
 # 8. Push to github and gitlab
-git push https://github.com/hltcoe/concrete-js.git main "v$VERSION" 
-git push https://gitlab.hltcoe.jhu.edu/research/concrete-js.git main "v$VERSION"
+git push https://github.com/hltcoe/concrete-js.git main "$VERSION"
+git push https://gitlab.hltcoe.jhu.edu/research/concrete-js.git main "$VERSION"

@@ -215,38 +215,13 @@ steps:
 7. Add changes to git and commit
 8. Push `main` and the new tag to GitHub and GitLab
 
-These steps are **approximately** performed in the following code.
-Please **do not copy and paste** more than one line at a time:
+These steps are automated in `publish.bash`.  Note that a failure
+at any point in the process will cause the script to exit with an
+error.  The script echoes each command as it runs to help you recover
+from a failure.
+
+Example usage:
 
 ```bash
-# 0. Clean repository (you will lose any uncommitted changes!)
-git reset --hard && git clean -fdx && npm ci
-
-# 1. Update version
-# This increments the "patch" part of the version ("x" in "1.0.x").
-# Change "patch" to "minor" or "major" if needed.
-# Run "npm version --help" for details.
-npm version --no-git-tag-version patch
-
-# 2. Build
-npx grunt
-
-# 3. Add changes & commit
-git add docs && git commit -a
-
-# 4. Tag (CHANGE the version number!)
-git tag -a v4.18.2
-
-# 5. Push to NPM
-pushd dist_nodejs && npm publish && popd
-
-# 6. Update version to pre-release
-npm version --no-git-tag-version --preid=dev prepatch
-
-# 7. Add changes & commit
-git commit -a
-
-# 8. Push to github and gitlab (CHANGE the version number!)
-# These commands assume you have the appropriate git remotes
-git push github main v4.18.2 && git push gitlab main v4.18.2
+./publish.bash patch
 ```

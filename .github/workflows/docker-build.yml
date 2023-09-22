@@ -17,6 +17,7 @@ jobs:
         with:
           load: true
           tags: ${{ env.TEST_TAG }}
-      - name: Test
-        run: |
-          docker run --rm ${{ env.TEST_TAG }} npm run test
+      - name: Run unit tests
+        run: docker run --rm ${{ env.TEST_TAG }} npm test
+      - name: Run integration tests
+        run: docker run --rm ${{ env.TEST_TAG }} npm run integration_test

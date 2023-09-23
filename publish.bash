@@ -28,7 +28,7 @@ git clean -fdx
 npm ci
 
 # 1. Update version
-VERSION=`$NPM_VERSION_CMD "$@"`
+VERSION=$($NPM_VERSION_CMD "$@")
 
 # 2. Build
 npx grunt
@@ -46,7 +46,7 @@ npm publish
 popd
 
 # 6. Update version to pre-release
-PRE_VERSION=`$NPM_VERSION_CMD --preid=dev prepatch`
+PRE_VERSION=$($NPM_VERSION_CMD --preid=dev prepatch)
 
 # 7. Add changes & commit
 git commit -am "$PRE_VERSION"

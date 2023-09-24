@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>gen-nodejs/communication_types.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="concrete.access.html">access</a><ul class='members'><li data-type='member'><a href="concrete.access.html#.FetchCommunicationService">FetchCommunicationService</a></li><li data-type='member'><a href="concrete.access.html#.StoreCommunicationService">StoreCommunicationService</a></li></ul></li><li><a href="concrete.annotate.html">annotate</a><ul class='members'><li data-type='member'><a href="concrete.annotate.html#.AnnotateCommunicationBatchService">AnnotateCommunicationBatchService</a></li><li data-type='member'><a href="concrete.annotate.html#.AnnotateCommunicationService">AnnotateCommunicationService</a></li><li data-type='member'><a href="concrete.annotate.html#.AnnotateWithContextService">AnnotateWithContextService</a></li></ul></li><li><a href="concrete.audio.html">audio</a></li><li><a href="concrete.cluster.html">cluster</a></li><li><a href="concrete.communication.html">communication</a></li><li><a href="concrete.context.html">context</a></li><li><a href="concrete.convert.html">convert</a><ul class='members'><li data-type='member'><a href="concrete.convert.html#.ConvertCommunicationService">ConvertCommunicationService</a></li></ul></li><li><a href="concrete.email.html">email</a></li><li><a href="concrete.entities.html">entities</a></li><li><a href="concrete.ex.html">ex</a></li><li><a href="concrete.language.html">language</a></li><li><a href="concrete.learn.html">learn</a><ul class='members'><li data-type='member'><a href="concrete.learn.html#.ActiveLearnerClientService">ActiveLearnerClientService</a></li><li data-type='member'><a href="concrete.learn.html#.ActiveLearnerServerService">ActiveLearnerServerService</a></li></ul></li><li><a href="concrete.linking.html">linking</a></li><li><a href="concrete.metadata.html">metadata</a></li><li><a href="concrete.nitf.html">nitf</a></li><li><a href="concrete.property.html">property</a></li><li><a href="concrete.results.html">results</a><ul class='members'><li data-type='member'><a href="concrete.results.html#.ResultsServerService">ResultsServerService</a></li></ul></li><li><a href="concrete.search.html">search</a><ul class='members'><li data-type='member'><a href="concrete.search.html#.FeedbackService">FeedbackService</a></li><li data-type='member'><a href="concrete.search.html#.SearchProxyService">SearchProxyService</a></li><li data-type='member'><a href="concrete.search.html#.SearchService">SearchService</a></li></ul></li><li><a href="concrete.services.html">services</a><ul class='members'><li data-type='member'><a href="concrete.services.html#.Service">Service</a></li></ul></li><li><a href="concrete.situations.html">situations</a></li><li><a href="concrete.spans.html">spans</a></li><li><a href="concrete.structure.html">structure</a></li><li><a href="concrete.summarization.html">summarization</a><ul class='members'><li data-type='member'><a href="concrete.summarization.html#.SummarizationService">SummarizationService</a></li></ul></li><li><a href="concrete.twitter.html">twitter</a></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.createXHRClientFromURL">createXHRClientFromURL</a></li><li data-type='method'><a href="concrete.util.html#.deserializeThrift">deserializeThrift</a></li><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.getURLParameter">getURLParameter</a></li><li data-type='method'><a href="concrete.util.html#.getVersion">getVersion</a></li><li data-type='method'><a href="concrete.util.html#.serializeThrift">serializeThrift</a></li></ul></li><li><a href="concrete.util.bpjson.html">bpjson</a><ul class='members'><li data-type='member'><a href="concrete.util.bpjson.html#.DEFAULT_TEMPLATE_SITUATION_TYPE">DEFAULT_TEMPLATE_SITUATION_TYPE</a></li></ul><ul class='methods'><li data-type='method'><a href="concrete.util.bpjson.html#.convertBPJsonToConcrete">convertBPJsonToConcrete</a></li><li data-type='method'><a href="concrete.util.bpjson.html#.convertConcreteToBPJson">convertConcreteToBPJson</a></li></ul></li><li><a href="concrete.uuid.html">uuid</a></li></ul><h3>Classes</h3><ul><li><a href="concrete.access.FetchRequest.html">FetchRequest</a></li><li><a href="concrete.access.FetchResult.html">FetchResult</a></li><li><a href="concrete.audio.Sound.html">Sound</a></li><li><a href="concrete.cluster.Cluster.html">Cluster</a></li><li><a href="concrete.cluster.Clustering.html">Clustering</a></li><li><a href="concrete.cluster.ClusterMember.html">ClusterMember</a></li><li><a href="concrete.communication.Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="concrete.communication.Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="concrete.communication.Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="concrete.communication.Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="concrete.communication.Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="concrete.communication.CommunicationSet.html">CommunicationSet</a></li><li><a href="concrete.communication.CommunicationTagging.html">CommunicationTagging</a></li><li><a href="concrete.context.Context.html">Context</a></li><li><a href="concrete.email.EmailAddress.html">EmailAddress</a></li><li><a href="concrete.email.EmailCommunicationInfo.html">EmailCommunicationInfo</a></li><li><a href="concrete.entities.Entity.html">Entity</a></li><li><a href="concrete.entities.EntityMention.html">EntityMention</a></li><li><a href="concrete.entities.EntityMentionSet.html">EntityMentionSet</a></li><li><a href="concrete.entities.EntitySet.html">EntitySet</a></li><li><a href="concrete.language.LanguageIdentification.html">LanguageIdentification</a></li><li><a href="concrete.learn.Annotation.html">Annotation</a></li><li><a href="concrete.learn.AnnotationTask.html">AnnotationTask</a></li><li><a href="concrete.linking.Link.html">Link</a></li><li><a href="concrete.linking.Linking.html">Linking</a></li><li><a href="concrete.linking.LinkTarget.html">LinkTarget</a></li><li><a href="concrete.metadata.AnnotationMetadata.html">AnnotationMetadata</a></li><li><a href="concrete.metadata.CommunicationMetadata.html">CommunicationMetadata</a></li><li><a href="concrete.metadata.Digest.html">Digest</a></li><li><a href="concrete.metadata.TheoryDependencies.html">TheoryDependencies</a></li><li><a href="concrete.nitf.NITFInfo.html">NITFInfo</a></li><li><a href="concrete.property.Property.html">Property</a></li><li><a href="concrete.search.SearchCapability.html">SearchCapability</a></li><li><a href="concrete.search.SearchQuery.html">SearchQuery</a></li><li><a href="concrete.search.SearchResult.html">SearchResult</a></li><li><a href="concrete.search.SearchResultItem.html">SearchResultItem</a></li><li><a href="concrete.services.AnnotationUnitIdentifier.html">AnnotationUnitIdentifier</a></li><li><a href="concrete.services.AsyncContactInfo.html">AsyncContactInfo</a></li><li><a href="concrete.services.ServiceInfo.html">ServiceInfo</a></li><li><a href="concrete.situations.Argument.html">Argument</a></li><li><a href="concrete.situations.Justification.html">Justification</a></li><li><a href="concrete.situations.MentionArgument.html">MentionArgument</a></li><li><a href="concrete.situations.Situation.html">Situation</a></li><li><a href="concrete.situations.SituationMention.html">SituationMention</a></li><li><a href="concrete.situations.SituationMentionSet.html">SituationMentionSet</a></li><li><a href="concrete.situations.SituationSet.html">SituationSet</a></li><li><a href="concrete.situations.TimeML.html">TimeML</a></li><li><a href="concrete.spans.AudioSpan.html">AudioSpan</a></li><li><a href="concrete.spans.TextSpan.html">TextSpan</a></li><li><a href="concrete.structure.Arc.html">Arc</a></li><li><a href="concrete.structure.Constituent.html">Constituent</a></li><li><a href="concrete.structure.ConstituentRef.html">ConstituentRef</a></li><li><a href="concrete.structure.Dependency.html">Dependency</a></li><li><a href="concrete.structure.DependencyParse.html">DependencyParse</a></li><li><a href="concrete.structure.DependencyParseStructure.html">DependencyParseStructure</a></li><li><a href="concrete.structure.LatticePath.html">LatticePath</a></li><li><a href="concrete.structure.Parse.html">Parse</a></li><li><a href="concrete.structure.Section.html">Section</a></li><li><a href="concrete.structure.Sentence.html">Sentence</a></li><li><a href="concrete.structure.SpanLink.html">SpanLink</a></li><li><a href="concrete.structure.TaggedToken.html">TaggedToken</a></li><li><a href="concrete.structure.Token.html">Token</a></li><li><a href="concrete.structure.Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="concrete.structure.Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="concrete.structure.Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="concrete.structure.TokenLattice.html">TokenLattice</a></li><li><a href="concrete.structure.TokenList.html">TokenList</a></li><li><a href="concrete.structure.TokenRefSequence.html">TokenRefSequence</a></li><li><a href="concrete.structure.TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="concrete.structure.TokenTagging.html#.create">create</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li><li><a href="concrete.summarization.SummarizationCapability.html">SummarizationCapability</a></li><li><a href="concrete.summarization.SummarizationRequest.html">SummarizationRequest</a></li><li><a href="concrete.summarization.Summary.html">Summary</a></li><li><a href="concrete.summarization.SummaryConcept.html">SummaryConcept</a></li><li><a href="concrete.twitter.BoundingBox.html">BoundingBox</a></li><li><a href="concrete.twitter.HashTag.html">HashTag</a></li><li><a href="concrete.twitter.PlaceAttributes.html">PlaceAttributes</a></li><li><a href="concrete.twitter.TweetInfo.html">TweetInfo</a></li><li><a href="concrete.twitter.TwitterCoordinates.html">TwitterCoordinates</a></li><li><a href="concrete.twitter.TwitterEntities.html">TwitterEntities</a></li><li><a href="concrete.twitter.TwitterLatLong.html">TwitterLatLong</a></li><li><a href="concrete.twitter.TwitterPlace.html">TwitterPlace</a></li><li><a href="concrete.twitter.TwitterUser.html">TwitterUser</a></li><li><a href="concrete.twitter.URL.html">URL</a></li><li><a href="concrete.twitter.UserMention.html">UserMention</a></li><li><a href="concrete.uuid.UUID.html">UUID</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">gen-nodejs/communication_types.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace concrete.communication
+ */
+//
+// Autogenerated by Thrift Compiler (0.19.0)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+"use strict";
+
+const thrift = require('thrift');
+const Thrift = thrift.Thrift;
+const Int64 = require('node-int64');
+
+const uuid_ttypes = require('./uuid_types');
+const language_ttypes = require('./language_types');
+const structure_ttypes = require('./structure_types');
+const entities_ttypes = require('./entities_types');
+const situations_ttypes = require('./situations_types');
+const audio_ttypes = require('./audio_types');
+const metadata_ttypes = require('./metadata_types');
+const cluster_ttypes = require('./cluster_types');
+
+
+const ttypes = module.exports = {};
+
+/**
+ * @memberof concrete.communication
+ * @class CommunicationTagging
+ * @classdesc CommunicationTagging class generated by Thrift
+ */
+const CommunicationTagging = module.exports.CommunicationTagging = class {
+  constructor(args) {
+    this.uuid = null;
+    this.metadata = null;
+    this.taggingType = null;
+    this.tagList = null;
+    this.confidenceList = null;
+    if (args) {
+      if (args.uuid !== undefined &amp;&amp; args.uuid !== null) {
+        this.uuid = new uuid_ttypes.UUID(args.uuid);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+      }
+      if (args.metadata !== undefined &amp;&amp; args.metadata !== null) {
+        this.metadata = new metadata_ttypes.AnnotationMetadata(args.metadata);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
+      }
+      if (args.taggingType !== undefined &amp;&amp; args.taggingType !== null) {
+        this.taggingType = args.taggingType;
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field taggingType is unset!');
+      }
+      if (args.tagList !== undefined &amp;&amp; args.tagList !== null) {
+        this.tagList = Thrift.copyList(args.tagList, [null]);
+      }
+      if (args.confidenceList !== undefined &amp;&amp; args.confidenceList !== null) {
+        this.confidenceList = Thrift.copyList(args.confidenceList, [null]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.uuid = new uuid_ttypes.UUID();
+          this.uuid.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.metadata = new metadata_ttypes.AnnotationMetadata();
+          this.metadata.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRING) {
+          this.taggingType = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.tagList = [];
+          const _rtmp31 = input.readListBegin();
+          const _size0 = _rtmp31.size || 0;
+          for (let _i2 = 0; _i2 &lt; _size0; ++_i2) {
+            let elem3 = null;
+            elem3 = input.readString();
+            this.tagList.push(elem3);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.LIST) {
+          this.confidenceList = [];
+          const _rtmp35 = input.readListBegin();
+          const _size4 = _rtmp35.size || 0;
+          for (let _i6 = 0; _i6 &lt; _size4; ++_i6) {
+            let elem7 = null;
+            elem7 = input.readDouble();
+            this.confidenceList.push(elem7);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('CommunicationTagging');
+    if (this.uuid !== null &amp;&amp; this.uuid !== undefined) {
+      output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
+      this.uuid.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.metadata !== null &amp;&amp; this.metadata !== undefined) {
+      output.writeFieldBegin('metadata', Thrift.Type.STRUCT, 2);
+      this.metadata.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.taggingType !== null &amp;&amp; this.taggingType !== undefined) {
+      output.writeFieldBegin('taggingType', Thrift.Type.STRING, 3);
+      output.writeString(this.taggingType);
+      output.writeFieldEnd();
+    }
+    if (this.tagList !== null &amp;&amp; this.tagList !== undefined) {
+      output.writeFieldBegin('tagList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRING, this.tagList.length);
+      for (let iter8 in this.tagList) {
+        if (this.tagList.hasOwnProperty(iter8)) {
+          iter8 = this.tagList[iter8];
+          output.writeString(iter8);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.confidenceList !== null &amp;&amp; this.confidenceList !== undefined) {
+      output.writeFieldBegin('confidenceList', Thrift.Type.LIST, 5);
+      output.writeListBegin(Thrift.Type.DOUBLE, this.confidenceList.length);
+      for (let iter9 in this.confidenceList) {
+        if (this.confidenceList.hasOwnProperty(iter9)) {
+          iter9 = this.confidenceList[iter9];
+          output.writeDouble(iter9);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.communication
+ * @class Communication
+ * @classdesc Communication class generated by Thrift
+ */
+const Communication = module.exports.Communication = class {
+  constructor(args) {
+    this.id = null;
+    this.uuid = null;
+    this.type = null;
+    this.text = null;
+    this.startTime = null;
+    this.endTime = null;
+    this.communicationTaggingList = null;
+    this.metadata = null;
+    this.keyValueMap = null;
+    this.lidList = null;
+    this.sectionList = null;
+    this.entityMentionSetList = null;
+    this.entitySetList = null;
+    this.situationMentionSetList = null;
+    this.situationSetList = null;
+    this.originalText = null;
+    this.sound = null;
+    this.communicationMetadata = null;
+    if (args) {
+      if (args.id !== undefined &amp;&amp; args.id !== null) {
+        this.id = args.id;
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field id is unset!');
+      }
+      if (args.uuid !== undefined &amp;&amp; args.uuid !== null) {
+        this.uuid = new uuid_ttypes.UUID(args.uuid);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+      }
+      if (args.type !== undefined &amp;&amp; args.type !== null) {
+        this.type = args.type;
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field type is unset!');
+      }
+      if (args.text !== undefined &amp;&amp; args.text !== null) {
+        this.text = args.text;
+      }
+      if (args.startTime !== undefined &amp;&amp; args.startTime !== null) {
+        this.startTime = args.startTime;
+      }
+      if (args.endTime !== undefined &amp;&amp; args.endTime !== null) {
+        this.endTime = args.endTime;
+      }
+      if (args.communicationTaggingList !== undefined &amp;&amp; args.communicationTaggingList !== null) {
+        this.communicationTaggingList = Thrift.copyList(args.communicationTaggingList, [ttypes.CommunicationTagging]);
+      }
+      if (args.metadata !== undefined &amp;&amp; args.metadata !== null) {
+        this.metadata = new metadata_ttypes.AnnotationMetadata(args.metadata);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
+      }
+      if (args.keyValueMap !== undefined &amp;&amp; args.keyValueMap !== null) {
+        this.keyValueMap = Thrift.copyMap(args.keyValueMap, [null]);
+      }
+      if (args.lidList !== undefined &amp;&amp; args.lidList !== null) {
+        this.lidList = Thrift.copyList(args.lidList, [language_ttypes.LanguageIdentification]);
+      }
+      if (args.sectionList !== undefined &amp;&amp; args.sectionList !== null) {
+        this.sectionList = Thrift.copyList(args.sectionList, [structure_ttypes.Section]);
+      }
+      if (args.entityMentionSetList !== undefined &amp;&amp; args.entityMentionSetList !== null) {
+        this.entityMentionSetList = Thrift.copyList(args.entityMentionSetList, [entities_ttypes.EntityMentionSet]);
+      }
+      if (args.entitySetList !== undefined &amp;&amp; args.entitySetList !== null) {
+        this.entitySetList = Thrift.copyList(args.entitySetList, [entities_ttypes.EntitySet]);
+      }
+      if (args.situationMentionSetList !== undefined &amp;&amp; args.situationMentionSetList !== null) {
+        this.situationMentionSetList = Thrift.copyList(args.situationMentionSetList, [situations_ttypes.SituationMentionSet]);
+      }
+      if (args.situationSetList !== undefined &amp;&amp; args.situationSetList !== null) {
+        this.situationSetList = Thrift.copyList(args.situationSetList, [situations_ttypes.SituationSet]);
+      }
+      if (args.originalText !== undefined &amp;&amp; args.originalText !== null) {
+        this.originalText = args.originalText;
+      }
+      if (args.sound !== undefined &amp;&amp; args.sound !== null) {
+        this.sound = new audio_ttypes.Sound(args.sound);
+      }
+      if (args.communicationMetadata !== undefined &amp;&amp; args.communicationMetadata !== null) {
+        this.communicationMetadata = new metadata_ttypes.CommunicationMetadata(args.communicationMetadata);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRING) {
+          this.id = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.uuid = new uuid_ttypes.UUID();
+          this.uuid.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRING) {
+          this.type = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.STRING) {
+          this.text = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.I64) {
+          this.startTime = input.readI64();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 6:
+        if (ftype == Thrift.Type.I64) {
+          this.endTime = input.readI64();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 7:
+        if (ftype == Thrift.Type.LIST) {
+          this.communicationTaggingList = [];
+          const _rtmp311 = input.readListBegin();
+          const _size10 = _rtmp311.size || 0;
+          for (let _i12 = 0; _i12 &lt; _size10; ++_i12) {
+            let elem13 = null;
+            elem13 = new ttypes.CommunicationTagging();
+            elem13.read(input);
+            this.communicationTaggingList.push(elem13);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 8:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.metadata = new metadata_ttypes.AnnotationMetadata();
+          this.metadata.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 9:
+        if (ftype == Thrift.Type.MAP) {
+          this.keyValueMap = {};
+          const _rtmp315 = input.readMapBegin();
+          const _size14 = _rtmp315.size || 0;
+          for (let _i16 = 0; _i16 &lt; _size14; ++_i16) {
+            let key17 = null;
+            let val18 = null;
+            key17 = input.readString();
+            val18 = input.readString();
+            this.keyValueMap[key17] = val18;
+          }
+          input.readMapEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 10:
+        if (ftype == Thrift.Type.LIST) {
+          this.lidList = [];
+          const _rtmp320 = input.readListBegin();
+          const _size19 = _rtmp320.size || 0;
+          for (let _i21 = 0; _i21 &lt; _size19; ++_i21) {
+            let elem22 = null;
+            elem22 = new language_ttypes.LanguageIdentification();
+            elem22.read(input);
+            this.lidList.push(elem22);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 11:
+        if (ftype == Thrift.Type.LIST) {
+          this.sectionList = [];
+          const _rtmp324 = input.readListBegin();
+          const _size23 = _rtmp324.size || 0;
+          for (let _i25 = 0; _i25 &lt; _size23; ++_i25) {
+            let elem26 = null;
+            elem26 = new structure_ttypes.Section();
+            elem26.read(input);
+            this.sectionList.push(elem26);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 12:
+        if (ftype == Thrift.Type.LIST) {
+          this.entityMentionSetList = [];
+          const _rtmp328 = input.readListBegin();
+          const _size27 = _rtmp328.size || 0;
+          for (let _i29 = 0; _i29 &lt; _size27; ++_i29) {
+            let elem30 = null;
+            elem30 = new entities_ttypes.EntityMentionSet();
+            elem30.read(input);
+            this.entityMentionSetList.push(elem30);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 13:
+        if (ftype == Thrift.Type.LIST) {
+          this.entitySetList = [];
+          const _rtmp332 = input.readListBegin();
+          const _size31 = _rtmp332.size || 0;
+          for (let _i33 = 0; _i33 &lt; _size31; ++_i33) {
+            let elem34 = null;
+            elem34 = new entities_ttypes.EntitySet();
+            elem34.read(input);
+            this.entitySetList.push(elem34);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 14:
+        if (ftype == Thrift.Type.LIST) {
+          this.situationMentionSetList = [];
+          const _rtmp336 = input.readListBegin();
+          const _size35 = _rtmp336.size || 0;
+          for (let _i37 = 0; _i37 &lt; _size35; ++_i37) {
+            let elem38 = null;
+            elem38 = new situations_ttypes.SituationMentionSet();
+            elem38.read(input);
+            this.situationMentionSetList.push(elem38);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 15:
+        if (ftype == Thrift.Type.LIST) {
+          this.situationSetList = [];
+          const _rtmp340 = input.readListBegin();
+          const _size39 = _rtmp340.size || 0;
+          for (let _i41 = 0; _i41 &lt; _size39; ++_i41) {
+            let elem42 = null;
+            elem42 = new situations_ttypes.SituationSet();
+            elem42.read(input);
+            this.situationSetList.push(elem42);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 16:
+        if (ftype == Thrift.Type.STRING) {
+          this.originalText = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 20:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.sound = new audio_ttypes.Sound();
+          this.sound.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 21:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.communicationMetadata = new metadata_ttypes.CommunicationMetadata();
+          this.communicationMetadata.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('Communication');
+    if (this.id !== null &amp;&amp; this.id !== undefined) {
+      output.writeFieldBegin('id', Thrift.Type.STRING, 1);
+      output.writeString(this.id);
+      output.writeFieldEnd();
+    }
+    if (this.uuid !== null &amp;&amp; this.uuid !== undefined) {
+      output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 2);
+      this.uuid.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.type !== null &amp;&amp; this.type !== undefined) {
+      output.writeFieldBegin('type', Thrift.Type.STRING, 3);
+      output.writeString(this.type);
+      output.writeFieldEnd();
+    }
+    if (this.text !== null &amp;&amp; this.text !== undefined) {
+      output.writeFieldBegin('text', Thrift.Type.STRING, 4);
+      output.writeString(this.text);
+      output.writeFieldEnd();
+    }
+    if (this.startTime !== null &amp;&amp; this.startTime !== undefined) {
+      output.writeFieldBegin('startTime', Thrift.Type.I64, 5);
+      output.writeI64(this.startTime);
+      output.writeFieldEnd();
+    }
+    if (this.endTime !== null &amp;&amp; this.endTime !== undefined) {
+      output.writeFieldBegin('endTime', Thrift.Type.I64, 6);
+      output.writeI64(this.endTime);
+      output.writeFieldEnd();
+    }
+    if (this.communicationTaggingList !== null &amp;&amp; this.communicationTaggingList !== undefined) {
+      output.writeFieldBegin('communicationTaggingList', Thrift.Type.LIST, 7);
+      output.writeListBegin(Thrift.Type.STRUCT, this.communicationTaggingList.length);
+      for (let iter43 in this.communicationTaggingList) {
+        if (this.communicationTaggingList.hasOwnProperty(iter43)) {
+          iter43 = this.communicationTaggingList[iter43];
+          iter43.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.metadata !== null &amp;&amp; this.metadata !== undefined) {
+      output.writeFieldBegin('metadata', Thrift.Type.STRUCT, 8);
+      this.metadata.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.keyValueMap !== null &amp;&amp; this.keyValueMap !== undefined) {
+      output.writeFieldBegin('keyValueMap', Thrift.Type.MAP, 9);
+      output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRING, Thrift.objectLength(this.keyValueMap));
+      for (let kiter44 in this.keyValueMap) {
+        if (this.keyValueMap.hasOwnProperty(kiter44)) {
+          let viter45 = this.keyValueMap[kiter44];
+          output.writeString(kiter44);
+          output.writeString(viter45);
+        }
+      }
+      output.writeMapEnd();
+      output.writeFieldEnd();
+    }
+    if (this.lidList !== null &amp;&amp; this.lidList !== undefined) {
+      output.writeFieldBegin('lidList', Thrift.Type.LIST, 10);
+      output.writeListBegin(Thrift.Type.STRUCT, this.lidList.length);
+      for (let iter46 in this.lidList) {
+        if (this.lidList.hasOwnProperty(iter46)) {
+          iter46 = this.lidList[iter46];
+          iter46.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.sectionList !== null &amp;&amp; this.sectionList !== undefined) {
+      output.writeFieldBegin('sectionList', Thrift.Type.LIST, 11);
+      output.writeListBegin(Thrift.Type.STRUCT, this.sectionList.length);
+      for (let iter47 in this.sectionList) {
+        if (this.sectionList.hasOwnProperty(iter47)) {
+          iter47 = this.sectionList[iter47];
+          iter47.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.entityMentionSetList !== null &amp;&amp; this.entityMentionSetList !== undefined) {
+      output.writeFieldBegin('entityMentionSetList', Thrift.Type.LIST, 12);
+      output.writeListBegin(Thrift.Type.STRUCT, this.entityMentionSetList.length);
+      for (let iter48 in this.entityMentionSetList) {
+        if (this.entityMentionSetList.hasOwnProperty(iter48)) {
+          iter48 = this.entityMentionSetList[iter48];
+          iter48.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.entitySetList !== null &amp;&amp; this.entitySetList !== undefined) {
+      output.writeFieldBegin('entitySetList', Thrift.Type.LIST, 13);
+      output.writeListBegin(Thrift.Type.STRUCT, this.entitySetList.length);
+      for (let iter49 in this.entitySetList) {
+        if (this.entitySetList.hasOwnProperty(iter49)) {
+          iter49 = this.entitySetList[iter49];
+          iter49.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.situationMentionSetList !== null &amp;&amp; this.situationMentionSetList !== undefined) {
+      output.writeFieldBegin('situationMentionSetList', Thrift.Type.LIST, 14);
+      output.writeListBegin(Thrift.Type.STRUCT, this.situationMentionSetList.length);
+      for (let iter50 in this.situationMentionSetList) {
+        if (this.situationMentionSetList.hasOwnProperty(iter50)) {
+          iter50 = this.situationMentionSetList[iter50];
+          iter50.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.situationSetList !== null &amp;&amp; this.situationSetList !== undefined) {
+      output.writeFieldBegin('situationSetList', Thrift.Type.LIST, 15);
+      output.writeListBegin(Thrift.Type.STRUCT, this.situationSetList.length);
+      for (let iter51 in this.situationSetList) {
+        if (this.situationSetList.hasOwnProperty(iter51)) {
+          iter51 = this.situationSetList[iter51];
+          iter51.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.originalText !== null &amp;&amp; this.originalText !== undefined) {
+      output.writeFieldBegin('originalText', Thrift.Type.STRING, 16);
+      output.writeString(this.originalText);
+      output.writeFieldEnd();
+    }
+    if (this.sound !== null &amp;&amp; this.sound !== undefined) {
+      output.writeFieldBegin('sound', Thrift.Type.STRUCT, 20);
+      this.sound.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.communicationMetadata !== null &amp;&amp; this.communicationMetadata !== undefined) {
+      output.writeFieldBegin('communicationMetadata', Thrift.Type.STRUCT, 21);
+      this.communicationMetadata.write(output);
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.communication
+ * @class CommunicationSet
+ * @classdesc CommunicationSet class generated by Thrift
+ */
+const CommunicationSet = module.exports.CommunicationSet = class {
+  constructor(args) {
+    this.communicationIdList = null;
+    this.corpus = null;
+    this.entityMentionClusterList = null;
+    this.entityClusterList = null;
+    this.situationMentionClusterList = null;
+    this.situationClusterList = null;
+    if (args) {
+      if (args.communicationIdList !== undefined &amp;&amp; args.communicationIdList !== null) {
+        this.communicationIdList = Thrift.copyList(args.communicationIdList, [uuid_ttypes.UUID]);
+      }
+      if (args.corpus !== undefined &amp;&amp; args.corpus !== null) {
+        this.corpus = args.corpus;
+      }
+      if (args.entityMentionClusterList !== undefined &amp;&amp; args.entityMentionClusterList !== null) {
+        this.entityMentionClusterList = Thrift.copyList(args.entityMentionClusterList, [cluster_ttypes.Clustering]);
+      }
+      if (args.entityClusterList !== undefined &amp;&amp; args.entityClusterList !== null) {
+        this.entityClusterList = Thrift.copyList(args.entityClusterList, [cluster_ttypes.Clustering]);
+      }
+      if (args.situationMentionClusterList !== undefined &amp;&amp; args.situationMentionClusterList !== null) {
+        this.situationMentionClusterList = Thrift.copyList(args.situationMentionClusterList, [cluster_ttypes.Clustering]);
+      }
+      if (args.situationClusterList !== undefined &amp;&amp; args.situationClusterList !== null) {
+        this.situationClusterList = Thrift.copyList(args.situationClusterList, [cluster_ttypes.Clustering]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.LIST) {
+          this.communicationIdList = [];
+          const _rtmp353 = input.readListBegin();
+          const _size52 = _rtmp353.size || 0;
+          for (let _i54 = 0; _i54 &lt; _size52; ++_i54) {
+            let elem55 = null;
+            elem55 = new uuid_ttypes.UUID();
+            elem55.read(input);
+            this.communicationIdList.push(elem55);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRING) {
+          this.corpus = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.LIST) {
+          this.entityMentionClusterList = [];
+          const _rtmp357 = input.readListBegin();
+          const _size56 = _rtmp357.size || 0;
+          for (let _i58 = 0; _i58 &lt; _size56; ++_i58) {
+            let elem59 = null;
+            elem59 = new cluster_ttypes.Clustering();
+            elem59.read(input);
+            this.entityMentionClusterList.push(elem59);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.entityClusterList = [];
+          const _rtmp361 = input.readListBegin();
+          const _size60 = _rtmp361.size || 0;
+          for (let _i62 = 0; _i62 &lt; _size60; ++_i62) {
+            let elem63 = null;
+            elem63 = new cluster_ttypes.Clustering();
+            elem63.read(input);
+            this.entityClusterList.push(elem63);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.LIST) {
+          this.situationMentionClusterList = [];
+          const _rtmp365 = input.readListBegin();
+          const _size64 = _rtmp365.size || 0;
+          for (let _i66 = 0; _i66 &lt; _size64; ++_i66) {
+            let elem67 = null;
+            elem67 = new cluster_ttypes.Clustering();
+            elem67.read(input);
+            this.situationMentionClusterList.push(elem67);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 6:
+        if (ftype == Thrift.Type.LIST) {
+          this.situationClusterList = [];
+          const _rtmp369 = input.readListBegin();
+          const _size68 = _rtmp369.size || 0;
+          for (let _i70 = 0; _i70 &lt; _size68; ++_i70) {
+            let elem71 = null;
+            elem71 = new cluster_ttypes.Clustering();
+            elem71.read(input);
+            this.situationClusterList.push(elem71);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('CommunicationSet');
+    if (this.communicationIdList !== null &amp;&amp; this.communicationIdList !== undefined) {
+      output.writeFieldBegin('communicationIdList', Thrift.Type.LIST, 1);
+      output.writeListBegin(Thrift.Type.STRUCT, this.communicationIdList.length);
+      for (let iter72 in this.communicationIdList) {
+        if (this.communicationIdList.hasOwnProperty(iter72)) {
+          iter72 = this.communicationIdList[iter72];
+          iter72.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.corpus !== null &amp;&amp; this.corpus !== undefined) {
+      output.writeFieldBegin('corpus', Thrift.Type.STRING, 2);
+      output.writeString(this.corpus);
+      output.writeFieldEnd();
+    }
+    if (this.entityMentionClusterList !== null &amp;&amp; this.entityMentionClusterList !== undefined) {
+      output.writeFieldBegin('entityMentionClusterList', Thrift.Type.LIST, 3);
+      output.writeListBegin(Thrift.Type.STRUCT, this.entityMentionClusterList.length);
+      for (let iter73 in this.entityMentionClusterList) {
+        if (this.entityMentionClusterList.hasOwnProperty(iter73)) {
+          iter73 = this.entityMentionClusterList[iter73];
+          iter73.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.entityClusterList !== null &amp;&amp; this.entityClusterList !== undefined) {
+      output.writeFieldBegin('entityClusterList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRUCT, this.entityClusterList.length);
+      for (let iter74 in this.entityClusterList) {
+        if (this.entityClusterList.hasOwnProperty(iter74)) {
+          iter74 = this.entityClusterList[iter74];
+          iter74.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.situationMentionClusterList !== null &amp;&amp; this.situationMentionClusterList !== undefined) {
+      output.writeFieldBegin('situationMentionClusterList', Thrift.Type.LIST, 5);
+      output.writeListBegin(Thrift.Type.STRUCT, this.situationMentionClusterList.length);
+      for (let iter75 in this.situationMentionClusterList) {
+        if (this.situationMentionClusterList.hasOwnProperty(iter75)) {
+          iter75 = this.situationMentionClusterList[iter75];
+          iter75.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.situationClusterList !== null &amp;&amp; this.situationClusterList !== undefined) {
+      output.writeFieldBegin('situationClusterList', Thrift.Type.LIST, 6);
+      output.writeListBegin(Thrift.Type.STRUCT, this.situationClusterList.length);
+      for (let iter76 in this.situationClusterList) {
+        if (this.situationClusterList.hasOwnProperty(iter76)) {
+          iter76 = this.situationClusterList[iter76];
+          iter76.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.9</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

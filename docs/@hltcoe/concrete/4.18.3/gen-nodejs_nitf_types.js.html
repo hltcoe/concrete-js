@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>gen-nodejs/nitf_types.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="concrete.access.html">access</a><ul class='members'><li data-type='member'><a href="concrete.access.html#.FetchCommunicationService">FetchCommunicationService</a></li><li data-type='member'><a href="concrete.access.html#.StoreCommunicationService">StoreCommunicationService</a></li></ul></li><li><a href="concrete.annotate.html">annotate</a><ul class='members'><li data-type='member'><a href="concrete.annotate.html#.AnnotateCommunicationBatchService">AnnotateCommunicationBatchService</a></li><li data-type='member'><a href="concrete.annotate.html#.AnnotateCommunicationService">AnnotateCommunicationService</a></li><li data-type='member'><a href="concrete.annotate.html#.AnnotateWithContextService">AnnotateWithContextService</a></li></ul></li><li><a href="concrete.audio.html">audio</a></li><li><a href="concrete.cluster.html">cluster</a></li><li><a href="concrete.communication.html">communication</a></li><li><a href="concrete.context.html">context</a></li><li><a href="concrete.convert.html">convert</a><ul class='members'><li data-type='member'><a href="concrete.convert.html#.ConvertCommunicationService">ConvertCommunicationService</a></li></ul></li><li><a href="concrete.email.html">email</a></li><li><a href="concrete.entities.html">entities</a></li><li><a href="concrete.ex.html">ex</a></li><li><a href="concrete.language.html">language</a></li><li><a href="concrete.learn.html">learn</a><ul class='members'><li data-type='member'><a href="concrete.learn.html#.ActiveLearnerClientService">ActiveLearnerClientService</a></li><li data-type='member'><a href="concrete.learn.html#.ActiveLearnerServerService">ActiveLearnerServerService</a></li></ul></li><li><a href="concrete.linking.html">linking</a></li><li><a href="concrete.metadata.html">metadata</a></li><li><a href="concrete.nitf.html">nitf</a></li><li><a href="concrete.property.html">property</a></li><li><a href="concrete.results.html">results</a><ul class='members'><li data-type='member'><a href="concrete.results.html#.ResultsServerService">ResultsServerService</a></li></ul></li><li><a href="concrete.search.html">search</a><ul class='members'><li data-type='member'><a href="concrete.search.html#.FeedbackService">FeedbackService</a></li><li data-type='member'><a href="concrete.search.html#.SearchProxyService">SearchProxyService</a></li><li data-type='member'><a href="concrete.search.html#.SearchService">SearchService</a></li></ul></li><li><a href="concrete.services.html">services</a><ul class='members'><li data-type='member'><a href="concrete.services.html#.Service">Service</a></li></ul></li><li><a href="concrete.situations.html">situations</a></li><li><a href="concrete.spans.html">spans</a></li><li><a href="concrete.structure.html">structure</a></li><li><a href="concrete.summarization.html">summarization</a><ul class='members'><li data-type='member'><a href="concrete.summarization.html#.SummarizationService">SummarizationService</a></li></ul></li><li><a href="concrete.twitter.html">twitter</a></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.createXHRClientFromURL">createXHRClientFromURL</a></li><li data-type='method'><a href="concrete.util.html#.deserializeThrift">deserializeThrift</a></li><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.getURLParameter">getURLParameter</a></li><li data-type='method'><a href="concrete.util.html#.getVersion">getVersion</a></li><li data-type='method'><a href="concrete.util.html#.serializeThrift">serializeThrift</a></li></ul></li><li><a href="concrete.util.bpjson.html">bpjson</a><ul class='members'><li data-type='member'><a href="concrete.util.bpjson.html#.DEFAULT_TEMPLATE_SITUATION_TYPE">DEFAULT_TEMPLATE_SITUATION_TYPE</a></li></ul><ul class='methods'><li data-type='method'><a href="concrete.util.bpjson.html#.convertBPJsonToConcrete">convertBPJsonToConcrete</a></li><li data-type='method'><a href="concrete.util.bpjson.html#.convertConcreteToBPJson">convertConcreteToBPJson</a></li></ul></li><li><a href="concrete.uuid.html">uuid</a></li></ul><h3>Classes</h3><ul><li><a href="concrete.access.FetchRequest.html">FetchRequest</a></li><li><a href="concrete.access.FetchResult.html">FetchResult</a></li><li><a href="concrete.audio.Sound.html">Sound</a></li><li><a href="concrete.cluster.Cluster.html">Cluster</a></li><li><a href="concrete.cluster.Clustering.html">Clustering</a></li><li><a href="concrete.cluster.ClusterMember.html">ClusterMember</a></li><li><a href="concrete.communication.Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="concrete.communication.Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="concrete.communication.Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="concrete.communication.Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="concrete.communication.Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="concrete.communication.CommunicationSet.html">CommunicationSet</a></li><li><a href="concrete.communication.CommunicationTagging.html">CommunicationTagging</a></li><li><a href="concrete.context.Context.html">Context</a></li><li><a href="concrete.email.EmailAddress.html">EmailAddress</a></li><li><a href="concrete.email.EmailCommunicationInfo.html">EmailCommunicationInfo</a></li><li><a href="concrete.entities.Entity.html">Entity</a></li><li><a href="concrete.entities.EntityMention.html">EntityMention</a></li><li><a href="concrete.entities.EntityMentionSet.html">EntityMentionSet</a></li><li><a href="concrete.entities.EntitySet.html">EntitySet</a></li><li><a href="concrete.language.LanguageIdentification.html">LanguageIdentification</a></li><li><a href="concrete.learn.Annotation.html">Annotation</a></li><li><a href="concrete.learn.AnnotationTask.html">AnnotationTask</a></li><li><a href="concrete.linking.Link.html">Link</a></li><li><a href="concrete.linking.Linking.html">Linking</a></li><li><a href="concrete.linking.LinkTarget.html">LinkTarget</a></li><li><a href="concrete.metadata.AnnotationMetadata.html">AnnotationMetadata</a></li><li><a href="concrete.metadata.CommunicationMetadata.html">CommunicationMetadata</a></li><li><a href="concrete.metadata.Digest.html">Digest</a></li><li><a href="concrete.metadata.TheoryDependencies.html">TheoryDependencies</a></li><li><a href="concrete.nitf.NITFInfo.html">NITFInfo</a></li><li><a href="concrete.property.Property.html">Property</a></li><li><a href="concrete.search.SearchCapability.html">SearchCapability</a></li><li><a href="concrete.search.SearchQuery.html">SearchQuery</a></li><li><a href="concrete.search.SearchResult.html">SearchResult</a></li><li><a href="concrete.search.SearchResultItem.html">SearchResultItem</a></li><li><a href="concrete.services.AnnotationUnitIdentifier.html">AnnotationUnitIdentifier</a></li><li><a href="concrete.services.AsyncContactInfo.html">AsyncContactInfo</a></li><li><a href="concrete.services.ServiceInfo.html">ServiceInfo</a></li><li><a href="concrete.situations.Argument.html">Argument</a></li><li><a href="concrete.situations.Justification.html">Justification</a></li><li><a href="concrete.situations.MentionArgument.html">MentionArgument</a></li><li><a href="concrete.situations.Situation.html">Situation</a></li><li><a href="concrete.situations.SituationMention.html">SituationMention</a></li><li><a href="concrete.situations.SituationMentionSet.html">SituationMentionSet</a></li><li><a href="concrete.situations.SituationSet.html">SituationSet</a></li><li><a href="concrete.situations.TimeML.html">TimeML</a></li><li><a href="concrete.spans.AudioSpan.html">AudioSpan</a></li><li><a href="concrete.spans.TextSpan.html">TextSpan</a></li><li><a href="concrete.structure.Arc.html">Arc</a></li><li><a href="concrete.structure.Constituent.html">Constituent</a></li><li><a href="concrete.structure.ConstituentRef.html">ConstituentRef</a></li><li><a href="concrete.structure.Dependency.html">Dependency</a></li><li><a href="concrete.structure.DependencyParse.html">DependencyParse</a></li><li><a href="concrete.structure.DependencyParseStructure.html">DependencyParseStructure</a></li><li><a href="concrete.structure.LatticePath.html">LatticePath</a></li><li><a href="concrete.structure.Parse.html">Parse</a></li><li><a href="concrete.structure.Section.html">Section</a></li><li><a href="concrete.structure.Sentence.html">Sentence</a></li><li><a href="concrete.structure.SpanLink.html">SpanLink</a></li><li><a href="concrete.structure.TaggedToken.html">TaggedToken</a></li><li><a href="concrete.structure.Token.html">Token</a></li><li><a href="concrete.structure.Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="concrete.structure.Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="concrete.structure.Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="concrete.structure.TokenLattice.html">TokenLattice</a></li><li><a href="concrete.structure.TokenList.html">TokenList</a></li><li><a href="concrete.structure.TokenRefSequence.html">TokenRefSequence</a></li><li><a href="concrete.structure.TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="concrete.structure.TokenTagging.html#.create">create</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li><li><a href="concrete.summarization.SummarizationCapability.html">SummarizationCapability</a></li><li><a href="concrete.summarization.SummarizationRequest.html">SummarizationRequest</a></li><li><a href="concrete.summarization.Summary.html">Summary</a></li><li><a href="concrete.summarization.SummaryConcept.html">SummaryConcept</a></li><li><a href="concrete.twitter.BoundingBox.html">BoundingBox</a></li><li><a href="concrete.twitter.HashTag.html">HashTag</a></li><li><a href="concrete.twitter.PlaceAttributes.html">PlaceAttributes</a></li><li><a href="concrete.twitter.TweetInfo.html">TweetInfo</a></li><li><a href="concrete.twitter.TwitterCoordinates.html">TwitterCoordinates</a></li><li><a href="concrete.twitter.TwitterEntities.html">TwitterEntities</a></li><li><a href="concrete.twitter.TwitterLatLong.html">TwitterLatLong</a></li><li><a href="concrete.twitter.TwitterPlace.html">TwitterPlace</a></li><li><a href="concrete.twitter.TwitterUser.html">TwitterUser</a></li><li><a href="concrete.twitter.URL.html">URL</a></li><li><a href="concrete.twitter.UserMention.html">UserMention</a></li><li><a href="concrete.uuid.UUID.html">UUID</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">gen-nodejs/nitf_types.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace concrete.nitf
+ */
+//
+// Autogenerated by Thrift Compiler (0.19.0)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+"use strict";
+
+const thrift = require('thrift');
+const Thrift = thrift.Thrift;
+const Int64 = require('node-int64');
+
+
+const ttypes = module.exports = {};
+
+/**
+ * @memberof concrete.nitf
+ * @class NITFInfo
+ * @classdesc NITFInfo class generated by Thrift
+ */
+const NITFInfo = module.exports.NITFInfo = class {
+  constructor(args) {
+    this.alternateURL = null;
+    this.articleAbstract = null;
+    this.authorBiography = null;
+    this.banner = null;
+    this.biographicalCategoryList = null;
+    this.columnName = null;
+    this.columnNumber = null;
+    this.correctionDate = null;
+    this.correctionText = null;
+    this.credit = null;
+    this.dayOfWeek = null;
+    this.descriptorList = null;
+    this.featurePage = null;
+    this.generalOnlineDescriptorList = null;
+    this.guid = null;
+    this.kicker = null;
+    this.leadParagraphList = null;
+    this.locationList = null;
+    this.nameList = null;
+    this.newsDesk = null;
+    this.normalizedByline = null;
+    this.onlineDescriptorList = null;
+    this.onlineHeadline = null;
+    this.onlineLeadParagraph = null;
+    this.onlineLocationList = null;
+    this.onlineOrganizationList = null;
+    this.onlinePeople = null;
+    this.onlineSectionList = null;
+    this.onlineTitleList = null;
+    this.organizationList = null;
+    this.page = null;
+    this.peopleList = null;
+    this.publicationDate = null;
+    this.publicationDayOfMonth = null;
+    this.publicationMonth = null;
+    this.publicationYear = null;
+    this.section = null;
+    this.seriesName = null;
+    this.slug = null;
+    this.taxonomicClassifierList = null;
+    this.titleList = null;
+    this.typesOfMaterialList = null;
+    this.url = null;
+    this.wordCount = null;
+    if (args) {
+      if (args.alternateURL !== undefined &amp;&amp; args.alternateURL !== null) {
+        this.alternateURL = args.alternateURL;
+      }
+      if (args.articleAbstract !== undefined &amp;&amp; args.articleAbstract !== null) {
+        this.articleAbstract = args.articleAbstract;
+      }
+      if (args.authorBiography !== undefined &amp;&amp; args.authorBiography !== null) {
+        this.authorBiography = args.authorBiography;
+      }
+      if (args.banner !== undefined &amp;&amp; args.banner !== null) {
+        this.banner = args.banner;
+      }
+      if (args.biographicalCategoryList !== undefined &amp;&amp; args.biographicalCategoryList !== null) {
+        this.biographicalCategoryList = Thrift.copyList(args.biographicalCategoryList, [null]);
+      }
+      if (args.columnName !== undefined &amp;&amp; args.columnName !== null) {
+        this.columnName = args.columnName;
+      }
+      if (args.columnNumber !== undefined &amp;&amp; args.columnNumber !== null) {
+        this.columnNumber = args.columnNumber;
+      }
+      if (args.correctionDate !== undefined &amp;&amp; args.correctionDate !== null) {
+        this.correctionDate = args.correctionDate;
+      }
+      if (args.correctionText !== undefined &amp;&amp; args.correctionText !== null) {
+        this.correctionText = args.correctionText;
+      }
+      if (args.credit !== undefined &amp;&amp; args.credit !== null) {
+        this.credit = args.credit;
+      }
+      if (args.dayOfWeek !== undefined &amp;&amp; args.dayOfWeek !== null) {
+        this.dayOfWeek = args.dayOfWeek;
+      }
+      if (args.descriptorList !== undefined &amp;&amp; args.descriptorList !== null) {
+        this.descriptorList = Thrift.copyList(args.descriptorList, [null]);
+      }
+      if (args.featurePage !== undefined &amp;&amp; args.featurePage !== null) {
+        this.featurePage = args.featurePage;
+      }
+      if (args.generalOnlineDescriptorList !== undefined &amp;&amp; args.generalOnlineDescriptorList !== null) {
+        this.generalOnlineDescriptorList = Thrift.copyList(args.generalOnlineDescriptorList, [null]);
+      }
+      if (args.guid !== undefined &amp;&amp; args.guid !== null) {
+        this.guid = args.guid;
+      }
+      if (args.kicker !== undefined &amp;&amp; args.kicker !== null) {
+        this.kicker = args.kicker;
+      }
+      if (args.leadParagraphList !== undefined &amp;&amp; args.leadParagraphList !== null) {
+        this.leadParagraphList = Thrift.copyList(args.leadParagraphList, [null]);
+      }
+      if (args.locationList !== undefined &amp;&amp; args.locationList !== null) {
+        this.locationList = Thrift.copyList(args.locationList, [null]);
+      }
+      if (args.nameList !== undefined &amp;&amp; args.nameList !== null) {
+        this.nameList = Thrift.copyList(args.nameList, [null]);
+      }
+      if (args.newsDesk !== undefined &amp;&amp; args.newsDesk !== null) {
+        this.newsDesk = args.newsDesk;
+      }
+      if (args.normalizedByline !== undefined &amp;&amp; args.normalizedByline !== null) {
+        this.normalizedByline = args.normalizedByline;
+      }
+      if (args.onlineDescriptorList !== undefined &amp;&amp; args.onlineDescriptorList !== null) {
+        this.onlineDescriptorList = Thrift.copyList(args.onlineDescriptorList, [null]);
+      }
+      if (args.onlineHeadline !== undefined &amp;&amp; args.onlineHeadline !== null) {
+        this.onlineHeadline = args.onlineHeadline;
+      }
+      if (args.onlineLeadParagraph !== undefined &amp;&amp; args.onlineLeadParagraph !== null) {
+        this.onlineLeadParagraph = args.onlineLeadParagraph;
+      }
+      if (args.onlineLocationList !== undefined &amp;&amp; args.onlineLocationList !== null) {
+        this.onlineLocationList = Thrift.copyList(args.onlineLocationList, [null]);
+      }
+      if (args.onlineOrganizationList !== undefined &amp;&amp; args.onlineOrganizationList !== null) {
+        this.onlineOrganizationList = Thrift.copyList(args.onlineOrganizationList, [null]);
+      }
+      if (args.onlinePeople !== undefined &amp;&amp; args.onlinePeople !== null) {
+        this.onlinePeople = Thrift.copyList(args.onlinePeople, [null]);
+      }
+      if (args.onlineSectionList !== undefined &amp;&amp; args.onlineSectionList !== null) {
+        this.onlineSectionList = Thrift.copyList(args.onlineSectionList, [null]);
+      }
+      if (args.onlineTitleList !== undefined &amp;&amp; args.onlineTitleList !== null) {
+        this.onlineTitleList = Thrift.copyList(args.onlineTitleList, [null]);
+      }
+      if (args.organizationList !== undefined &amp;&amp; args.organizationList !== null) {
+        this.organizationList = Thrift.copyList(args.organizationList, [null]);
+      }
+      if (args.page !== undefined &amp;&amp; args.page !== null) {
+        this.page = args.page;
+      }
+      if (args.peopleList !== undefined &amp;&amp; args.peopleList !== null) {
+        this.peopleList = Thrift.copyList(args.peopleList, [null]);
+      }
+      if (args.publicationDate !== undefined &amp;&amp; args.publicationDate !== null) {
+        this.publicationDate = args.publicationDate;
+      }
+      if (args.publicationDayOfMonth !== undefined &amp;&amp; args.publicationDayOfMonth !== null) {
+        this.publicationDayOfMonth = args.publicationDayOfMonth;
+      }
+      if (args.publicationMonth !== undefined &amp;&amp; args.publicationMonth !== null) {
+        this.publicationMonth = args.publicationMonth;
+      }
+      if (args.publicationYear !== undefined &amp;&amp; args.publicationYear !== null) {
+        this.publicationYear = args.publicationYear;
+      }
+      if (args.section !== undefined &amp;&amp; args.section !== null) {
+        this.section = args.section;
+      }
+      if (args.seriesName !== undefined &amp;&amp; args.seriesName !== null) {
+        this.seriesName = args.seriesName;
+      }
+      if (args.slug !== undefined &amp;&amp; args.slug !== null) {
+        this.slug = args.slug;
+      }
+      if (args.taxonomicClassifierList !== undefined &amp;&amp; args.taxonomicClassifierList !== null) {
+        this.taxonomicClassifierList = Thrift.copyList(args.taxonomicClassifierList, [null]);
+      }
+      if (args.titleList !== undefined &amp;&amp; args.titleList !== null) {
+        this.titleList = Thrift.copyList(args.titleList, [null]);
+      }
+      if (args.typesOfMaterialList !== undefined &amp;&amp; args.typesOfMaterialList !== null) {
+        this.typesOfMaterialList = Thrift.copyList(args.typesOfMaterialList, [null]);
+      }
+      if (args.url !== undefined &amp;&amp; args.url !== null) {
+        this.url = args.url;
+      }
+      if (args.wordCount !== undefined &amp;&amp; args.wordCount !== null) {
+        this.wordCount = args.wordCount;
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRING) {
+          this.alternateURL = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRING) {
+          this.articleAbstract = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRING) {
+          this.authorBiography = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.STRING) {
+          this.banner = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.LIST) {
+          this.biographicalCategoryList = [];
+          const _rtmp31 = input.readListBegin();
+          const _size0 = _rtmp31.size || 0;
+          for (let _i2 = 0; _i2 &lt; _size0; ++_i2) {
+            let elem3 = null;
+            elem3 = input.readString();
+            this.biographicalCategoryList.push(elem3);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 6:
+        if (ftype == Thrift.Type.STRING) {
+          this.columnName = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 7:
+        if (ftype == Thrift.Type.I32) {
+          this.columnNumber = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 8:
+        if (ftype == Thrift.Type.I64) {
+          this.correctionDate = input.readI64();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 9:
+        if (ftype == Thrift.Type.STRING) {
+          this.correctionText = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 10:
+        if (ftype == Thrift.Type.STRING) {
+          this.credit = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 11:
+        if (ftype == Thrift.Type.STRING) {
+          this.dayOfWeek = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 12:
+        if (ftype == Thrift.Type.LIST) {
+          this.descriptorList = [];
+          const _rtmp35 = input.readListBegin();
+          const _size4 = _rtmp35.size || 0;
+          for (let _i6 = 0; _i6 &lt; _size4; ++_i6) {
+            let elem7 = null;
+            elem7 = input.readString();
+            this.descriptorList.push(elem7);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 13:
+        if (ftype == Thrift.Type.STRING) {
+          this.featurePage = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 14:
+        if (ftype == Thrift.Type.LIST) {
+          this.generalOnlineDescriptorList = [];
+          const _rtmp39 = input.readListBegin();
+          const _size8 = _rtmp39.size || 0;
+          for (let _i10 = 0; _i10 &lt; _size8; ++_i10) {
+            let elem11 = null;
+            elem11 = input.readString();
+            this.generalOnlineDescriptorList.push(elem11);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 15:
+        if (ftype == Thrift.Type.I32) {
+          this.guid = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 16:
+        if (ftype == Thrift.Type.STRING) {
+          this.kicker = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 17:
+        if (ftype == Thrift.Type.LIST) {
+          this.leadParagraphList = [];
+          const _rtmp313 = input.readListBegin();
+          const _size12 = _rtmp313.size || 0;
+          for (let _i14 = 0; _i14 &lt; _size12; ++_i14) {
+            let elem15 = null;
+            elem15 = input.readString();
+            this.leadParagraphList.push(elem15);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 18:
+        if (ftype == Thrift.Type.LIST) {
+          this.locationList = [];
+          const _rtmp317 = input.readListBegin();
+          const _size16 = _rtmp317.size || 0;
+          for (let _i18 = 0; _i18 &lt; _size16; ++_i18) {
+            let elem19 = null;
+            elem19 = input.readString();
+            this.locationList.push(elem19);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 19:
+        if (ftype == Thrift.Type.LIST) {
+          this.nameList = [];
+          const _rtmp321 = input.readListBegin();
+          const _size20 = _rtmp321.size || 0;
+          for (let _i22 = 0; _i22 &lt; _size20; ++_i22) {
+            let elem23 = null;
+            elem23 = input.readString();
+            this.nameList.push(elem23);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 20:
+        if (ftype == Thrift.Type.STRING) {
+          this.newsDesk = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 21:
+        if (ftype == Thrift.Type.STRING) {
+          this.normalizedByline = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 22:
+        if (ftype == Thrift.Type.LIST) {
+          this.onlineDescriptorList = [];
+          const _rtmp325 = input.readListBegin();
+          const _size24 = _rtmp325.size || 0;
+          for (let _i26 = 0; _i26 &lt; _size24; ++_i26) {
+            let elem27 = null;
+            elem27 = input.readString();
+            this.onlineDescriptorList.push(elem27);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 23:
+        if (ftype == Thrift.Type.STRING) {
+          this.onlineHeadline = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 24:
+        if (ftype == Thrift.Type.STRING) {
+          this.onlineLeadParagraph = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 25:
+        if (ftype == Thrift.Type.LIST) {
+          this.onlineLocationList = [];
+          const _rtmp329 = input.readListBegin();
+          const _size28 = _rtmp329.size || 0;
+          for (let _i30 = 0; _i30 &lt; _size28; ++_i30) {
+            let elem31 = null;
+            elem31 = input.readString();
+            this.onlineLocationList.push(elem31);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 26:
+        if (ftype == Thrift.Type.LIST) {
+          this.onlineOrganizationList = [];
+          const _rtmp333 = input.readListBegin();
+          const _size32 = _rtmp333.size || 0;
+          for (let _i34 = 0; _i34 &lt; _size32; ++_i34) {
+            let elem35 = null;
+            elem35 = input.readString();
+            this.onlineOrganizationList.push(elem35);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 27:
+        if (ftype == Thrift.Type.LIST) {
+          this.onlinePeople = [];
+          const _rtmp337 = input.readListBegin();
+          const _size36 = _rtmp337.size || 0;
+          for (let _i38 = 0; _i38 &lt; _size36; ++_i38) {
+            let elem39 = null;
+            elem39 = input.readString();
+            this.onlinePeople.push(elem39);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 28:
+        if (ftype == Thrift.Type.LIST) {
+          this.onlineSectionList = [];
+          const _rtmp341 = input.readListBegin();
+          const _size40 = _rtmp341.size || 0;
+          for (let _i42 = 0; _i42 &lt; _size40; ++_i42) {
+            let elem43 = null;
+            elem43 = input.readString();
+            this.onlineSectionList.push(elem43);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 29:
+        if (ftype == Thrift.Type.LIST) {
+          this.onlineTitleList = [];
+          const _rtmp345 = input.readListBegin();
+          const _size44 = _rtmp345.size || 0;
+          for (let _i46 = 0; _i46 &lt; _size44; ++_i46) {
+            let elem47 = null;
+            elem47 = input.readString();
+            this.onlineTitleList.push(elem47);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 30:
+        if (ftype == Thrift.Type.LIST) {
+          this.organizationList = [];
+          const _rtmp349 = input.readListBegin();
+          const _size48 = _rtmp349.size || 0;
+          for (let _i50 = 0; _i50 &lt; _size48; ++_i50) {
+            let elem51 = null;
+            elem51 = input.readString();
+            this.organizationList.push(elem51);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 31:
+        if (ftype == Thrift.Type.I32) {
+          this.page = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 32:
+        if (ftype == Thrift.Type.LIST) {
+          this.peopleList = [];
+          const _rtmp353 = input.readListBegin();
+          const _size52 = _rtmp353.size || 0;
+          for (let _i54 = 0; _i54 &lt; _size52; ++_i54) {
+            let elem55 = null;
+            elem55 = input.readString();
+            this.peopleList.push(elem55);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 33:
+        if (ftype == Thrift.Type.I64) {
+          this.publicationDate = input.readI64();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 34:
+        if (ftype == Thrift.Type.I32) {
+          this.publicationDayOfMonth = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 35:
+        if (ftype == Thrift.Type.I32) {
+          this.publicationMonth = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 36:
+        if (ftype == Thrift.Type.I32) {
+          this.publicationYear = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 37:
+        if (ftype == Thrift.Type.STRING) {
+          this.section = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 38:
+        if (ftype == Thrift.Type.STRING) {
+          this.seriesName = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 39:
+        if (ftype == Thrift.Type.STRING) {
+          this.slug = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 40:
+        if (ftype == Thrift.Type.LIST) {
+          this.taxonomicClassifierList = [];
+          const _rtmp357 = input.readListBegin();
+          const _size56 = _rtmp357.size || 0;
+          for (let _i58 = 0; _i58 &lt; _size56; ++_i58) {
+            let elem59 = null;
+            elem59 = input.readString();
+            this.taxonomicClassifierList.push(elem59);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 41:
+        if (ftype == Thrift.Type.LIST) {
+          this.titleList = [];
+          const _rtmp361 = input.readListBegin();
+          const _size60 = _rtmp361.size || 0;
+          for (let _i62 = 0; _i62 &lt; _size60; ++_i62) {
+            let elem63 = null;
+            elem63 = input.readString();
+            this.titleList.push(elem63);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 42:
+        if (ftype == Thrift.Type.LIST) {
+          this.typesOfMaterialList = [];
+          const _rtmp365 = input.readListBegin();
+          const _size64 = _rtmp365.size || 0;
+          for (let _i66 = 0; _i66 &lt; _size64; ++_i66) {
+            let elem67 = null;
+            elem67 = input.readString();
+            this.typesOfMaterialList.push(elem67);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 43:
+        if (ftype == Thrift.Type.STRING) {
+          this.url = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 44:
+        if (ftype == Thrift.Type.I32) {
+          this.wordCount = input.readI32();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('NITFInfo');
+    if (this.alternateURL !== null &amp;&amp; this.alternateURL !== undefined) {
+      output.writeFieldBegin('alternateURL', Thrift.Type.STRING, 1);
+      output.writeString(this.alternateURL);
+      output.writeFieldEnd();
+    }
+    if (this.articleAbstract !== null &amp;&amp; this.articleAbstract !== undefined) {
+      output.writeFieldBegin('articleAbstract', Thrift.Type.STRING, 2);
+      output.writeString(this.articleAbstract);
+      output.writeFieldEnd();
+    }
+    if (this.authorBiography !== null &amp;&amp; this.authorBiography !== undefined) {
+      output.writeFieldBegin('authorBiography', Thrift.Type.STRING, 3);
+      output.writeString(this.authorBiography);
+      output.writeFieldEnd();
+    }
+    if (this.banner !== null &amp;&amp; this.banner !== undefined) {
+      output.writeFieldBegin('banner', Thrift.Type.STRING, 4);
+      output.writeString(this.banner);
+      output.writeFieldEnd();
+    }
+    if (this.biographicalCategoryList !== null &amp;&amp; this.biographicalCategoryList !== undefined) {
+      output.writeFieldBegin('biographicalCategoryList', Thrift.Type.LIST, 5);
+      output.writeListBegin(Thrift.Type.STRING, this.biographicalCategoryList.length);
+      for (let iter68 in this.biographicalCategoryList) {
+        if (this.biographicalCategoryList.hasOwnProperty(iter68)) {
+          iter68 = this.biographicalCategoryList[iter68];
+          output.writeString(iter68);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.columnName !== null &amp;&amp; this.columnName !== undefined) {
+      output.writeFieldBegin('columnName', Thrift.Type.STRING, 6);
+      output.writeString(this.columnName);
+      output.writeFieldEnd();
+    }
+    if (this.columnNumber !== null &amp;&amp; this.columnNumber !== undefined) {
+      output.writeFieldBegin('columnNumber', Thrift.Type.I32, 7);
+      output.writeI32(this.columnNumber);
+      output.writeFieldEnd();
+    }
+    if (this.correctionDate !== null &amp;&amp; this.correctionDate !== undefined) {
+      output.writeFieldBegin('correctionDate', Thrift.Type.I64, 8);
+      output.writeI64(this.correctionDate);
+      output.writeFieldEnd();
+    }
+    if (this.correctionText !== null &amp;&amp; this.correctionText !== undefined) {
+      output.writeFieldBegin('correctionText', Thrift.Type.STRING, 9);
+      output.writeString(this.correctionText);
+      output.writeFieldEnd();
+    }
+    if (this.credit !== null &amp;&amp; this.credit !== undefined) {
+      output.writeFieldBegin('credit', Thrift.Type.STRING, 10);
+      output.writeString(this.credit);
+      output.writeFieldEnd();
+    }
+    if (this.dayOfWeek !== null &amp;&amp; this.dayOfWeek !== undefined) {
+      output.writeFieldBegin('dayOfWeek', Thrift.Type.STRING, 11);
+      output.writeString(this.dayOfWeek);
+      output.writeFieldEnd();
+    }
+    if (this.descriptorList !== null &amp;&amp; this.descriptorList !== undefined) {
+      output.writeFieldBegin('descriptorList', Thrift.Type.LIST, 12);
+      output.writeListBegin(Thrift.Type.STRING, this.descriptorList.length);
+      for (let iter69 in this.descriptorList) {
+        if (this.descriptorList.hasOwnProperty(iter69)) {
+          iter69 = this.descriptorList[iter69];
+          output.writeString(iter69);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.featurePage !== null &amp;&amp; this.featurePage !== undefined) {
+      output.writeFieldBegin('featurePage', Thrift.Type.STRING, 13);
+      output.writeString(this.featurePage);
+      output.writeFieldEnd();
+    }
+    if (this.generalOnlineDescriptorList !== null &amp;&amp; this.generalOnlineDescriptorList !== undefined) {
+      output.writeFieldBegin('generalOnlineDescriptorList', Thrift.Type.LIST, 14);
+      output.writeListBegin(Thrift.Type.STRING, this.generalOnlineDescriptorList.length);
+      for (let iter70 in this.generalOnlineDescriptorList) {
+        if (this.generalOnlineDescriptorList.hasOwnProperty(iter70)) {
+          iter70 = this.generalOnlineDescriptorList[iter70];
+          output.writeString(iter70);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.guid !== null &amp;&amp; this.guid !== undefined) {
+      output.writeFieldBegin('guid', Thrift.Type.I32, 15);
+      output.writeI32(this.guid);
+      output.writeFieldEnd();
+    }
+    if (this.kicker !== null &amp;&amp; this.kicker !== undefined) {
+      output.writeFieldBegin('kicker', Thrift.Type.STRING, 16);
+      output.writeString(this.kicker);
+      output.writeFieldEnd();
+    }
+    if (this.leadParagraphList !== null &amp;&amp; this.leadParagraphList !== undefined) {
+      output.writeFieldBegin('leadParagraphList', Thrift.Type.LIST, 17);
+      output.writeListBegin(Thrift.Type.STRING, this.leadParagraphList.length);
+      for (let iter71 in this.leadParagraphList) {
+        if (this.leadParagraphList.hasOwnProperty(iter71)) {
+          iter71 = this.leadParagraphList[iter71];
+          output.writeString(iter71);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.locationList !== null &amp;&amp; this.locationList !== undefined) {
+      output.writeFieldBegin('locationList', Thrift.Type.LIST, 18);
+      output.writeListBegin(Thrift.Type.STRING, this.locationList.length);
+      for (let iter72 in this.locationList) {
+        if (this.locationList.hasOwnProperty(iter72)) {
+          iter72 = this.locationList[iter72];
+          output.writeString(iter72);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.nameList !== null &amp;&amp; this.nameList !== undefined) {
+      output.writeFieldBegin('nameList', Thrift.Type.LIST, 19);
+      output.writeListBegin(Thrift.Type.STRING, this.nameList.length);
+      for (let iter73 in this.nameList) {
+        if (this.nameList.hasOwnProperty(iter73)) {
+          iter73 = this.nameList[iter73];
+          output.writeString(iter73);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.newsDesk !== null &amp;&amp; this.newsDesk !== undefined) {
+      output.writeFieldBegin('newsDesk', Thrift.Type.STRING, 20);
+      output.writeString(this.newsDesk);
+      output.writeFieldEnd();
+    }
+    if (this.normalizedByline !== null &amp;&amp; this.normalizedByline !== undefined) {
+      output.writeFieldBegin('normalizedByline', Thrift.Type.STRING, 21);
+      output.writeString(this.normalizedByline);
+      output.writeFieldEnd();
+    }
+    if (this.onlineDescriptorList !== null &amp;&amp; this.onlineDescriptorList !== undefined) {
+      output.writeFieldBegin('onlineDescriptorList', Thrift.Type.LIST, 22);
+      output.writeListBegin(Thrift.Type.STRING, this.onlineDescriptorList.length);
+      for (let iter74 in this.onlineDescriptorList) {
+        if (this.onlineDescriptorList.hasOwnProperty(iter74)) {
+          iter74 = this.onlineDescriptorList[iter74];
+          output.writeString(iter74);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.onlineHeadline !== null &amp;&amp; this.onlineHeadline !== undefined) {
+      output.writeFieldBegin('onlineHeadline', Thrift.Type.STRING, 23);
+      output.writeString(this.onlineHeadline);
+      output.writeFieldEnd();
+    }
+    if (this.onlineLeadParagraph !== null &amp;&amp; this.onlineLeadParagraph !== undefined) {
+      output.writeFieldBegin('onlineLeadParagraph', Thrift.Type.STRING, 24);
+      output.writeString(this.onlineLeadParagraph);
+      output.writeFieldEnd();
+    }
+    if (this.onlineLocationList !== null &amp;&amp; this.onlineLocationList !== undefined) {
+      output.writeFieldBegin('onlineLocationList', Thrift.Type.LIST, 25);
+      output.writeListBegin(Thrift.Type.STRING, this.onlineLocationList.length);
+      for (let iter75 in this.onlineLocationList) {
+        if (this.onlineLocationList.hasOwnProperty(iter75)) {
+          iter75 = this.onlineLocationList[iter75];
+          output.writeString(iter75);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.onlineOrganizationList !== null &amp;&amp; this.onlineOrganizationList !== undefined) {
+      output.writeFieldBegin('onlineOrganizationList', Thrift.Type.LIST, 26);
+      output.writeListBegin(Thrift.Type.STRING, this.onlineOrganizationList.length);
+      for (let iter76 in this.onlineOrganizationList) {
+        if (this.onlineOrganizationList.hasOwnProperty(iter76)) {
+          iter76 = this.onlineOrganizationList[iter76];
+          output.writeString(iter76);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.onlinePeople !== null &amp;&amp; this.onlinePeople !== undefined) {
+      output.writeFieldBegin('onlinePeople', Thrift.Type.LIST, 27);
+      output.writeListBegin(Thrift.Type.STRING, this.onlinePeople.length);
+      for (let iter77 in this.onlinePeople) {
+        if (this.onlinePeople.hasOwnProperty(iter77)) {
+          iter77 = this.onlinePeople[iter77];
+          output.writeString(iter77);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.onlineSectionList !== null &amp;&amp; this.onlineSectionList !== undefined) {
+      output.writeFieldBegin('onlineSectionList', Thrift.Type.LIST, 28);
+      output.writeListBegin(Thrift.Type.STRING, this.onlineSectionList.length);
+      for (let iter78 in this.onlineSectionList) {
+        if (this.onlineSectionList.hasOwnProperty(iter78)) {
+          iter78 = this.onlineSectionList[iter78];
+          output.writeString(iter78);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.onlineTitleList !== null &amp;&amp; this.onlineTitleList !== undefined) {
+      output.writeFieldBegin('onlineTitleList', Thrift.Type.LIST, 29);
+      output.writeListBegin(Thrift.Type.STRING, this.onlineTitleList.length);
+      for (let iter79 in this.onlineTitleList) {
+        if (this.onlineTitleList.hasOwnProperty(iter79)) {
+          iter79 = this.onlineTitleList[iter79];
+          output.writeString(iter79);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.organizationList !== null &amp;&amp; this.organizationList !== undefined) {
+      output.writeFieldBegin('organizationList', Thrift.Type.LIST, 30);
+      output.writeListBegin(Thrift.Type.STRING, this.organizationList.length);
+      for (let iter80 in this.organizationList) {
+        if (this.organizationList.hasOwnProperty(iter80)) {
+          iter80 = this.organizationList[iter80];
+          output.writeString(iter80);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.page !== null &amp;&amp; this.page !== undefined) {
+      output.writeFieldBegin('page', Thrift.Type.I32, 31);
+      output.writeI32(this.page);
+      output.writeFieldEnd();
+    }
+    if (this.peopleList !== null &amp;&amp; this.peopleList !== undefined) {
+      output.writeFieldBegin('peopleList', Thrift.Type.LIST, 32);
+      output.writeListBegin(Thrift.Type.STRING, this.peopleList.length);
+      for (let iter81 in this.peopleList) {
+        if (this.peopleList.hasOwnProperty(iter81)) {
+          iter81 = this.peopleList[iter81];
+          output.writeString(iter81);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.publicationDate !== null &amp;&amp; this.publicationDate !== undefined) {
+      output.writeFieldBegin('publicationDate', Thrift.Type.I64, 33);
+      output.writeI64(this.publicationDate);
+      output.writeFieldEnd();
+    }
+    if (this.publicationDayOfMonth !== null &amp;&amp; this.publicationDayOfMonth !== undefined) {
+      output.writeFieldBegin('publicationDayOfMonth', Thrift.Type.I32, 34);
+      output.writeI32(this.publicationDayOfMonth);
+      output.writeFieldEnd();
+    }
+    if (this.publicationMonth !== null &amp;&amp; this.publicationMonth !== undefined) {
+      output.writeFieldBegin('publicationMonth', Thrift.Type.I32, 35);
+      output.writeI32(this.publicationMonth);
+      output.writeFieldEnd();
+    }
+    if (this.publicationYear !== null &amp;&amp; this.publicationYear !== undefined) {
+      output.writeFieldBegin('publicationYear', Thrift.Type.I32, 36);
+      output.writeI32(this.publicationYear);
+      output.writeFieldEnd();
+    }
+    if (this.section !== null &amp;&amp; this.section !== undefined) {
+      output.writeFieldBegin('section', Thrift.Type.STRING, 37);
+      output.writeString(this.section);
+      output.writeFieldEnd();
+    }
+    if (this.seriesName !== null &amp;&amp; this.seriesName !== undefined) {
+      output.writeFieldBegin('seriesName', Thrift.Type.STRING, 38);
+      output.writeString(this.seriesName);
+      output.writeFieldEnd();
+    }
+    if (this.slug !== null &amp;&amp; this.slug !== undefined) {
+      output.writeFieldBegin('slug', Thrift.Type.STRING, 39);
+      output.writeString(this.slug);
+      output.writeFieldEnd();
+    }
+    if (this.taxonomicClassifierList !== null &amp;&amp; this.taxonomicClassifierList !== undefined) {
+      output.writeFieldBegin('taxonomicClassifierList', Thrift.Type.LIST, 40);
+      output.writeListBegin(Thrift.Type.STRING, this.taxonomicClassifierList.length);
+      for (let iter82 in this.taxonomicClassifierList) {
+        if (this.taxonomicClassifierList.hasOwnProperty(iter82)) {
+          iter82 = this.taxonomicClassifierList[iter82];
+          output.writeString(iter82);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.titleList !== null &amp;&amp; this.titleList !== undefined) {
+      output.writeFieldBegin('titleList', Thrift.Type.LIST, 41);
+      output.writeListBegin(Thrift.Type.STRING, this.titleList.length);
+      for (let iter83 in this.titleList) {
+        if (this.titleList.hasOwnProperty(iter83)) {
+          iter83 = this.titleList[iter83];
+          output.writeString(iter83);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.typesOfMaterialList !== null &amp;&amp; this.typesOfMaterialList !== undefined) {
+      output.writeFieldBegin('typesOfMaterialList', Thrift.Type.LIST, 42);
+      output.writeListBegin(Thrift.Type.STRING, this.typesOfMaterialList.length);
+      for (let iter84 in this.typesOfMaterialList) {
+        if (this.typesOfMaterialList.hasOwnProperty(iter84)) {
+          iter84 = this.typesOfMaterialList[iter84];
+          output.writeString(iter84);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.url !== null &amp;&amp; this.url !== undefined) {
+      output.writeFieldBegin('url', Thrift.Type.STRING, 43);
+      output.writeString(this.url);
+      output.writeFieldEnd();
+    }
+    if (this.wordCount !== null &amp;&amp; this.wordCount !== undefined) {
+      output.writeFieldBegin('wordCount', Thrift.Type.I32, 44);
+      output.writeI32(this.wordCount);
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.9</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

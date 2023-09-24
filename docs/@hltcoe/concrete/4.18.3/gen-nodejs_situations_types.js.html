@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>gen-nodejs/situations_types.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="concrete.access.html">access</a><ul class='members'><li data-type='member'><a href="concrete.access.html#.FetchCommunicationService">FetchCommunicationService</a></li><li data-type='member'><a href="concrete.access.html#.StoreCommunicationService">StoreCommunicationService</a></li></ul></li><li><a href="concrete.annotate.html">annotate</a><ul class='members'><li data-type='member'><a href="concrete.annotate.html#.AnnotateCommunicationBatchService">AnnotateCommunicationBatchService</a></li><li data-type='member'><a href="concrete.annotate.html#.AnnotateCommunicationService">AnnotateCommunicationService</a></li><li data-type='member'><a href="concrete.annotate.html#.AnnotateWithContextService">AnnotateWithContextService</a></li></ul></li><li><a href="concrete.audio.html">audio</a></li><li><a href="concrete.cluster.html">cluster</a></li><li><a href="concrete.communication.html">communication</a></li><li><a href="concrete.context.html">context</a></li><li><a href="concrete.convert.html">convert</a><ul class='members'><li data-type='member'><a href="concrete.convert.html#.ConvertCommunicationService">ConvertCommunicationService</a></li></ul></li><li><a href="concrete.email.html">email</a></li><li><a href="concrete.entities.html">entities</a></li><li><a href="concrete.ex.html">ex</a></li><li><a href="concrete.language.html">language</a></li><li><a href="concrete.learn.html">learn</a><ul class='members'><li data-type='member'><a href="concrete.learn.html#.ActiveLearnerClientService">ActiveLearnerClientService</a></li><li data-type='member'><a href="concrete.learn.html#.ActiveLearnerServerService">ActiveLearnerServerService</a></li></ul></li><li><a href="concrete.linking.html">linking</a></li><li><a href="concrete.metadata.html">metadata</a></li><li><a href="concrete.nitf.html">nitf</a></li><li><a href="concrete.property.html">property</a></li><li><a href="concrete.results.html">results</a><ul class='members'><li data-type='member'><a href="concrete.results.html#.ResultsServerService">ResultsServerService</a></li></ul></li><li><a href="concrete.search.html">search</a><ul class='members'><li data-type='member'><a href="concrete.search.html#.FeedbackService">FeedbackService</a></li><li data-type='member'><a href="concrete.search.html#.SearchProxyService">SearchProxyService</a></li><li data-type='member'><a href="concrete.search.html#.SearchService">SearchService</a></li></ul></li><li><a href="concrete.services.html">services</a><ul class='members'><li data-type='member'><a href="concrete.services.html#.Service">Service</a></li></ul></li><li><a href="concrete.situations.html">situations</a></li><li><a href="concrete.spans.html">spans</a></li><li><a href="concrete.structure.html">structure</a></li><li><a href="concrete.summarization.html">summarization</a><ul class='members'><li data-type='member'><a href="concrete.summarization.html#.SummarizationService">SummarizationService</a></li></ul></li><li><a href="concrete.twitter.html">twitter</a></li><li><a href="concrete.util.html">util</a><ul class='methods'><li data-type='method'><a href="concrete.util.html#.createXHRClientFromURL">createXHRClientFromURL</a></li><li data-type='method'><a href="concrete.util.html#.deserializeThrift">deserializeThrift</a></li><li data-type='method'><a href="concrete.util.html#.generateUUID">generateUUID</a></li><li data-type='method'><a href="concrete.util.html#.getURLParameter">getURLParameter</a></li><li data-type='method'><a href="concrete.util.html#.getVersion">getVersion</a></li><li data-type='method'><a href="concrete.util.html#.serializeThrift">serializeThrift</a></li></ul></li><li><a href="concrete.util.bpjson.html">bpjson</a><ul class='members'><li data-type='member'><a href="concrete.util.bpjson.html#.DEFAULT_TEMPLATE_SITUATION_TYPE">DEFAULT_TEMPLATE_SITUATION_TYPE</a></li></ul><ul class='methods'><li data-type='method'><a href="concrete.util.bpjson.html#.convertBPJsonToConcrete">convertBPJsonToConcrete</a></li><li data-type='method'><a href="concrete.util.bpjson.html#.convertConcreteToBPJson">convertConcreteToBPJson</a></li></ul></li><li><a href="concrete.uuid.html">uuid</a></li></ul><h3>Classes</h3><ul><li><a href="concrete.access.FetchRequest.html">FetchRequest</a></li><li><a href="concrete.access.FetchResult.html">FetchResult</a></li><li><a href="concrete.audio.Sound.html">Sound</a></li><li><a href="concrete.cluster.Cluster.html">Cluster</a></li><li><a href="concrete.cluster.Clustering.html">Clustering</a></li><li><a href="concrete.cluster.ClusterMember.html">ClusterMember</a></li><li><a href="concrete.communication.Communication.html">Communication</a><ul class='methods'><li data-type='method'><a href="concrete.communication.Communication.html#addInternalReferences">addInternalReferences</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityForEntityMentionUUID">getEntityForEntityMentionUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityMentionSetWithToolname">getEntityMentionSetWithToolname</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityMentionWithUUID">getEntityMentionWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getEntityWithEntityId">getEntityWithEntityId</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getFirstSentence">getFirstSentence</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getFirstTokenization">getFirstTokenization</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSectionsAsList">getSectionsAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSentencesAsList">getSentencesAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSentenceWithUUID">getSentenceWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getSituationMentionWithUUID">getSituationMentionWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokenizationsAsList">getTokenizationsAsList</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokenizationWithUUID">getTokenizationWithUUID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#getTokensForEntityMentionID">getTokensForEntityMentionID</a></li><li data-type='method'><a href="concrete.communication.Communication.html#initFromTJSONProtocolObject">initFromTJSONProtocolObject</a></li><li data-type='method'><a href="concrete.communication.Communication.html#initFromTJSONProtocolString">initFromTJSONProtocolString</a></li><li data-type='method'><a href="concrete.communication.Communication.html#toTJSONProtocolObject">toTJSONProtocolObject</a></li><li data-type='method'><a href="concrete.communication.Communication.html#toTJSONProtocolString">toTJSONProtocolString</a></li></ul></li><li><a href="concrete.communication.CommunicationSet.html">CommunicationSet</a></li><li><a href="concrete.communication.CommunicationTagging.html">CommunicationTagging</a></li><li><a href="concrete.context.Context.html">Context</a></li><li><a href="concrete.email.EmailAddress.html">EmailAddress</a></li><li><a href="concrete.email.EmailCommunicationInfo.html">EmailCommunicationInfo</a></li><li><a href="concrete.entities.Entity.html">Entity</a></li><li><a href="concrete.entities.EntityMention.html">EntityMention</a></li><li><a href="concrete.entities.EntityMentionSet.html">EntityMentionSet</a></li><li><a href="concrete.entities.EntitySet.html">EntitySet</a></li><li><a href="concrete.language.LanguageIdentification.html">LanguageIdentification</a></li><li><a href="concrete.learn.Annotation.html">Annotation</a></li><li><a href="concrete.learn.AnnotationTask.html">AnnotationTask</a></li><li><a href="concrete.linking.Link.html">Link</a></li><li><a href="concrete.linking.Linking.html">Linking</a></li><li><a href="concrete.linking.LinkTarget.html">LinkTarget</a></li><li><a href="concrete.metadata.AnnotationMetadata.html">AnnotationMetadata</a></li><li><a href="concrete.metadata.CommunicationMetadata.html">CommunicationMetadata</a></li><li><a href="concrete.metadata.Digest.html">Digest</a></li><li><a href="concrete.metadata.TheoryDependencies.html">TheoryDependencies</a></li><li><a href="concrete.nitf.NITFInfo.html">NITFInfo</a></li><li><a href="concrete.property.Property.html">Property</a></li><li><a href="concrete.search.SearchCapability.html">SearchCapability</a></li><li><a href="concrete.search.SearchQuery.html">SearchQuery</a></li><li><a href="concrete.search.SearchResult.html">SearchResult</a></li><li><a href="concrete.search.SearchResultItem.html">SearchResultItem</a></li><li><a href="concrete.services.AnnotationUnitIdentifier.html">AnnotationUnitIdentifier</a></li><li><a href="concrete.services.AsyncContactInfo.html">AsyncContactInfo</a></li><li><a href="concrete.services.ServiceInfo.html">ServiceInfo</a></li><li><a href="concrete.situations.Argument.html">Argument</a></li><li><a href="concrete.situations.Justification.html">Justification</a></li><li><a href="concrete.situations.MentionArgument.html">MentionArgument</a></li><li><a href="concrete.situations.Situation.html">Situation</a></li><li><a href="concrete.situations.SituationMention.html">SituationMention</a></li><li><a href="concrete.situations.SituationMentionSet.html">SituationMentionSet</a></li><li><a href="concrete.situations.SituationSet.html">SituationSet</a></li><li><a href="concrete.situations.TimeML.html">TimeML</a></li><li><a href="concrete.spans.AudioSpan.html">AudioSpan</a></li><li><a href="concrete.spans.TextSpan.html">TextSpan</a></li><li><a href="concrete.structure.Arc.html">Arc</a></li><li><a href="concrete.structure.Constituent.html">Constituent</a></li><li><a href="concrete.structure.ConstituentRef.html">ConstituentRef</a></li><li><a href="concrete.structure.Dependency.html">Dependency</a></li><li><a href="concrete.structure.DependencyParse.html">DependencyParse</a></li><li><a href="concrete.structure.DependencyParseStructure.html">DependencyParseStructure</a></li><li><a href="concrete.structure.LatticePath.html">LatticePath</a></li><li><a href="concrete.structure.Parse.html">Parse</a></li><li><a href="concrete.structure.Section.html">Section</a></li><li><a href="concrete.structure.Sentence.html">Sentence</a></li><li><a href="concrete.structure.SpanLink.html">SpanLink</a></li><li><a href="concrete.structure.TaggedToken.html">TaggedToken</a></li><li><a href="concrete.structure.Token.html">Token</a></li><li><a href="concrete.structure.Tokenization.html">Tokenization</a><ul class='methods'><li data-type='method'><a href="concrete.structure.Tokenization.html#addTokenTagging">addTokenTagging</a></li><li data-type='method'><a href="concrete.structure.Tokenization.html#getTokenTaggingsOfType">getTokenTaggingsOfType</a></li></ul></li><li><a href="concrete.structure.TokenLattice.html">TokenLattice</a></li><li><a href="concrete.structure.TokenList.html">TokenList</a></li><li><a href="concrete.structure.TokenRefSequence.html">TokenRefSequence</a></li><li><a href="concrete.structure.TokenTagging.html">TokenTagging</a><ul class='methods'><li data-type='method'><a href="concrete.structure.TokenTagging.html#.create">create</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetBIOValue">bioGetBIOValue</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTagSeparator">bioGetTagSeparator</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTagValue">bioGetTagValue</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioGetTokenIndexForB">bioGetTokenIndexForB</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioSetTaggedTokenTag">bioSetTaggedTokenTag</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#bioSetTagSeparator">bioSetTagSeparator</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#deepCopyTaggedTokenList">deepCopyTaggedTokenList</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#getTaggedTokenWithTokenIndex">getTaggedTokenWithTokenIndex</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#setAllTaggedTokenTags">setAllTaggedTokenTags</a></li><li data-type='method'><a href="concrete.structure.TokenTagging.html#setTaggedTokenTag">setTaggedTokenTag</a></li></ul></li><li><a href="concrete.summarization.SummarizationCapability.html">SummarizationCapability</a></li><li><a href="concrete.summarization.SummarizationRequest.html">SummarizationRequest</a></li><li><a href="concrete.summarization.Summary.html">Summary</a></li><li><a href="concrete.summarization.SummaryConcept.html">SummaryConcept</a></li><li><a href="concrete.twitter.BoundingBox.html">BoundingBox</a></li><li><a href="concrete.twitter.HashTag.html">HashTag</a></li><li><a href="concrete.twitter.PlaceAttributes.html">PlaceAttributes</a></li><li><a href="concrete.twitter.TweetInfo.html">TweetInfo</a></li><li><a href="concrete.twitter.TwitterCoordinates.html">TwitterCoordinates</a></li><li><a href="concrete.twitter.TwitterEntities.html">TwitterEntities</a></li><li><a href="concrete.twitter.TwitterLatLong.html">TwitterLatLong</a></li><li><a href="concrete.twitter.TwitterPlace.html">TwitterPlace</a></li><li><a href="concrete.twitter.TwitterUser.html">TwitterUser</a></li><li><a href="concrete.twitter.URL.html">URL</a></li><li><a href="concrete.twitter.UserMention.html">UserMention</a></li><li><a href="concrete.uuid.UUID.html">UUID</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">gen-nodejs/situations_types.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace concrete.situations
+ */
+//
+// Autogenerated by Thrift Compiler (0.19.0)
+//
+// DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
+//
+"use strict";
+
+const thrift = require('thrift');
+const Thrift = thrift.Thrift;
+const Int64 = require('node-int64');
+
+const property_ttypes = require('./property_types');
+const structure_ttypes = require('./structure_types');
+const metadata_ttypes = require('./metadata_types');
+const uuid_ttypes = require('./uuid_types');
+const linking_ttypes = require('./linking_types');
+
+
+const ttypes = module.exports = {};
+
+/**
+ * @memberof concrete.situations
+ * @class Argument
+ * @classdesc Argument class generated by Thrift
+ */
+const Argument = module.exports.Argument = class {
+  constructor(args) {
+    this.role = null;
+    this.entityId = null;
+    this.situationId = null;
+    this.propertyList = null;
+    if (args) {
+      if (args.role !== undefined &amp;&amp; args.role !== null) {
+        this.role = args.role;
+      }
+      if (args.entityId !== undefined &amp;&amp; args.entityId !== null) {
+        this.entityId = new uuid_ttypes.UUID(args.entityId);
+      }
+      if (args.situationId !== undefined &amp;&amp; args.situationId !== null) {
+        this.situationId = new uuid_ttypes.UUID(args.situationId);
+      }
+      if (args.propertyList !== undefined &amp;&amp; args.propertyList !== null) {
+        this.propertyList = Thrift.copyList(args.propertyList, [property_ttypes.Property]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRING) {
+          this.role = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.entityId = new uuid_ttypes.UUID();
+          this.entityId.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.situationId = new uuid_ttypes.UUID();
+          this.situationId.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.propertyList = [];
+          const _rtmp31 = input.readListBegin();
+          const _size0 = _rtmp31.size || 0;
+          for (let _i2 = 0; _i2 &lt; _size0; ++_i2) {
+            let elem3 = null;
+            elem3 = new property_ttypes.Property();
+            elem3.read(input);
+            this.propertyList.push(elem3);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('Argument');
+    if (this.role !== null &amp;&amp; this.role !== undefined) {
+      output.writeFieldBegin('role', Thrift.Type.STRING, 1);
+      output.writeString(this.role);
+      output.writeFieldEnd();
+    }
+    if (this.entityId !== null &amp;&amp; this.entityId !== undefined) {
+      output.writeFieldBegin('entityId', Thrift.Type.STRUCT, 2);
+      this.entityId.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.situationId !== null &amp;&amp; this.situationId !== undefined) {
+      output.writeFieldBegin('situationId', Thrift.Type.STRUCT, 3);
+      this.situationId.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.propertyList !== null &amp;&amp; this.propertyList !== undefined) {
+      output.writeFieldBegin('propertyList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRUCT, this.propertyList.length);
+      for (let iter4 in this.propertyList) {
+        if (this.propertyList.hasOwnProperty(iter4)) {
+          iter4 = this.propertyList[iter4];
+          iter4.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class Justification
+ * @classdesc Justification class generated by Thrift
+ */
+const Justification = module.exports.Justification = class {
+  constructor(args) {
+    this.justificationType = null;
+    this.mentionId = null;
+    this.tokenRefSeqList = null;
+    if (args) {
+      if (args.justificationType !== undefined &amp;&amp; args.justificationType !== null) {
+        this.justificationType = args.justificationType;
+      }
+      if (args.mentionId !== undefined &amp;&amp; args.mentionId !== null) {
+        this.mentionId = new uuid_ttypes.UUID(args.mentionId);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field mentionId is unset!');
+      }
+      if (args.tokenRefSeqList !== undefined &amp;&amp; args.tokenRefSeqList !== null) {
+        this.tokenRefSeqList = Thrift.copyList(args.tokenRefSeqList, [structure_ttypes.TokenRefSequence]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRING) {
+          this.justificationType = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.mentionId = new uuid_ttypes.UUID();
+          this.mentionId.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.LIST) {
+          this.tokenRefSeqList = [];
+          const _rtmp36 = input.readListBegin();
+          const _size5 = _rtmp36.size || 0;
+          for (let _i7 = 0; _i7 &lt; _size5; ++_i7) {
+            let elem8 = null;
+            elem8 = new structure_ttypes.TokenRefSequence();
+            elem8.read(input);
+            this.tokenRefSeqList.push(elem8);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('Justification');
+    if (this.justificationType !== null &amp;&amp; this.justificationType !== undefined) {
+      output.writeFieldBegin('justificationType', Thrift.Type.STRING, 1);
+      output.writeString(this.justificationType);
+      output.writeFieldEnd();
+    }
+    if (this.mentionId !== null &amp;&amp; this.mentionId !== undefined) {
+      output.writeFieldBegin('mentionId', Thrift.Type.STRUCT, 2);
+      this.mentionId.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.tokenRefSeqList !== null &amp;&amp; this.tokenRefSeqList !== undefined) {
+      output.writeFieldBegin('tokenRefSeqList', Thrift.Type.LIST, 3);
+      output.writeListBegin(Thrift.Type.STRUCT, this.tokenRefSeqList.length);
+      for (let iter9 in this.tokenRefSeqList) {
+        if (this.tokenRefSeqList.hasOwnProperty(iter9)) {
+          iter9 = this.tokenRefSeqList[iter9];
+          iter9.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class TimeML
+ * @classdesc TimeML class generated by Thrift
+ */
+const TimeML = module.exports.TimeML = class {
+  constructor(args) {
+    this.timeMLClass = null;
+    this.timeMLTense = null;
+    this.timeMLAspect = null;
+    if (args) {
+      if (args.timeMLClass !== undefined &amp;&amp; args.timeMLClass !== null) {
+        this.timeMLClass = args.timeMLClass;
+      }
+      if (args.timeMLTense !== undefined &amp;&amp; args.timeMLTense !== null) {
+        this.timeMLTense = args.timeMLTense;
+      }
+      if (args.timeMLAspect !== undefined &amp;&amp; args.timeMLAspect !== null) {
+        this.timeMLAspect = args.timeMLAspect;
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRING) {
+          this.timeMLClass = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRING) {
+          this.timeMLTense = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRING) {
+          this.timeMLAspect = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('TimeML');
+    if (this.timeMLClass !== null &amp;&amp; this.timeMLClass !== undefined) {
+      output.writeFieldBegin('timeMLClass', Thrift.Type.STRING, 1);
+      output.writeString(this.timeMLClass);
+      output.writeFieldEnd();
+    }
+    if (this.timeMLTense !== null &amp;&amp; this.timeMLTense !== undefined) {
+      output.writeFieldBegin('timeMLTense', Thrift.Type.STRING, 2);
+      output.writeString(this.timeMLTense);
+      output.writeFieldEnd();
+    }
+    if (this.timeMLAspect !== null &amp;&amp; this.timeMLAspect !== undefined) {
+      output.writeFieldBegin('timeMLAspect', Thrift.Type.STRING, 3);
+      output.writeString(this.timeMLAspect);
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class Situation
+ * @classdesc Situation class generated by Thrift
+ */
+const Situation = module.exports.Situation = class {
+  constructor(args) {
+    this.uuid = null;
+    this.id = null;
+    this.situationType = null;
+    this.situationKind = null;
+    this.argumentList = null;
+    this.mentionIdList = null;
+    this.justificationList = null;
+    this.canonicalName = null;
+    this.timeML = null;
+    this.intensity = null;
+    this.polarity = null;
+    this.confidence = null;
+    this.propertyList = null;
+    if (args) {
+      if (args.uuid !== undefined &amp;&amp; args.uuid !== null) {
+        this.uuid = new uuid_ttypes.UUID(args.uuid);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+      }
+      if (args.id !== undefined &amp;&amp; args.id !== null) {
+        this.id = args.id;
+      }
+      if (args.situationType !== undefined &amp;&amp; args.situationType !== null) {
+        this.situationType = args.situationType;
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field situationType is unset!');
+      }
+      if (args.situationKind !== undefined &amp;&amp; args.situationKind !== null) {
+        this.situationKind = args.situationKind;
+      }
+      if (args.argumentList !== undefined &amp;&amp; args.argumentList !== null) {
+        this.argumentList = Thrift.copyList(args.argumentList, [ttypes.Argument]);
+      }
+      if (args.mentionIdList !== undefined &amp;&amp; args.mentionIdList !== null) {
+        this.mentionIdList = Thrift.copyList(args.mentionIdList, [uuid_ttypes.UUID]);
+      }
+      if (args.justificationList !== undefined &amp;&amp; args.justificationList !== null) {
+        this.justificationList = Thrift.copyList(args.justificationList, [ttypes.Justification]);
+      }
+      if (args.canonicalName !== undefined &amp;&amp; args.canonicalName !== null) {
+        this.canonicalName = args.canonicalName;
+      }
+      if (args.timeML !== undefined &amp;&amp; args.timeML !== null) {
+        this.timeML = new ttypes.TimeML(args.timeML);
+      }
+      if (args.intensity !== undefined &amp;&amp; args.intensity !== null) {
+        this.intensity = args.intensity;
+      }
+      if (args.polarity !== undefined &amp;&amp; args.polarity !== null) {
+        this.polarity = args.polarity;
+      }
+      if (args.confidence !== undefined &amp;&amp; args.confidence !== null) {
+        this.confidence = args.confidence;
+      }
+      if (args.propertyList !== undefined &amp;&amp; args.propertyList !== null) {
+        this.propertyList = Thrift.copyList(args.propertyList, [property_ttypes.Property]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.uuid = new uuid_ttypes.UUID();
+          this.uuid.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 6:
+        if (ftype == Thrift.Type.STRING) {
+          this.id = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRING) {
+          this.situationType = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 50:
+        if (ftype == Thrift.Type.STRING) {
+          this.situationKind = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.LIST) {
+          this.argumentList = [];
+          const _rtmp311 = input.readListBegin();
+          const _size10 = _rtmp311.size || 0;
+          for (let _i12 = 0; _i12 &lt; _size10; ++_i12) {
+            let elem13 = null;
+            elem13 = new ttypes.Argument();
+            elem13.read(input);
+            this.argumentList.push(elem13);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.mentionIdList = [];
+          const _rtmp315 = input.readListBegin();
+          const _size14 = _rtmp315.size || 0;
+          for (let _i16 = 0; _i16 &lt; _size14; ++_i16) {
+            let elem17 = null;
+            elem17 = new uuid_ttypes.UUID();
+            elem17.read(input);
+            this.mentionIdList.push(elem17);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.LIST) {
+          this.justificationList = [];
+          const _rtmp319 = input.readListBegin();
+          const _size18 = _rtmp319.size || 0;
+          for (let _i20 = 0; _i20 &lt; _size18; ++_i20) {
+            let elem21 = null;
+            elem21 = new ttypes.Justification();
+            elem21.read(input);
+            this.justificationList.push(elem21);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 7:
+        if (ftype == Thrift.Type.STRING) {
+          this.canonicalName = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 54:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.timeML = new ttypes.TimeML();
+          this.timeML.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 100:
+        if (ftype == Thrift.Type.DOUBLE) {
+          this.intensity = input.readDouble();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 101:
+        if (ftype == Thrift.Type.STRING) {
+          this.polarity = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 200:
+        if (ftype == Thrift.Type.DOUBLE) {
+          this.confidence = input.readDouble();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 300:
+        if (ftype == Thrift.Type.LIST) {
+          this.propertyList = [];
+          const _rtmp323 = input.readListBegin();
+          const _size22 = _rtmp323.size || 0;
+          for (let _i24 = 0; _i24 &lt; _size22; ++_i24) {
+            let elem25 = null;
+            elem25 = new property_ttypes.Property();
+            elem25.read(input);
+            this.propertyList.push(elem25);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('Situation');
+    if (this.uuid !== null &amp;&amp; this.uuid !== undefined) {
+      output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
+      this.uuid.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.id !== null &amp;&amp; this.id !== undefined) {
+      output.writeFieldBegin('id', Thrift.Type.STRING, 6);
+      output.writeString(this.id);
+      output.writeFieldEnd();
+    }
+    if (this.situationType !== null &amp;&amp; this.situationType !== undefined) {
+      output.writeFieldBegin('situationType', Thrift.Type.STRING, 2);
+      output.writeString(this.situationType);
+      output.writeFieldEnd();
+    }
+    if (this.situationKind !== null &amp;&amp; this.situationKind !== undefined) {
+      output.writeFieldBegin('situationKind', Thrift.Type.STRING, 50);
+      output.writeString(this.situationKind);
+      output.writeFieldEnd();
+    }
+    if (this.argumentList !== null &amp;&amp; this.argumentList !== undefined) {
+      output.writeFieldBegin('argumentList', Thrift.Type.LIST, 3);
+      output.writeListBegin(Thrift.Type.STRUCT, this.argumentList.length);
+      for (let iter26 in this.argumentList) {
+        if (this.argumentList.hasOwnProperty(iter26)) {
+          iter26 = this.argumentList[iter26];
+          iter26.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.mentionIdList !== null &amp;&amp; this.mentionIdList !== undefined) {
+      output.writeFieldBegin('mentionIdList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRUCT, this.mentionIdList.length);
+      for (let iter27 in this.mentionIdList) {
+        if (this.mentionIdList.hasOwnProperty(iter27)) {
+          iter27 = this.mentionIdList[iter27];
+          iter27.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.justificationList !== null &amp;&amp; this.justificationList !== undefined) {
+      output.writeFieldBegin('justificationList', Thrift.Type.LIST, 5);
+      output.writeListBegin(Thrift.Type.STRUCT, this.justificationList.length);
+      for (let iter28 in this.justificationList) {
+        if (this.justificationList.hasOwnProperty(iter28)) {
+          iter28 = this.justificationList[iter28];
+          iter28.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.canonicalName !== null &amp;&amp; this.canonicalName !== undefined) {
+      output.writeFieldBegin('canonicalName', Thrift.Type.STRING, 7);
+      output.writeString(this.canonicalName);
+      output.writeFieldEnd();
+    }
+    if (this.timeML !== null &amp;&amp; this.timeML !== undefined) {
+      output.writeFieldBegin('timeML', Thrift.Type.STRUCT, 54);
+      this.timeML.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.intensity !== null &amp;&amp; this.intensity !== undefined) {
+      output.writeFieldBegin('intensity', Thrift.Type.DOUBLE, 100);
+      output.writeDouble(this.intensity);
+      output.writeFieldEnd();
+    }
+    if (this.polarity !== null &amp;&amp; this.polarity !== undefined) {
+      output.writeFieldBegin('polarity', Thrift.Type.STRING, 101);
+      output.writeString(this.polarity);
+      output.writeFieldEnd();
+    }
+    if (this.confidence !== null &amp;&amp; this.confidence !== undefined) {
+      output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 200);
+      output.writeDouble(this.confidence);
+      output.writeFieldEnd();
+    }
+    if (this.propertyList !== null &amp;&amp; this.propertyList !== undefined) {
+      output.writeFieldBegin('propertyList', Thrift.Type.LIST, 300);
+      output.writeListBegin(Thrift.Type.STRUCT, this.propertyList.length);
+      for (let iter29 in this.propertyList) {
+        if (this.propertyList.hasOwnProperty(iter29)) {
+          iter29 = this.propertyList[iter29];
+          iter29.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class SituationSet
+ * @classdesc SituationSet class generated by Thrift
+ */
+const SituationSet = module.exports.SituationSet = class {
+  constructor(args) {
+    this.uuid = null;
+    this.metadata = null;
+    this.situationList = null;
+    this.linkingList = null;
+    if (args) {
+      if (args.uuid !== undefined &amp;&amp; args.uuid !== null) {
+        this.uuid = new uuid_ttypes.UUID(args.uuid);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+      }
+      if (args.metadata !== undefined &amp;&amp; args.metadata !== null) {
+        this.metadata = new metadata_ttypes.AnnotationMetadata(args.metadata);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
+      }
+      if (args.situationList !== undefined &amp;&amp; args.situationList !== null) {
+        this.situationList = Thrift.copyList(args.situationList, [ttypes.Situation]);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field situationList is unset!');
+      }
+      if (args.linkingList !== undefined &amp;&amp; args.linkingList !== null) {
+        this.linkingList = Thrift.copyList(args.linkingList, [linking_ttypes.Linking]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.uuid = new uuid_ttypes.UUID();
+          this.uuid.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.metadata = new metadata_ttypes.AnnotationMetadata();
+          this.metadata.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.LIST) {
+          this.situationList = [];
+          const _rtmp331 = input.readListBegin();
+          const _size30 = _rtmp331.size || 0;
+          for (let _i32 = 0; _i32 &lt; _size30; ++_i32) {
+            let elem33 = null;
+            elem33 = new ttypes.Situation();
+            elem33.read(input);
+            this.situationList.push(elem33);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.linkingList = [];
+          const _rtmp335 = input.readListBegin();
+          const _size34 = _rtmp335.size || 0;
+          for (let _i36 = 0; _i36 &lt; _size34; ++_i36) {
+            let elem37 = null;
+            elem37 = new linking_ttypes.Linking();
+            elem37.read(input);
+            this.linkingList.push(elem37);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('SituationSet');
+    if (this.uuid !== null &amp;&amp; this.uuid !== undefined) {
+      output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
+      this.uuid.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.metadata !== null &amp;&amp; this.metadata !== undefined) {
+      output.writeFieldBegin('metadata', Thrift.Type.STRUCT, 2);
+      this.metadata.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.situationList !== null &amp;&amp; this.situationList !== undefined) {
+      output.writeFieldBegin('situationList', Thrift.Type.LIST, 3);
+      output.writeListBegin(Thrift.Type.STRUCT, this.situationList.length);
+      for (let iter38 in this.situationList) {
+        if (this.situationList.hasOwnProperty(iter38)) {
+          iter38 = this.situationList[iter38];
+          iter38.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.linkingList !== null &amp;&amp; this.linkingList !== undefined) {
+      output.writeFieldBegin('linkingList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRUCT, this.linkingList.length);
+      for (let iter39 in this.linkingList) {
+        if (this.linkingList.hasOwnProperty(iter39)) {
+          iter39 = this.linkingList[iter39];
+          iter39.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class MentionArgument
+ * @classdesc MentionArgument class generated by Thrift
+ */
+const MentionArgument = module.exports.MentionArgument = class {
+  constructor(args) {
+    this.role = null;
+    this.entityMentionId = null;
+    this.situationMentionId = null;
+    this.tokens = null;
+    this.confidence = null;
+    this.propertyList = null;
+    if (args) {
+      if (args.role !== undefined &amp;&amp; args.role !== null) {
+        this.role = args.role;
+      }
+      if (args.entityMentionId !== undefined &amp;&amp; args.entityMentionId !== null) {
+        this.entityMentionId = new uuid_ttypes.UUID(args.entityMentionId);
+      }
+      if (args.situationMentionId !== undefined &amp;&amp; args.situationMentionId !== null) {
+        this.situationMentionId = new uuid_ttypes.UUID(args.situationMentionId);
+      }
+      if (args.tokens !== undefined &amp;&amp; args.tokens !== null) {
+        this.tokens = new structure_ttypes.TokenRefSequence(args.tokens);
+      }
+      if (args.confidence !== undefined &amp;&amp; args.confidence !== null) {
+        this.confidence = args.confidence;
+      }
+      if (args.propertyList !== undefined &amp;&amp; args.propertyList !== null) {
+        this.propertyList = Thrift.copyList(args.propertyList, [property_ttypes.Property]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRING) {
+          this.role = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.entityMentionId = new uuid_ttypes.UUID();
+          this.entityMentionId.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.situationMentionId = new uuid_ttypes.UUID();
+          this.situationMentionId.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.tokens = new structure_ttypes.TokenRefSequence();
+          this.tokens.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.DOUBLE) {
+          this.confidence = input.readDouble();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 6:
+        if (ftype == Thrift.Type.LIST) {
+          this.propertyList = [];
+          const _rtmp341 = input.readListBegin();
+          const _size40 = _rtmp341.size || 0;
+          for (let _i42 = 0; _i42 &lt; _size40; ++_i42) {
+            let elem43 = null;
+            elem43 = new property_ttypes.Property();
+            elem43.read(input);
+            this.propertyList.push(elem43);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('MentionArgument');
+    if (this.role !== null &amp;&amp; this.role !== undefined) {
+      output.writeFieldBegin('role', Thrift.Type.STRING, 1);
+      output.writeString(this.role);
+      output.writeFieldEnd();
+    }
+    if (this.entityMentionId !== null &amp;&amp; this.entityMentionId !== undefined) {
+      output.writeFieldBegin('entityMentionId', Thrift.Type.STRUCT, 2);
+      this.entityMentionId.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.situationMentionId !== null &amp;&amp; this.situationMentionId !== undefined) {
+      output.writeFieldBegin('situationMentionId', Thrift.Type.STRUCT, 3);
+      this.situationMentionId.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.tokens !== null &amp;&amp; this.tokens !== undefined) {
+      output.writeFieldBegin('tokens', Thrift.Type.STRUCT, 4);
+      this.tokens.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.confidence !== null &amp;&amp; this.confidence !== undefined) {
+      output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 5);
+      output.writeDouble(this.confidence);
+      output.writeFieldEnd();
+    }
+    if (this.propertyList !== null &amp;&amp; this.propertyList !== undefined) {
+      output.writeFieldBegin('propertyList', Thrift.Type.LIST, 6);
+      output.writeListBegin(Thrift.Type.STRUCT, this.propertyList.length);
+      for (let iter44 in this.propertyList) {
+        if (this.propertyList.hasOwnProperty(iter44)) {
+          iter44 = this.propertyList[iter44];
+          iter44.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class SituationMention
+ * @classdesc SituationMention class generated by Thrift
+ */
+const SituationMention = module.exports.SituationMention = class {
+  constructor(args) {
+    this.uuid = null;
+    this.id = null;
+    this.text = null;
+    this.situationType = null;
+    this.situationKind = null;
+    this.argumentList = null;
+    this.intensity = null;
+    this.polarity = null;
+    this.tokens = null;
+    this.confidence = null;
+    this.propertyList = null;
+    if (args) {
+      if (args.uuid !== undefined &amp;&amp; args.uuid !== null) {
+        this.uuid = new uuid_ttypes.UUID(args.uuid);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+      }
+      if (args.id !== undefined &amp;&amp; args.id !== null) {
+        this.id = args.id;
+      }
+      if (args.text !== undefined &amp;&amp; args.text !== null) {
+        this.text = args.text;
+      }
+      if (args.situationType !== undefined &amp;&amp; args.situationType !== null) {
+        this.situationType = args.situationType;
+      }
+      if (args.situationKind !== undefined &amp;&amp; args.situationKind !== null) {
+        this.situationKind = args.situationKind;
+      }
+      if (args.argumentList !== undefined &amp;&amp; args.argumentList !== null) {
+        this.argumentList = Thrift.copyList(args.argumentList, [ttypes.MentionArgument]);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field argumentList is unset!');
+      }
+      if (args.intensity !== undefined &amp;&amp; args.intensity !== null) {
+        this.intensity = args.intensity;
+      }
+      if (args.polarity !== undefined &amp;&amp; args.polarity !== null) {
+        this.polarity = args.polarity;
+      }
+      if (args.tokens !== undefined &amp;&amp; args.tokens !== null) {
+        this.tokens = new structure_ttypes.TokenRefSequence(args.tokens);
+      }
+      if (args.confidence !== undefined &amp;&amp; args.confidence !== null) {
+        this.confidence = args.confidence;
+      }
+      if (args.propertyList !== undefined &amp;&amp; args.propertyList !== null) {
+        this.propertyList = Thrift.copyList(args.propertyList, [property_ttypes.Property]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.uuid = new uuid_ttypes.UUID();
+          this.uuid.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 5:
+        if (ftype == Thrift.Type.STRING) {
+          this.id = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRING) {
+          this.text = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.STRING) {
+          this.situationType = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 50:
+        if (ftype == Thrift.Type.STRING) {
+          this.situationKind = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.argumentList = [];
+          const _rtmp346 = input.readListBegin();
+          const _size45 = _rtmp346.size || 0;
+          for (let _i47 = 0; _i47 &lt; _size45; ++_i47) {
+            let elem48 = null;
+            elem48 = new ttypes.MentionArgument();
+            elem48.read(input);
+            this.argumentList.push(elem48);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 100:
+        if (ftype == Thrift.Type.DOUBLE) {
+          this.intensity = input.readDouble();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 101:
+        if (ftype == Thrift.Type.STRING) {
+          this.polarity = input.readString();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 150:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.tokens = new structure_ttypes.TokenRefSequence();
+          this.tokens.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 200:
+        if (ftype == Thrift.Type.DOUBLE) {
+          this.confidence = input.readDouble();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 300:
+        if (ftype == Thrift.Type.LIST) {
+          this.propertyList = [];
+          const _rtmp350 = input.readListBegin();
+          const _size49 = _rtmp350.size || 0;
+          for (let _i51 = 0; _i51 &lt; _size49; ++_i51) {
+            let elem52 = null;
+            elem52 = new property_ttypes.Property();
+            elem52.read(input);
+            this.propertyList.push(elem52);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('SituationMention');
+    if (this.uuid !== null &amp;&amp; this.uuid !== undefined) {
+      output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
+      this.uuid.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.id !== null &amp;&amp; this.id !== undefined) {
+      output.writeFieldBegin('id', Thrift.Type.STRING, 5);
+      output.writeString(this.id);
+      output.writeFieldEnd();
+    }
+    if (this.text !== null &amp;&amp; this.text !== undefined) {
+      output.writeFieldBegin('text', Thrift.Type.STRING, 2);
+      output.writeString(this.text);
+      output.writeFieldEnd();
+    }
+    if (this.situationType !== null &amp;&amp; this.situationType !== undefined) {
+      output.writeFieldBegin('situationType', Thrift.Type.STRING, 3);
+      output.writeString(this.situationType);
+      output.writeFieldEnd();
+    }
+    if (this.situationKind !== null &amp;&amp; this.situationKind !== undefined) {
+      output.writeFieldBegin('situationKind', Thrift.Type.STRING, 50);
+      output.writeString(this.situationKind);
+      output.writeFieldEnd();
+    }
+    if (this.argumentList !== null &amp;&amp; this.argumentList !== undefined) {
+      output.writeFieldBegin('argumentList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRUCT, this.argumentList.length);
+      for (let iter53 in this.argumentList) {
+        if (this.argumentList.hasOwnProperty(iter53)) {
+          iter53 = this.argumentList[iter53];
+          iter53.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.intensity !== null &amp;&amp; this.intensity !== undefined) {
+      output.writeFieldBegin('intensity', Thrift.Type.DOUBLE, 100);
+      output.writeDouble(this.intensity);
+      output.writeFieldEnd();
+    }
+    if (this.polarity !== null &amp;&amp; this.polarity !== undefined) {
+      output.writeFieldBegin('polarity', Thrift.Type.STRING, 101);
+      output.writeString(this.polarity);
+      output.writeFieldEnd();
+    }
+    if (this.tokens !== null &amp;&amp; this.tokens !== undefined) {
+      output.writeFieldBegin('tokens', Thrift.Type.STRUCT, 150);
+      this.tokens.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.confidence !== null &amp;&amp; this.confidence !== undefined) {
+      output.writeFieldBegin('confidence', Thrift.Type.DOUBLE, 200);
+      output.writeDouble(this.confidence);
+      output.writeFieldEnd();
+    }
+    if (this.propertyList !== null &amp;&amp; this.propertyList !== undefined) {
+      output.writeFieldBegin('propertyList', Thrift.Type.LIST, 300);
+      output.writeListBegin(Thrift.Type.STRUCT, this.propertyList.length);
+      for (let iter54 in this.propertyList) {
+        if (this.propertyList.hasOwnProperty(iter54)) {
+          iter54 = this.propertyList[iter54];
+          iter54.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+
+/**
+ * @memberof concrete.situations
+ * @class SituationMentionSet
+ * @classdesc SituationMentionSet class generated by Thrift
+ */
+const SituationMentionSet = module.exports.SituationMentionSet = class {
+  constructor(args) {
+    this.uuid = null;
+    this.metadata = null;
+    this.mentionList = null;
+    this.linkingList = null;
+    if (args) {
+      if (args.uuid !== undefined &amp;&amp; args.uuid !== null) {
+        this.uuid = new uuid_ttypes.UUID(args.uuid);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field uuid is unset!');
+      }
+      if (args.metadata !== undefined &amp;&amp; args.metadata !== null) {
+        this.metadata = new metadata_ttypes.AnnotationMetadata(args.metadata);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field metadata is unset!');
+      }
+      if (args.mentionList !== undefined &amp;&amp; args.mentionList !== null) {
+        this.mentionList = Thrift.copyList(args.mentionList, [ttypes.SituationMention]);
+      } else {
+        throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field mentionList is unset!');
+      }
+      if (args.linkingList !== undefined &amp;&amp; args.linkingList !== null) {
+        this.linkingList = Thrift.copyList(args.linkingList, [linking_ttypes.Linking]);
+      }
+    }
+  }
+
+  read (input) {
+    input.readStructBegin();
+    while (true) {
+      const ret = input.readFieldBegin();
+      const ftype = ret.ftype;
+      const fid = ret.fid;
+      if (ftype == Thrift.Type.STOP) {
+        break;
+      }
+      switch (fid) {
+        case 1:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.uuid = new uuid_ttypes.UUID();
+          this.uuid.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 2:
+        if (ftype == Thrift.Type.STRUCT) {
+          this.metadata = new metadata_ttypes.AnnotationMetadata();
+          this.metadata.read(input);
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 3:
+        if (ftype == Thrift.Type.LIST) {
+          this.mentionList = [];
+          const _rtmp356 = input.readListBegin();
+          const _size55 = _rtmp356.size || 0;
+          for (let _i57 = 0; _i57 &lt; _size55; ++_i57) {
+            let elem58 = null;
+            elem58 = new ttypes.SituationMention();
+            elem58.read(input);
+            this.mentionList.push(elem58);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        case 4:
+        if (ftype == Thrift.Type.LIST) {
+          this.linkingList = [];
+          const _rtmp360 = input.readListBegin();
+          const _size59 = _rtmp360.size || 0;
+          for (let _i61 = 0; _i61 &lt; _size59; ++_i61) {
+            let elem62 = null;
+            elem62 = new linking_ttypes.Linking();
+            elem62.read(input);
+            this.linkingList.push(elem62);
+          }
+          input.readListEnd();
+        } else {
+          input.skip(ftype);
+        }
+        break;
+        default:
+          input.skip(ftype);
+      }
+      input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+  }
+
+  write (output) {
+    output.writeStructBegin('SituationMentionSet');
+    if (this.uuid !== null &amp;&amp; this.uuid !== undefined) {
+      output.writeFieldBegin('uuid', Thrift.Type.STRUCT, 1);
+      this.uuid.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.metadata !== null &amp;&amp; this.metadata !== undefined) {
+      output.writeFieldBegin('metadata', Thrift.Type.STRUCT, 2);
+      this.metadata.write(output);
+      output.writeFieldEnd();
+    }
+    if (this.mentionList !== null &amp;&amp; this.mentionList !== undefined) {
+      output.writeFieldBegin('mentionList', Thrift.Type.LIST, 3);
+      output.writeListBegin(Thrift.Type.STRUCT, this.mentionList.length);
+      for (let iter63 in this.mentionList) {
+        if (this.mentionList.hasOwnProperty(iter63)) {
+          iter63 = this.mentionList[iter63];
+          iter63.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    if (this.linkingList !== null &amp;&amp; this.linkingList !== undefined) {
+      output.writeFieldBegin('linkingList', Thrift.Type.LIST, 4);
+      output.writeListBegin(Thrift.Type.STRUCT, this.linkingList.length);
+      for (let iter64 in this.linkingList) {
+        if (this.linkingList.hasOwnProperty(iter64)) {
+          iter64 = this.linkingList[iter64];
+          iter64.write(output);
+        }
+      }
+      output.writeListEnd();
+      output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+  }
+
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.9</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

@@ -60,7 +60,7 @@ git clean -fdx
 npm ci
 
 # 1. Update version
-VERSION=$($NPM_VERSION_CMD "$1")
+VERSION=$($NPM_VERSION_CMD "$npm_version_type")
 
 # 2. Build
 npx grunt

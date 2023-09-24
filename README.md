@@ -71,38 +71,13 @@ npm install @hltcoe/concrete
 
 ## Usage: Fetching Communications
 
-```javascript
-import thrift from "thrift";
-import concrete from "@hltcoe/concrete";
+The following code provides an example of using **concrete-js**:
+Fetching and displaying the first ten Communications from a FetchCommunicationService.
+To use this example, replace the example URL with the URL to your
+own FetchCommunicationService:
 
-/**
- * Creates and returns a Fetch client for an HTTP Fetch service.
- *
- * @param host Host name or IP of HTTP Fetch service
- * @param port TCP port of HTTP Fetch service
- * @param path URL path of HTTP Fetch service
- * @returns Fetch client
- */
-async createFetchClient(host, port = 8000, path = '/') {
-  const options = {
-    transport: thrift.TBufferedTransport,
-    protocol: thrift.TJSONProtocol,
-    path: path,
-    https: false,
-  };
-  const connection = thrift.createXHRConnection(
-    host,
-    port,
-    options
-  );
-  connection.on("error", function (err) {
-    console.error(err);
-  });
-  return thrift.createXHRClient(
-    concrete.access.FetchCommunicationService,
-    connection
-  );
-}
+```javascript
+const concrete = require("@hltcoe/concrete");
 
 /**
  * Returns up to the first ten Communications from a Fetch service.
@@ -113,7 +88,7 @@ async createFetchClient(host, port = 8000, path = '/') {
  * @returns A list of maxNumCommunications Communications (or fewer
  *   if the Fetch client does not have that many Communications).
  */
-async headCommunications(fetchClient, maxNumCommunications = 10) {
+async function headCommunications(fetchClient, maxNumCommunications = 10) {
   const numCommunications = await fetchClient.getCommunicationCount();
   const communicationIds = await fetchClient.getCommunicationIDs(
     0,
@@ -125,6 +100,18 @@ async headCommunications(fetchClient, maxNumCommunications = 10) {
   const result = await fetchClient.fetch(request);
   return result.communications;
 }
+
+const client = concrete.util.createXHRClientFromURL(
+  "http://localhost:8080/fetch_http_endpoint/",
+  concrete.access.FetchCommunicationService,
+);
+headCommunications(client).then((communications) =>
+  communications.forEach((communication) => {
+    console.log(`--- ${communication.id}`);
+    console.log(communication.text);
+    console.log("---");
+  })
+).catch((error) => console.error(error));
 ```
 
 

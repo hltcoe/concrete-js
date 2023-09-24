@@ -10,5 +10,19 @@
     "default": {
       "includeDate": false
     }
+  },
+  "docdash": {
+    "static": true,
+    "search": true,
+    "sectionOrder": [
+      "Namespaces",
+      "Modules",
+      "Classes",
+      "Externals",
+      "Events",
+      "Mixins",
+      "Tutorials",
+      "Interfaces"
+    ]
   }
 }

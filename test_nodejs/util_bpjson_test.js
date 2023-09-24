@@ -1,7 +1,6 @@
 const expect = require("chai").expect;
 
 const concrete = require("../dist_nodejs");
-const bpjson = concrete.util.bpjson;
 
 describe("converting bpjson -> concrete -> bpjson", function() {
   it("is invertible when annotated", function() {
@@ -119,8 +118,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )
     ).to.eql(corpusEntry);
   });
@@ -156,8 +155,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )
     ).to.eql(corpusEntry);
   });
@@ -192,8 +191,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 5, start: 0, "structural-element": "Sentence"},
@@ -232,8 +231,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 5, start: 0, "structural-element": "Sentence"},
@@ -271,8 +270,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 5, start: 0, "structural-element": "Sentence"},
@@ -311,8 +310,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 6, start: 5, "structural-element": "Sentence"},
@@ -351,8 +350,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 5, start: 0, "structural-element": "Sentence"},
@@ -393,8 +392,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )
     ).to.eql({
       char2tok: [
@@ -453,8 +452,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )
     ).to.eql({
       char2tok: [
@@ -512,8 +511,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )
     ).to.eql({
       char2tok: [
@@ -573,8 +572,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 5, start: 0, "structural-element": "Sentence"},
@@ -617,8 +616,8 @@ describe("converting bpjson -> concrete -> bpjson", function() {
     };
     
     expect(
-      bpjson.convertConcreteToBPJson(
-        bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertConcreteToBPJson(
+        concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
       )["segment-sections"]
     ).to.eql([
       {end: 5, start: 0, "structural-element": "Sentence"},
@@ -661,7 +660,7 @@ describe("converting bpjson -> concrete", function() {
     };
     
     expect(
-      bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
         .sectionList
         .map((section) => ({
           ending: section.textSpan.ending,
@@ -707,7 +706,7 @@ describe("converting bpjson -> concrete", function() {
     };
     
     expect(
-      bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
         .sectionList
         .map((section) => ({
           ending: section.textSpan.ending,
@@ -756,7 +755,7 @@ describe("converting bpjson -> concrete", function() {
     };
     
     expect(
-      bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
         .sectionList
         .map((section) => ({
           ending: section.textSpan.ending,
@@ -802,7 +801,7 @@ describe("converting bpjson -> concrete", function() {
     };
     
     expect(
-      bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
         .sectionList
         .map((section) => ({
           ending: section.textSpan.ending,
@@ -848,7 +847,7 @@ describe("converting bpjson -> concrete", function() {
     };
     
     expect(
-      bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
         .sectionList
         .map((section) => ({
           ending: section.textSpan.ending,
@@ -896,7 +895,7 @@ describe("converting bpjson -> concrete", function() {
     };
     
     expect(
-      bpjson.convertBPJsonToConcrete(corpusEntry)
+      concrete.util.bpjson.convertBPJsonToConcrete(corpusEntry)
         .sectionList
         .map((section) => ({
           ending: section.textSpan.ending,

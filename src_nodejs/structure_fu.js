@@ -4,12 +4,9 @@ const {generateUUID} = require('./util');
 const {cloneDeep} = require("lodash");
 
 /**
- * @class Tokenization
- * @classdesc extensions to the Tokenization class
- */
-
-/**
  * Add a TokenTagging to this Tokenization
+ *
+ * @function concrete.structure.Tokenization.prototype.addTokenTagging
  * @param {TokenTagging} tokenTagging
  */
 Tokenization.prototype.addTokenTagging = function(tokenTagging) {
@@ -21,6 +18,8 @@ Tokenization.prototype.addTokenTagging = function(tokenTagging) {
 
 /**
  * Get all TokenTaggings with the specified taggingType
+ *
+ * @function concrete.structure.Tokenization.prototype.getTokenTaggingsOfType
  * @param {string} taggingType - A string specifying a TokenTagging.taggingType
  * @returns {TokenTagging[]} A (possibly empty) array of TokenTagging objects
  */
@@ -37,17 +36,13 @@ Tokenization.prototype.getTokenTaggingsOfType = function(taggingType) {
 };
 
 /**
- * @class TokenTagging
- * @classdesc extensions to the TokenTagging class
- */
-
-/**
  * Create a valid TokenTagging with required fields AnnotationMetadata and UUID
  *
  * Example usage:
  *
  *     tt = TokenTagging.create({taggingType: 'NER'}, {tool: 'HIT'})
  *
+ * @function concrete.structure.TokenTagging.create
  * @param {object} options - Override default TokenTagging fields (except metadata)
  * @param {object} metadataOptions - Override default tokenTagging.metadata fields
  * @returns {TokenTagging}
@@ -69,6 +64,7 @@ TokenTagging.create = function(options, metadataOptions) {
 /**
  * Get BIO value for TaggedToken at tokenIndex
  *
+ * @function concrete.structure.TokenTagging.prototype.bioGetBIOValue
  * @param {number] tokenIndex
  * @returns {string|null} - 'B', 'I', 'O' or null
  */
@@ -86,6 +82,7 @@ TokenTagging.prototype.bioGetBIOValue = function(tokenIndex) {
 /**
  * Get tag value (stripped of BIO tag and separator) for TaggedToken at tokenIndex
  *
+ * @function concrete.structure.TokenTagging.prototype.bioGetTagValue
  * @param {number} tokenIndex
  * @returns {string|null} - 'B', 'I', 'O' or null
  *
@@ -104,6 +101,7 @@ TokenTagging.prototype.bioGetTagValue = function(tokenIndex) {
  * If the separator character had not been set before this function was called,
  * the separator character will be set to '-'.
  *
+ * @function concrete.structure.TokenTagging.prototype.bioGetTagSeparator
  * @returns {string} - Separator character for BIO TokenTaggings
  */
 TokenTagging.prototype.bioGetTagSeparator = function() {
@@ -121,6 +119,7 @@ TokenTagging.prototype.bioGetTagSeparator = function() {
  * tag at tokenIndex is an 'I' tag, find the index of the 'B' tag for
  * this 'I' tag.
  *
+ * @function concrete.structure.TokenTagging.prototype.bioGetTokenIndexForB
  * @param {number} tokenIndex - Token index of a "B" or "I" tag
  * @returns {number} - Token index of "B" tag
  * @throws {TypeError} Thrown if the tag at TokenIndex is not a 'B' or
@@ -148,6 +147,7 @@ TokenTagging.prototype.bioGetTokenIndexForB = function(tokenIndex) {
 /**
  * Set BIO TaggedToken tag
  *
+ * @function concrete.structure.TokenTagging.prototype.bioSetTaggedTokenTag
  * @param {string} bioValue - Should be 'B', 'I' or 'O'
  * @param {string} tagText
  * @param {number} tokenIndex
@@ -198,6 +198,7 @@ TokenTagging.prototype.bioSetTaggedTokenTag = function(bioValue, tagText, tokenI
  * For BIO TokenTaggings, sets separator character to be used between
  * B/I/O character and rest of tag
  *
+ * @function concrete.structure.TokenTagging.prototype.bioSetTagSeparator
  * @param {string} separator - String used as separator character
  */
 TokenTagging.prototype.bioSetTagSeparator = function(separator) {
@@ -207,6 +208,7 @@ TokenTagging.prototype.bioSetTagSeparator = function(separator) {
 /**
  * Return a deep copy of this TokenTagging's taggedTokenList.
  *
+ * @function concrete.structure.TokenTagging.prototype.deepCopyTaggedTokenList
  * @returns {TaggedToken[]}
  */
 TokenTagging.prototype.deepCopyTaggedTokenList = function() {
@@ -221,6 +223,7 @@ TokenTagging.prototype.deepCopyTaggedTokenList = function() {
 /**
  * Return the TaggedToken (or null) with the specified tokenIndex
  *
+ * @function concrete.structure.TokenTagging.prototype.getTaggedTokenWithTokenIndex
  * @param {number} tokenIndex
  * @returns {TaggedToken|null}
  */
@@ -236,6 +239,7 @@ TokenTagging.prototype.getTaggedTokenWithTokenIndex = function(tokenIndex) {
 /**
  * Set taggedTokenList to a list of TaggedTokens (one per token) with identical tags
  *
+ * @function concrete.structure.TokenTagging.prototype.setAllTaggedTokenTags
  * @param {Tokenization} tokenization - Used to determine # of TokenTags
  * @param {string} tagText - Value for each TaggedToken's "tag" field
  */
@@ -256,6 +260,7 @@ TokenTagging.prototype.setAllTaggedTokenTags = function(tokenization, tagText) {
  * If a TaggedToken with the specified tokenIndex does not exist,
  * than it will be created.
  *
+ * @function concrete.structure.TokenTagging.prototype.setTaggedTokenTag
  * @param {string} tagText
  * @param {number} tokenIndex
  */

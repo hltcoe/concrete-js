@@ -8,8 +8,7 @@ const thrift = require("thrift");
 const yargs = require('yargs/yargs');
 const {hideBin} = require('yargs/helpers');
 
-const concrete = require("./concrete");
-const {serializeThrift, deserializeThrift} = concrete.util;
+const concrete = require(".");
 
 
 const argv = yargs(hideBin(process.argv))
@@ -93,7 +92,7 @@ if (argv.about) {
           .filter((zipEntry) =>
             !zipEntry.isDirectory && (zipEntry.name.endsWith(".concrete") || zipEntry.name.endsWith(".comm")))
           .map((zipEntry) =>
-            deserializeThrift(zipEntry.getData(), concrete.communication.Communication)))
+            concrete.util.deserializeThrift(zipEntry.getData(), concrete.communication.Communication)))
       .then((inputCommunicationList) =>
         Promise.all(inputCommunicationList.map((inputCommunication) =>
           client.fromConcrete(inputCommunication))))
@@ -117,7 +116,9 @@ if (argv.about) {
       .then((outputCommunicationList) => {
         const zip = AdmZip();
         outputCommunicationList.forEach((outputCommunication) =>
-          zip.addFile(`${outputCommunication.id}.concrete`, serializeThrift(outputCommunication)));
+          zip.addFile(
+            `${outputCommunication.id}.concrete`,
+            concrete.util.serializeThrift(outputCommunication)));
         zip.writeZip(argv.output);
       })
       .finally(() => connection.end());

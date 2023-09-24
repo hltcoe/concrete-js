@@ -13,7 +13,6 @@ NPM_VERSION_CMD="npm version --no-git-tag-version"
 npm_version_type=""
 
 print_usage() {
-    echo "Arguments are passed directly to \`$NPM_VERSION_CMD\`."
     echo "The version level must be specified: patch, minor, or major."
     echo "Run \`npm version --help\` for details."
 }
@@ -29,14 +28,24 @@ do
             print_usage
             exit 0
             ;;
+        patch)
+            npm_version_type="$1"
+            ;;
+        minor)
+            npm_version_type="$1"
+            ;;
+        major)
+            npm_version_type="$1"
+            ;;
         *)
-            npm_version_type="All is quiet."
+            print_usage >&2
+            exit 1
             ;;
     esac
     shift
 done
 
-if [[ $# -lt 1 || -z "$npm_version_type" ]]
+if [[ -z "$npm_version_type" ]]
 then
     print_usage >&2
     exit 1
@@ -51,7 +60,7 @@ git clean -fdx
 npm ci
 
 # 1. Update version
-VERSION=$($NPM_VERSION_CMD "$@")
+VERSION=$($NPM_VERSION_CMD "$1")
 
 # 2. Build
 npx grunt

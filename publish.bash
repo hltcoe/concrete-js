@@ -10,12 +10,35 @@ set -u
 set -e
 
 NPM_VERSION_CMD="npm version --no-git-tag-version"
+npm_version_type=""
 
-if [ $# -lt 1 ]
+print_usage() {
+    echo "Arguments are passed directly to \`$NPM_VERSION_CMD\`."
+    echo "The version level must be specified: patch, minor, or major."
+    echo "Run \`npm version --help\` for details."
+}
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+        -h)
+            print_usage
+            exit 0
+            ;;
+        --help)
+            print_usage
+            exit 0
+            ;;
+        *)
+            npm_version_type="All is quiet."
+            ;;
+    esac
+    shift
+done
+
+if [[ $# -lt 1 || -z "$npm_version_type" ]]
 then
-    echo "Arguments are passed directly to \`$NPM_VERSION_CMD\`." >&2
-    echo "The version level must be specified: patch, minor, or major." >&2
-    echo "Run \`npm version --help\` for details." >&2
+    print_usage >&2
     exit 1
 fi
 

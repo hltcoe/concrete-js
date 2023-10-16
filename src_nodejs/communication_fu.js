@@ -1,5 +1,5 @@
 const {Communication} = require('./communication_types');
-const {Thrift} = require('thrift');
+const {TBufferedTransport, TJSONProtocol} = require('thrift');
 
 /**
  * Adds internal references between data structures contained in Communication.
@@ -502,8 +502,8 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
  */
 Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
   var commJSONObject = JSON.parse(commJSONString);
-  var transport = new Thrift.Transport();
-  var protocol = new Thrift.TJSONProtocol(transport);
+  var transport = new TBufferedTransport();
+  var protocol = new TJSONProtocol(transport);
 
   // The values for these protocol object fields was determined by
   // mucking around with the JavaScript debugger to figure out how
@@ -538,8 +538,8 @@ Communication.prototype.toTJSONProtocolObject = function() {
  * @returns {string}
  */
 Communication.prototype.toTJSONProtocolString = function() {
-  var transport = new Thrift.Transport();
-  var protocol = new Thrift.TJSONProtocol(transport);
+  var transport = new TBufferedTransport();
+  var protocol = new TJSONProtocol(transport);
   protocol.tpos = [];
   protocol.tstack = [];
   this.write(protocol);

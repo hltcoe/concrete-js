@@ -42,6 +42,9 @@ const {Thrift} = require('thrift');
  *     - tokenization: reference to the Tokenization corresponding to tokenizationId
  *
  * @function concrete.communication.Communication.prototype.addInternalReferences
+ * @returns {object} Object with references to Communication-level maps (entityForUUID, etc.),
+ *                   mainly intended for TypeScript consumers.  Regular JavaScript consumers can access these
+ *                   properties directly on the Communication.
  */
 Communication.prototype.addInternalReferences = function() {
   this.entityForUUID = {};
@@ -144,6 +147,16 @@ Communication.prototype.addInternalReferences = function() {
       situation.situationSet = situationSet;
     });
   });
+
+  return {
+    entityForUUID: this.entityForUUID,
+    entityMentionForUUID: this.entityMentionForUUID,
+    sectionForUUID: this.sectionForUUID,
+    sentenceForUUID: this.sentenceForUUID,
+    situationForUUID: this.situationForUUID,
+    situationMentionForUUID: this.situationMentionForUUID,
+    tokenizationForUUID: this.tokenizationForUUID,
+  };
 };
 
 

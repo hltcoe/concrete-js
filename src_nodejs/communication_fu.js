@@ -1,5 +1,5 @@
 const {Communication} = require('./communication_types');
-const {Thrift} = require('thrift');
+const {TBufferedTransport, TJSONProtocol} = require('thrift');
 
 /**
  * Adds internal references between data structures contained in Communication.
@@ -42,6 +42,10 @@ const {Thrift} = require('thrift');
  *     - tokenization: reference to the Tokenization corresponding to tokenizationId
  *
  * @function concrete.communication.Communication.prototype.addInternalReferences
+ * @returns {object} Object with references to Communication-level maps (entityForUUID, entityMentionForUUID,
+ *                   sectionForUUID, sentenceForUUID, situationForUUID, situationMentionForUUID, tokenizationForUUID),
+ *                   mainly intended for TypeScript consumers.  JavaScript consumers can access these maps directly
+ *                   on the Communication.
  */
 Communication.prototype.addInternalReferences = function() {
   this.entityForUUID = {};
@@ -144,6 +148,16 @@ Communication.prototype.addInternalReferences = function() {
       situation.situationSet = situationSet;
     });
   });
+
+  return {
+    entityForUUID: this.entityForUUID,
+    entityMentionForUUID: this.entityMentionForUUID,
+    sectionForUUID: this.sectionForUUID,
+    sentenceForUUID: this.sentenceForUUID,
+    situationForUUID: this.situationForUUID,
+    situationMentionForUUID: this.situationMentionForUUID,
+    tokenizationForUUID: this.tokenizationForUUID,
+  };
 };
 
 
@@ -488,8 +502,8 @@ Communication.prototype.initFromTJSONProtocolObject = function(commJSONObject) {
  */
 Communication.prototype.initFromTJSONProtocolString = function(commJSONString) {
   var commJSONObject = JSON.parse(commJSONString);
-  var transport = new Thrift.Transport();
-  var protocol = new Thrift.TJSONProtocol(transport);
+  var transport = new TBufferedTransport();
+  var protocol = new TJSONProtocol(transport);
 
   // The values for these protocol object fields was determined by
   // mucking around with the JavaScript debugger to figure out how
@@ -524,8 +538,8 @@ Communication.prototype.toTJSONProtocolObject = function() {
  * @returns {string}
  */
 Communication.prototype.toTJSONProtocolString = function() {
-  var transport = new Thrift.Transport();
-  var protocol = new Thrift.TJSONProtocol(transport);
+  var transport = new TBufferedTransport();
+  var protocol = new TJSONProtocol(transport);
   protocol.tpos = [];
   protocol.tstack = [];
   this.write(protocol);
